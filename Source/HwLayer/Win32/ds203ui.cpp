@@ -185,8 +185,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 	{
 		g_running = TRUE;
-		hDrawThread = CreateThread( NULL, NULL, &ThreadProcDraw, NULL, NULL, NULL );
-		hAppThread = CreateThread( NULL, NULL, &ThreadProcApp, NULL, NULL, NULL );
+		hDrawThread = CreateThread( NULL, 0, &ThreadProcDraw, NULL, 0, NULL );
+		hAppThread = CreateThread( NULL, 0, &ThreadProcApp, NULL, 0, NULL );
 		break;
 	}
 

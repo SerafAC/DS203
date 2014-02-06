@@ -1,7 +1,7 @@
 ﻿DS203 customized firmware
 ======================
 
-DS203 is a nice open source oscilloscope. And this is an attempt to design improved GUI for the scope offering rich functions, better than those provided by original not-so-user-friendly firmware. The source code is in C++ for better code organisation and it is possible to compile it on Windows and Linux machine. For speeding up the development process, you can compile this application as native Win32 app, this offers you the ability to test new features on PC before compiling and uploading the firmware onto DS203 device. For windows users, there is a Visual Studio 2010 project file (Build/desktop_win32). For compiling the firmware for ARM Cortex M3 target device, there is a script in "Build" folder (arm_win32 for win32 platform, arm_linux for linux platform)
+DS203 is a nice open source oscilloscope. And this is an attempt to design improved GUI for the scope offering rich functions, better than those provided by original not-so-user-friendly firmware. The source code is in C++ for better code organisation and it is possible to compile it on Windows and Linux machine.  For compiling the firmware for ARM Cortex M3 target device, there is a script in "Build" folder (arm_win32 for win32 platform, arm_linux for linux platform)
 
 For owners of DS203 who would like to try this firmware:
 
@@ -22,6 +22,9 @@ For building this project you need ARM GCC toolchain. The building script will a
 
 For developers that would like to contribute to this project:
 Just contact me, or make a modification of the source code and push me a request.
+
+== Simulator Builds
+For speeding up the development process, you can compile this application as native Win32 app, this offers you the ability to test new features on PC before compiling and uploading the firmware onto DS203 device. For windows users, there is a Visual Studio 2010 project file (Build/desktop_win32). The native App can be also be cross compiled under Linux using the makefile in Build/mingw32. The resulting executable can be run and tested under Wine. 
 
 Controls:
 ======================

@@ -17,13 +17,13 @@ public:
 		{
 			m_nVolt--;
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), NULL);
+			SendMessage(m_pParent, ToWord('i', 'u'), 0);
 		}
 		if ( nKey & BIOS::KEY::KeyRight && m_nVolt < 20 )
 		{
 			m_nVolt++;
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), NULL);
+			SendMessage(m_pParent, ToWord('i', 'u'), 0);
 		}
 		CWndMenuItem::OnKey( nKey );
 	}

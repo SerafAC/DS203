@@ -1,16 +1,14 @@
-#pragma once
-
-#include <Windows.h>
+#include <windows.h>
 #include <stdio.h>
 #include <crtdbg.h>
 #include "device.h"
 #include <Source/HwLayer/Types.h>
-#include <Source/HwLayer/bios.h>
+#include <Source/HwLayer/Bios.h>
 #define DEVICE CDevice::m_pInstance
 #include "font.h"
 #include <math.h>
 //u16 *Get_TAB_8x14(u8 Code)
-#include "sprintf\spf.h"
+#include "sprintf/spf.h"
 
 CRect m_rcBuffer;
 CPoint m_cpBuffer;
@@ -26,7 +24,7 @@ ui8 _Round(int x, int y);
 
 void Assert(const char *msg, int n)
 {
-	_ASSERT_EXPR((0), NULL);
+//	_ASSERT_EXPR((0), NULL);
 }
 
 /*static*/ void BIOS::SYS::Init()
@@ -748,7 +746,7 @@ BOOL Is64BitWindows()
 {
 #if defined(_WIN64)
  return TRUE;  // 64-bit programs run only on Win64
-#elif defined(_WIN32)
+#elif defined(_WIN32) && !defined(__GNUC__)
  // 32-bit programs run on both 32-bit and 64-bit Windows
  // so must sniff
  BOOL f64 = FALSE;
@@ -758,7 +756,7 @@ BOOL Is64BitWindows()
 #endif
 }
 
-char *pserial = NULL;
+const char *pserial = NULL;
 
 /*static*/ int BIOS::SERIAL::Getch()
 {
@@ -907,7 +905,7 @@ bool BIOS::MOUSE::GetDown()
 void* BIOS::SYS::IdentifyApplication( int nCode )
 {
 	if ( nCode == BIOS::SYS::EApp1 )
-		return "DSO_APP: Gabonator's alternative UI;Alter UI;Gabriel Valky 2013;";
+		return (void*)"DSO_APP: Gabonator's alternative UI;Alter UI;Gabriel Valky 2013;";
 	return NULL;
 }
 
@@ -1149,5 +1147,5 @@ void NullFunction()
 	EXPORT_ALIAS(gBiosExit, NullFunction, void (*)());
 
 	#undef EXPORT
-	return NULL;
+	return 0;
 }

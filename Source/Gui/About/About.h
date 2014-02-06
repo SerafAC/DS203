@@ -167,7 +167,7 @@ public:
 #ifdef __GNUC__
 			BIOS::LCD::Printf( 160, 240-3*16, clrB, 0, "GCC %d.%d.%d", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__ );
 #endif
-#ifdef _WIN32
+#ifdef _MSC_VER
 			BIOS::LCD::Printf( 160, 240-3*16, clrB, 0, "MSVC %d", _MSC_VER );
 #endif
 

@@ -561,13 +561,13 @@ public:
 		{
 			(*m_pProvider)--;
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), NULL);
+			SendMessage(m_pParent, ToWord('i', 'u'), 0);
 		}
 		if ( nKey & BIOS::KEY::KeyRight && *m_pProvider + 1 == CValueProvider::Yes )
 		{
 			(*m_pProvider)++;
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), NULL);
+			SendMessage(m_pParent, ToWord('i', 'u'), 0);
 		}
 		CWnd::OnKey( nKey );
 	}

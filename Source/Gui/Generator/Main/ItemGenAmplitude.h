@@ -21,14 +21,14 @@ public:
 			m_nVolt--;
 			Invalidate();
 			UpdateAdc();
-			SendMessage(m_pParent, ToWord('i', 'u'), NULL);
+			SendMessage(m_pParent, ToWord('i', 'u'), 0);
 		}
 		if ( nKey & BIOS::KEY::KeyRight && m_nVolt < 30 ) // 1.5x
 		{
 			m_nVolt++;
 			Invalidate();
 			UpdateAdc();
-			SendMessage(m_pParent, ToWord('i', 'u'), NULL);
+			SendMessage(m_pParent, ToWord('i', 'u'), 0);
 		}
 		CWndMenuItem::OnKey( nKey );
 	}

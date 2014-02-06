@@ -25,7 +25,7 @@ public:
 			
 			UTILS.Clamp<int>( Settings.Gen.nCcr, 0, Settings.Gen.nArr );
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), NULL);
+			SendMessage(m_pParent, ToWord('i', 'u'), 0);
 		}
 		if ( nKey & BIOS::KEY::KeyRight && nDuty < 100 )
 		{
@@ -38,7 +38,7 @@ public:
 
 			UTILS.Clamp<int>( Settings.Gen.nCcr, 0, Settings.Gen.nArr );
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), NULL);
+			SendMessage(m_pParent, ToWord('i', 'u'), 0);
 		}
 		CWndMenuItem::OnKey( nKey );
 	}

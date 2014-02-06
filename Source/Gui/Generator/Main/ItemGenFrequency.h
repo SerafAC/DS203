@@ -101,7 +101,7 @@ public:
 				}
 			}
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), NULL);
+			SendMessage(m_pParent, ToWord('i', 'u'), 0);
 		}
 		CWndMenuItem::OnKey( nKey );
 	}

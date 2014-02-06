@@ -53,7 +53,7 @@ void CWndManager::DoModal()
 {
 	m_bRunning = true;
 	
-	OnMessage( &m_itmTabs, ToWord('u', 'p'), NULL );
+	OnMessage( &m_itmTabs, ToWord('u', 'p'), 0 );
 	StartModal( &m_itmValue );
 	
 	while ( IsRunning() )
