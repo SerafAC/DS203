@@ -23,7 +23,7 @@ For building this project you need ARM GCC toolchain. The building script will a
 For developers that would like to contribute to this project:
 Just contact me, or make a modification of the source code and push me a request.
 
-== Simulator Builds
+### Simulator Builds
 For speeding up the development process, you can compile this application as native Win32 app, this offers you the ability to test new features on PC before compiling and uploading the firmware onto DS203 device. For windows users, there is a Visual Studio 2010 project file (Build/desktop_win32). The native App can be also be cross compiled under Linux using the makefile in Build/mingw32. The resulting executable can be run and tested under Wine. 
 
 Controls:
