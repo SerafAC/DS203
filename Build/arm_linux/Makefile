@@ -1,5 +1,5 @@
-TFILE := APP_M251
 APP := 1
+TFILE := FW_$(APP)
 
 BASE_DIR := ../..
 SRC_DIR := $(BASE_DIR)/Source
@@ -12,11 +12,11 @@ ASM_OUT2 := BIOS.o
 
 # building for ARM on Linux platform
 
-LINUX_ARM_CFLAGS := -Wall -Os -Werror -fno-common -mcpu=cortex-m3 -mthumb -msoft-float -MD -D_VERSION2
+LINUX_ARM_CFLAGS := -Wall -Os -Werror -fno-common -mcpu=cortex-m3 -mthumb -msoft-float -MD # -D_VERSION2
 LINUX_ARM_AFLAGS := -mcpu=cortex-m3 -mthumb
 LINUX_ARM_LDFLAGS := -nostartfiles -mcpu=cortex-m3 -mthumb -march=armv7 -mfix-cortex-m3-ldrd -msoft-float -lc -lgcc
 LINUX_ARM_INCLUDES := -I $(BASE_DIR) -I $(SRC_DIR)/HwLayer/ArmM3/stm32f10x/inc -I $(SRC_DIR)/HwLayer/ArmM3/src
-LINUX_ARM_GPPFLAGS := -Wall -Os -fno-common -mcpu=cortex-m3 -mthumb -msoft-float -MD -D _ARM -fno-exceptions -fno-rtti -Wno-psabi  -D_VERSION2
+LINUX_ARM_GPPFLAGS := -Wall -Os -fno-common -mcpu=cortex-m3 -mthumb -msoft-float -MD -D _ARM -fno-exceptions -fno-rtti -Wno-psabi  # -D_VERSION2
 
 OBJS= cbios.o Application.o Main.o stm32f10x_nvic.o cortexm3_macro.o interrupt.o startup.o GraphOsc.o Controls.o Settings.o Utils.o Wnd.o MainWnd.o MenuInput.o Toolbar.o MainMenu.o FFTCM3.o MenuSpectMain.o Calibration.o Serialize.o CalibAnalog.o CalibDac.o CalibMenu.o Calibration.o MenuMarker.o ToolBox.o MenuMeas.o Manager.o ChannelMath.o MenuMath.o MenuDisp.o SpectrumGraph.o MenuSpectMarker.o Annot.o Export.o MenuGenMain.o MenuGenEdit.o MenuGenModulation.o CoreGenerator.o Import.o CoreOscilloscope.o FFT.o Shapes.o Statistics.o _Modules.o MenuMask.o
 
@@ -27,7 +27,7 @@ OBJCOPY=$(CROSS)objcopy
 LD=$(CROSS)ld
 AS=$(CROSS)as
 
-all: BIOS.o cortexm3_macro.o cbios.o Application.o Main.o stm32f10x_nvic.o cortexm3_macro.o interrupt.o startup.o GraphOsc.o Controls.o Settings.o Utils.o Wnd.o MainWnd.o MenuInput.o Toolbar.o MainMenu.o MenuSpectMain.o Calibration.o Serialize.o CalibAnalog.o CalibDac.o CalibMenu.o Calibration.o MenuMarker.o ToolBox.o MenuMeas.o Manager.o ChannelMath.o MenuMath.o MenuDisp.o SpectrumGraph.o MenuSpectMarker.o Annot.o Export.o MenuGenMain.o MenuGenEdit.o MenuGenModulation.o CoreGenerator.o Import.o CoreOscilloscope.o FFT.o Shapes.o Statistics.o _Modules.o MenuMask.o FirFilter.o APP_M251.hex
+all: BIOS.o cortexm3_macro.o cbios.o Application.o Main.o stm32f10x_nvic.o cortexm3_macro.o interrupt.o startup.o GraphOsc.o Controls.o Settings.o Utils.o Wnd.o MainWnd.o MenuInput.o Toolbar.o MainMenu.o MenuSpectMain.o Calibration.o Serialize.o CalibAnalog.o CalibDac.o CalibMenu.o Calibration.o MenuMarker.o ToolBox.o MenuMeas.o Manager.o ChannelMath.o MenuMath.o MenuDisp.o SpectrumGraph.o MenuSpectMarker.o Annot.o Export.o MenuGenMain.o MenuGenEdit.o MenuGenModulation.o CoreGenerator.o Import.o CoreOscilloscope.o FFT.o Shapes.o Statistics.o _Modules.o MenuMask.o FirFilter.o $(TFILE).hex
 
 .PHONY: clean
 
@@ -38,14 +38,14 @@ clean:
 	rm -rf *.bin
 	rm -rf *.elf
 
-APP_M251.bin: APP_M251.elf
-	$(OBJCOPY) -O binary APP_M251.elf APP_M251.bin
+$(TFILE).bin: $(TFILE).elf
+	$(OBJCOPY) -O binary $(TFILE).elf $(TFILE).bin
 
-APP_M251.hex:APP_M251.elf
-	$(OBJCOPY) -O ihex APP_M251.elf APP_M251.hex
+$(TFILE).hex:$(TFILE).elf
+	$(OBJCOPY) -O ihex $(TFILE).elf $(TFILE).hex
 
-APP_M251.elf: BIOS.o cortexm3_macro.o cbios.o Application.o Main.o stm32f10x_nvic.o cortexm3_macro.o interrupt.o startup.o GraphOsc.o Controls.o Settings.o Utils.o Wnd.o MainWnd.o MenuInput.o Toolbar.o MainMenu.o MenuSpectMain.o Calibration.o Serialize.o CalibAnalog.o CalibDac.o CalibMenu.o Calibration.o MenuMarker.o ToolBox.o MenuMeas.o Manager.o ChannelMath.o MenuMath.o MenuDisp.o SpectrumGraph.o MenuSpectMarker.o Annot.o Export.o MenuGenMain.o MenuGenEdit.o MenuGenModulation.o CoreGenerator.o Import.o CoreOscilloscope.o FFT.o Shapes.o Statistics.o _Modules.o MenuMask.o cbios.o Application.o Main.o stm32f10x_nvic.o cortexm3_macro.o interrupt.o startup.o GraphOsc.o Controls.o Settings.o Utils.o Wnd.o MainWnd.o MenuInput.o Toolbar.o MainMenu.o MenuSpectMain.o Calibration.o Serialize.o CalibAnalog.o CalibDac.o CalibMenu.o Calibration.o MenuMarker.o ToolBox.o MenuMeas.o Manager.o ChannelMath.o MenuMath.o MenuDisp.o SpectrumGraph.o MenuSpectMarker.o Annot.o Export.o MenuGenMain.o MenuGenEdit.o MenuGenModulation.o CoreGenerator.o Import.o CoreOscilloscope.o FFT.o Shapes.o Statistics.o _Modules.o MenuMask.o FirFilter.o waveram.o
-	$(CC) -o APP_M251.elf $(LINUX_ARM_LDFLAGS) -T $(SRC_DIR)/HwLayer/ArmM3/lds/app1_linux.lds cbios.o Application.o Main.o stm32f10x_nvic.o cortexm3_macro.o interrupt.o startup.o GraphOsc.o Controls.o Settings.o Utils.o Wnd.o MainWnd.o MenuInput.o Toolbar.o MainMenu.o MenuSpectMain.o Calibration.o Serialize.o CalibAnalog.o CalibDac.o CalibMenu.o Calibration.o MenuMarker.o ToolBox.o MenuMeas.o Manager.o ChannelMath.o MenuMath.o MenuDisp.o SpectrumGraph.o MenuSpectMarker.o Annot.o Export.o MenuGenMain.o MenuGenEdit.o MenuGenModulation.o CoreGenerator.o Import.o CoreOscilloscope.o FFT.o Shapes.o Statistics.o _Modules.o MenuMask.o BIOS.o FirFilter.o waveram.o
+$(TFILE).elf: BIOS.o cortexm3_macro.o cbios.o Application.o Main.o stm32f10x_nvic.o cortexm3_macro.o interrupt.o startup.o GraphOsc.o Controls.o Settings.o Utils.o Wnd.o MainWnd.o MenuInput.o Toolbar.o MainMenu.o MenuSpectMain.o Calibration.o Serialize.o CalibAnalog.o CalibDac.o CalibMenu.o Calibration.o MenuMarker.o ToolBox.o MenuMeas.o Manager.o ChannelMath.o MenuMath.o MenuDisp.o SpectrumGraph.o MenuSpectMarker.o Annot.o Export.o MenuGenMain.o MenuGenEdit.o MenuGenModulation.o CoreGenerator.o Import.o CoreOscilloscope.o FFT.o Shapes.o Statistics.o _Modules.o MenuMask.o cbios.o Application.o Main.o stm32f10x_nvic.o cortexm3_macro.o interrupt.o startup.o GraphOsc.o Controls.o Settings.o Utils.o Wnd.o MainWnd.o MenuInput.o Toolbar.o MainMenu.o MenuSpectMain.o Calibration.o Serialize.o CalibAnalog.o CalibDac.o CalibMenu.o Calibration.o MenuMarker.o ToolBox.o MenuMeas.o Manager.o ChannelMath.o MenuMath.o MenuDisp.o SpectrumGraph.o MenuSpectMarker.o Annot.o Export.o MenuGenMain.o MenuGenEdit.o MenuGenModulation.o CoreGenerator.o Import.o CoreOscilloscope.o FFT.o Shapes.o Statistics.o _Modules.o MenuMask.o FirFilter.o waveram.o
+	$(CC) -o $(TFILE).elf $(LINUX_ARM_LDFLAGS) -Wl,-Map=$(TFILE).map -L$(SRC_DIR)/HwLayer/ArmM3/lds -T app_$(APP).lds cbios.o Application.o Main.o stm32f10x_nvic.o cortexm3_macro.o interrupt.o startup.o GraphOsc.o Controls.o Settings.o Utils.o Wnd.o MainWnd.o MenuInput.o Toolbar.o MainMenu.o MenuSpectMain.o Calibration.o Serialize.o CalibAnalog.o CalibDac.o CalibMenu.o Calibration.o MenuMarker.o ToolBox.o MenuMeas.o Manager.o ChannelMath.o MenuMath.o MenuDisp.o SpectrumGraph.o MenuSpectMarker.o Annot.o Export.o MenuGenMain.o MenuGenEdit.o MenuGenModulation.o CoreGenerator.o Import.o CoreOscilloscope.o FFT.o Shapes.o Statistics.o _Modules.o MenuMask.o BIOS.o FirFilter.o waveram.o
 
 cortexm3_macro.o:
 	$(CC) $(LINUX_ARM_AFLAGS) -c $(ASM_SRC1) -o $(ASM_OUT1)

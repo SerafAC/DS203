@@ -877,7 +877,7 @@ void BIOS::SYS::Standby(bool)
 
 const void* BIOS::LCD::GetCharRom()
 {
-	return (void*)font;
+	return (void*)GetFont(0);
 }
 
 bool BIOS::MOUSE::IsSupported()
