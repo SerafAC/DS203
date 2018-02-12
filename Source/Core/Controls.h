@@ -700,7 +700,7 @@ public:
 		_ASSERT( m_pNumber );
 		ui16 clr = bFocus ? RGB565(ffffff) : RGB565(000000);
 		int nDigit = ((*m_pNumber) / m_nStep) % 10;
-		char strDigit[2] = { '0'+nDigit, 0 };
+		char strDigit[2] = { (char)('0'+nDigit), 0 };
 
 		BIOS::LCD::Print( rcRect.left, rcRect.top, clr, RGBTRANS, strDigit);
 	}	

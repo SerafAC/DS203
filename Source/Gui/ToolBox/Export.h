@@ -37,10 +37,8 @@ class CExport
 public:
 	void FindUnusedFile(char* strName, int nNumbers)
 	{
-		bool bExists;
 		FILEINFO f;
 		do {
-			bExists = false;
 			if ( BIOS::DSK::Open( &f, strName, BIOS::DSK::IoRead ) )
 			{
 				BIOS::DSK::Close( &f );

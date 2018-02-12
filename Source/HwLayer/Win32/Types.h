@@ -38,7 +38,7 @@ typedef signed short si16;
 
 #define RGB32(r,g,b) ((r) | ((g)<<8) | ((b)<<16))
 
-/*
+
 #ifndef min 
 #	define min(a, b) ((a)<(b)?(a):(b))
 #endif
@@ -48,7 +48,7 @@ typedef signed short si16;
 #ifndef abs
 #	define abs(a) ((a)>0?(a):(-(a)))
 #endif
-*/
+
 
 #define DecEnum(e) *((ui8*)&(e))-=1
 #define IncEnum(e) *((ui8*)&(e))+=1

@@ -1,4 +1,4 @@
-CXX=i686-pc-mingw32-g++
+CXX=i686-w64-mingw32-g++
 TOP=../..
 SRCDIR=$(TOP)/Source
 SRC:=$(SRCDIR)/User/_Modules.cpp $(shell find $(SRCDIR)/Core $(SRCDIR)/Framework/ $(SRCDIR)/Gui/ $(SRCDIR)/HwLayer/Win32/ $(SRCDIR)/Library/ $(SRCDIR)/Main/  -name *.cpp) 
@@ -16,7 +16,7 @@ outdirs:
 	mkdir -p $(OBJDIRS)
 
 dso203.exe: $(OBJ)
-	$(CXX) -g $(OBJ) -o dso203.exe -lgdi32
+	$(CXX) -static -g $(OBJ) -o dso203.exe -lgdi32
 	
 clean:
 	rm -r dso203.exe obj
