@@ -14,11 +14,12 @@ else ifeq ($(PLATFORM),dso)
 	TARGET=dso
 	HARDWARE=ArmM3
 	INCLUDES=-I$(TOP) -I$(SRCDIR)/HwLayer/$(HARDWARE)/stm32f10x/inc -I$(SRCDIR)/HwLayer/$(HARDWARE)/src
-	AFLAGS:=-mcpu=cortex-m3 -mthumb	
-	CFLAGS=-Wall -Os -fno-common -mcpu=cortex-m3 -mthumb -msoft-float -MD -D _ARM -Wno-psabi $(INCLUDES) 	
+	ARCH:=-mcpu=cortex-m3 -mthumb -mfix-cortex-m3-ldrd 
+	AFLAGS:=$(ARCH)	
+	CFLAGS=-Wall -Os -fno-common $(ARCH) -msoft-float -MD -D _ARM -Wno-psabi $(INCLUDES) 	
 	CXXFLAGS=$(CFLAGS) -fvtable-gc -fno-exceptions -fno-rtti -fno-threadsafe-statics
 	
-	LDFLAGS=-Wl,-Map=$(TARGET).map  -nostartfiles -mcpu=cortex-m3 -mthumb -march=armv7 -mfix-cortex-m3-ldrd -msoft-float -lc -lgcc -L$(SRCDIR)/HwLayer/ArmM3/lds -T app_$(SLOT).lds 
+	LDFLAGS=-Wl,-Map=$(TARGET).map  -nostartfiles $(ARCH) -msoft-float -lc -lgcc -L$(SRCDIR)/HwLayer/ArmM3/lds -T app_$(SLOT).lds 
 	EXTRA_SRC=$(SRCDIR)/HwLayer/ArmM3/stm32f10x/src/stm32f10x_nvic.c $(SRCDIR)/HwLayer/ArmM3/src/interrupt.c $(SRCDIR)/HwLayer/ArmM3/src/startup.c $(SRCDIR)/HwLayer/ArmM3/stm32f10x/asm/cortexm3_macro.s
 else 
 $(error unknown platform '$(PLATFORM)')
