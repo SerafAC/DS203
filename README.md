@@ -20,11 +20,11 @@ This should put the thing in to Device Firmware Upgrade mode (DFU). In DFU mode,
 
 That is obviously a horrible idea and it doesn't really work, because: 
 
-* There is no way to indicate, that writing is completed.
-* The flash disk emulator modifies the file system *while being mounted*
+* There is no way to indicate that writing is completed.
+* The flash disk emulator modifies the file system *while being mounted*.
 * caching
 
-Eventually, writing to the disk never really worked for me (not event with mount -o sync). 
+Eventually, updating the firmware by writing to the disk never really worked for me (not even with mount -o sync). 
 So I'm using mtools now (https://www.gnu.org/software/mtools/) to access the flash disk, because they seem are userspace and are much less trouble right now. 
 They are usually part of the default install of Ubuntu/Debian/Mint, if not `apt-get mtools` will pull them. 
 
