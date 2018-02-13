@@ -21,6 +21,7 @@ LINUX_ARM_GPPFLAGS := -Wall -Os -fno-common -mcpu=cortex-m3 -mthumb -msoft-float
 OBJS= cbios.o Application.o Main.o stm32f10x_nvic.o cortexm3_macro.o interrupt.o startup.o GraphOsc.o Controls.o Settings.o Utils.o Wnd.o MainWnd.o MenuInput.o Toolbar.o MainMenu.o FFTCM3.o MenuSpectMain.o Calibration.o Serialize.o CalibAnalog.o CalibDac.o CalibMenu.o Calibration.o MenuMarker.o ToolBox.o MenuMeas.o Manager.o ChannelMath.o MenuMath.o MenuDisp.o SpectrumGraph.o MenuSpectMarker.o Annot.o Export.o MenuGenMain.o MenuGenEdit.o MenuGenModulation.o CoreGenerator.o Import.o CoreOscilloscope.o FFT.o Shapes.o Statistics.o _Modules.o MenuMask.o
 
 CROSS=arm-none-eabi-
+
 CC=$(CROSS)gcc
 CPP=$(CROSS)g++
 OBJCOPY=$(CROSS)objcopy
