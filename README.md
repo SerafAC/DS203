@@ -1,4 +1,54 @@
-﻿DS203 customized firmware
+﻿Notes for this fork
+===================
+
+This fork builds for old hardware revisions (2.70) and Ubuntu.
+
+### Toolchain
+
+Building requires arm-none-eabi-gcc. However, for some reason newer toolchains (including the one supplied with Ubuntu 16.04) do not produce executable builds. 
+I'm using the toolchain from https://launchpad.net/gcc-arm-embedded/+milestone/4.6-2012-q4-update here, which seems to work
+
+### Building
+
+Set up the path to your toolchain and go to Build/arm_linux. Run `make APP=3`. This results in a file named `FW_3.hex` which can be installed to slot 3.
+
+### Installing
+
+Installing to the DSO Quad involves booting up the device with the "play" button pressed and attached to a computer. 
+This should put the thing in to Device Firmware Upgrade mode (DFU). In DFU mode, the thing acts as a 512 kb virtual flash disk, which monitors all writes to it and installs the files written to it into the internal flash. After that, the files file uploaded will be renamed 
+*by the dso* to indicate a succesful write (or an error).
+
+That is obviously a horrible idea and it doesn't really work, because: 
+
+* There is no way to indicate, that writing is completed.
+* The flash disk emulator modifies the file system *while being mounted*
+* caching
+
+Eventually, writing to the disk never really worked for me (not event with mount -o sync). 
+So I'm using mtools now (https://www.gnu.org/software/mtools/) to access the flash disk, because they seem are userspace and are much less trouble right now. 
+They are usually part of the default install of Ubuntu/Debian/Mint, if not `apt-get mtools` will pull them. 
+
+mtools operates on drive letters, so you will need to declare a drive letter for the DFU disk. If you have "disk-by-id" devices, then it's simple as that:
+
+```
+$ more ~/.mtoolsrc 
+drive s: file="/dev/disk/by-id/usb-Vertual_DFU_Disk-0:0" exclusive
+```
+
+`scripts/copy.sh <hex-file>` will figure the right drive letter out and copy the file to your DSO Quad. If anything goes well the hex file will be listed with a ".rdy" suffix or ".err" if the upload broke somehow. "broke somehow" seems to be unreliably reported, you'd need to check if your image boots anyway.
+ 
+### Changes
+
+* Changed the default font to Terminus (which is much better to read IMHO)
+* Build/mingw_win32 contains a makefile for the  i686-w64-mingw32-gcc toolchain that comes with Ubuntu. It builds the Windows GUI Simulator, which can be run unter Wine.
+
+### Screenshot
+
+![Terminus](Man/terminus.png)
+
+---
+
+DS203 customized firmware
 ======================
 
 DS203 is a nice open source oscilloscope. And this is an attempt to design improved GUI for the scope offering rich functions, better than those provided by original not-so-user-friendly firmware. The source code is in C++ for better code organisation and it is possible to compile it on Windows and Linux machine.  For compiling the firmware for ARM Cortex M3 target device, there is a script in "Build" folder (arm_win32 for win32 platform, arm_linux for linux platform)
