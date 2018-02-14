@@ -1,4 +1,4 @@
-TOP=$(realpath ..)
+TOP=..
 SRCDIR=$(TOP)/Source
 
 PLATFORM=dso
@@ -94,3 +94,9 @@ clean:
 .PHONY: win
 win:
 	$(MAKE) PLATFORM=Win32
+
+cmakefile:
+	@echo "cmake_minimum_required (VERSION 3.5)"
+	@echo "project(dso)"
+	@echo "include_directories($(TOP))"
+	@echo "add_executable(dso WIN32 $(SRC))"
