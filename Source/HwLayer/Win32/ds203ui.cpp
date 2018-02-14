@@ -8,8 +8,8 @@
 
 // Global Variables:
 HINSTANCE hInst;								// current instance
-TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
-TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
+const TCHAR szTitle[]=_T("DSO");					// The title bar text
+const TCHAR szWindowClass[]=_T("DSO-Class");			// the main window class name
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -70,8 +70,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	MSG msg;
 
 	// Initialize global strings
-	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadString(hInstance, IDC_DS203UI, szWindowClass, MAX_LOADSTRING);
+	//LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+	//LoadString(hInstance, IDC_DS203UI, szWindowClass, MAX_LOADSTRING);
 	MyRegisterClass(hInstance);
 
 	// Perform application initialization:
