@@ -13,7 +13,7 @@ apt-get install arm-none-eabi-gcc binutils-arm-none-eabi libnewlib-arm-none-eabi
 
 ### Building
 
-Go to Build/generic. Run `make SLOT=3` (or simply `make`, SLOT=3 is the default). This results in a file named `dso_3.hex` which can be installed to slot 3.
+Enter `Build`. Run `make SLOT=3` (or simply `make`, SLOT=3 is the default). This results in a file named `dso_3.hex` which can be installed to slot 3.
 
 ### Installing
 
