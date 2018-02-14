@@ -1,4 +1,4 @@
-TOP=$(realpath ../..)
+TOP=$(realpath ..)
 SRCDIR=$(TOP)/Source
 
 PLATFORM=dso
