@@ -350,10 +350,10 @@ void _BiosExit()
 	BIOS::SYS::Execute(0);
 }
 
-ui32 BIOS::SYS::GetProcAddress(const char* strFuncName )
+void* BIOS::SYS::GetProcAddress(const char* strFuncName )
 {
 
-	#define EXPORT(f, decl) if ( strcmp( strFuncName, #f ) == 0 ) return (NATIVEPTR)(decl)&f;
+	#define EXPORT(f, decl) if ( strcmp( strFuncName, #f ) == 0 ) return (void*)(decl)&f;
 	EXPORT(BIOS::LCD::PutPixel, void (*)(int, int, ui16));
 	EXPORT(BIOS::LCD::Print, int (*)(int, int, ui16, ui16, const char*));
 	EXPORT(BIOS::KEY::GetKeys, ui16 (*)());	
@@ -365,7 +365,7 @@ ui32 BIOS::SYS::GetProcAddress(const char* strFuncName )
 	EXPORT(__USB_Istr, void (*)(void));
 	EXPORT(__CTR_HP, void (*)(void));
 
-	#define EXPORT_ALIAS(al, f, decl) if ( strcmp( strFuncName, #al ) == 0 ) return (NATIVEPTR)(decl)&f;
+	#define EXPORT_ALIAS(al, f, decl) if ( strcmp( strFuncName, #al ) == 0 ) return (void*)(decl)&f;
 	EXPORT_ALIAS(PutPixel, BIOS::LCD::PutPixel, void (*)(int, int, ui16));
 	EXPORT_ALIAS(Print, BIOS::LCD::Print, int (*)(int, int, ui16, ui16, const char*));
 	EXPORT_ALIAS(GetKeys, BIOS::KEY::GetKeys, ui16 (*)());	

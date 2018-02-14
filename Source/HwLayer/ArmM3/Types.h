@@ -6,6 +6,10 @@
 #endif
 
 #include <string.h>
+#include <stdint.h>
+
+typedef uintptr_t WPARAM;
+typedef uintptr_t LPARAM;
 
 //typedef const unsigned short uc16;
 typedef unsigned char ui8;

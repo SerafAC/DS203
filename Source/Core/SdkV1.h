@@ -150,8 +150,8 @@ DECLARE_FUNCTION( _WndGetInfo )
 
 DECLARE_FUNCTION( _WndGetFocus )
 {
-	ui32 dwFocus = (ui32)MainWnd.GetFocus();
-	return (UINT)dwFocus;
+	// TODO: Extend to eval thing to handle pointers.
+	return (INT)(intptr_t)MainWnd.GetFocus();
 }
 
 DECLARE_FUNCTION( _Tty )
@@ -165,7 +165,7 @@ static void _ScanWindowRecursive( CWnd* pWnd, int nMask, char* msg )
 {
 	// {ptr:0x01234567, name:"MainWnd", style:8, rect:{left:20,top:10,right:30,bottom:40}, children:[...] }
 	BIOS::SERIAL::Send( "{" );
-		BIOS::DBG::sprintf( msg, "ptr:0x%x, ", (ui32)pWnd );
+		BIOS::DBG::sprintf( msg, "ptr:0x%x, ", pWnd );
 		BIOS::SERIAL::Send( msg );
 		BIOS::DBG::sprintf( msg, "name:\"%s\", ", pWnd->m_pszId );
 		BIOS::SERIAL::Send( msg );

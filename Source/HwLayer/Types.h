@@ -2,7 +2,7 @@
 #define HWLAYER_TYPES_H
 #include <stdint.h>
 
-template<class T, class X> T narrow_cast(const X &x) { return (T)(x); }
+template<class T, class X> T narrow_cast(X x) { return (T)(x); }
 typedef void(*voidfun_t)();
 
 #ifdef _WINDOWS
