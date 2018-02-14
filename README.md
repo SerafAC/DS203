@@ -1,16 +1,19 @@
 ﻿Notes for this fork
 ===================
 
-This fork builds for old hardware revisions (2.70) and Ubuntu.
+This fork builds for old hardware revisions (2.70) and a Ubuntuish distro.
 
-### Toolchain
+### Build Requirements
 
-Building requires arm-none-eabi-gcc. However, for some reason newer toolchains (including the one supplied with Ubuntu 16.04) do not produce executable builds. 
-I'm using the toolchain from https://launchpad.net/gcc-arm-embedded/+milestone/4.6-2012-q4-update here, which seems to work
+Building and installing the image requires a arm-none-eabi-gcc toolchain and mtools. For a recent Ubuntu/Mint/Debian that's simply:
+
+```
+apt-get install arm-none-eabi-gcc binutils-arm-none-eabi libnewlib-arm-none-eabi mtools
+```
 
 ### Building
 
-Set up the path to your toolchain and go to Build/arm_linux. Run `make APP=3`. This results in a file named `FW_3.hex` which can be installed to slot 3.
+Go to Build/generic. Run `make SLOT=3` (or simply `make`, SLOT=3 is the default). This results in a file named `dso_3.hex` which can be installed to slot 3.
 
 ### Installing
 
@@ -20,11 +23,11 @@ This should put the thing in to Device Firmware Upgrade mode (DFU). In DFU mode,
 
 That is obviously a horrible idea and it doesn't really work, because: 
 
-* There is no way to indicate, that writing is completed.
-* The flash disk emulator modifies the file system *while being mounted*
+* There is no way to indicate that writing is completed.
+* The flash disk emulator modifies the file system *while being mounted*.
 * caching
 
-Eventually, writing to the disk never really worked for me (not event with mount -o sync). 
+Eventually, updating the firmware by writing to the disk never really worked for me (not even with mount -o sync). 
 So I'm using mtools now (https://www.gnu.org/software/mtools/) to access the flash disk, because they seem are userspace and are much less trouble right now. 
 They are usually part of the default install of Ubuntu/Debian/Mint, if not `apt-get mtools` will pull them. 
 
