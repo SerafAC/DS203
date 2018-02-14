@@ -74,11 +74,11 @@ public:
 	{
 		const char* strA = GetLabelA();
 		const char* strB = GetLabelB();
-		int nWidth = strA ? strlen(strA) : 0;
+		size_t nWidth = strA ? strlen(strA) : 0;
 		nWidth += strB ? strlen(strB) : 0;
 		if ( strB )
 			nWidth += 2;
-		return nWidth*8;
+		return narrow_cast<ui16>(nWidth*8);
 	}
 
 	int FindNext(int nSearch, int nDir)

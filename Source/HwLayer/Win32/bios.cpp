@@ -1127,10 +1127,10 @@ void NullFunction()
 {
 }
 
-/*static*/ ui32 BIOS::SYS::GetProcAddress( const char* strFuncName )
+/*static*/ void* BIOS::SYS::GetProcAddress( const char* strFuncName )
 {
-	#define EXPORT(f, decl) if ( strcmp( strFuncName, #f ) == 0 ) return (NATIVEPTR)(decl)&f;
-	#define EXPORT_ALIAS(al, f, decl) if ( strcmp( strFuncName, #al ) == 0 ) return (NATIVEPTR)(decl)&f;
+	#define EXPORT(f, decl) if ( strcmp( strFuncName, #f ) == 0 ) return (void*)(decl)&f;
+	#define EXPORT_ALIAS(al, f, decl) if ( strcmp( strFuncName, #al ) == 0 ) return (void*)(decl)&f;
 	EXPORT(BIOS::LCD::PutPixel, void (*)(int, int, ui16));
 	EXPORT(BIOS::LCD::Print, int (*)(int, int, ui16, ui16, const char*));
 	EXPORT(BIOS::KEY::GetKeys, ui16 (*)());	

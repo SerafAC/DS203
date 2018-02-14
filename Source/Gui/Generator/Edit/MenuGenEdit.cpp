@@ -12,7 +12,7 @@
 	m_itmSave.Create("~Save", RGB565(b00040), 1, this );
 }
 
-/*virtual*/ void CWndMenuGeneratorEdit::OnMessage(CWnd* pSender, ui16 code, ui32 data)
+/*virtual*/ void CWndMenuGeneratorEdit::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 {
 	if (code == ToWord('L', 'D') )
 	{

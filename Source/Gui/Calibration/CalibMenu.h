@@ -78,7 +78,7 @@ public:
 //		m_itmComplex.Create("Analog-Compl.", RGB565(404040), 1, this);
 	}
 
-	virtual void OnMessage(CWnd* pSender, ui16 code, ui32 data);
+	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data);
 };
 
 #endif

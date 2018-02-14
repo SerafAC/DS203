@@ -12,7 +12,7 @@ public:
 	}
 
 #if 0
-	virtual void OnMessage(CWnd* pSender, ui16 code, ui32 data)
+	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 	{	
   		if (code == ToWord('L', 'D') )
   		{
@@ -253,7 +253,7 @@ public:
 //		BIOS::VER::DrawLogo((m_rcClient.Width()-256)/2, m_rcClient.top + 8 + 16 );
 	}	
 
-	virtual void OnMessage(CWnd* pSender, ui16 code, ui32 data)
+	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 	{	
   		if (code == ToWord('L', 'D') )
   		{
@@ -332,7 +332,7 @@ public:
 				if ( strName && strcmp(strName, "Unknown") == 0 )
 					BIOS::LCD::Printf(   4, y, clrA, 0, "APP%d (valid vector table found)", i - BIOS::SYS::EApp1 + 1 );
 				else if ( strName )
-					BIOS::LCD::Printf(   4, y, clrA, 0, "APP%d (identification found at 0x%x)", i - BIOS::SYS::EApp1 + 1, (ui32)strName );
+					BIOS::LCD::Printf(   4, y, clrA, 0, "APP%d (identification found at 0x%x)", i - BIOS::SYS::EApp1 + 1, strName );
 				else
 					BIOS::LCD::Printf(   4, y, clrA, 0, "APP%d (identification not found)", i - BIOS::SYS::EApp1 + 1 );
 

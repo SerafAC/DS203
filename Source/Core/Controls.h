@@ -28,7 +28,7 @@ public:
 			RGB565(000000), RGBTRANS, m_pszId);
 	}
 
-	virtual void OnMessage(CWnd* pSender, ui16 code, ui32 data)
+	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 	{
 		// send in foreign name, not very nice...
 		pSender->SendMessage( GetParent(), code, data );
@@ -376,7 +376,7 @@ public:
 			// is that provider enumerator ?
 			if ( m_pProvider->Get() !=	CValueProvider::Invalid )
 			{
-				SendMessage(m_pParent, ToWord('l', 'e'), (ui32)(NATIVEPTR)(m_pProvider));
+				SendMessage(m_pParent, ToWord('l', 'e'), (LPARAM)m_pProvider);
 			}
 		}
 		CListItem::OnKey( nKey );

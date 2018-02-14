@@ -74,7 +74,7 @@ bool CWndManager::Exists(char *strName)
 	return false;
 }
 
-/*virtual*/ void CWndManager::OnMessage(CWnd* pSender, ui16 code, ui32 data)
+/*virtual*/ void CWndManager::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 {
 	char strName[13];
 

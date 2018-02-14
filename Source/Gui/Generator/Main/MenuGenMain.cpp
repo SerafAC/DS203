@@ -22,7 +22,7 @@ bool _IsVisible(CWnd& wnd)
 		OnMessage( &m_itmWave, ToWord('i', 'u'), 0 ); // force update
 }
 
-/*virtual*/ void CWndMenuGenerator::OnMessage(CWnd* pSender, ui16 code, ui32 data)
+/*virtual*/ void CWndMenuGenerator::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 {
 	#define CPUCLOCK (72 MHz)
 	#define MHz *1000000

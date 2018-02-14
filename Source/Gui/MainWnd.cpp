@@ -168,7 +168,7 @@ void CMainWnd::Create()
 	BIOS::LCD::Clear(RGB565(000000));
 }
 
-/*virtual*/ void CMainWnd::OnMessage(CWnd* pSender, ui16 code, ui32 data)
+/*virtual*/ void CMainWnd::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 {
 	if ( pSender == &m_wndToolBar )
 	{
@@ -232,7 +232,7 @@ void CMainWnd::OnMouseClick()
 			if ( !(pWnd->m_dwFlags & CWnd::WsNoActivate) )
 			{
 				bool bProcess = true;
-				pTopDialog->SendMessage( pWnd, ToWord('M', 'D'), (NATIVEPTR)&bProcess );
+				pTopDialog->SendMessage( pWnd, ToWord('M', 'D'), (LPARAM)&bProcess );
 				if ( bProcess )
 					pWnd->WindowMessage( CWnd::WmKey, BIOS::KEY::KeyEnter );
 			}

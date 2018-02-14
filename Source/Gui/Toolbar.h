@@ -43,7 +43,7 @@ public:
 
 	virtual void	OnKey(ui16 nKey);
 	virtual void	OnPaint();
-	virtual void	OnMessage(CWnd* pSender, ui16 code, ui32 data);
+	virtual void	OnMessage(CWnd* pSender, WPARAM code, LPARAM data);
 	CWnd*			GetCurrentLayout();
 	void			ChangeFocus(ui8 oldFocus);
 

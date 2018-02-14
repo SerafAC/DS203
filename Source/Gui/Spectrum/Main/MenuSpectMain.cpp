@@ -16,7 +16,7 @@ CWndMenuSpectMain::CWndMenuSpectMain()
 	m_itmWindow.Create(this);
 }
 
-/*virtual*/ void CWndMenuSpectMain::OnMessage(CWnd* pSender, ui16 code, ui32 data)
+/*virtual*/ void CWndMenuSpectMain::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 {
 	// LAYOUT ENABLE/DISABLE FROM TOP MENU BAR
 	if (code == ToWord('L', 'D') )

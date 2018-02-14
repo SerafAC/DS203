@@ -107,7 +107,7 @@ bool ishex(char c)
 {
 	BIOS::DBG::sprintf(tmp, "%f", fV );
 	_ASSERT( strlen(tmp) < 15 );
-	int nLen = strlen(tmp);
+	size_t nLen = strlen(tmp);
 	while ( nLen > nChars-1 )
 		tmp[--nLen] = 0;
 	tmp[nLen++] = ' ';
@@ -130,8 +130,8 @@ bool ishex(char c)
 		fF *= 0.001f;
 	}
 	BIOS::DBG::sprintf( tmp, "%f", fF );
-	int nLen = strlen(tmp);
-	int nLenUnits = strlen(strUnits);
+	size_t nLen = strlen(tmp);
+	size_t nLenUnits = strlen(strUnits);
 	while ( nLen + nLenUnits > nChars )
 		tmp[--nLen] = 0;
 	if ( tmp[nLen-1] == '.' )
@@ -156,8 +156,8 @@ bool ishex(char c)
 	} 
 
 	BIOS::DBG::sprintf( tmp, "%f", fT );
-	int nLen = strlen(tmp);
-	int nLenUnits = strlen(strUnits);
+	size_t nLen = strlen(tmp);
+	size_t nLenUnits = strlen(strUnits);
 	while ( nLen + nLenUnits > nChars )
 		tmp[--nLen] = 0;
 	if ( tmp[nLen-1] == '.' )

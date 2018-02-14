@@ -21,7 +21,7 @@ public:
 		//m_itmReboot.Create("Reboot to DFU", RGB565(ff8080), 2, this);
 	}
 
-	virtual void OnMessage(CWnd* pSender, ui16 code, ui32 data)
+	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 	{
 		//if ( code == ToWord('m', 'o') && pSender == &m_itmReboot )
 		//	BIOS::SYS::Execute( BIOS::SYS::EDfu );

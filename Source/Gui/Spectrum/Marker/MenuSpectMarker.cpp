@@ -14,7 +14,7 @@ CWndMenuSpectMarker::CWndMenuSpectMarker()
 	m_itmValue.Create(this);
 }
 
-/*virtual*/ void CWndMenuSpectMarker::OnMessage(CWnd* pSender, ui16 code, ui32 data)
+/*virtual*/ void CWndMenuSpectMarker::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 {
 	if ( pSender == NULL && code == WmBroadcast && data == ToWord('d', 'g') )
 	{

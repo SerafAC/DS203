@@ -53,7 +53,7 @@ typedef signed short si16;
 #define DecEnum(e) *((ui8*)&(e))-=1
 #define IncEnum(e) *((ui8*)&(e))+=1
 
-#define NATIVEPTR ULONGLONG
+#define NATIVEPTR uintptr_t
 #define NATIVEENUM LONG
 
 #define MAXUINT     ((UINT)~((UINT)0))

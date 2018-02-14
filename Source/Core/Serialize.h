@@ -29,7 +29,7 @@ public:
 	CStream( PSTR strBuffer )
 	{
 		m_pBuffer = strBuffer;
-		m_nLength = strlen(strBuffer);
+		m_nLength = narrow_cast<int>(strlen(strBuffer));
 		m_nOffset = 0;
 	}
 
@@ -51,13 +51,13 @@ public:
 	{
 		_ASSERT( data.m_nLength < m_nLength - m_nOffset );
 		memcpy( ((ui8*)m_pBuffer) + m_nOffset, data.m_pBuffer, data.m_nLength );
-		m_nOffset += data.m_nLength;
+		m_nOffset += narrow_cast<unsigned>(data.m_nLength);
 		return *this;
 	}
 	CStream& operator >>( const CStream& data )
 	{
 		memcpy( data.m_pBuffer, ((ui8*)m_pBuffer) + m_nOffset, data.m_nLength );
-		m_nOffset += data.m_nLength;
+		m_nOffset += narrow_cast<unsigned>(data.m_nLength);
 		return *this;
 	}
 	//

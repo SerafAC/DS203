@@ -20,7 +20,7 @@ CWndMenuInput::CWndMenuInput()
 }
 
 LINKERSECTION(".extra")
-/*virtual*/ void CWndMenuInput::OnMessage(CWnd* pSender, ui16 code, ui32 data)
+/*virtual*/ void CWndMenuInput::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 {
 	// LAYOUT ENABLE/DISABLE FROM TOP MENU BAR
 	if (code == ToWord('L', 'D') )
@@ -101,7 +101,7 @@ LINKERSECTION(".extra")
 	if (code == ToWord('m', 't') )	// more timebase
 	{
 		m_wndComboSelector.Create( GetFocus()->m_pszId, WsVisible | WsModal, 
-			CRect( 30, 100, 370, 140), RGB565(ffffff), (CValueProvider*)(NATIVEPTR)data, this);
+			CRect( 30, 100, 370, 140), RGB565(ffffff), (CValueProvider*)data, this);
 
 		m_wndComboSelector.StartModal();
 	}
@@ -109,7 +109,7 @@ LINKERSECTION(".extra")
 	// Digital
 	if (code == ToWord('m', 'd') )	// more input digital
 	{
-		m_wndListDInput.Create( (CSettings::DigitalChannel*)(NATIVEPTR)data, this );
+		m_wndListDInput.Create( (CSettings::DigitalChannel*)data, this );
 		m_wndListDInput.StartModal( &m_wndListDInput.m_itmPosition );
 	}
 	if ( code == ToWord('o', 'k') && pSender->m_pParent == &m_wndListDInput )
@@ -126,7 +126,7 @@ LINKERSECTION(".extra")
 	// Analog
 	if (code == ToWord('m', 'a') )	// more input analog
 	{
-		m_wndListAInput.Create( (CSettings::AnalogChannel*)(NATIVEPTR)data, this );
+		m_wndListAInput.Create( (CSettings::AnalogChannel*)data, this );
 		m_wndListAInput.StartModal( &m_wndListAInput.m_itmResolution );
 	}
 	if ( code == ToWord('o', 'k') && pSender->m_pParent == &m_wndListAInput )
@@ -172,7 +172,7 @@ LINKERSECTION(".extra")
 	// Selector
 	if ( code == ToWord('l', 'e') )	// provider selector combo box
 	{
-		CValueProvider* pProvider = (CValueProvider*)(NATIVEPTR)data;
+		CValueProvider* pProvider = (CValueProvider*)data;
 		/*
 		if ( pProvider->Get() == 0 )
 		{

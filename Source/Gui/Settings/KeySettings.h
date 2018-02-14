@@ -34,7 +34,7 @@ public:
 		m_itmShortcutS2.Create( this, &m_proShortcutS2, "S2 Button" );
 	}
 
-	virtual void OnMessage(CWnd* pSender, ui16 code, ui32 data)
+	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 	{
 		//if ( code == ToWord('m', 'o') && pSender == &m_itmReboot )
 		//	BIOS::SYS::Execute( BIOS::SYS::EDfu );

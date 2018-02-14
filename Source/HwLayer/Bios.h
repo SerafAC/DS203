@@ -39,7 +39,7 @@ public:
 		static int GetCoreVoltage();
 		static void Standby( bool bEnterSleep );
 
-		static ui32 GetProcAddress( const char* strFunction );
+		static void* GetProcAddress( const char* strFunction );
 		static bool IsColdBoot();
 		static char* GetSharedBuffer();
 		static int GetSharedLength();

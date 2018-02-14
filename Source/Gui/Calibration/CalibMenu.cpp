@@ -6,7 +6,7 @@
 #include <Source/Core/Settings.h>
 #include <Source/Gui/MainWnd.h>
 
-/*virtual*/ void CWndMenuCalibration::OnMessage(CWnd* pSender, ui16 code, ui32 data)
+/*virtual*/ void CWndMenuCalibration::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
 {
 #if 0
 	if ( pSender == &m_wndListAnalog && code == ToWord('e', 'x')  )
@@ -40,14 +40,14 @@
 		MainWnd.m_wndConfirm.Show( this, "Confirmation", "Do you really want to set\ndefault calibration settings?", RGB565(ffff00), "Cancel", "Reset");
 		return;
 	}
-	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (ui32)"Save" )
+	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (LPARAM)"Save" )
 	{
 		MainWnd.m_wndConfirm.Hide();
 		Settings.SaveCalibration();
 		MainWnd.m_wndMessage.Show( this, "Message", "Calibration data saved", RGB565(ffff00));
 		return;
 	}
-	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (ui32)"Load" )
+	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (LPARAM)"Load" )
 	{
 		MainWnd.m_wndConfirm.Hide();
 		if ( Settings.LoadCalibration() )
@@ -57,20 +57,20 @@
 		return;
 	}
 
-	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (ui32)"Reset" )
+	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (LPARAM)"Reset" )
 	{
 		MainWnd.m_wndConfirm.Hide();
 		Settings.ResetCalibration();
 		return;
 	}
 
-	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (ui32)"Cancel" )
+	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (LPARAM)"Cancel" )
 	{
 		MainWnd.m_wndConfirm.Hide();
 		return;
 	}
 
-	if ( data == (ui32)&m_wndListAdc.m_proExecute && code == ToWord('l', 'e' ) )
+	if ( data == (LPARAM)&m_wndListAdc.m_proExecute && code == ToWord('l', 'e' ) )
 	{
 		m_wndListAdc.m_itmExecute.SendMessage( &m_wndListAdc, code, 0 );
 		return;
