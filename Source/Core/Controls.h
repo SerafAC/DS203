@@ -376,7 +376,7 @@ public:
 			// is that provider enumerator ?
 			if ( m_pProvider->Get() !=	CValueProvider::Invalid )
 			{
-				SendMessage(m_pParent, ToWord('l', 'e'), (LPARAM)m_pProvider);
+				SendMessage(m_pParent, ToWord('l', 'e'), m_pProvider);
 			}
 		}
 		CListItem::OnKey( nKey );

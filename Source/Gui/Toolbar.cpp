@@ -196,8 +196,8 @@
 /*virtual*/ void CWndToolBar::ChangeFocus(ui8 oldFocus)
 {
 	const CWndToolBar::CBarItem* pItems = GetMenuItems();
-	SendMessage( GetParent(), ToWord('L', 'D'), (LPARAM)pItems[oldFocus].m_pWndMenu );
-	SendMessage( GetParent(), ToWord('L', 'E'), (LPARAM)pItems[m_nFocus].m_pWndMenu );
+	SendMessage( GetParent(), ToWord('L', 'D'), pItems[oldFocus].m_pWndMenu );
+	SendMessage( GetParent(), ToWord('L', 'E'), pItems[m_nFocus].m_pWndMenu );
 	SendMessage( GetParent(), ToWord('L', 'R'), 0 );
 	Settings.Runtime.m_nMenuItem = m_nFocus;
 }
@@ -209,7 +209,7 @@
 		const CBarItem *pItems = GetMenuItems();
 		m_nFocus = (ui8)data;
 		CWnd* pFocus = GetFocus();
-		SendMessage( GetParent(), ToWord('L', 'E'), (LPARAM)pItems[m_nFocus].m_pWndMenu );
+		SendMessage( GetParent(), ToWord('L', 'E'), pItems[m_nFocus].m_pWndMenu );
 		if ( GetFocus() == pFocus )
 		{
 			// else the focus was stolen by the current wnd
@@ -251,14 +251,14 @@
 		if ( nItem == -1 )
 			return;
 
-		SendMessage( GetParent(), ToWord('L', 'D'), (LPARAM)pItems[m_nFocus].m_pWndMenu );
+		SendMessage( GetParent(), ToWord('L', 'D'), pItems[m_nFocus].m_pWndMenu );
 
 		if ( pItems[nItem].m_eType == CBarItem::IMain ) 
 			m_nFocus = nItem+1;
 		else
 			m_nFocus = nItem;
 
-		SendMessage( GetParent(), ToWord('L', 'E'), (LPARAM)pItems[m_nFocus].m_pWndMenu );
+		SendMessage( GetParent(), ToWord('L', 'E'), pItems[m_nFocus].m_pWndMenu );
 		SetFocus();
 		SendMessage( GetParent(), ToWord('L', 'R'), 0 );
 		Settings.Runtime.m_nMenuItem = m_nFocus;

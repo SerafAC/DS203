@@ -42,7 +42,7 @@ public:
 		_ASSERT( m_pOper );
 		if ( nKey & BIOS::KEY::KeyEnter )
 		{
-			SendMessage(m_pParent, ToWord('m', 'c'), (ui32)(NATIVEPTR)m_pOper);
+			SendMessage(m_pParent, ToWord('m', 'c'), m_pOper);
 			return;
 		}
 		if ( m_pOper->Type == CSettings::MathOperand::_Constant ||

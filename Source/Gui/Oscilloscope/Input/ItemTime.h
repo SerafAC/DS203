@@ -44,17 +44,17 @@ public:
 		{
 			m_proResolution--;
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), (ui32)(NATIVEPTR)m_pInfo);
+			SendMessage(m_pParent, ToWord('i', 'u'), m_pInfo);
 		}
 		if ( nKey & BIOS::KEY::KeyRight && m_proResolution+1 == CValueProvider::Yes )
 		{
 			m_proResolution++;
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), (ui32)(NATIVEPTR)m_pInfo);
+			SendMessage(m_pParent, ToWord('i', 'u'), m_pInfo);
 		}
 		if ( nKey & BIOS::KEY::KeyEnter )
 		{
-			SendMessage(m_pParent, ToWord('m', 't'), (ui32)(NATIVEPTR)&m_proResolution);
+			SendMessage(m_pParent, ToWord('m', 't'), &m_proResolution);
 		}
 		CWnd::OnKey( nKey );
 	}

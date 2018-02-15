@@ -101,7 +101,6 @@ public:
 	bool IsVisible();
 	CWnd* GetActiveWindow();
 	void Invalidate();
-	void SendMessage(CWnd* pTarget, WPARAM code, LPARAM data);
 	void ShowWindow(ui8 sh);
 	void SetTimer(ui32 nInterval);
 	void KillTimer();
@@ -112,6 +111,12 @@ public:
 	const CModal& GetTopModal();
 	void PushOverlay();
 	void PopOverlay();
+	
+	template<class T>
+	void SendMessage(CWnd* pTarget, WPARAM code, T data)
+	{
+		prvSendMessage(pTarget,code,(LPARAM)data);
+	}
 
 private:
 	CWnd* _GetNextActiveWindow();
@@ -120,6 +125,7 @@ private:
 	CWnd* _GetFirstActiveWindow();
 
 	void _UpdateTimers();
+	void prvSendMessage(CWnd* pTarget, WPARAM code, LPARAM data);	
 };                                 
 
 #endif

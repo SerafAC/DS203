@@ -96,7 +96,7 @@ public:
 			if ( m_pMarker->Type == CSettings::Marker::_Voltage && m_pMarker->nValue > 0 )
 				m_pMarker->nValue--;
 
-			SendMessage(m_pParent, ToWord('u', 'p'), (ui32)(NATIVEPTR)this);
+			SendMessage(m_pParent, ToWord('u', 'p'), this);
 			Invalidate();
 		}
 		if ( nKey & BIOS::KEY::KeyRight )
@@ -106,12 +106,12 @@ public:
 			if ( m_pMarker->Type == CSettings::Marker::_Voltage && m_pMarker->nValue < 256 )
 				m_pMarker->nValue++;
 
-			SendMessage(m_pParent, ToWord('u', 'p'), (ui32)(NATIVEPTR)this);
+			SendMessage(m_pParent, ToWord('u', 'p'), this);
 			Invalidate();
 		}
 		if ( nKey & BIOS::KEY::KeyEnter )
 		{
-			SendMessage(m_pParent, ToWord('m', 'c'), (ui32)(NATIVEPTR)m_pMarker);
+			SendMessage(m_pParent, ToWord('m', 'c'), m_pMarker);
 			return;
 		}
 		CWnd::OnKey( nKey );

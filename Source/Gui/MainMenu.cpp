@@ -91,7 +91,7 @@ const CWndModuleSelector::TMenuBlockStruct* CWndModuleSelector::GetLayout()
 		} else
 		if (strTarget)
 		{
-			SendMessage( &MainWnd.m_wndToolBar, ToWord('g', 'o'), (LPARAM)strTarget);
+			SendMessage( &MainWnd.m_wndToolBar, ToWord('g', 'o'), strTarget);
 		} else {
 			MainWnd.m_wndMessage.Show(this, "Info", "Sorry, not implemented", RGB565(FFFF00));
 		}

@@ -66,7 +66,7 @@ public:
 		_ASSERT( m_pMeas );
 		if ( nKey & BIOS::KEY::KeyEnter )
 		{
-			SendMessage(m_pParent, ToWord('m', 'c'), (LPARAM)m_pMeas);
+			SendMessage(m_pParent, ToWord('m', 'c'), m_pMeas);
 			return;
 		}
 		CWnd::OnKey( nKey );

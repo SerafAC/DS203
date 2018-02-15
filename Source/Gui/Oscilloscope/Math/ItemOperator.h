@@ -34,7 +34,7 @@ public:
 		_ASSERT( m_pOper );
 		if ( nKey & BIOS::KEY::KeyEnter )
 		{
-			SendMessage(m_pParent, ToWord('m', 'c'), (ui32)(NATIVEPTR)m_pOper);
+			SendMessage(m_pParent, ToWord('m', 'c'), m_pOper);
 			return;
 		}
 		if ( nKey & BIOS::KEY::KeyLeft && m_pOper->Type > 0 )
@@ -42,14 +42,14 @@ public:
 			_ASSERT(sizeof(m_pOper->Type) == sizeof(NATIVEENUM));
 			DecEnum(m_pOper->Type);
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), (ui32)(NATIVEPTR)m_pOper);
+			SendMessage(m_pParent, ToWord('i', 'u'), m_pOper);
 		}
 		if ( nKey & BIOS::KEY::KeyRight && m_pOper->Type < CSettings::MathOperator::_TypeMax )
 		{
 			_ASSERT(sizeof(m_pOper->Type) == sizeof(NATIVEENUM));
 			IncEnum(m_pOper->Type);
 			Invalidate();
-			SendMessage(m_pParent, ToWord('i', 'u'), (ui32)(NATIVEPTR)m_pOper);
+			SendMessage(m_pParent, ToWord('i', 'u'), m_pOper);
 		}
 
 		CWnd::OnKey( nKey );

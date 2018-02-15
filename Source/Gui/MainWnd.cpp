@@ -232,7 +232,7 @@ void CMainWnd::OnMouseClick()
 			if ( !(pWnd->m_dwFlags & CWnd::WsNoActivate) )
 			{
 				bool bProcess = true;
-				pTopDialog->SendMessage( pWnd, ToWord('M', 'D'), (LPARAM)&bProcess );
+				pTopDialog->SendMessage( pWnd, ToWord('M', 'D'), &bProcess );
 				if ( bProcess )
 					pWnd->WindowMessage( CWnd::WmKey, BIOS::KEY::KeyEnter );
 			}
@@ -242,7 +242,7 @@ void CMainWnd::OnMouseClick()
 			pWnd->SetFocus();
 			pPrevFocus->Invalidate();
 			bool bProcess = false;
-			pTopDialog->SendMessage( pWnd, ToWord('M', 'C'), (NATIVEPTR)&bProcess );
+			pTopDialog->SendMessage( pWnd, ToWord('M', 'C'), &bProcess );
 			pWnd->Invalidate();
 		}
 	} else

@@ -259,7 +259,7 @@ void CWnd::Invalidate()
 		WindowMessage(WmPaint);
 }
 
-void CWnd::SendMessage(CWnd* pTarget, WPARAM code, LPARAM data)
+void CWnd::prvSendMessage(CWnd* pTarget, WPARAM code, LPARAM data)
 {
 	pTarget->OnMessage(this, code, data);
 }
