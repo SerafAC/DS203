@@ -66,7 +66,7 @@ public:
 		m_error = m_Target - m_Current;
 
 		//In case of error too small then stop intergration
-		if (abs(m_error) > m_fEpsilon)
+		if (ABS(m_error) > m_fEpsilon)
 			m_integral += m_error*m_dt;
 
 		if ( m_preError != m_fInvalid )

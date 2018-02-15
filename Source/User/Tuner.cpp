@@ -81,7 +81,7 @@
 	const char* notes[] = {"C-", "C#", "D-", "D#", "E-", "F-", "F#", "G-", "G#", "A-", "A#", "B-"};
 	BIOS::LCD::Printf( 4, BIOS::LCD::LcdHeight - 16, RGB565(000000), RGB565(b0b0b0), 
 		"%1f Hz -> Note: %s%d %c%d cents   ", fBestFreq, notes[nNote], nOctave, 
-		nCents >= 0 ? '+' : '-', abs(nCents));
+		nCents >= 0 ? '+' : '-', ABS(nCents));
 
 	if ( nLastNote > -1 )
 		DrawKey( nLastNote, false );

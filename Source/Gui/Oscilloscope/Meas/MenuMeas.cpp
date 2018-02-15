@@ -65,7 +65,7 @@
 	// Show listbox - cursor details
 	if (code == ToWord('m', 'c') )	
 	{
-		m_wndListMeas.Create( (CSettings::Measure*)(NATIVEPTR)data, this );
+		m_wndListMeas.Create( (CSettings::Measure*)data, this );
 		m_wndListMeas.StartModal( &m_wndListMeas.m_itmEnabled );
 		return;
 	}

@@ -11,16 +11,6 @@
 typedef uintptr_t WPARAM;
 typedef uintptr_t LPARAM;
 
-//typedef const unsigned short uc16;
-typedef unsigned char ui8;
-//typedef unsigned char ui8;
-typedef unsigned short u16;
-typedef signed short si16;
-typedef signed char si8;
-typedef unsigned short ui16;
-typedef unsigned long ui32;
-typedef signed long si32;
-typedef signed short si16;
 typedef void* PVOID;
 typedef bool BOOL;
 typedef float FLOAT;
@@ -55,16 +45,6 @@ typedef ui32 UINT;
 #define RGB32(r,g,b) ((r) | ((g)<<8) | ((b)<<16))
 #define DecEnum(e) *((ui8*)&(e))-=1
 #define IncEnum(e) *((ui8*)&(e))+=1
-
-#ifndef min 
-#	define min(a, b) ((a)<(b)?(a):(b))
-#endif
-#ifndef max
-#	define max(a, b) ((a)>(b)?(a):(b))
-#endif
-#ifndef abs
-#	define abs(a) ((a)>0?(a):(-(a)))
-#endif
 
 #define NATIVEPTR ui32
 #define NATIVEENUM unsigned char

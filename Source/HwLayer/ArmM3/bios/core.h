@@ -382,7 +382,7 @@ void* BIOS::SYS::GetProcAddress(const char* strFuncName )
 	EXPORT(BIOS::SYS::Beep, void (*)(int));
 
 	#undef EXPORT
-	return (NATIVEPTR)NULL;
+	return NULL;
 }
 
 bool BIOS::SYS::IsColdBoot()

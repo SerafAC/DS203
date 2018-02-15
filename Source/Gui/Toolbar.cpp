@@ -102,8 +102,8 @@
 	for ( int i = nMenu+nIgnoreFirst; pItems[i].m_eType == CBarItem::ISub; i++ )
 	{
 		ui8 bSelected = (i==nFocus);
-		u16 clr = bSelected ? clrSelected : clrNormal;
-		u16 bgr = bSelected ? 0 : RGBTRANS;
+		ui16 clr = bSelected ? clrSelected : clrNormal;
+		ui16 bgr = bSelected ? 0 : RGBTRANS;
 
 		if ( HasFocus() && bSelected )
 		{

@@ -176,7 +176,7 @@ bool CMeasStatistics::Process( CSettings::Measure::ESource src, CSettings::Measu
 			
 		m_fSum += fSample;
 		m_fSum2 += fSample2;
-		m_fSumR += abs(fSample);
+		m_fSumR += ABS(fSample);
 			
 		m_nCount++;
 	}
@@ -333,7 +333,7 @@ float CMeasStatistics::GetSigma() // variance
 	if ( m_nCount == 0 )
 		return 0;
 	float fAux = (m_fSum2 - m_fSum*m_fSum/2) / m_nCount;
-	if ( abs(fAux) > 200 )
+	if ( ABS(fAux) > 200 )
 		return 0;
 	return fAux;
 }

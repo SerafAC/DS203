@@ -35,8 +35,8 @@ public:
 		int y = m_rcClient.top;
 		for ( int i=0; m_arrItems[i]; i++ )
 		{
-			u16 clrTab = i==m_nFocus ? RGB565(b0b0b0) : m_clrBack;
-			u16 clrLabel = RGB565(ffffff);
+			ui16 clrTab = i==m_nFocus ? RGB565(b0b0b0) : m_clrBack;
+			ui16 clrLabel = RGB565(ffffff);
 			if ( HasFocus() && (i==m_nFocus))
 			{
 				clrLabel = RGB565(000000);

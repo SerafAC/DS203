@@ -30,7 +30,7 @@ public:
 	CStream( PSTR strBuffer )
 	{
 		m_pBuffer = strBuffer;
-		m_nLength = narrow_cast<int>(BIOS::UTIL::StrLen(strBuffer));
+		m_nLength = BIOS::UTIL::StrLen(strBuffer);
 		m_nOffset = 0;
 	}
 
@@ -40,14 +40,11 @@ public:
 	}
 	
 	CStream( NATIVEENUM* e ) : m_pBuffer( e ), m_nOffset( 0 ), m_nLength( sizeof(NATIVEENUM) ) {}
-	CStream( ui32& n ) : m_pBuffer( &n ), m_nOffset( 0 ), m_nLength( sizeof(ui32) ) {}
-	CStream( si32& n ) : m_pBuffer( &n ), m_nOffset( 0 ), m_nLength( sizeof(si32) ) {}
-	CStream( ui16& n ) : m_pBuffer( &n ), m_nOffset( 0 ), m_nLength( sizeof(ui16) ) {}
-	CStream( si16& n ) : m_pBuffer( &n ), m_nOffset( 0 ), m_nLength( sizeof(si16) ) {}
-	CStream( ui8& n ) : m_pBuffer( &n ), m_nOffset( 0 ), m_nLength( sizeof(ui8) ) {}
-	CStream( si8& n ) : m_pBuffer( &n ), m_nOffset( 0 ), m_nLength( sizeof(si8) ) {}
-	CStream( int& n ) : m_pBuffer( &n ), m_nOffset( 0 ), m_nLength( sizeof(int) ) {}
+	template<class T> CStream( T &n): m_pBuffer( &n ), m_nOffset( 0 ), m_nLength( sizeof(T) ) {}
 	
+	private: 
+		template<class T> CStream( T *n); 
+	public:
 	CStream& operator <<( const CStream& data )
 	{
 		_ASSERT( data.m_nLength < m_nLength - m_nOffset );

@@ -338,7 +338,7 @@ void CWndPidRegulator::OnTimerGraph()
 	if ( nPrevInput == -1 )
 		return;
 
-	if ( abs(m_nOutput - nPrevOutput) > 40 )
+	if ( ABS(m_nOutput - nPrevOutput) > 40 )
 		BIOS::LCD::PutPixel( rcGraph.left + m_nGraphX, rcGraph.bottom - m_nOutput, RGB565(00ff00) );
 	else
 		BIOS::LCD::Line( rcGraph.left + m_nGraphX, rcGraph.bottom - nPrevOutput, 

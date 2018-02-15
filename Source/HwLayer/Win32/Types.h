@@ -11,15 +11,6 @@
 #include <stdio.h>
 #include <math.h>
 
-typedef unsigned char ui8;
-typedef unsigned char ui8;
-typedef unsigned short u16;
-typedef signed short si16;
-typedef signed char si8;
-typedef unsigned short ui16;
-typedef unsigned long ui32;
-typedef signed long si32;
-typedef signed short si16;
 
 #define RGB565RGB(r, g, b) (((r)>>3)|(((g)>>2)<<5)|(((b)>>3)<<11))
 #define Get565R(rgb) (((rgb)&0x1f)<<3)
@@ -37,18 +28,6 @@ typedef signed short si16;
 #define RGBTRANS (RGB565(ff00ff)-1)
 
 #define RGB32(r,g,b) ((r) | ((g)<<8) | ((b)<<16))
-
-
-#ifndef min 
-#	define min(a, b) ((a)<(b)?(a):(b))
-#endif
-#ifndef max
-#	define max(a, b) ((a)>(b)?(a):(b))
-#endif
-#ifndef abs
-#	define abs(a) ((a)>0?(a):(-(a)))
-#endif
-
 
 #define DecEnum(e) *((ui8*)&(e))-=1
 #define IncEnum(e) *((ui8*)&(e))+=1

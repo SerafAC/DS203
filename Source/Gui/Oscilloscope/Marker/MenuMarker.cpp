@@ -41,13 +41,13 @@ CWndMenuCursor::CWndMenuCursor()
 	// update, called when the user changes the cursor position
 	if (code == ToWord('u', 'p') )
 	{
-		if ( data == (NATIVEPTR)&m_itmX1 ||
-			 data == (NATIVEPTR)&m_itmX2 )
+		if ( data == (LPARAM)&m_itmX1 ||
+			 data == (LPARAM)&m_itmX2 )
 		{
 			m_itmDeltaX.Invalidate();
 		}
-		if ( data == (NATIVEPTR)&m_itmY1 ||
-			 data == (NATIVEPTR)&m_itmY2 )
+		if ( data == (LPARAM)&m_itmY1 ||
+			 data == (LPARAM)&m_itmY2 )
 		{
 			m_itmDeltaY.Invalidate();
 		}
@@ -78,7 +78,7 @@ CWndMenuCursor::CWndMenuCursor()
 	// Show listbox - cursor details
 	if (code == ToWord('m', 'c') )	
 	{
-		m_wndListCursor.Create( (CSettings::Marker*)(NATIVEPTR)data, this );
+		m_wndListCursor.Create( (CSettings::Marker*)data, this );
 		m_wndListCursor.StartModal( &m_wndListCursor.m_itmMode );
 		return;
 	}
@@ -96,7 +96,7 @@ CWndMenuCursor::CWndMenuCursor()
 	}
 	
 	// Clicked on Find
-	if ( code == ToWord('l', 'e') && data == (NATIVEPTR)&m_wndListCursor.m_proFind )
+	if ( code == ToWord('l', 'e') && data == (LPARAM)&m_wndListCursor.m_proFind )
 	{
 		Find( m_wndListCursor.m_pMarker, m_wndListCursor.m_modeFind );
 		return;

@@ -16,7 +16,7 @@ public:
 
 		for (int i=0; i<(int)BIOS::ADC::GetCount(); i++)
 		{
-			ui32& nValue = BIOS::ADC::GetAt(i);
+			BIOS::ADC::TSample& nValue = BIOS::ADC::GetAt(i);
 			reader >> nValue;
 		}
 		reader.Close();

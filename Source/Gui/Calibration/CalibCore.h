@@ -77,7 +77,7 @@ public:
 	};	
 	static float fabs(float f)
 	{
-		return ( f < 0 ) ? -f : f;
+		return ABS(f);
 	}
 
 	static void CurveFit( CArray<CurvePoint>& arrIn, CArray<CurvePoint>& arrOut, int nPoints )
