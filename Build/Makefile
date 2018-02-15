@@ -7,7 +7,7 @@ ifeq ($(PLATFORM),Win32)
 	TC        = i686-w64-mingw32-
 	TARGET    = dso203.exe
 	HARDWARE  = Win32
-	CXXFLAGS  = -Og -g -D_WINDOWS -Iinc -I$(TOP)
+	CXXFLAGS  = --std=gnu++11 -Og -g -D_WINDOWS -Iinc -I$(TOP)
 else ifeq ($(PLATFORM),dso)
 	TC        = arm-none-eabi-
 	SLOT      = 3
@@ -17,7 +17,7 @@ else ifeq ($(PLATFORM),dso)
 	ARCH      = -mcpu=cortex-m3 -mthumb -mfix-cortex-m3-ldrd 
 	AFLAGS    = $(ARCH)	
 	CFLAGS    = $(ARCH) -Wall -Os -fno-common -msoft-float -MD -D _ARM -Wno-psabi $(INCLUDES) 	
-	CXXFLAGS  = $(CFLAGS) -fno-exceptions -fno-rtti -fno-threadsafe-statics
+	CXXFLAGS  = $(CFLAGS) --std=gnu++11 -fno-exceptions -fno-rtti -fno-threadsafe-statics
 	
 	LDFLAGS   = $(ARCH) -Wl,-Map=$(TARGET).map  -nostartfiles -msoft-float -lc -lgcc -L$(SRCDIR)/HwLayer/ArmM3/lds -T app_$(SLOT).lds 
 	EXTRA_SRC = $(SRCDIR)/HwLayer/ArmM3/stm32f10x/src/stm32f10x_nvic.c $(SRCDIR)/HwLayer/ArmM3/src/interrupt.c $(SRCDIR)/HwLayer/ArmM3/src/startup.c $(SRCDIR)/HwLayer/ArmM3/stm32f10x/asm/cortexm3_macro.s

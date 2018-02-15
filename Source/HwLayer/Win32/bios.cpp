@@ -387,11 +387,11 @@ void Assert(const char *msg, int n)
     // if x1 == x2 or y1 == y2, then it does not matter what we set here
     si16 delta_x(x2 - x1);
     si8 ix((delta_x > 0) - (delta_x < 0));
-    delta_x = ABS(delta_x) << 1;
+    delta_x = abs(delta_x) << 1;
  
     si16 delta_y(y2 - y1);
     si8 iy((delta_y > 0) - (delta_y < 0));
-    delta_y = ABS(delta_y) << 1;
+    delta_y = abs(delta_y) << 1;
  
 	PutPixel( x1, y1, clr );
  
@@ -520,7 +520,7 @@ BOOL bADCReady = FALSE;
 		{
 			a = 0;
 			b = 0;
-			float t = narrow_cast<float>(-pow(ABS(cos(GetTickCount()*0.001f)),50));
+			float t = narrow_cast<float>(-pow(abs(cos(GetTickCount()*0.001f)),50));
 			a = t/3;
 			break;
 		}

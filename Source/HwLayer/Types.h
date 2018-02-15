@@ -9,15 +9,12 @@ typedef int16_t  si16;
 typedef uint32_t ui32;
 typedef int32_t  si32;
 
-#ifndef min 
-#	define min(a, b) ((a)<(b)?(a):(b))
-#endif
-#ifndef max
-#	define max(a, b) ((a)>(b)?(a):(b))
-#endif
-#ifndef ABC
-#	define ABS(a) ((a)>0?(a):(-(a)))
-#endif
+template<class A, class B>
+auto min(const A& a, const B& b) -> decltype(a<b?a:b) { return (a<b?a:b); }
+template<class A, class B>
+auto max(const A& a, const B& b) -> decltype(a>b?a:b) { return (a>b?a:b); }
+template<class T>
+T abs(const T& a) { return (a>0?a:-a); }
 
 #ifdef _WINDOWS
 #	include "Win32/Types.h"
