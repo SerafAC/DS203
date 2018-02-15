@@ -32,7 +32,7 @@ STRIP         = $(TC)strip
 
 # -- Source files --
 OBJDIR        = build/$(PLATFORM)/obj
-SRC           = $(SRCDIR)/User/_Modules.cpp $(shell find $(SRCDIR)/Core $(SRCDIR)/Framework/ $(SRCDIR)/Gui/ $(SRCDIR)/HwLayer/$(HARDWARE)/ $(SRCDIR)/Library/ $(SRCDIR)/Main/  -name *.cpp) $(EXTRA_SRC)
+SRC           = $(SRCDIR)/User/_Modules.cpp $(shell find $(SRCDIR)/Core $(SRCDIR)/Framework/ $(SRCDIR)/Gui/ $(SRCDIR)/HwLayer/Common $(SRCDIR)/HwLayer/$(HARDWARE)/ $(SRCDIR)/Library/ $(SRCDIR)/Main/  -name *.cpp) $(EXTRA_SRC)
 OBJ           = $(addprefix $(OBJDIR)/, $(addsuffix .o,$(basename $(patsubst $(SRCDIR)/%,%,$(SRC)))))
 OBJDIRS       = $(sort $(dir $(OBJ)))
 # --

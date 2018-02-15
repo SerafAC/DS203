@@ -22,28 +22,6 @@ DWORD FROM_565_TO_RGB(unsigned short clr565);
 WORD FROM_RGB_TO_565(unsigned int clrrgb);
 ui8 _Round(int x, int y);
 
-// Non-size_t BIOS::UTIL::StrLen, because the code assumes BIOS::UTIL::StrLen() returns something compatible with int
-int BIOS::UTIL::StrLen(const char *s)
-{
-	const char *t = s; 
-	while (*t) { t++; }
-	return (int)(t - s); // assuming in int range
-}
-
-char* BIOS::UTIL::StrCpy(char *dst, const char *src)
-{
-	char *t = dst; 
-	while (*dst++ = *src++) {}
-	return t;
-}
-
-char* BIOS::UTIL::StrCat(char *dst, const char *src)
-{
-	StrCpy(dst + BIOS::UTIL::StrLen(dst), src); 
-	return dst; 
-}
-
-
 void Assert(const char *msg, int n)
 {
 //	_ASSERT_EXPR((0), NULL);
