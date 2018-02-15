@@ -11,12 +11,6 @@
 #define NATIVEPTR ui32
 #define NATIVEENUM unsigned char
 
-extern void Assert(const char* msg, int n);
-#ifdef _ASSERT
-# undef _ASSERT
-#endif
-#define _ASSERT(a) if(!(a)) { Assert(__FILE__, __LINE__); }
-
 #define ToWord(a, b) (ui16)(((a)<<8)|(b))
 #define ToDword(a, b, c, d) (ui32)((ToWord(d, c)<<16)|ToWord(b,a))
 

@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <stdio.h>
+#include <assert.h>
 #include <crtdbg.h>
 #include "device.h"
 #include <Source/HwLayer/Types.h>
@@ -22,9 +23,10 @@ DWORD FROM_565_TO_RGB(unsigned short clr565);
 WORD FROM_RGB_TO_565(unsigned int clrrgb);
 ui8 _Round(int x, int y);
 
-void Assert(const char *msg, int n)
+void AssertFailed(const char *location,int line, const char *expr)
 {
-//	_ASSERT_EXPR((0), NULL);
+	fprintf(stderr,"%s(%d): Assertion '%s' failed",location,line,expr);
+	abort();
 }
 
 /*static*/ void BIOS::SYS::Init()

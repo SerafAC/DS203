@@ -65,12 +65,13 @@ char* itoa(ui16 n)
 	return ttp;
 }
 
-void Assert(const char*msg, int n)
+void AssertFailed(const char*file, int line, const char *msg)
 {
 //      BIOS::Print(6*8, 30, RGB565(ff0000), RGB565(ffffff), "FPGA configuration error");
-	BIOS::LCD::Print(40, 16*3, 0xffff, 0x001f, (char*)"Assertion failed!");
-	BIOS::LCD::Print(40, 16*2, 0xffff, 0x001f, (char*)msg);
-	BIOS::LCD::Print(40, 16*1, 0xffff, 0x001f, (char*)itoa(n));
+	BIOS::LCD::Print(40, 16*1, 0xffff, 0x001f, (char*)"Assertion failed!");
+	BIOS::LCD::Print(40, 16*2, 0xffff, 0x001f, (char*)file);
+	BIOS::LCD::Print(40, 16*3, 0xffff, 0x001f, itoa(line));	
+	BIOS::LCD::Print(40, 16*4, 0xffff, 0x001f, (char*)msg);
 	BIOS::SYS::DelayMs(1000);
 }
 

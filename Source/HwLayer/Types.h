@@ -21,10 +21,13 @@ typedef ui32 UINT;
 typedef uintptr_t CodeParam;
 typedef uintptr_t DataParam;
 
+extern void AssertFailed(const char* file, int line, const char *expr);
 #ifdef _ASSERT
-#undef _ASSERT
+# undef _ASSERT
 #endif
-#define _ASSERT(X) 
+#define _STR2(X) #X
+#define _STR(X) _STR2(X)
+#define _ASSERT(EXPR) if(!(EXPR)) { AssertFailed(__FILE__ ,__LINE__,""); }
 
 template<class A, class B>
 auto min(const A& a, const B& b) -> decltype(a<b?a:b) { return (a<b?a:b); }
