@@ -48,7 +48,7 @@ int CMeasStatistics::_GetSample( BIOS::ADC::TSample nSample )
 
 bool CMeasStatistics::_GetEffectiveValuesForPower(float &fVoltage, float &fCurrent)
 {
-	fVoltage = sqrt(m_fSum2/m_nCount);
+	fVoltage = narrow_cast<float>(sqrt(m_fSum2/m_nCount));
 
 	int nBegin = 0, nEnd = 0;
 	float fSum2 = 0;
@@ -71,7 +71,7 @@ bool CMeasStatistics::_GetEffectiveValuesForPower(float &fVoltage, float &fCurre
 			fSum2 += fSample2;
 		}
 		m_curSrc = tmp;
-		fCurrent = sqrt(fSum2/m_nCount);
+		fCurrent = narrow_cast<float>(sqrt(fSum2/m_nCount));
 		return (true);
 	}
 	return (false);
@@ -383,7 +383,7 @@ float CMeasStatistics::GetBaud()
 float CMeasStatistics::GetMin() { return m_fMin; }
 float CMeasStatistics::GetMax() { return m_fMax; }
 float CMeasStatistics::GetAvg() { return m_fSum/m_nCount; }
-float CMeasStatistics::GetRms() { return sqrt(m_fSum2/m_nCount); }
+float CMeasStatistics::GetRms() { return narrow_cast<float>(sqrt(m_fSum2/m_nCount)); }
 float CMeasStatistics::GetRectAvg() { return m_fSumR/m_nCount; }
 float CMeasStatistics::GetVpp() { return m_fMax - m_fMin; }
 

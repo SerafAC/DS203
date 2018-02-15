@@ -2,9 +2,6 @@
 #define HWLAYER_TYPES_H
 #include <stdint.h>
 
-template<class T, class X> T narrow_cast(X x) { return (T)(x); }
-typedef void(*voidfun_t)();
-
 #ifdef _WINDOWS
 #	include "Win32/Types.h"
 #endif
@@ -16,5 +13,17 @@ typedef void(*voidfun_t)();
 #ifndef __TYPES_H__
 #	error Platform not defined
 #endif
+
+template<class T, class S> 
+inline T narrow_cast(S s) {
+	T t = static_cast<T>(s);
+	_ASSERT(static_cast<S>(t) == s);
+	return t;
+}
+template<>
+inline float narrow_cast(double s) {
+	return static_cast<float>(s);
+}
+
 
 #endif

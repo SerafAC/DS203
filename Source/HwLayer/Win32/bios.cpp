@@ -494,14 +494,14 @@ BOOL bADCReady = FALSE;
 	{
 	case 1:
 		{
-			FLOAT fm = (sin(GetTickCount()*0.001f)+1.0f)*0.5f;
+			FLOAT fm = narrow_cast<float>((sin(GetTickCount()*0.001f)+1.0f)*0.5f);
 			if ( fm < 0.5)
 				fm = 0.8f-0.7f*fm;
 			else
 				fm = 0;
 			FLOAT fa = 0.035f + (GetTickCount()%20000)/20000.0f*0.14f;
-			a = cos(lCounter*(fa)*10)*(fm)+0.2f;
-			b = sin(lCounter*0.011f+1)*0.5f;
+			a = narrow_cast<float>(cos(lCounter*(fa)*10)*(fm)+0.2f);
+			b = narrow_cast<float>(sin(lCounter*0.011f+1)*0.5f);
 
 			break;
 
@@ -511,8 +511,8 @@ BOOL bADCReady = FALSE;
 		{
 			FLOAT fm = 1;
 			FLOAT fa = 0.035f;// + (GetTickCount()%20000)/20000.0f*0.14f;
-			a = cos(lCounter*(fa)*10)*(fm)+0.2f;
-			b = sin(lCounter*0.011f+1)*0.5f;
+			a = narrow_cast<float>(cos(lCounter*(fa)*10)*(fm)+0.2f);
+			b = narrow_cast<float>(sin(lCounter*0.011f+1)*0.5f);
 			break;
 		}
 
@@ -520,7 +520,7 @@ BOOL bADCReady = FALSE;
 		{
 			a = 0;
 			b = 0;
-			float t = -pow(abs(cos(GetTickCount()*0.001f)),50);
+			float t = narrow_cast<float>(-pow(abs(cos(GetTickCount()*0.001f)),50));
 			a = t/3;
 			break;
 		}
@@ -529,8 +529,8 @@ BOOL bADCReady = FALSE;
 		{
 			FLOAT fm = 1;
 			FLOAT fa = 0.05f;
-			a = sin(lCounter*fa + 3.14/2) * 0.8;
-			b = sin(lCounter*fa)*0.25f;
+			a = narrow_cast<float>(sin(lCounter*fa + 3.14/2) * 0.8);
+			b = narrow_cast<float>(sin(lCounter*fa)*0.25f);
 			break;
 		}
 
@@ -614,13 +614,15 @@ unsigned long g_ADCMem[ADCSIZE];
 		name[BIOS::UTIL::StrLen(name)-1] = 0;
 	BIOS::UTIL::StrCat(name, ".");
 	BIOS::UTIL::StrCat(name, strName+8);
-
-	if ( nIoMode == BIOS::DSK::IoRead )
-		pFileInfo->f = fopen(name, "rb");
-	if ( nIoMode == BIOS::DSK::IoWrite )
-		pFileInfo->f = fopen(name, "wb");
+	errno_t err; 
+	if (nIoMode == BIOS::DSK::IoRead)
+		err = fopen_s(&pFileInfo->f, name, "rb");
+	else if (nIoMode == BIOS::DSK::IoWrite)
+		err = fopen_s(&pFileInfo->f, name, "wb");
+	else
+		return FALSE;
 	pFileInfo->nSectors = 0;
-	return pFileInfo->f != NULL && pFileInfo->f != INVALID_HANDLE_VALUE;
+	return (err == 0); 
 }
 
 /*static*/ BOOL BIOS::DSK::Read(FILEINFO* pFileInfo, ui8* pSectorData)
