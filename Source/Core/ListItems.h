@@ -43,7 +43,7 @@ public:
 
 	virtual ui16 GetWidth()
 	{
-		return (ui16)strlen(((const char**)m_ppszText)[ *m_pVal ]) << 3;
+		return (ui16)BIOS::UTIL::StrLen(((const char**)m_ppszText)[ *m_pVal ]) << 3;
 	}
 
 	virtual void Set(ui32 val)
@@ -101,7 +101,7 @@ public:
 
 	virtual ui16 GetWidth()
 	{
-		return (ui16)strlen( CUtils::itoa( *m_pVal ) )<<3;
+		return (ui16)BIOS::UTIL::StrLen( CUtils::itoa( *m_pVal ) )<<3;
 	}
 	
 	void SetMin( si16 nMin )
@@ -159,7 +159,7 @@ public:
 
 	virtual ui16 GetWidth()
 	{
-		return (ui16)strlen( CUtils::itoa( *m_pVal ) )<<3;
+		return (ui16)BIOS::UTIL::StrLen( CUtils::itoa( *m_pVal ) )<<3;
 	}
 };
 

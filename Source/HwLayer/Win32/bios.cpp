@@ -22,6 +22,28 @@ DWORD FROM_565_TO_RGB(unsigned short clr565);
 WORD FROM_RGB_TO_565(unsigned int clrrgb);
 ui8 _Round(int x, int y);
 
+// Non-size_t BIOS::UTIL::StrLen, because the code assumes BIOS::UTIL::StrLen() returns something compatible with int
+int BIOS::UTIL::StrLen(const char *s)
+{
+	const char *t = s; 
+	while (*t) { t++; }
+	return (int)(t - s); // assuming in int range
+}
+
+char* BIOS::UTIL::StrCpy(char *dst, const char *src)
+{
+	char *t = dst; 
+	while (*dst++ = *src++) {}
+	return t;
+}
+
+char* BIOS::UTIL::StrCat(char *dst, const char *src)
+{
+	StrCpy(dst + BIOS::UTIL::StrLen(dst), src); 
+	return dst; 
+}
+
+
 void Assert(const char *msg, int n)
 {
 //	_ASSERT_EXPR((0), NULL);
@@ -610,10 +632,10 @@ unsigned long g_ADCMem[ADCSIZE];
 	char name[32];
 	memcpy(name, strName, 8);
 	name[8] = 0;
-	while ( name[strlen(name)-1] == ' ' )
-		name[strlen(name)-1] = 0;
-	strcat(name, ".");
-	strcat(name, strName+8);
+	while ( name[BIOS::UTIL::StrLen(name)-1] == ' ' )
+		name[BIOS::UTIL::StrLen(name)-1] = 0;
+	BIOS::UTIL::StrCat(name, ".");
+	BIOS::UTIL::StrCat(name, strName+8);
 
 	if ( nIoMode == BIOS::DSK::IoRead )
 		pFileInfo->f = fopen(name, "rb");
@@ -1011,13 +1033,13 @@ char strFind[128];
 
 /*static*/ BIOS::FAT::EResult BIOS::FAT::OpenDir(char* strPath)
 {
-	strcpy(strFind, strPath);
+	BIOS::UTIL::StrCpy(strFind, strPath);
 	char *strFound = NULL;
 	while ( (strFound=strstr(strFind, "/")) != NULL )
 		*strFound = '\\';
 	if (strFind[0] != 0)
-		strcat(strFind, "\\");
-	strcat(strFind, "*.*");
+		BIOS::UTIL::StrCat(strFind, "\\");
+	BIOS::UTIL::StrCat(strFind, "*.*");
 	bResetFind = true;
 	return BIOS::FAT::EOk;
 }
@@ -1046,7 +1068,7 @@ char strFind[128];
 
 	pFile->nFileLength = FindFileData.nFileSizeLow;
 	char strName[128] = {0};
-	strcpy(strName, FindFileData.cFileName);
+	BIOS::UTIL::StrCpy(strName, FindFileData.cFileName);
 	strName[12] = 0;
 	memcpy(pFile->strName, strName, 13);
 	

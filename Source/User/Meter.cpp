@@ -27,7 +27,7 @@ void CWndUserMeter::OnPaint()
 		m_fAverage, fCorrect, m_fVariance, CSettings::AnalogChannel::ppszTextResolution[Settings.CH1.Resolution]);
 
 	if ( m_fAverage < 16 || m_fAverage > 240 )
-		strcpy(strDisplay, " Err");
+		BIOS::UTIL::StrCpy(strDisplay, " Err");
 
 	const char* pDisplay = strDisplay;
 	int i;

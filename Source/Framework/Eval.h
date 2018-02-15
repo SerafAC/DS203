@@ -165,9 +165,9 @@ public:
 		{
 			if ( pszToken )
 			{
-				m_nTokenLen = (ui8) strlen(pszToken);
+				m_nTokenLen = (ui8) BIOS::UTIL::StrLen(pszToken);
 				_ASSERT( m_nTokenLen < MaxTokenLength-1 );
-				strcpy( m_pszToken, pszToken );
+				BIOS::UTIL::StrCpy( m_pszToken, pszToken );
 			}
 			else
 			{
@@ -191,13 +191,15 @@ public:
 			eoError,
 			eoNone,
 			eoStream,
-			eoVariable
+			eoVariable,
+			eoVoidPointer
 		};
 		
 	public:
 		EOperandType m_eType;
 
 		union {
+			void*			m_pVoid;
 			INT				m_iData;
 			FLOAT			m_fData;
 			const CEvalToken	*m_pOperator;
@@ -244,7 +246,7 @@ public:
 			m_eType( eType )
 		{
 			m_Data.m_pcString = str;
-			m_Data.m_pData32[1] = (nLength > -1) ? nLength : strlen(str);
+			m_Data.m_pData32[1] = (nLength > -1) ? nLength : BIOS::UTIL::StrLen(str);
 		}
 
 		CEvalOperand( const CEvalToken* pToken ) : m_eType( eoOperator )
@@ -260,6 +262,10 @@ public:
 		CEvalOperand( CEvalVariable *pVariable ) : m_eType( eoVariable )
 		{
 			m_Data.m_pVariable = pVariable;
+		}
+		CEvalOperand(void *p) : m_eType(eoVoidPointer)
+		{
+			m_Data.m_pVoid = p;
 		}
 
 		FLOAT GetFloat()
@@ -285,7 +291,13 @@ public:
 			_ASSERT( 0 );
 			return 0L;
 		}
-
+		void* GetVoidPointer()
+		{
+			if (m_eType == eoVoidPointer)
+				return m_Data.m_pVoid;	
+			_ASSERT(0);
+			return 0;
+		}
 		BOOL Is( EOperandType eType )
 		{
 			return m_eType == eType;
@@ -416,7 +428,7 @@ public:
 		CEvalOperand arrStack_[StackLength];
 		CArray <CEvalOperand> arrStack( arrStack_, StackLength );
 
-		PSTR pszEnd = pszExpression + strlen( pszExpression );
+		PSTR pszEnd = pszExpression + BIOS::UTIL::StrLen( pszExpression );
 		
 		const CEvalToken *pPrevToken = NULL;
 		const CEvalToken *pTokLPar = isOperator( (char*)"(" );
@@ -437,7 +449,7 @@ public:
 			pToken = isOperator( pszExpression );
 			if ( pToken == pTokTerm )
 			{
-				pszExpression += strlen(pToken->m_pszToken);
+				pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken);
 				m_pEndPtr = pszExpression;
 				break;
 			}
@@ -479,7 +491,7 @@ public:
 				pToken->m_ePrecedence == CEvalToken::PrecedenceFuncLow ) )
 			{
 				arrStack.Add( pToken );
-				pszExpression += strlen(pToken->m_pszToken) - 1;
+				pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken) - 1;
 				continue;
 			}
 
@@ -490,7 +502,7 @@ public:
 				 )
 			{
 				m_arrRpn.Add( CEvalOperand(pToken) );
-				pszExpression += strlen(pToken->m_pszToken) - 1;
+				pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken) - 1;
 				continue;
 			}
 
@@ -584,7 +596,7 @@ public:
 			// get precedence
 			int precedence = pToken->m_ePrecedence;
 			int topPrecedence = 0;
-			pszExpression += strlen(pToken->m_pszToken) - 1;
+			pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken) - 1;
 
 			while ( TRUE )
 			{
@@ -729,12 +741,12 @@ public:
 
 		// ak to je func/var, hladat najdlhsiu
 		for (; pFind->m_pszToken; pFind++)
-			if ( strncmp( pszExpression, pFind->m_pszToken, strlen(pFind->m_pszToken) ) == 0 )
+			if ( strncmp( pszExpression, pFind->m_pszToken, BIOS::UTIL::StrLen(pFind->m_pszToken) ) == 0 )
 			{
 				if ( pFind->m_ePrecedence == CEvalToken::PrecedenceFunc ||
 					 pFind->m_ePrecedence == CEvalToken::PrecedenceVar )
 				{
-					if ( !pBest || strlen(pFind->m_pszToken) > strlen(pBest->m_pszToken) )
+					if ( !pBest || BIOS::UTIL::StrLen(pFind->m_pszToken) > BIOS::UTIL::StrLen(pBest->m_pszToken) )
 						pBest = pFind;
 				} else
 					return pFind;

@@ -2,6 +2,7 @@
 #define __SERIALIZE_H__
 
 #include <Source/HwLayer/Types.h>
+#include <Source/HwLayer/Bios.h>
 class CStream;
 
 #define _E(x) ((NATIVEENUM*)(&x))
@@ -29,7 +30,7 @@ public:
 	CStream( PSTR strBuffer )
 	{
 		m_pBuffer = strBuffer;
-		m_nLength = narrow_cast<int>(strlen(strBuffer));
+		m_nLength = narrow_cast<int>(BIOS::UTIL::StrLen(strBuffer));
 		m_nOffset = 0;
 	}
 

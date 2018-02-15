@@ -13,6 +13,12 @@ public:
 		static int sprintf(char* buf, const char * format, ...);
 	};
 
+	class DLLAPI UTIL {
+	public:
+		static int StrLen(const char *s);
+		static char* StrCat(char *dst, const char *src);
+		static char* StrCpy(char *dst, const char *src);
+	};
 	class DLLAPI SYS {
 	public:
 		enum {
@@ -43,6 +49,7 @@ public:
 		static bool IsColdBoot();
 		static char* GetSharedBuffer();
 		static int GetSharedLength();
+
 	};
 
 	class DLLAPI LCD {

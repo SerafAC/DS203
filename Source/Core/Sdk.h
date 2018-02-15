@@ -207,7 +207,7 @@ public:
 
 		const CEvalToken *pFind = getOperators();
 		for (; pFind->m_pszToken; pFind++)
-			if ( strncmp( pszExpression, pFind->m_pszToken, strlen(pFind->m_pszToken) ) == 0 )
+			if ( strncmp( pszExpression, pFind->m_pszToken, BIOS::UTIL::StrLen(pFind->m_pszToken) ) == 0 )
 				return (CEvalToken*)pFind;	// todo: ugly!
 
 		return NULL;

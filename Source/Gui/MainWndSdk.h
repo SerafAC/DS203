@@ -15,7 +15,7 @@ public:
   void Evaluate( PSTR pszExpression )
 	{
 		// copy buffer and set pointer to start of that string
-		strcpy( m_strExpression, pszExpression );
+		BIOS::UTIL::StrCpy( m_strExpression, pszExpression );
 		m_pszExpression = m_strExpression; // points to the first letter
 		m_nSimplePos = 0;
 		m_nStreamLen = -1;
@@ -49,7 +49,7 @@ public:
 				if ( !m_bTerminator )
 				{
 					m_bTerminator = TRUE;
-					strcpy( m_strSimpleAns, "END\x1b" );
+					BIOS::UTIL::StrCpy( m_strSimpleAns, "END\x1b" );
 					m_nSimpleLen = 4;
 					m_nSimplePos = 0;
 					return GetChar();
@@ -73,48 +73,48 @@ public:
 						BIOS::DBG::Print("Error Evaluating '%s'", m_pszExpression);
 						MainWnd.m_wndMessage.Show(&MainWnd, "SDK Warning", "Invalid request", RGB565(FF0000));
 
-						m_nSimpleLen = strlen(m_strSimpleAns) + 1; // including terminating zero
+						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1; // including terminating zero
 						m_nSimplePos = 0;
 					break;
 
 					case CEval::CEvalOperand::eoFloat: 
 						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, float->int) %d", opResult.GetInteger()); 
-						m_nSimpleLen = strlen(m_strSimpleAns) + 1;
+						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
 						m_nSimplePos = 0;
 					break;
 
 					case CEval::CEvalOperand::eoInteger: 	
 						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, si32) %d", opResult.m_Data.m_iData);	 
-						m_nSimpleLen = strlen(m_strSimpleAns) + 1;
+						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
 						m_nSimplePos = 0;
 					break;
 
 					case CEval::CEvalOperand::eoString: 
 						opResult.m_Data.m_pString[ opResult.m_Data.m_pData32[1] ] = 0;
 						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, string) %s", opResult.m_Data.m_pString); 
-						m_nSimpleLen = strlen(m_strSimpleAns) + 1;
+						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
 						m_nSimplePos = 0;
 					break;
 
 					case CEval::CEvalOperand::eoCString: 
 						//opResult.m_Data.m_pString[ opResult.m_Data.m_pData32[1] ] = 0;
 						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, string) ", opResult.m_Data.m_pcString); 
-						memcpy( m_strSimpleAns+strlen(m_strSimpleAns), opResult.m_Data.m_pcString, opResult.m_Data.m_pData32[1]+1 );
+						memcpy( m_strSimpleAns+BIOS::UTIL::StrLen(m_strSimpleAns), opResult.m_Data.m_pcString, opResult.m_Data.m_pData32[1]+1 );
 					
-						m_nSimpleLen = strlen(m_strSimpleAns) + 1;
+						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
 						m_nSimplePos = 0;
 					break;
 
 					case CEval::CEvalOperand::eoNone: 
 						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, msg) none");
-						m_nSimpleLen = strlen(m_strSimpleAns) + 1;
+						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
 						m_nSimplePos = 0;
 					break;
 
 					default:
 						_ASSERT( 0 );
 						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, msg) unknown");
-						m_nSimpleLen = strlen(m_strSimpleAns) + 1;
+						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
 						m_nSimplePos = 0;
 					break;
 
@@ -123,7 +123,7 @@ public:
 						m_nStreamLen = m_pStream->GetSize();
 
 						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(binary, len=%d)", m_nStreamLen);
-						m_nSimpleLen = strlen(m_strSimpleAns);
+						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns);
 						m_nSimplePos = 0;
 					break;				
 				}
@@ -196,8 +196,8 @@ void CMainWnd::SdkDiskProc()
 			m_wndMessage.Show(this, "SDK Information", "SDK File Found!", RGB565(00FF00));
 
 			memset(buf, 0, FILEINFO::SectorSize);       	
-			strcpy(buf, "ANS=(text, msg) DSO SDK Version 1.0 by Valky.eu 2012. Ready... Type 'REQ=your expression'");
-			strcpy(buf+strlen(buf)+1, "END\x1b");
+			BIOS::UTIL::StrCpy(buf, "ANS=(text, msg) DSO SDK Version 1.0 by Valky.eu 2012. Ready... Type 'REQ=your expression'");
+			BIOS::UTIL::StrCpy(buf+BIOS::UTIL::StrLen(buf)+1, "END\x1b");
 			_ASSERT_VALID( BIOS::DSK::Write(&f, (ui8*)buf ) );
 			bInit = FALSE;
 		} else

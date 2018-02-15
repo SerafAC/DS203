@@ -51,8 +51,8 @@ public:
 
 			BIOS::DBG::sprintf(str, "%3f", fValue);
 		
-			while ( strlen(str) + strlen(suffix) > 7 )
-				str[strlen(str)-1] = 0;
+			while ( BIOS::UTIL::StrLen(str) + BIOS::UTIL::StrLen(suffix) > 7 )
+				str[BIOS::UTIL::StrLen(str)-1] = 0;
 		
 			x += BIOS::LCD::Print( x, y, clr, RGBTRANS, str );
 			x += 4;
@@ -66,7 +66,7 @@ public:
 		_ASSERT( m_pMeas );
 		if ( nKey & BIOS::KEY::KeyEnter )
 		{
-			SendMessage(m_pParent, ToWord('m', 'c'), (ui32)(NATIVEPTR)m_pMeas);
+			SendMessage(m_pParent, ToWord('m', 'c'), (LPARAM)m_pMeas);
 			return;
 		}
 		CWnd::OnKey( nKey );

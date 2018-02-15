@@ -102,7 +102,7 @@ DECLARE_FUNCTION( _WndMessage )
 		_ASSERT( arrOperands[-2].Is( pTokDelim ) );
 		_ASSERT( arrOperands[-1].Is( CEvalOperand::eoInteger ) );
 
-		pTarget = (CWnd*)arrOperands[-5].GetInteger();
+		pTarget = (CWnd*)arrOperands[-5].GetVoidPointer();
 		nMessage = arrOperands[-3].GetInteger();
 		nData = arrOperands[-1].GetInteger();
 		arrOperands.Resize(-5);
@@ -135,7 +135,7 @@ DECLARE_FUNCTION( _WndDump )
 DECLARE_FUNCTION( _WndGetInfo )
 {
 	_SAFE( arrOperands.GetSize() == 1 );
-	ui32 dwPtr = arrOperands.RemoveLast().GetInteger();		
+	void* dwPtr = arrOperands.RemoveLast().GetVoidPointer();		
 
 	char msg[32];
 	BIOS::DBG::sprintf( msg, "QAN=(text, json)" );
@@ -151,7 +151,7 @@ DECLARE_FUNCTION( _WndGetInfo )
 DECLARE_FUNCTION( _WndGetFocus )
 {
 	// TODO: Extend to eval thing to handle pointers.
-	return (INT)(intptr_t)MainWnd.GetFocus();
+	return (void*)MainWnd.GetFocus();
 }
 
 DECLARE_FUNCTION( _Tty )
@@ -514,7 +514,7 @@ DECLARE_FUNCTION( _MemRead )
 
 	_ASSERT( arrOperands[-1].Is( CEvalOperand::eoInteger ) );
 
-	int nAddress = arrOperands[-1].GetInteger();
+	void* nAddress = arrOperands[-1].GetVoidPointer();
 	arrOperands.Resize(-1);
 	ui32* pData = (ui32*)nAddress;
 	ui32 nData = *pData;
@@ -532,7 +532,7 @@ DECLARE_FUNCTION( _MemWrite )
 	_ASSERT( arrOperands[-2].Is( pTokDelim ) );
 	_ASSERT( arrOperands[-1].Is( CEvalOperand::eoInteger ) );
 
-	int nAddress = arrOperands[-3].GetInteger();
+	void* nAddress = arrOperands[-3].GetVoidPointer();
 	int nValue = arrOperands[-1].GetInteger();
 
 	arrOperands.Resize(-3);

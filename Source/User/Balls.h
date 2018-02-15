@@ -224,10 +224,10 @@ public:
 			BIOS::DSK::Open( &f, "TEST    TXT", BIOS::DSK::IoWrite );
 
 			ui8* pSector = (ui8*)BIOS::DSK::GetSharedBuffer();
-			strcpy((char*)pSector, message);
+			BIOS::UTIL::StrCpy((char*)pSector, message);
 
 			BIOS::DSK::Write( &f, pSector );
-			BIOS::DSK::Close( &f, strlen(message) );*/
+			BIOS::DSK::Close( &f, BIOS::UTIL::StrLen(message) );*/
 			return;
 		}
 	}

@@ -59,7 +59,7 @@
 	_ASSERT( pItems[nMenu].m_eType == CBarItem::IMain );
 
 	int x = m_rcClient.left;
-	int nExtentx = (strlen(pItems[nMenu].m_pName) << 3);
+	int nExtentx = (BIOS::UTIL::StrLen(pItems[nMenu].m_pName) << 3);
 	
 	if ( nFocus == nMenu && HasFocus() )
 	{
@@ -91,7 +91,7 @@
 	int nAvailable = BIOS::LCD::LcdWidth - 16 - x; // 16px reserved for arrows
 	for ( int i = nFocus; i > 0 && pItems[i].m_eType != CBarItem::IMain; i-- )
 	{
-		nRequired += strlen(pItems[i].m_pName)*8 + 16;
+		nRequired += BIOS::UTIL::StrLen(pItems[i].m_pName)*8 + 16;
 		if ( nRequired > nAvailable )
 			nIgnoreFirst++;
 	}
@@ -111,7 +111,7 @@
 			bgr = bgrSelectedFocus;
 		}
 
-		if ( x + 16 + strlen(pItems[i].m_pName)*8 >= BIOS::LCD::LcdWidth )
+		if ( x + 16 + BIOS::UTIL::StrLen(pItems[i].m_pName)*8 >= BIOS::LCD::LcdWidth )
 		{
 			x += BIOS::LCD::Print( x, m_rcClient.top, RGB565(b0b0b0), RGBTRANS, "\x10");
 			break;
@@ -123,7 +123,7 @@
 			x += 8;
 		
 		if ( bSelected )	                                           
-			BIOS::LCD::Bar( x, m_rcClient.top, x + (strlen(pItems[i].m_pName)<<3), m_rcClient.bottom, bgr);
+			BIOS::LCD::Bar( x, m_rcClient.top, x + (BIOS::UTIL::StrLen(pItems[i].m_pName)<<3), m_rcClient.bottom, bgr);
 
 		x += BIOS::LCD::Print( x, m_rcClient.top, clr, bgr, pItems[i].m_pName);
 
@@ -276,7 +276,7 @@ int CWndToolBar::_FindItemByPoint( int mx )
 	int x = m_rcClient.left;
 	
 	x += 9;
-	x += strlen(pItems[nMenu].m_pName)*8;
+	x += BIOS::UTIL::StrLen(pItems[nMenu].m_pName)*8;
 	x += 9;
 	if ( x >= mx )
 		return nMenu;
@@ -288,7 +288,7 @@ int CWndToolBar::_FindItemByPoint( int mx )
 	int nAvailable = BIOS::LCD::LcdWidth - 16 - x; // 16px reserved for arrows
 	for ( int i = nFocus; i > 0 && pItems[i].m_eType != CBarItem::IMain; i-- )
 	{
-		nRequired += strlen(pItems[i].m_pName)*8 + 16;
+		nRequired += BIOS::UTIL::StrLen(pItems[i].m_pName)*8 + 16;
 		if ( nRequired > nAvailable )
 			nIgnoreFirst++;
 	}
@@ -299,13 +299,13 @@ int CWndToolBar::_FindItemByPoint( int mx )
 	for ( int i = nMenu+nIgnoreFirst; pItems[i].m_eType == CBarItem::ISub; i++ )
 	{
 		ui8 bSelected = (i==nFocus);
-		if ( x + 16 + strlen(pItems[i].m_pName)*8 >= BIOS::LCD::LcdWidth )
+		if ( x + 16 + BIOS::UTIL::StrLen(pItems[i].m_pName)*8 >= BIOS::LCD::LcdWidth )
 		{
 			x += 8;
 			break;
 		}
 		x += bSelected ? 9 : 8;
-		x += strlen(pItems[i].m_pName)*8; 
+		x += BIOS::UTIL::StrLen(pItems[i].m_pName)*8; 
 		x += bSelected ? 9 : 8;
 		if ( x >= mx )
 			return i;

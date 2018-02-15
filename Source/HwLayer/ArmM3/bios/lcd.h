@@ -4,7 +4,7 @@
 #ifndef abs
 #	define abs(a) ((a)>=0?(a):(-a))
 #endif
-#define xstrlen(a) 5
+#define xBIOS::UTIL::StrLen(a) 5
 /*static*/ u8 _Round(int x, int y);
 /*static*/ int _DrawChar(int x, int y, unsigned short clrf, unsigned short clrb, char ch);
 

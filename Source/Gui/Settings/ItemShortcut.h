@@ -74,8 +74,8 @@ public:
 	{
 		const char* strA = GetLabelA();
 		const char* strB = GetLabelB();
-		size_t nWidth = strA ? strlen(strA) : 0;
-		nWidth += strB ? strlen(strB) : 0;
+		size_t nWidth = strA ? BIOS::UTIL::StrLen(strA) : 0;
+		nWidth += strB ? BIOS::UTIL::StrLen(strB) : 0;
 		if ( strB )
 			nWidth += 2;
 		return narrow_cast<ui16>(nWidth*8);

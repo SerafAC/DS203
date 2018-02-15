@@ -1,3 +1,5 @@
+#include <Source/HwLayer/Bios.h>
+
 class CProviderAutoOff : public CValueProvider
 {
 	enum {
@@ -40,7 +42,7 @@ public:
 			return "Never";
 
 		char* pText = CUtils::itoa( GetValue() );
-		strcat(pText, " mins");
+		BIOS::UTIL::StrCat(pText, " mins");
 		return pText; 
 	}
 
@@ -54,7 +56,7 @@ public:
 
 	virtual ui16 GetWidth()
 	{
-		return (ui16)strlen(GetLabel()) << 3;
+		return (ui16)BIOS::UTIL::StrLen(GetLabel()) << 3;
 	}
 };
 

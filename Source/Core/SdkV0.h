@@ -142,7 +142,7 @@
 			return CEvalOperand( CEvalOperand::eoError );
 
 		PCSTR strEnum = CSettings::AnalogChannel::ppszTextResolution[ nValue ];
-		return CEvalOperand( strEnum, strlen(strEnum) );
+		return CEvalOperand( strEnum, BIOS::UTIL::StrLen(strEnum) );
 	}
 
 	static CEvalOperand _ENUM_Time( CArray<CEvalOperand>& arrOperands )
@@ -152,7 +152,7 @@
 			return CEvalOperand( CEvalOperand::eoError );
 
 		PCSTR strEnum = CSettings::TimeBase::ppszTextResolution[ nValue ];
-		return CEvalOperand( strEnum, strlen(strEnum) );
+		return CEvalOperand( strEnum, BIOS::UTIL::StrLen(strEnum) );
 	}
 
 	static CEvalOperand _ADC_Count( CArray<CEvalOperand>& arrOperands )
@@ -291,7 +291,7 @@
 		memcpy( strAnswer, opPrefix.m_Data.m_pString, opPrefix.m_Data.m_pData32[1] );
 		strAnswer[ opPrefix.m_Data.m_pData32[1] ] = 0;
 
-		char* pParam = strAnswer + strlen(strAnswer); // go to end
+		char* pParam = strAnswer + BIOS::UTIL::StrLen(strAnswer); // go to end
 
  		if ( opResult.m_eType == CEval::CEvalOperand::eoVariable )
  		{
@@ -343,5 +343,5 @@
  			break;				
  		}
 
-		return CEvalOperand(strAnswer, strlen(strAnswer));
+		return CEvalOperand(strAnswer, BIOS::UTIL::StrLen(strAnswer));
 	}

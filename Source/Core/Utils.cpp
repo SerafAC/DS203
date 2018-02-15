@@ -106,8 +106,8 @@ bool ishex(char c)
 /*static*/ char* CUtils::FormatVoltage( float fV, int nChars )
 {
 	BIOS::DBG::sprintf(tmp, "%f", fV );
-	_ASSERT( strlen(tmp) < 15 );
-	size_t nLen = strlen(tmp);
+	int nLen = BIOS::UTIL::StrLen(tmp);
+	_ASSERT( nLen < 15 );
 	while ( nLen > nChars-1 )
 		tmp[--nLen] = 0;
 	tmp[nLen++] = ' ';
@@ -130,13 +130,13 @@ bool ishex(char c)
 		fF *= 0.001f;
 	}
 	BIOS::DBG::sprintf( tmp, "%f", fF );
-	size_t nLen = strlen(tmp);
-	size_t nLenUnits = strlen(strUnits);
+	int nLen = BIOS::UTIL::StrLen(tmp);
+	int nLenUnits = BIOS::UTIL::StrLen(strUnits);
 	while ( nLen + nLenUnits > nChars )
 		tmp[--nLen] = 0;
 	if ( tmp[nLen-1] == '.' )
 		tmp[--nLen] = 0;
-	strcat( tmp, strUnits );
+	BIOS::UTIL::StrCat( tmp, strUnits );
 	return tmp;
 }
 
@@ -156,13 +156,13 @@ bool ishex(char c)
 	} 
 
 	BIOS::DBG::sprintf( tmp, "%f", fT );
-	size_t nLen = strlen(tmp);
-	size_t nLenUnits = strlen(strUnits);
+	int nLen = BIOS::UTIL::StrLen(tmp);
+	int nLenUnits = BIOS::UTIL::StrLen(strUnits);
 	while ( nLen + nLenUnits > nChars )
 		tmp[--nLen] = 0;
 	if ( tmp[nLen-1] == '.' )
 		tmp[--nLen] = 0;
-	strcat( tmp, strUnits );
+	BIOS::UTIL::StrCat( tmp, strUnits );
 	return tmp;
 }
 
@@ -183,7 +183,7 @@ bool ishex(char c)
 	BIOS::DBG::sprintf( tmp+1, "%d", (int)f );
 	f -= (int)f;
 	f *= 1000.0f;
-	BIOS::DBG::sprintf( tmp+strlen(tmp), ".%03d", (int)f );
+	BIOS::DBG::sprintf( tmp+BIOS::UTIL::StrLen(tmp), ".%03d", (int)f );
 	tmp[6] = 0; 
 	return tmp;
 }

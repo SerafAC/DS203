@@ -161,7 +161,7 @@ void CWndPidRegulator::ShowLocalMenu(bool bFocus)
 			if ( i == m_nFocus && m_nSubFocus == -1 )
 				clrTab = RGB565(8080b0);
 			x += BIOS::LCD::Draw(x, 20, clrTab, RGB565(000000), CShapes::corner_left);
-			BIOS::LCD::Bar( x, 20, x + strlen(ppszLocalMenu[i])*8, 36, clrTab);
+			BIOS::LCD::Bar( x, 20, x + BIOS::UTIL::StrLen(ppszLocalMenu[i])*8, 36, clrTab);
 			x += BIOS::LCD::Print(x, 20, clrText, RGBTRANS, ppszLocalMenu[i]);
 			x += BIOS::LCD::Draw(x, 20, clrTab, RGB565(000000), CShapes::corner_right);
 		} else
