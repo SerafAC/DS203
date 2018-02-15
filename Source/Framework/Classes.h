@@ -146,7 +146,7 @@ public:
 		m_nMaxCount = nLength;
 	}
 
-	BOOL IsEmpty()
+	bool IsEmpty()
 	{
 		_ASSERT( m_arrElements );
 		return m_nCount == 0;

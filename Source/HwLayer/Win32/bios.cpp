@@ -465,7 +465,7 @@ bool bADCEnabled = false;
 {
 }
 
-BOOL bADCReady = FALSE;
+bool bADCReady = FALSE;
 /*static*/ unsigned char BIOS::ADC::Ready()
 {
 	static long lLast = 0;
@@ -605,7 +605,7 @@ unsigned long g_ADCMem[ADCSIZE];
 	return (PVOID)pSectorBuffer;
 }
 
-/*static*/ BOOL BIOS::DSK::Open(FILEINFO* pFileInfo, const char* strName, ui8 nIoMode)
+/*static*/ bool BIOS::DSK::Open(FILEINFO* pFileInfo, const char* strName, ui8 nIoMode)
 {
 	char name[32];
 	memcpy(name, strName, 8);
@@ -625,20 +625,20 @@ unsigned long g_ADCMem[ADCSIZE];
 	return (err == 0); 
 }
 
-/*static*/ BOOL BIOS::DSK::Read(FILEINFO* pFileInfo, ui8* pSectorData)
+/*static*/ bool BIOS::DSK::Read(FILEINFO* pFileInfo, ui8* pSectorData)
 {
 	fread( pSectorData, 512, 1, pFileInfo->f );
 	return TRUE;
 }
 
-/*static*/ BOOL BIOS::DSK::Write(FILEINFO* pFileInfo, ui8* pSectorData)
+/*static*/ bool BIOS::DSK::Write(FILEINFO* pFileInfo, ui8* pSectorData)
 {
 	fwrite( pSectorData, 512, 1, pFileInfo->f );
 	pFileInfo->nSectors++;
 	return TRUE;
 }
 
-/*static*/ BOOL BIOS::DSK::Close(FILEINFO* pFileInfo, int nSize /*=-1*/)
+/*static*/ bool BIOS::DSK::Close(FILEINFO* pFileInfo, int nSize /*=-1*/)
 {
 	if ( pFileInfo->nMode == BIOS::DSK::IoWrite )
 	{

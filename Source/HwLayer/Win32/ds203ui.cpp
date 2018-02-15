@@ -138,7 +138,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 }
 
 //
-//  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
+//  FUNCTION: WndProc(HWND, UINT, CodeParam, DataParam)
 //
 //  PURPOSE:  Processes messages for the main window.
 //

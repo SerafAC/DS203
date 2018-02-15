@@ -332,7 +332,7 @@ void CSettings::Save()
 	CStream bufStream( pSharedBuffer, FILEINFO::SectorSize );
 	bufStream << *this;
 
-	_ASSERT_VALID( BIOS::DSK::Write(&f, pSharedBuffer) );
+	_ASSERT( BIOS::DSK::Write(&f, pSharedBuffer) );
 	BIOS::DSK::Close(&f, bufStream.GetLength());
 }
 
@@ -347,7 +347,7 @@ void CSettings::Load()
 
 	ui8* pSharedBuffer = (ui8*)BIOS::DSK::GetSharedBuffer();
 
-	_ASSERT_VALID( BIOS::DSK::Read(&f, pSharedBuffer) );
+	_ASSERT( BIOS::DSK::Read(&f, pSharedBuffer) );
 
 	CStream bufStream( pSharedBuffer, FILEINFO::SectorSize );
 	bufStream >> *this;
@@ -416,18 +416,18 @@ void CSettings::SaveCalibration()
 			<< dwId
 			<< CStream(&DacCalib, sizeof(DacCalib));
 
-	_ASSERT_VALID( BIOS::DSK::Write(&f, pSharedBuffer) );
+	_ASSERT( BIOS::DSK::Write(&f, pSharedBuffer) );
 
 	memset( pSharedBuffer, 0, FILEINFO::SectorSize );
 	bufStream.Reset();
 	bufStream << CStream(&CH1Calib, sizeof(CH1Calib));
-	_ASSERT_VALID( BIOS::DSK::Write(&f, pSharedBuffer) );
+	_ASSERT( BIOS::DSK::Write(&f, pSharedBuffer) );
 
 	memset( pSharedBuffer, 0, FILEINFO::SectorSize );
 	bufStream.Reset();
 	bufStream << CStream(&CH2Calib, sizeof(CH1Calib));
 
-	_ASSERT_VALID( BIOS::DSK::Write(&f, pSharedBuffer) );
+	_ASSERT( BIOS::DSK::Write(&f, pSharedBuffer) );
 	BIOS::DSK::Close(&f);
 }
 
@@ -442,7 +442,7 @@ bool CSettings::LoadCalibration()
 
 	ui8* pSharedBuffer = (ui8*)BIOS::DSK::GetSharedBuffer();
 
-	_ASSERT_VALID( BIOS::DSK::Read(&f, pSharedBuffer) );
+	_ASSERT( BIOS::DSK::Read(&f, pSharedBuffer) );
 
 	CStream bufStream( pSharedBuffer, FILEINFO::SectorSize );
 
@@ -457,11 +457,11 @@ bool CSettings::LoadCalibration()
 	bufStream >> CStream(&DacCalib, sizeof(DacCalib));
 
 	bufStream.Reset();
-	_ASSERT_VALID( BIOS::DSK::Read(&f, pSharedBuffer) );
+	_ASSERT( BIOS::DSK::Read(&f, pSharedBuffer) );
 	bufStream >> CStream(&CH1Calib, sizeof(CH1Calib));
 
 	bufStream.Reset();
-	_ASSERT_VALID( BIOS::DSK::Read(&f, pSharedBuffer) );
+	_ASSERT( BIOS::DSK::Read(&f, pSharedBuffer) );
 	bufStream >> CStream(&CH2Calib, sizeof(CH2Calib));
 
 	BIOS::DSK::Close(&f);

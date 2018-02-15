@@ -28,7 +28,7 @@ public:
 			RGB565(000000), RGBTRANS, m_pszId);
 	}
 
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 	{
 		// send in foreign name, not very nice...
 		pSender->SendMessage( GetParent(), code, data );

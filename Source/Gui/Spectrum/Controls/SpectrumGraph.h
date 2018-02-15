@@ -26,7 +26,7 @@ public:
 
 	virtual void Create(CWnd *pParent, ui16 dwFlags);
 
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 	{
 		if ( pSender == NULL && code == WmBroadcast && data == ToWord('d', 'g') )
 		{
@@ -76,7 +76,7 @@ public:
 
 	virtual void Create(CWnd *pParent, ui16 dwFlags);
 
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 	{
 		if ( pSender == NULL && code == WmBroadcast && data == ToWord('d', 'g') )
 		{
@@ -123,7 +123,7 @@ public:
 
 	virtual void Create(CWnd *pParent, ui16 dwFlags);
 
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 	{
 		if ( pSender == NULL && code == WmBroadcast && data == ToWord('d', 'g') )
 		{

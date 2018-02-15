@@ -20,7 +20,7 @@ CWndMenuInput::CWndMenuInput()
 }
 
 LINKERSECTION(".extra")
-/*virtual*/ void CWndMenuInput::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWndMenuInput::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 	// LAYOUT ENABLE/DISABLE FROM TOP MENU BAR
 	if (code == ToWord('L', 'D') )

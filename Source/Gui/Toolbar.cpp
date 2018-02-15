@@ -202,7 +202,7 @@
 	Settings.Runtime.m_nMenuItem = m_nFocus;
 }
 
-/*virtual*/ void CWndToolBar::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWndToolBar::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 	if ( code == ToWord('g', 'i') )
 	{

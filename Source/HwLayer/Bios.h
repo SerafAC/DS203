@@ -189,10 +189,10 @@ public:
 			IoClosed = 3
 		};
 		static PVOID GetSharedBuffer();
-		static BOOL Open(FILEINFO* pFileInfo, const char* strName, ui8 nIoMode);
-		static BOOL Read(FILEINFO* pFileInfo, ui8* pSectorData);
-		static BOOL Write(FILEINFO* pFileInfo, ui8* pSectorData);
-		static BOOL Close(FILEINFO* pFileInfo, int nSize = -1);
+		static bool Open(FILEINFO* pFileInfo, const char* strName, ui8 nIoMode);
+		static bool Read(FILEINFO* pFileInfo, ui8* pSectorData);
+		static bool Write(FILEINFO* pFileInfo, ui8* pSectorData);
+		static bool Close(FILEINFO* pFileInfo, int nSize = -1);
 	};
 
 	class DLLAPI SERIAL

@@ -27,7 +27,7 @@
 	m_itmAxis.Create("Axis", RGB565(808080), &m_proAxis, this);
 }
 
-/*virtual*/ void CWndMenuDisplay::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWndMenuDisplay::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 	// LAYOUT ENABLE/DISABLE FROM TOP MENU BAR
 	if (code == ToWord('L', 'D') )
@@ -46,11 +46,11 @@
 		MainWnd.m_wndTReferences.ShowWindow( SwShow );
 	}
 
-	if ( code == ToWord('l', 'e') && data == (LPARAM)&m_proAverage )
+	if ( code == ToWord('l', 'e') && data == (DataParam)&m_proAverage )
 	{
 		MainWnd.m_wndGraph.ClearAverage();
 	}
-	if ( code == ToWord('l', 'e') && data == (LPARAM)&m_proPersist )
+	if ( code == ToWord('l', 'e') && data == (DataParam)&m_proPersist )
 	{	
 		MainWnd.m_wndGraph.ClearPersist();
 	}

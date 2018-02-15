@@ -9,7 +9,7 @@
 	m_itm[2].Create("~Source\nInternal", RGB565(b00040), 2, this );
 }
 
-/*virtual*/ void CWndMenuGeneratorMod::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWndMenuGeneratorMod::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 }
 

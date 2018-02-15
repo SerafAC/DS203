@@ -6,7 +6,7 @@
 #include <string.h>
 #include "WebSocket.h"
 
-#define _ASSERT_VALID(e) { if ( !(e) ) _ASSERT(0); }
+#define _ASSERT(e) { if ( !(e) ) _ASSERT(0); }
 const CHAR sdkFile[] = "G:\\SDK.BIN";
 
 bool bRunning = true;
@@ -122,7 +122,7 @@ BOOL Do(HANDLE hFile)
 		if ( memcmp( strToken, "ANS=", 4 ) == 0 )
 		{
 			CString strAns = "\"";
-			_ASSERT_VALID( _Get() == '(' );
+			_ASSERT( _Get() == '(' );
 			CHAR type[4] = {_Get(), _Get(), _Get(), _Get()};
 
 			if ( memcmp( type, "text", 4 ) == 0 )
@@ -131,7 +131,7 @@ BOOL Do(HANDLE hFile)
 				do {
 					ch = _Get();
 				} while ( ch != ')' );
-				_ASSERT_VALID( _Get() == ' ' );
+				_ASSERT( _Get() == ' ' );
 
 				do {
 					ch = _Get();
@@ -143,14 +143,14 @@ BOOL Do(HANDLE hFile)
 			} else
 			if ( memcmp( type, "bina", 4 ) == 0 )
 			{
-				_ASSERT_VALID( _Get() == 'r' );
-				_ASSERT_VALID( _Get() == 'y' );
-				_ASSERT_VALID( _Get() == ',' );
-				_ASSERT_VALID( _Get() == ' ' );
-				_ASSERT_VALID( _Get() == 'l' );
-				_ASSERT_VALID( _Get() == 'e' );
-				_ASSERT_VALID( _Get() == 'n' );
-				_ASSERT_VALID( _Get() == '=' );
+				_ASSERT( _Get() == 'r' );
+				_ASSERT( _Get() == 'y' );
+				_ASSERT( _Get() == ',' );
+				_ASSERT( _Get() == ' ' );
+				_ASSERT( _Get() == 'l' );
+				_ASSERT( _Get() == 'e' );
+				_ASSERT( _Get() == 'n' );
+				_ASSERT( _Get() == '=' );
 				CString strLen;
 				CHAR ch = 0;
 				do {

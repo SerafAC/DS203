@@ -39,7 +39,7 @@ public:
 		m_itmScale.ShowWindow( bShowSca ? CWnd::SwShow : CWnd::SwHide );
 	}
 
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 	{
 		if ( code == ToWord('u', 'p') && pSender == &m_itmType )
 		{

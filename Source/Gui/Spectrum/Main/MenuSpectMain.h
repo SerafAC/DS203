@@ -26,7 +26,7 @@ public:
 	CWndMenuSpectMain();
 
 	virtual void Create(CWnd *pParent, ui16 dwFlags);
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data);
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data);
 };
 
 #endif

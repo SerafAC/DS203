@@ -20,7 +20,7 @@ void CMainWnd::Create()
 	CCoreSettings::Update();
 
 	m_nLastKey = BIOS::SYS::GetTick();
-	m_bSleeping = FALSE;
+	m_bSleeping = false;
 	
 	CWnd::Create("CMainWnd", WsVisible | WsListener, CRect(0, 0, BIOS::LCD::LcdWidth, BIOS::LCD::LcdHeight), NULL );
 
@@ -92,14 +92,14 @@ void CMainWnd::Create()
 				// enter sleep mode
 				BIOS::SYS::SetVolume(0);
 				m_wndMessage.Show(this, "Information", "Entering sleep mode", RGB565(ffff00));
-				BIOS::ADC::Enable( FALSE );
+				BIOS::ADC::Enable( false );
 				for ( int i = Settings.Runtime.m_nBacklight; i > 0; i--)
 				{
 					BIOS::SYS::SetBacklight( i );
 					BIOS::SYS::DelayMs(10);
 				}
-				BIOS::SYS::Standby( TRUE );
-				m_bSleeping = TRUE;
+				BIOS::SYS::Standby( true );
+				m_bSleeping = true;
 				KillTimer();
 			}
 		}
@@ -168,7 +168,7 @@ void CMainWnd::Create()
 	BIOS::LCD::Clear(RGB565(000000));
 }
 
-/*virtual*/ void CMainWnd::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CMainWnd::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 	if ( pSender == &m_wndToolBar )
 	{
@@ -257,7 +257,7 @@ ui32 GetInterpolatedSample( int nSample256 )
 	int nBase = nSample256 / 1024;
 	int nFraction = nSample256 & 1023;
 
-	_ASSERTW( nBase + 1 < (int)BIOS::ADC::GetCount() );
+	_ASSERT( nBase + 1 < (int)BIOS::ADC::GetCount() );
 
 	BIOS::ADC::SSample nSampleA;
 	nSampleA.nValue = BIOS::ADC::GetAt( nBase );
@@ -357,7 +357,7 @@ void CMainWnd::Resample()
 		{
 			SetTimer( 200 );
 			m_bSleeping = false;
-			BIOS::SYS::Standby( FALSE );
+			BIOS::SYS::Standby( false );
 
 			CCoreOscilloscope::ConfigureAdc();
 			CCoreGenerator::Update();

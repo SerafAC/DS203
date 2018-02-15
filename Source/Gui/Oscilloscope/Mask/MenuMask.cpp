@@ -45,7 +45,7 @@ int BlurFilter( int a, int b, int c )
 	m_proDisplay.Create( (const char**)m_ppszDispAction, (NATIVEENUM*)&m_Display, DisplayMax );
 }
 
-/*virtual*/ void CWndMenuMask::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWndMenuMask::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 	if ( pSender == NULL && code == WmBroadcast && data == ToWord('d', 'g') )
 	{

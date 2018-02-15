@@ -105,7 +105,7 @@ ui16 CWndOscGraph::_Interpolate( ui16 clrA, ui16 clrB )
 	CWndGraph::Create( pParent, dwFlags | CWnd::WsListener );
 }
 
-/*virtual*/ void CWndOscGraph::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWndOscGraph::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 	if ( pSender == NULL && code == WmBroadcast && data == ToWord('d', 'g') )
 	{

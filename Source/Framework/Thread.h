@@ -18,10 +18,10 @@ public:
 	{ 
 		_ASSERT(0);
 	}
-	virtual BOOL IsRunning() 
+	virtual bool IsRunning() 
 	{ 
 		_ASSERT(0);
-		return FALSE;
+		return false;
 	}
 	virtual int GetResult()
 	{

@@ -34,7 +34,7 @@ void CWndManager::Create( CWnd* pParent )
 	m_itmSave.Create( "", CWnd::WsVisible, &m_proSave, this );
 }
 
-/*virtual*/ BOOL CWndManager::IsRunning()
+/*virtual*/ bool CWndManager::IsRunning()
 {
 	return m_bRunning;
 }
@@ -74,7 +74,7 @@ bool CWndManager::Exists(char *strName)
 	return false;
 }
 
-/*virtual*/ void CWndManager::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWndManager::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 	char strName[13];
 
@@ -109,7 +109,7 @@ bool CWndManager::Exists(char *strName)
 			Invalidate();
 		} 
 	}
-	if ( code == ToWord('l', 'e') && data == (LPARAM)&m_proLoad )
+	if ( code == ToWord('l', 'e') && data == (DataParam)&m_proLoad )
 	{
 		// load
 		BIOS::DBG::sprintf( strName, strTemplateFile[m_itmTabs.GetFocus()], m_nValue );
@@ -136,7 +136,7 @@ bool CWndManager::Exists(char *strName)
 		}
 		// load
 	}
-	if ( code == ToWord('l', 'e') && data == (LPARAM)&m_proSave )
+	if ( code == ToWord('l', 'e') && data == (DataParam)&m_proSave )
 	{
 		// save
 		BIOS::DBG::sprintf( strName, strTemplateFile[m_itmTabs.GetFocus()], m_nValue );

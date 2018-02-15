@@ -91,7 +91,7 @@ public:
 	void Create( const char* pszId, ui16 dwFlags, const CRect& rc, CWnd* pParent );
 	virtual void OnPaint();
 	virtual void OnKey(ui16 nKey);
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data);
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data);
 	virtual void WindowMessage(int nMsg, int nParam = 0);
 	virtual void OnTimer();
 
@@ -113,9 +113,9 @@ public:
 	void PopOverlay();
 	
 	template<class T>
-	void SendMessage(CWnd* pTarget, WPARAM code, T data)
+	void SendMessage(CWnd* pTarget, CodeParam code, T data)
 	{
-		prvSendMessage(pTarget,code,(LPARAM)data);
+		prvSendMessage(pTarget,code,(DataParam)data);
 	}
 
 private:
@@ -125,7 +125,7 @@ private:
 	CWnd* _GetFirstActiveWindow();
 
 	void _UpdateTimers();
-	void prvSendMessage(CWnd* pTarget, WPARAM code, LPARAM data);	
+	void prvSendMessage(CWnd* pTarget, CodeParam code, DataParam data);	
 };                                 
 
 #endif

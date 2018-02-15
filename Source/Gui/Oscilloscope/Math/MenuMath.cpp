@@ -11,7 +11,7 @@
 	m_itmOperator.Create( &Settings.Math, this );
 }
 
-/*virtual*/ void CWndMenuMath::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWndMenuMath::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 	// LAYOUT ENABLE/DISABLE FROM TOP MENU BAR
 	if (code == ToWord('L', 'D') )

@@ -1,20 +1,3 @@
-/*
-typedef unsigned char ui8;
-typedef unsigned int ui32;
-typedef unsigned short ui16;
-typedef signed char si8;
-typedef int INT;
-typedef unsigned int UINT;
-typedef const char * PCSTR;
-typedef char * PSTR;
-typedef char CHAR;
-typedef int BOOL;
-typedef float FLOAT;
-#define TRUE 1
-#define FALSE 0
-#define NULL 0
-#define _ASSERT(a) if (!(a)) { _asm { int 3 } }
-*/
 #define _SAFE(a) if (!(a)) { _ASSERT(0); return CEvalOperand(CEvalOperand::eoError); }
 
 class CEvalClasses 
@@ -60,7 +43,7 @@ public:
 			m_nMaxCount = nLength;
 		}
 
-		BOOL IsEmpty()
+		bool IsEmpty()
 		{
 			_ASSERT( m_arrElements );
 			return m_nCount == 0;
@@ -298,15 +281,15 @@ public:
 			_ASSERT(0);
 			return 0;
 		}
-		BOOL Is( EOperandType eType )
+		bool Is( EOperandType eType )
 		{
 			return m_eType == eType;
 		}
 
-		BOOL Is( const CEvalToken* pToken )
+		bool Is( const CEvalToken* pToken )
 		{
 			if ( m_eType != eoOperator )
-				return FALSE;
+				return false;
 			return m_Data.m_pOperator == pToken;
 		}
 	};
@@ -331,8 +314,8 @@ public:
 		while ( *s >= '0' && *s <= '9' )
 			s++;
 		if (*s == '.')
-			return TRUE;
-		return FALSE;
+			return true;
+		return false;
 	}
 	
 	FLOAT StrToFloat ( CHAR *s, CHAR **endp )
@@ -423,7 +406,7 @@ public:
 		return EvalRpn();
 	}
 
-	BOOL ConvertToRpn( PSTR pszExpression )
+	bool ConvertToRpn( PSTR pszExpression )
 	{
 		CEvalOperand arrStack_[StackLength];
 		CArray <CEvalOperand> arrStack( arrStack_, StackLength );
@@ -462,10 +445,10 @@ public:
 
 			if ( pToken == pTokRPar || pToken == pTokDelim )
 			{
-				while ( TRUE )
+				while ( true )
 				{
 					if ( arrStack.IsEmpty() )
-						return FALSE;
+						return false;
 
 					if ( arrStack.GetLast().Is( pTokLPar ) ||
 						 arrStack.GetLast().Is( pTokEq ) ||
@@ -543,7 +526,7 @@ public:
 						if ( pszNew == pszExpression )
 						{
 							_ASSERT(0);
-							return FALSE;
+							return false;
 						}
 						pszExpression = pszNew;
 						m_arrRpn.Add( CEvalOperand( fValue ) );
@@ -553,7 +536,7 @@ public:
 						if ( pszNew == pszExpression )
 						{
 							_ASSERT(0);
-							return FALSE;
+							return false;
 						}
 						pszExpression = pszNew;
 						m_arrRpn.Add( CEvalOperand( lValue ) );
@@ -575,7 +558,7 @@ public:
 
 					if ( pszExpression - pszStart == 0 )
 					{
-						return FALSE;
+						return false;
 					}
 
 					m_arrRpn.Add( CEvalOperand(pszStart, (INT)(pszExpression-pszStart), CEvalOperand::eoAttribute ) );
@@ -598,7 +581,7 @@ public:
 			int topPrecedence = 0;
 			pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken) - 1;
 
-			while ( TRUE )
+			while ( true )
 			{
 				CEvalOperand myOper;
 				// get top's precedence
@@ -633,12 +616,12 @@ public:
 		while ( !arrStack.IsEmpty() )
 		{
 			if ( arrStack.GetLast().Is( pTokLPar ) ) 
-				return FALSE; //eval_unbalanced;
+				return false; //eval_unbalanced;
 			
 			m_arrRpn.Add( arrStack.RemoveLast() );
 		}
 
-		return TRUE; 
+		return true; 
 	}	
 
 	CEvalOperand EvalRpn()

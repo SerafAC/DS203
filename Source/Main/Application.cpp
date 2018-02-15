@@ -92,6 +92,10 @@ void CApplication::Destroy()
 {
 }
 
+#ifdef _WIN32
+	extern "C" { void __stdcall Sleep(int); }
+#endif
+
 bool CApplication::operator ()()
 {
 	static ui32 lLastTick = (ui32)-1;

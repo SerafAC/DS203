@@ -11,7 +11,7 @@ public:
 		CWnd::Create("CWndSpecAnnotations", wFlags | CWnd::WsNoActivate, CRect(0, 0, 1, 1), pParent);
 	}
 
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 	{
 	}
 

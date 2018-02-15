@@ -12,7 +12,7 @@ public:
 	}
 
 #if 0
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 	{	
   		if (code == ToWord('L', 'D') )
   		{
@@ -253,7 +253,7 @@ public:
 //		BIOS::VER::DrawLogo((m_rcClient.Width()-256)/2, m_rcClient.top + 8 + 16 );
 	}	
 
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 	{	
   		if (code == ToWord('L', 'D') )
   		{

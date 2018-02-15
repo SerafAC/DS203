@@ -65,7 +65,7 @@ void CWndToolbox::PrintBold( int x, int y, ui16 clrFront, ui16 clrBorder, PCSTR 
 	BIOS::LCD::Print( x+0, y+0, clrFront, RGBTRANS, szLabel );
 }
 
-/*virtual*/ BOOL CWndToolbox::IsRunning()
+/*virtual*/ bool CWndToolbox::IsRunning()
 {
 	return m_bRunning;
 }
@@ -92,14 +92,14 @@ void CWndToolbox::PrintBold( int x, int y, ui16 clrFront, ui16 clrBorder, PCSTR 
 	}
 	if ( nKey == BIOS::KEY::KeyEnter )
 	{
-		m_bRunning = FALSE;
+		m_bRunning = false;
 		return;
 	}
 	if ( nKey == BIOS::KEY::KeyLeft || nKey == BIOS::KEY::KeyRight )
 		return;
 
 	m_nFocus = -1;
-	m_bRunning = FALSE;
+	m_bRunning = false;
 }
 
 /*virtual*/ int CWndToolbox::GetResult()
@@ -148,7 +148,7 @@ void CWndToolbox::DoModal()
 			m_bAdcEnabled = !m_bAdcEnabled;
 			break;
 		case MenuManager:
-			m_bAdcEnabled = FALSE;
+			m_bAdcEnabled = false;
 			// Load wave BIN
 			break;
 		case MenuReset:

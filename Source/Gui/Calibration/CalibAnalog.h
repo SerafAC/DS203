@@ -105,7 +105,7 @@ public:
 	void SaveCalib();
 	void UpdateZero();
 	void OnWave();
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data);
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data);
 };
 
 #if 0
@@ -168,7 +168,7 @@ public:
 		}
 	}
 
-	virtual void OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 	{	
 		if ( pSender == NULL && code == WmBroadcast && data == ToWord('d', 'g') )
 		{

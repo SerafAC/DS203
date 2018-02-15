@@ -1,6 +1,7 @@
 #ifndef HWLAYER_TYPES_H
 #define HWLAYER_TYPES_H
 #include <stdint.h>
+#include <string.h>
 
 typedef uint8_t  ui8;
 typedef int8_t   si8;
@@ -9,12 +10,53 @@ typedef int16_t  si16;
 typedef uint32_t ui32;
 typedef int32_t  si32;
 
+typedef void* PVOID;
+typedef float FLOAT;
+typedef int INT;
+typedef const char * PCSTR;
+typedef char * PSTR;
+typedef char CHAR;
+typedef ui32 UINT;
+
+typedef uintptr_t CodeParam;
+typedef uintptr_t DataParam;
+
+#ifdef _ASSERT
+#undef _ASSERT
+#endif
+#define _ASSERT(X) 
+
 template<class A, class B>
 auto min(const A& a, const B& b) -> decltype(a<b?a:b) { return (a<b?a:b); }
 template<class A, class B>
 auto max(const A& a, const B& b) -> decltype(a>b?a:b) { return (a>b?a:b); }
 template<class T>
 T abs(const T& a) { return (a>0?a:-a); }
+
+#define RGB565RGB(r, g, b) (((r)>>3)|(((g)>>2)<<5)|(((b)>>3)<<11))
+#define Get565R(rgb) (((rgb)&0x1f)<<3)
+#define Get565G(rgb) ((((rgb)>>5)&0x3f)<<2)
+#define Get565B(rgb) ((((rgb)>>11)&0x1f)<<3)
+#define GetHtmlR(rgb) ((rgb) >> 16)
+#define GetHtmlG(rgb) (((rgb) >> 8)&0xff)
+#define GetHtmlB(rgb) ((rgb)&0xff)
+#define GetColorR(rgb) ((rgb) & 0xff)
+#define GetColorG(rgb) (((rgb) >> 8)&0xff)
+#define GetColorB(rgb) (((rgb) >> 16)&0xff)
+
+#define RGB565(rgb) RGB565RGB( GetHtmlR(0x##rgb), GetHtmlG(0x##rgb), GetHtmlB(0x##rgb))
+#define COUNT(arr) (int)(sizeof(arr)/sizeof(arr[0]))
+#define RGBTRANS (RGB565(ff00ff)-1)
+
+#define RGB32(r,g,b) ((r) | ((g)<<8) | ((b)<<16))
+
+#define DecEnum(e) *((ui8*)&(e))-=1
+#define IncEnum(e) *((ui8*)&(e))+=1
+
+#include <limits.h>
+#define MAXUINT     UINT_MAX
+#define MAXINT      INT_MAX
+#define MININT      INT_MIN
 
 #ifdef _WINDOWS
 #	include "Win32/Types.h"

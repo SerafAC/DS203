@@ -190,7 +190,7 @@ void CWndListCalSimple::OnWave()
 
 }
 
-/*virtual*/ void CWndListCalSimple::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWndListCalSimple::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {	
 	if ( pSender == NULL && code == WmBroadcast && data == ToWord('d', 'g') )
 	{
@@ -203,7 +203,7 @@ void CWndListCalSimple::OnWave()
 		MainWnd.m_wndConfirm.Show( this, "Message", "Connect probe to ground\nReady?", RGB565(ffff00), "Yes", "No");
 		return;
 	}
-	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (LPARAM)"Yes" )
+	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (DataParam)"Yes" )
 	{
 		m_proReset.m_pName = "Wait...";
 		m_itmReset.Invalidate();
@@ -212,7 +212,7 @@ void CWndListCalSimple::OnWave()
 		MainWnd.m_wndConfirm.Hide();
 		return;
 	}
-	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (LPARAM)"No" )
+	if ( pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') && data == (DataParam)"No" )
 	{
 		MainWnd.m_wndConfirm.Hide();
 		return;

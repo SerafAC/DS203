@@ -64,7 +64,7 @@
 	BIOS::ADC::TSample& ts1 = BIOS::ADC::GetAt( nX );
 	BIOS::ADC::TSample& ts2 = BIOS::ADC::GetAt( nX+300 );
 
-	_ASSERTW( nX >= 0 && nX < 300 );
+	_ASSERT( nX >= 0 && nX < 300 );
 	*pLow = &((ui8*)&ts1)[3];
 	*pHigh = &((ui8*)&ts2)[3];
 }

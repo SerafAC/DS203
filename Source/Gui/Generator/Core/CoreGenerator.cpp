@@ -211,7 +211,7 @@ int CCoreGenerator::GetDuty()
 
 void CCoreGenerator::SetDuty(int nPercent)
 {
-	_ASSERTW( (Settings.Gen.nArr) * nPercent / 100 >= 0 );
+	_ASSERT( (Settings.Gen.nArr) * nPercent / 100 >= 0 );
 	Settings.Gen.nCcr = (Settings.Gen.nArr) * nPercent / 100;
 }
 

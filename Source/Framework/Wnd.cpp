@@ -176,7 +176,7 @@ void CWnd::Create( const char* pszId, ui16 dwFlags, const CRect& rc, CWnd* pPare
 	}
 }
 
-/*virtual*/ void CWnd::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWnd::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 }
 
@@ -259,7 +259,7 @@ void CWnd::Invalidate()
 		WindowMessage(WmPaint);
 }
 
-void CWnd::prvSendMessage(CWnd* pTarget, WPARAM code, LPARAM data)
+void CWnd::prvSendMessage(CWnd* pTarget, CodeParam code, DataParam data)
 {
 	pTarget->OnMessage(this, code, data);
 }

@@ -17,7 +17,7 @@ CWndMenuCursor::CWndMenuCursor()
 	m_itmDeltaX.Create( (char*)"dX", &Settings.MarkT1, &Settings.MarkT2, this);
 }
 
-/*virtual*/ void CWndMenuCursor::OnMessage(CWnd* pSender, WPARAM code, LPARAM data)
+/*virtual*/ void CWndMenuCursor::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
 {
 	// LAYOUT ENABLE/DISABLE FROM TOP MENU BAR
 	if (code == ToWord('L', 'D') )
@@ -41,13 +41,13 @@ CWndMenuCursor::CWndMenuCursor()
 	// update, called when the user changes the cursor position
 	if (code == ToWord('u', 'p') )
 	{
-		if ( data == (LPARAM)&m_itmX1 ||
-			 data == (LPARAM)&m_itmX2 )
+		if ( data == (DataParam)&m_itmX1 ||
+			 data == (DataParam)&m_itmX2 )
 		{
 			m_itmDeltaX.Invalidate();
 		}
-		if ( data == (LPARAM)&m_itmY1 ||
-			 data == (LPARAM)&m_itmY2 )
+		if ( data == (DataParam)&m_itmY1 ||
+			 data == (DataParam)&m_itmY2 )
 		{
 			m_itmDeltaY.Invalidate();
 		}
@@ -96,7 +96,7 @@ CWndMenuCursor::CWndMenuCursor()
 	}
 	
 	// Clicked on Find
-	if ( code == ToWord('l', 'e') && data == (LPARAM)&m_wndListCursor.m_proFind )
+	if ( code == ToWord('l', 'e') && data == (DataParam)&m_wndListCursor.m_proFind )
 	{
 		Find( m_wndListCursor.m_pMarker, m_wndListCursor.m_modeFind );
 		return;

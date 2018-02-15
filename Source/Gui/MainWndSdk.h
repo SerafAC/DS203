@@ -21,7 +21,7 @@ public:
 		m_nStreamLen = -1;
 		m_nSimpleLen = -1;
 		m_pStream = NULL;
-		m_bTerminator = FALSE;
+		m_bTerminator = false;
 	}
 
 	int GetChar()
@@ -182,7 +182,7 @@ void CMainWnd::SdkDiskProc()
 {
 #if 0
 	static FILEINFO fbase;
-	static bool bInit = TRUE;
+	static bool bInit = true;
 	FILEINFO f;
 	static CSdkStreamProvider SdkStream;
 
@@ -198,7 +198,7 @@ void CMainWnd::SdkDiskProc()
 			memset(buf, 0, FILEINFO::SectorSize);       	
 			BIOS::UTIL::StrCpy(buf, "ANS=(text, msg) DSO SDK Version 1.0 by Valky.eu 2012. Ready... Type 'REQ=your expression'");
 			BIOS::UTIL::StrCpy(buf+BIOS::UTIL::StrLen(buf)+1, "END\x1b");
-			_ASSERT_VALID( BIOS::DSK::Write(&f, (ui8*)buf ) );
+			_ASSERT( BIOS::DSK::Write(&f, (ui8*)buf ) );
 			bInit = FALSE;
 		} else
 			return;
@@ -206,7 +206,7 @@ void CMainWnd::SdkDiskProc()
 
 	buf[0] = 0;
 	f = fbase;
-	_ASSERT_VALID( BIOS::DSK::Read(&f, (ui8*)buf) );
+	_ASSERT( BIOS::DSK::Read(&f, (ui8*)buf) );
 		
 	if ( memcmp(buf, "REQ=", 4) == 0 )
 	{
@@ -238,7 +238,7 @@ void CMainWnd::SdkDiskProc()
 				}
 		
 				// write
-				_ASSERT_VALID( BIOS::DSK::Write(&f, arrSector) );
+				_ASSERT( BIOS::DSK::Write(&f, arrSector) );
 
 				memset( arrSector, 0, FILEINFO::SectorSize );
 
@@ -249,13 +249,13 @@ void CMainWnd::SdkDiskProc()
 
 		if ( nFrame == 0 )
 		{
-			_ASSERT_VALID( BIOS::DSK::Write(&f, arrSector) );
+			_ASSERT( BIOS::DSK::Write(&f, arrSector) );
 		} else
 		{
-			_ASSERT_VALID( BIOS::DSK::Write(&f, arrSector) );
+			_ASSERT( BIOS::DSK::Write(&f, arrSector) );
 			// rewind to beginning of the SDK.BIN file
 			f = fbase;
-			_ASSERT_VALID( BIOS::DSK::Write(&f, arrFirstSector) );			
+			_ASSERT( BIOS::DSK::Write(&f, arrFirstSector) );			
 		}
 		
 		return;

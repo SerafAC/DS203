@@ -32,7 +32,7 @@ public:
 	void			Create( CWnd* pParent );
 	virtual void	OnPaint();
 	void			PrintBold( int x, int y, ui16 clrFront, ui16 clrBorder, PCSTR szLabel );
-	virtual BOOL	IsRunning();
+	virtual bool	IsRunning();
 	virtual void	OnKey(ui16 nKey);
 	virtual int		GetResult();
 	void			DoModal();

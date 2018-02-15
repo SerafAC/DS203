@@ -80,7 +80,7 @@ public:
 
 	void				Create();
 	virtual void		OnPaint();
-	virtual void		OnMessage(CWnd* pSender, WPARAM code, LPARAM data);
+	virtual void		OnMessage(CWnd* pSender, CodeParam code, DataParam data);
 	virtual void		OnTimer();
 	virtual void		WindowMessage(int nMsg, int nParam =0);
 	bool				HasOverlay();

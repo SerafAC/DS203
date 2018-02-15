@@ -39,8 +39,8 @@ public:
 	CWndManager();
 
 	void			Create( CWnd* pParent );
-	virtual BOOL	IsRunning();
-	virtual void	OnMessage(CWnd* pSender, WPARAM code, LPARAM data);
+	virtual bool	IsRunning();
+	virtual void	OnMessage(CWnd* pSender, CodeParam code, DataParam data);
 	virtual int		GetResult();
 	void			DoModal();
 	void			Cancel();
