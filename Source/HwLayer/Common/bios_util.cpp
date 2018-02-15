@@ -12,7 +12,7 @@ int BIOS::UTIL::StrLen(const char *s)
 char* BIOS::UTIL::StrCpy(char *dst, const char *src)
 {
 	char *t = dst; 
-	while ((*dst++) = (*src++)) {}
+	while ((*dst++ = *src++)) {}
 	return t;
 }
 
