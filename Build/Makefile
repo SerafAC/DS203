@@ -21,6 +21,14 @@ else ifeq ($(PLATFORM),dso)
 	
 	LDFLAGS   = $(ARCH) -Wl,-Map=$(TARGET).map  -nostartfiles -msoft-float -lc -lgcc -L$(SRCDIR)/HwLayer/ArmM3/lds -T app_$(SLOT).lds 
 	EXTRA_SRC = $(SRCDIR)/HwLayer/ArmM3/stm32f10x/src/stm32f10x_nvic.c $(SRCDIR)/HwLayer/ArmM3/src/interrupt.c $(SRCDIR)/HwLayer/ArmM3/src/startup.c $(SRCDIR)/HwLayer/ArmM3/stm32f10x/asm/cortexm3_macro.s
+else ifeq ($(PLATFORM),desktop)
+	TC        = 
+	TARGET    = dso203
+	HARDWARE  = SDL2
+	PKG_CFLAGS:= $(shell sdl2-config --cflags)
+	PKG_LDFLAGS:= $(shell sdl2-config --libs)
+	CXXFLAGS  = --std=gnu++11 -Og -g -D_SDL2 -Iinc -I$(TOP) $(PKG_CFLAGS)
+	LDFLAGS   = $(PKG_LDFLAGS)
 else 
 $(error unknown platform '$(PLATFORM)')
 endif
@@ -79,6 +87,9 @@ $(OBJDIRS):
 dso203.exe: $(OBJ)
 	$(CXX) -static -g $(OBJ) -o dso203.exe -lgdi32
 
+dso203: $(OBJ)
+	$(CXX) -g $(OBJ) -o dso203 $(LDFLAGS)
+
 .PHONY: dso
 dso: dso_$(SLOT).hex dso_$(SLOT).elf
 
@@ -94,6 +105,8 @@ clean:
 .PHONY: win
 win:
 	$(MAKE) PLATFORM=Win32
+desktop:
+	$(MAKE) PLATFORM=desktop
 
 cmakefile:
 	@echo "cmake_minimum_required (VERSION 3.5)"
