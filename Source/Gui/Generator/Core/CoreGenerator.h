@@ -1,5 +1,6 @@
-#ifndef __COREGENERATOR_H__
-#define __COREGENERATOR_H__
+#pragma once
+#ifndef DSO_GUI_GENERATOR_CORE_COREGENERATOR_H
+#define DSO_GUI_GENERATOR_CORE_COREGENERATOR_H
 
 #include <Source/Framework/Classes.h>
 #include <Source/HwLayer/Types.h>

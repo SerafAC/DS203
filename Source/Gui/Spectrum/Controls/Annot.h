@@ -1,5 +1,6 @@
-#ifndef __SPECANNOT_H__
-#define __SPECANNOT_H__
+#pragma once
+#ifndef DSO_GUI_SPECTRUM_CONTROLS_ANNOT_H
+#define DSO_GUI_SPECTRUM_CONTROLS_ANNOT_H
 
 #include <Source/Framework/Wnd.h>
 

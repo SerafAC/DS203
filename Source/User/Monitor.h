@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_MONITOR_H
+#define DSO_USER_MONITOR_H
 #define ENABLE_MONITOR
 
 #if defined(ADD_MODULE) && defined(ENABLE_MONITOR)
@@ -35,4 +38,5 @@ public:
   virtual void OnKey(ui16 nKey);
 };
 
+#endif
 #endif

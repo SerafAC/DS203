@@ -1,5 +1,6 @@
-#ifndef __MENUITEMMARKER_H__
-#define __MENUITEMMARKER_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MARKER_ITEMMARKER_H
+#define DSO_GUI_OSCILLOSCOPE_MARKER_ITEMMARKER_H
 
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>

@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_CHARMAP_H
+#define DSO_USER_CHARMAP_H
 #define ENABLE_CHARMAP
 
 #if defined(ADD_MODULE) && defined(ENABLE_CHARMAP)
@@ -18,4 +21,5 @@ public:
   virtual void OnKey(ui16 nKey);
 };
 
+#endif
 #endif

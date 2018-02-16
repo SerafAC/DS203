@@ -1,5 +1,6 @@
-#ifndef __SERIALIZE_H__
-#define __SERIALIZE_H__
+#pragma once
+#ifndef DSO_CORE_SERIALIZE_H
+#define DSO_CORE_SERIALIZE_H
 
 #include <Source/Core/Utils.h>
 #include <Source/HwLayer/Bios.h>

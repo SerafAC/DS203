@@ -1,5 +1,6 @@
-#ifndef __ITEMSHORTCUT_H__
-#define __ITEMSHORTCUT_H__
+#pragma once
+#ifndef DSO_GUI_SETTINGS_ITEMSHORTCUT_H
+#define DSO_GUI_SETTINGS_ITEMSHORTCUT_H
 
 #include <Source/Gui/Toolbar.h>
 #include <Source/Core/Controls.h>

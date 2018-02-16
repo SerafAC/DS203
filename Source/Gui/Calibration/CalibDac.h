@@ -1,5 +1,6 @@
-#ifndef __CALIBDAC_H__
-#define __CALIBDAC_H__
+#pragma once
+#ifndef DSO_GUI_CALIBRATION_CALIBDAC_H
+#define DSO_GUI_CALIBRATION_CALIBDAC_H
 
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>

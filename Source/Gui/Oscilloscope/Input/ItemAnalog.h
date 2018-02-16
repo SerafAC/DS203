@@ -1,5 +1,6 @@
-#ifndef __MENUANALOG_H__
-#define __MENUANALOG_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_INPUT_ITEMANALOG_H
+#define DSO_GUI_OSCILLOSCOPE_INPUT_ITEMANALOG_H
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
 

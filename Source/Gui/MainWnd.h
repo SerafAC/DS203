@@ -1,5 +1,6 @@
-#ifndef __MAINWND_H__
-#define __MAINWND_H__
+#pragma once
+#ifndef DSO_GUI_MAINWND_H
+#define DSO_GUI_MAINWND_H
 
 #define MainWnd (*CMainWnd::m_pInstance)
 

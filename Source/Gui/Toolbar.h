@@ -1,5 +1,6 @@
-#ifndef __TOOLBAR_H_
-#define __TOOLBAR_H_
+#pragma once
+#ifndef DSO_GUI_TOOLBAR_H
+#define DSO_GUI_TOOLBAR_H
 
 #include <Source/Core/Design.h>
 #include <Source/Core/Shapes.h>

@@ -1,5 +1,6 @@
-#ifndef __MENUITEMSPECMARKER_H__
-#define __MENUITEMSPECMARKER_H__
+#pragma once
+#ifndef DSO_GUI_SPECTRUM_MARKER_ITEMMARKER_H
+#define DSO_GUI_SPECTRUM_MARKER_ITEMMARKER_H
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
 class CItemSpecMarker : public CWndMenuItem {

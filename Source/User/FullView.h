@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_FULLVIEW_H
+#define DSO_USER_FULLVIEW_H
 #define ENABLE_MODULE_FULLVIEW
 ADD_MODULE("FView", CWndFullView)
 
@@ -120,4 +123,5 @@ public:
   }
 };
 
+#endif
 #endif

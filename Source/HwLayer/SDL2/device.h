@@ -1,5 +1,6 @@
-#ifndef SDL2_DEVICE
-#define SDL2_DEVICE
+#pragma once
+#ifndef DSO_HWLAYER_SDL2_DEVICE_H
+#define DSO_HWLAYER_SDL2_DEVICE_H
 #include <Source/Main/Application.h>
 
 class CDevice {

@@ -1,5 +1,6 @@
-#ifndef __MENUITESPECWINDOW_H__
-#define __MENUITESPECWINDOW_H__
+#pragma once
+#ifndef DSO_GUI_SPECTRUM_MAIN_ITEMWINDOW_H
+#define DSO_GUI_SPECTRUM_MAIN_ITEMWINDOW_H
 #include <Source/Gui/Oscilloscope/Disp/ItemDisp.h>
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>

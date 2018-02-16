@@ -1,5 +1,6 @@
-#ifndef __TOOLBOX_BUFFEREDIO_H__
-#define __TOOLBOX_BUFFEREDIO_H__
+#pragma once
+#ifndef DSO_CORE_BUFFEREDIO_H
+#define DSO_CORE_BUFFEREDIO_H
 
 #include <Source/Core/Serialize.h>
 

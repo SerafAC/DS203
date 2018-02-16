@@ -1,5 +1,6 @@
-#ifndef __DISPMENU_H__
-#define __DISPMENU_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_DISP_MENUDISP_H
+#define DSO_GUI_OSCILLOSCOPE_DISP_MENUDISP_H
 
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>

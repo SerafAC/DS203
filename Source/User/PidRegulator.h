@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_PIDREGULATOR_H
+#define DSO_USER_PIDREGULATOR_H
 #define ENABLE_PIDREGULATOR
 
 #if defined(ADD_MODULE) && defined(ENABLE_PIDREGULATOR)
@@ -109,4 +112,5 @@ private:
   void _Highlight(CPoint cpPoint, int nRadius, int nR, int nG, int nB);
 };
 
+#endif
 #endif

@@ -1,5 +1,6 @@
-#ifndef __CWNDOSCGRAPH_H__
-#define __CWNDOSCGRAPH_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_GRAPHOSC_H
+#define DSO_GUI_OSCILLOSCOPE_CONTROLS_GRAPHOSC_H
 
 #include "GraphBase.h"
 #include <Source/Core/Settings.h>

@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_ZOOMBAR_H
+#define DSO_GUI_OSCILLOSCOPE_CONTROLS_ZOOMBAR_H
 #include <Source/Framework/Wnd.h>
 #include <Source/Core/Settings.h>
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
@@ -36,3 +39,4 @@ public:
     BIOS::LCD::Bar(rc, RGB565(000000));
   }
 };
+#endif

@@ -1,5 +1,6 @@
-#ifndef __ITEMGENFREQUENCY_H__
-#define __ITEMGENFREQUENCY_H__
+#pragma once
+#ifndef DSO_GUI_GENERATOR_MAIN_ITEMGENFREQUENCY_H
+#define DSO_GUI_GENERATOR_MAIN_ITEMGENFREQUENCY_H
 #include <Source/Core/Settings.h>
 #include <Source/Core/Controls.h>
 #include <Source/Gui/Generator/Core/CoreGenerator.h>

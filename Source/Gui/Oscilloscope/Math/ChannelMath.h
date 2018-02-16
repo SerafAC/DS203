@@ -1,5 +1,6 @@
-#ifndef __CHANNELMATH_H__
-#define __CHANNELMATH_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MATH_CHANNELMATH_H
+#define DSO_GUI_OSCILLOSCOPE_MATH_CHANNELMATH_H
 
 #include "FirFilter.h"
 #include <Source/Core/Settings.h>

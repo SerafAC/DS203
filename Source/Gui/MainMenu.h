@@ -1,5 +1,6 @@
-#ifndef __MAINMENU_H__
-#define __MAINMENU_H__
+#pragma once
+#ifndef DSO_GUI_MAINMENU_H
+#define DSO_GUI_MAINMENU_H
 
 #include <Source/Core/Controls.h>
 #include <Source/Framework/Wnd.h>

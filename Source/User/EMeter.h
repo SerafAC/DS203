@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_EMETER_H
+#define DSO_USER_EMETER_H
 #define ENABLE_EMETER
 
 #if defined(ADD_MODULE) && defined(ENABLE_EMETER)
@@ -73,4 +76,5 @@ public:
   }
 };
 
+#endif
 #endif

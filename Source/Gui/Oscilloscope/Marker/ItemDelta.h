@@ -1,5 +1,6 @@
-#ifndef __MENUITEMMARKERDELTA_H__
-#define __MENUITEMMARKERDELTA_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MARKER_ITEMDELTA_H
+#define DSO_GUI_OSCILLOSCOPE_MARKER_ITEMDELTA_H
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>

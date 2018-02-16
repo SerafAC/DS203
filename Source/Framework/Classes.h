@@ -1,5 +1,6 @@
-#ifndef __CLASSES_H__
-#define __CLASSES_H__
+#pragma once
+#ifndef DSO_FRAMEWORK_CLASSES_H
+#define DSO_FRAMEWORK_CLASSES_H
 
 #include <Source/HwLayer/Types.h>
 

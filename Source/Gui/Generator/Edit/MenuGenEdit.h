@@ -1,5 +1,6 @@
-#ifndef __GENERATOR_MENUMAINEDIT_H__
-#define __GENERATOR_MENUMAINEDIT_H__
+#pragma once
+#ifndef DSO_GUI_GENERATOR_EDIT_MENUGENEDIT_H
+#define DSO_GUI_GENERATOR_EDIT_MENUGENEDIT_H
 
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>

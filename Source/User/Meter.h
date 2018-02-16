@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_METER_H
+#define DSO_USER_METER_H
 //#define ENABLE_MODULE_METER
 
 #if defined(ADD_MODULE) && defined(ENABLE_MODULE_METER)
@@ -56,4 +59,5 @@ public:
   }
 };
 
+#endif
 #endif

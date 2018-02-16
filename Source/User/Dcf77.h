@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_DCF77_H
+#define DSO_USER_DCF77_H
 #include <Source/Core/Utils.h>
 #include <Source/Core/Settings.h>
 
@@ -404,4 +407,5 @@ public:
   }
 };
 
+#endif
 #endif

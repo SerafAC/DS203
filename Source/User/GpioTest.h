@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_GPIOTEST_H
+#define DSO_USER_GPIOTEST_H
 
 #define ENABLE_MODULE_GPIOTEST
 ADD_MODULE("OneWire", CWndGpioTest)
@@ -237,4 +240,5 @@ public:
   }
 };
 
+#endif
 #endif

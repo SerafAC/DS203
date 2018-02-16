@@ -1,5 +1,6 @@
-#ifndef __UTILS_H__
-#define __UTILS_H__
+#pragma once
+#ifndef DSO_CORE_UTILS_H
+#define DSO_CORE_UTILS_H
 
 #include <Source/HwLayer/Types.h>
 #include <math.h>

@@ -1,5 +1,6 @@
-#ifndef __MENUTRIGGER_H__
-#define __MENUTRIGGER_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_INPUT_ITEMTRIGGER_H
+#define DSO_GUI_OSCILLOSCOPE_INPUT_ITEMTRIGGER_H
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>

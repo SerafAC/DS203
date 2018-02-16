@@ -1,5 +1,6 @@
-#ifndef __GRAPHBASE_H__
-#define __GRAPHBASE_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_GRAPHBASE_H
+#define DSO_GUI_OSCILLOSCOPE_CONTROLS_GRAPHBASE_H
 
 #include <Source/Core/Controls.h>
 

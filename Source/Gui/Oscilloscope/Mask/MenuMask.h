@@ -1,5 +1,6 @@
-#ifndef __MENUMASK_H__
-#define __MENUMASK_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MASK_MENUMASK_H
+#define DSO_GUI_OSCILLOSCOPE_MASK_MENUMASK_H
 
 #include "../Disp/ItemDisp.h"
 #include <Source/Core/Controls.h>

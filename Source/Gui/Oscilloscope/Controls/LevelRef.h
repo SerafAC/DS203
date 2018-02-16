@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_LEVELREF_H
+#define DSO_GUI_OSCILLOSCOPE_CONTROLS_LEVELREF_H
 #include <Source/Framework/Wnd.h>
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 #include <Source/Core/Settings.h>
@@ -68,3 +71,4 @@ public:
     }
   }
 };
+#endif

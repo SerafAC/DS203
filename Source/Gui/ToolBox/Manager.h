@@ -1,5 +1,6 @@
-#ifndef __MANAGER_H__
-#define __MANAGER_H__
+#pragma once
+#ifndef DSO_GUI_TOOLBOX_MANAGER_H
+#define DSO_GUI_TOOLBOX_MANAGER_H
 
 #include "Export.h"
 #include "Import.h"

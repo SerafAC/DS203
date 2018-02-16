@@ -1,5 +1,6 @@
-#ifndef __SPECTGRAPH_H__
-#define __SPECTGRAPH_H__
+#pragma once
+#ifndef DSO_GUI_SPECTRUM_CONTROLS_SPECTRUMGRAPH_H
+#define DSO_GUI_SPECTRUM_CONTROLS_SPECTRUMGRAPH_H
 
 #include <Source/Core/Settings.h>
 #include <Source/Framework/Wnd.h>

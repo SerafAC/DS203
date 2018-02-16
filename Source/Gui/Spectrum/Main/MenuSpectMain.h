@@ -1,5 +1,6 @@
-#ifndef __MENUSPECTMAIN_H__
-#define __MENUSPECTMAIN_H__
+#pragma once
+#ifndef DSO_GUI_SPECTRUM_MAIN_MENUSPECTMAIN_H
+#define DSO_GUI_SPECTRUM_MAIN_MENUSPECTMAIN_H
 
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>

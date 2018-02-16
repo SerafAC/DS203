@@ -1,4 +1,6 @@
 #pragma once
+#ifndef DSO_LIBRARY_I2C_H
+#define DSO_LIBRARY_I2C_H
 #include "Delay.h"
 #include "Pin.h"
 
@@ -140,3 +142,4 @@ private:
     return res;
   }
 };
+#endif

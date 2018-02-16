@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_TIMEREF_H
+#define DSO_GUI_OSCILLOSCOPE_CONTROLS_TIMEREF_H
 #include <Source/Framework/Wnd.h>
 #include <Source/Core/Settings.h>
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
@@ -18,3 +21,4 @@ public:
                       RGBTRANS, CShapes::trig_time);
   }
 };
+#endif

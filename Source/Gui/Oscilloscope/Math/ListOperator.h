@@ -1,5 +1,6 @@
-#ifndef __LISTOPERATOR_H__
-#define __LISTOPERATOR_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MATH_LISTOPERATOR_H
+#define DSO_GUI_OSCILLOSCOPE_MATH_LISTOPERATOR_H
 
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>

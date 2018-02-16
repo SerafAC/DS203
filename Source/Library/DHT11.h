@@ -1,4 +1,6 @@
 #pragma once
+#ifndef DSO_LIBRARY_DHT11_H
+#define DSO_LIBRARY_DHT11_H
 #include <math.h>
 
 #include "Delay.h"
@@ -108,3 +110,4 @@ public:
     return Td;
   }
 };
+#endif

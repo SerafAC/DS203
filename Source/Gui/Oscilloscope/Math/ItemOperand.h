@@ -1,5 +1,6 @@
-#ifndef __MENUITEMOPERAND_H__
-#define __MENUITEMOPERAND_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MATH_ITEMOPERAND_H
+#define DSO_GUI_OSCILLOSCOPE_MATH_ITEMOPERAND_H
 #include <Source/HwLayer/Bios.h>
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>

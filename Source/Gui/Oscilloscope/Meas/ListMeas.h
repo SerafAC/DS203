@@ -1,5 +1,6 @@
-#ifndef __LISTMEAS_H__
-#define __LISTMEAS_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MEAS_LISTMEAS_H
+#define DSO_GUI_OSCILLOSCOPE_MEAS_LISTMEAS_H
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
 #include <Source/Core/ListItems.h>

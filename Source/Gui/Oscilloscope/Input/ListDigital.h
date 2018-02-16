@@ -1,5 +1,6 @@
-#ifndef __LISTDINPUT_H__
-#define __LISTDINPUT_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_INPUT_LISTDIGITAL_H
+#define DSO_GUI_OSCILLOSCOPE_INPUT_LISTDIGITAL_H
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
 #include <Source/Core/ListItems.h>

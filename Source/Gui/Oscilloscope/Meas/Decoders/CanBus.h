@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MEAS_DECODERS_CANBUS_H
+#define DSO_GUI_OSCILLOSCOPE_MEAS_DECODERS_CANBUS_H
 
 #include <Source/Gui/Oscilloscope/Meas/Decoders/Serial.h>
 
@@ -116,3 +119,4 @@ public:
     Visualize();
   }
 };
+#endif

@@ -1,5 +1,6 @@
-#ifndef __MENUDIGITAL_H__
-#define __MENUDIGITAL_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_INPUT_ITEMDIGITAL_H
+#define DSO_GUI_OSCILLOSCOPE_INPUT_ITEMDIGITAL_H
 #include <Source/Framework/Wnd.h>
 #include <Source/Core/Shapes.h>
 #include <Source/Core/Settings.h>

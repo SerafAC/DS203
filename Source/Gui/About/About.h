@@ -1,5 +1,6 @@
-#ifndef __ABOUT_H__
-#define __ABOUT_H__
+#pragma once
+#ifndef DSO_GUI_ABOUT_ABOUT_H
+#define DSO_GUI_ABOUT_ABOUT_H
 
 #include <Source/Framework/Wnd.h>
 

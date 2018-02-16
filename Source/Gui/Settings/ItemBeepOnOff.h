@@ -1,5 +1,6 @@
-#ifndef __ITEMBEEPONOFF_H__
-#define __ITEMBEEPONOFF_H__
+#pragma once
+#ifndef DSO_GUI_SETTINGS_ITEMBEEPONOFF_H
+#define DSO_GUI_SETTINGS_ITEMBEEPONOFF_H
 #include <Source/Core/Controls.h>
 #include <Source/Framework/Wnd.h>
 #include <Source/Core/ListItems.h>

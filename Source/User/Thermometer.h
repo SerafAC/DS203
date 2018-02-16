@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_THERMOMETER_H
+#define DSO_USER_THERMOMETER_H
 //#define ENABLE_THERMOMETER
 
 #if defined(ADD_MODULE) && defined(ENABLE_THERMOMETER)
@@ -21,4 +24,5 @@ public:
   virtual void OnKey(ui16 nKey);
 };
 
+#endif
 #endif

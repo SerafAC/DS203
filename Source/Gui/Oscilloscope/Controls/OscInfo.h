@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_OSCINFO_H
+#define DSO_GUI_OSCILLOSCOPE_CONTROLS_OSCINFO_H
 #include <Source/Framework/Wnd.h>
 #include <Source/Core/Settings.h>
 
@@ -32,3 +35,4 @@ public:
         CSettings::TimeBase::ppszTextResolution[Settings.Time.Resolution]);
   }
 };
+#endif

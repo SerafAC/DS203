@@ -1,5 +1,6 @@
-#ifndef __OSCILLOSCOPE_H_
-#define __OSCILLOSCOPE_H_
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_OSCILLOSCOPE_H
+#define DSO_GUI_OSCILLOSCOPE_OSCILLOSCOPE_H
 
 #include "Disp/MenuDisp.h"
 #include "Input/MenuInput.h"

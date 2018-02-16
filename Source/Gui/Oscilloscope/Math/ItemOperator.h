@@ -1,5 +1,6 @@
-#ifndef __MENUITEMOPERATOR_H__
-#define __MENUITEMOPERATOR_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MATH_ITEMOPERATOR_H
+#define DSO_GUI_OSCILLOSCOPE_MATH_ITEMOPERATOR_H
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
 

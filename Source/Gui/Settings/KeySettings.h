@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_SETTINGS_KEYSETTINGS_H
+#define DSO_GUI_SETTINGS_KEYSETTINGS_H
 #include "ItemBeepOnOff.h"
 #include "ItemShortcut.h"
 #include "Source/Gui/Toolbar.h"
@@ -39,3 +42,4 @@ public:
     //	BIOS::SYS::Execute( BIOS::SYS::EDfu );
   }
 };
+#endif

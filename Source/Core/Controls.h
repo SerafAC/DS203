@@ -1,5 +1,6 @@
-#ifndef __CONTROLS_H__
-#define __CONTROLS_H__
+#pragma once
+#ifndef DSO_CORE_CONTROLS_H
+#define DSO_CORE_CONTROLS_H
 
 #include "Design.h"
 #include "Shapes.h"

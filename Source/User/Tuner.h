@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_TUNER_H
+#define DSO_USER_TUNER_H
 #define ENABLE_MODULE_TUNER
 
 #if defined(ADD_MODULE) && defined(ENABLE_MODULE_TUNER)
@@ -35,4 +38,5 @@ protected:
   void DrawCents(int nCents, bool);
 };
 
+#endif
 #endif

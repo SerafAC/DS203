@@ -1,5 +1,9 @@
+#pragma once
+#ifndef DSO_FRAMEWORK_EVAL_H
+#define DSO_FRAMEWORK_EVAL_H
 #include <Source/HwLayer/Types.h>
 #include <Source/HwLayer/Bios.h>
+#include <Source/Core/Utils.h>
 
 #define _SAFE(a)                                                               \
   if (!(a)) {                                                                  \
@@ -642,3 +646,4 @@ public:
     return pBest;
   }
 };
+#endif

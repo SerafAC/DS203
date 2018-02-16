@@ -1,5 +1,6 @@
-#ifndef SLIDER_H
-#define SLIDER_H
+#pragma once
+#ifndef DSO_GUI_SETTINGS_CONTROLS_SLIDER_H
+#define DSO_GUI_SETTINGS_CONTROLS_SLIDER_H
 #include <Source/Core/Controls.h>
 
 class CMIProgress : public CWndMenuItem {

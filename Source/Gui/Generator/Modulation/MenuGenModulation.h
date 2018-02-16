@@ -1,5 +1,6 @@
-#ifndef __GENERATOR_MENUMAINMODULATION_H__
-#define __GENERATOR_MENUMAINMODULATION_H__
+#pragma once
+#ifndef DSO_GUI_GENERATOR_MODULATION_MENUGENMODULATION_H
+#define DSO_GUI_GENERATOR_MODULATION_MENUGENMODULATION_H
 
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>

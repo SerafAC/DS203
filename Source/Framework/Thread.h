@@ -1,5 +1,6 @@
-#ifndef __THREAD_H__
-#define __THREAD_H__
+#pragma once
+#ifndef DSO_FRAMEWORK_THREAD_H
+#define DSO_FRAMEWORK_THREAD_H
 
 #include <Source/HwLayer/Bios.h>
 #include <Source/Main/Application.h>

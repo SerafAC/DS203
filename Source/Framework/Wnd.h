@@ -1,5 +1,6 @@
-#ifndef __WND_H__
-#define __WND_H__
+#pragma once
+#ifndef DSO_FRAMEWORK_WND_H
+#define DSO_FRAMEWORK_WND_H
 
 #include <Source/Framework/Classes.h>
 #include <Source/HwLayer/Bios.h>

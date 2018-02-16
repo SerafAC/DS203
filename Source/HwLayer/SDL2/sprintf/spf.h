@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_HWLAYER_SDL2_SPRINTF_SPF_H
+#define DSO_HWLAYER_SDL2_SPRINTF_SPF_H
 /*
         Copyright 2001, 2002 Georges Menie (www.menie.org)
         stdarg version contributed by Christian Ettinger
@@ -320,4 +323,5 @@ int main(void) {
  * -3:   -3 right justif.
  */
 
+#endif
 #endif

@@ -1,5 +1,6 @@
-#ifndef __FIRFILTER_H__
-#define __FIRFILTER_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MATH_FIRFILTER_H
+#define DSO_GUI_OSCILLOSCOPE_MATH_FIRFILTER_H
 
 #include <Source/Core/Settings.h>
 

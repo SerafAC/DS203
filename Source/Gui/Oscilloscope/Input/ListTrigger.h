@@ -1,5 +1,6 @@
-#ifndef __LISTTRIGGER_H__
-#define __LISTTRIGGER_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_INPUT_LISTTRIGGER_H
+#define DSO_GUI_OSCILLOSCOPE_INPUT_LISTTRIGGER_H
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>

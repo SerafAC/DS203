@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_SCREENSAVER_H
+#define DSO_USER_SCREENSAVER_H
 ADD_MODULE("Demo", CWndScreenSaver)
 
 #ifndef __SCREENSAVER_H__
@@ -54,4 +57,5 @@ public:
   }
 };
 
+#endif
 #endif

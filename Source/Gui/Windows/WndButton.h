@@ -1,5 +1,6 @@
-#ifndef __WNDBUTTON_H__
-#define __WNDBUTTON_H__
+#pragma once
+#ifndef DSO_GUI_WINDOWS_WNDBUTTON_H
+#define DSO_GUI_WINDOWS_WNDBUTTON_H
 
 #include <Source/Core/Shapes.h>
 #include <Source/Framework/Wnd.h>

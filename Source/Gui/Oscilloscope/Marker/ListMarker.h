@@ -1,5 +1,6 @@
-#ifndef __LISTMARKER_H__
-#define __LISTMARKER_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MARKER_LISTMARKER_H
+#define DSO_GUI_OSCILLOSCOPE_MARKER_LISTMARKER_H
 #include <Source/HwLayer/Types.h>
 #include <Source/Core/Settings.h>
 #include <Source/Core/Controls.h>

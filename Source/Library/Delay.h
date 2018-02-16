@@ -1,4 +1,6 @@
 #pragma once
+#ifndef DSO_LIBRARY_DELAY_H
+#define DSO_LIBRARY_DELAY_H
 #include <Source/HwLayer/Bios.h>
 
 class CDelay {
@@ -19,3 +21,4 @@ public:
     }
   }
 };
+#endif

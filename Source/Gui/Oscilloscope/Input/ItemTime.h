@@ -1,5 +1,6 @@
-#ifndef __MENUTIME_H__
-#define __MENUTIME_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_INPUT_ITEMTIME_H
+#define DSO_GUI_OSCILLOSCOPE_INPUT_ITEMTIME_H
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
 #include <Source/Core/ListItems.h>

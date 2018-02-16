@@ -1,6 +1,9 @@
+#pragma once
+#ifndef DSO_GUI_WINDOWS_WNDCONFIRM_H
+#define DSO_GUI_WINDOWS_WNDCONFIRM_H
 #include "WndButton.h"
 #include <Source/Core/Design.h>
-
+#include <Source/Core/Utils.h>
 class CWndConfirm : public CWnd {
   ui16 m_clrFrame;
   PCSTR m_strMessage;
@@ -64,3 +67,4 @@ public:
     }
   }
 };
+#endif

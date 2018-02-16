@@ -1,4 +1,6 @@
 #pragma once
+#ifndef DSO_LIBRARY_PIN_H
+#define DSO_LIBRARY_PIN_H
 #include <Source/HwLayer/Bios.h>
 
 class CPin {
@@ -86,4 +88,4 @@ public:
                 p = 0;
         }
 } MyTestInstance;
-*/
+*/#endif

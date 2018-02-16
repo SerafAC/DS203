@@ -1,5 +1,6 @@
-#ifndef __ITEMDISP_H__
-#define __ITEMDISP_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_DISP_ITEMDISP_H
+#define DSO_GUI_OSCILLOSCOPE_DISP_ITEMDISP_H
 
 #include "Source/Core/Controls.h"
 

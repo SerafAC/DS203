@@ -1,4 +1,6 @@
 #pragma once
+#ifndef DSO_LIBRARY_BMP085_H
+#define DSO_LIBRARY_BMP085_H
 #include <math.h>
 #include "I2C.h"
 
@@ -339,3 +341,4 @@ private:
   si16 ac1, ac2, ac3, b1, b2, mb, mc, md;
   ui16 ac4, ac5, ac6;
 };
+#endif

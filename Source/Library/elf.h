@@ -1,4 +1,6 @@
 #pragma once
+#ifndef DSO_LIBRARY_ELF_H
+#define DSO_LIBRARY_ELF_H
 #include <stdint.h>
 typedef uint32_t Elf32_Addr;
 typedef uint16_t Elf32_Half;
@@ -73,3 +75,4 @@ enum Elf32_enums {
   Elf32_PTypeInterpreter = 3,
   Elf32_PTypeHeader = 6
 };
+#endif

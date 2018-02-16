@@ -1,5 +1,6 @@
-#ifndef __MEASURE_H__
-#define __MEASURE_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MEAS_STATISTICS_H
+#define DSO_GUI_OSCILLOSCOPE_MEAS_STATISTICS_H
 
 #include <Source/Core/Settings.h>
 

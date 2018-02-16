@@ -1,5 +1,6 @@
-#ifndef __LISTOPERAND_H__
-#define __LISTOPERAND_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MATH_LISTOPERAND_H
+#define DSO_GUI_OSCILLOSCOPE_MATH_LISTOPERAND_H
 #include <Source/Core/Settings.h>
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>

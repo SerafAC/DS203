@@ -1,5 +1,6 @@
-#ifndef __SPECTRUM_H_
-#define __SPECTRUM_H_
+#pragma once
+#ifndef DSO_GUI_SPECTRUM_SPECTRUM_H
+#define DSO_GUI_SPECTRUM_SPECTRUM_H
 
 #include "Controls/Annot.h"
 #include <Source/Gui/Spectrum/Controls/SpectrumGraph.h>

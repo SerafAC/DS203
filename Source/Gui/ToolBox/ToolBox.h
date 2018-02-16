@@ -1,5 +1,6 @@
-#ifndef __TOOLBOX_H__
-#define __TOOLBOX_H__
+#pragma once
+#ifndef DSO_GUI_TOOLBOX_TOOLBOX_H
+#define DSO_GUI_TOOLBOX_TOOLBOX_H
 
 #include "Export.h"
 #include <Source/Framework/Thread.h>

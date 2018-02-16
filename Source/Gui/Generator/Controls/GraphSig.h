@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_GENERATOR_CONTROLS_GRAPHSIG_H
+#define DSO_GUI_GENERATOR_CONTROLS_GRAPHSIG_H
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 #include <Source/Gui/Generator/Core/CoreGenerator.h>
 #include <Source/Core/Settings.h>
@@ -185,3 +188,4 @@ public:
     }
   }
 };
+#endif

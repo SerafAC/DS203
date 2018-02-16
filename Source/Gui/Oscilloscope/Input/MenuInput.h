@@ -1,5 +1,6 @@
-#ifndef __INPUTMENU_H__
-#define __INPUTMENU_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_INPUT_MENUINPUT_H
+#define DSO_GUI_OSCILLOSCOPE_INPUT_MENUINPUT_H
 
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>

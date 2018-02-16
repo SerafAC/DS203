@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_GRAPHSIG_H
+#define DSO_GUI_OSCILLOSCOPE_CONTROLS_GRAPHSIG_H
 #include <Source/HwLayer/Bios.h>
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 
@@ -40,3 +43,4 @@ public:
     }
   }
 };
+#endif

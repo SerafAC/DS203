@@ -1,5 +1,6 @@
-#ifndef __MENUWINDOW_H__
-#define __MENUWINDOW_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_INPUT_ITEMWINDOW_H
+#define DSO_GUI_OSCILLOSCOPE_INPUT_ITEMWINDOW_H
 #include <Source/Framework/Wnd.h>
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>

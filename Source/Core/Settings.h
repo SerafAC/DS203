@@ -1,5 +1,6 @@
-#ifndef __SETTINGS_H__
-#define __SETTINGS_H__
+#pragma once
+#ifndef DSO_CORE_SETTINGS_H
+#define DSO_CORE_SETTINGS_H
 
 #define Settings (*CSettings::m_pInstance)
 #include "Serialize.h"

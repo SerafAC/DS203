@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_ZOOMVIEW_H
+#define DSO_USER_ZOOMVIEW_H
 #include <math.h>
 #include <Source/Gui/Windows/WndButton.h>
 #include <Source/Core/Utils.h>
@@ -352,4 +355,5 @@ public:
   }
 };
 
+#endif
 #endif

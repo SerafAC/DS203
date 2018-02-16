@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_BALLS_H
+#define DSO_USER_BALLS_H
 #define ENABLE_MODULE_BALLS
 
 #if defined(ADD_MODULE) && defined(ENABLE_MODULE_BALLS)
@@ -225,4 +228,5 @@ private:
     return nSeed & 32767;
   }
 };
+#endif
 #endif

@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_SETTINGS_SETTINGS_H
+#define DSO_GUI_SETTINGS_SETTINGS_H
 #include "Controls/Slider.h"
 #include "Core/SettingsCore.h"
 #include "ItemAutoOff.h"
@@ -24,3 +27,4 @@ public:
     //	BIOS::SYS::Execute( BIOS::SYS::EDfu );
   }
 };
+#endif

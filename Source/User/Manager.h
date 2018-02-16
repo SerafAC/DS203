@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_MANAGER_H
+#define DSO_USER_MANAGER_H
 #include <Source/HwLayer/Bios.h>
 
 #define ENABLE_MODULE_MANAGER
@@ -72,4 +75,5 @@ private:
   bool FpgaLoad(char *strName);
 };
 
+#endif
 #endif

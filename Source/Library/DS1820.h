@@ -1,4 +1,6 @@
 #pragma once
+#ifndef DSO_LIBRARY_DS1820_H
+#define DSO_LIBRARY_DS1820_H
 #include "Delay.h"
 #include "Pin.h"
 
@@ -169,3 +171,4 @@ private:
     }
   }
 };
+#endif

@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_TOOLBOX_LINETABS_H
+#define DSO_GUI_TOOLBOX_LINETABS_H
 #include <Source/Core/Controls.h>
 
 class CLTabs : public CListItem {
@@ -62,3 +65,4 @@ public:
 
   const int &GetFocus() { return m_nFocus; }
 };
+#endif

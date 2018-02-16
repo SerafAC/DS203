@@ -1,8 +1,9 @@
-#ifndef __MESSAGEBOX_H__
-#define __MESSAGEBOX_H__
+#pragma once
+#ifndef DSO_GUI_WINDOWS_MESSAGEBOX_H
+#define DSO_GUI_WINDOWS_MESSAGEBOX_H
 #include <Source/Framework/Wnd.h>
 #include <Source/Core/Design.h>
-
+#include <Source/Core/Utils.h>
 class CWndMessageBox : public CWnd {
   ui16 m_clrFrame;
   PCSTR m_strMessage;

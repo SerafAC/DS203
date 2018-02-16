@@ -1,6 +1,6 @@
-//#pragma once
-#ifndef __APPLICATIONBASE__
-#define __APPLICATIONBASE__
+#pragma once
+#ifndef DSO_FRAMEWORK_APPLICATION_H
+#define DSO_FRAMEWORK_APPLICATION_H
 
 #include <Source/HwLayer/Types.h>
 

@@ -1,5 +1,6 @@
-#ifndef __MATHMENU_H__
-#define __MATHMENU_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MATH_MENUMATH_H
+#define DSO_GUI_OSCILLOSCOPE_MATH_MENUMATH_H
 
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>

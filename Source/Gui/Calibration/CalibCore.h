@@ -1,5 +1,6 @@
-#ifndef __CALIBCORE_H__
-#define __CALIBCORE_H__
+#pragma once
+#ifndef DSO_GUI_CALIBRATION_CALIBCORE_H
+#define DSO_GUI_CALIBRATION_CALIBCORE_H
 
 #if 0
 

@@ -1,5 +1,6 @@
-#ifndef INTEL_HEX_H
-#define INTEL_HEX_H
+#pragma once
+#ifndef DSO_LIBRARY_IHEX_H
+#define DSO_LIBRARY_IHEX_H
 /**
  * \file ihex.h
  * \brief Low-level utility functions to create, read, write, and print Intel

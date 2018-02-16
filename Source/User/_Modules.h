@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER__MODULES_H
+#define DSO_USER__MODULES_H
 #ifdef _VERSION2
 /*
 #include "CharMap.h"
@@ -26,4 +29,5 @@
 //#include "Dcf77.h"
 //#include "EMeter.h"
 */
+#endif
 #endif

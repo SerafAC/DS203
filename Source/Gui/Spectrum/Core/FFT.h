@@ -1,5 +1,6 @@
-#ifndef __FFT3_H__
-#define __FFT3_H__
+#pragma once
+#ifndef DSO_GUI_SPECTRUM_CORE_FFT_H
+#define DSO_GUI_SPECTRUM_CORE_FFT_H
 
 #include <Source/HwLayer/Types.h>
 

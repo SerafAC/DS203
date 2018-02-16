@@ -1,5 +1,6 @@
-#ifndef __TOOLBOX_EXPORT_H__
-#define __TOOLBOX_EXPORT_H__
+#pragma once
+#ifndef DSO_GUI_TOOLBOX_EXPORT_H
+#define DSO_GUI_TOOLBOX_EXPORT_H
 
 #include <Source/Core/BufferedIo.h>
 #include <Source/Core/Serialize.h>

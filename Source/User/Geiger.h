@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_GEIGER_H
+#define DSO_USER_GEIGER_H
 #define ENABLE_MODULE_GEIGER
 ADD_MODULE("Geiger", CWndGeiger)
 
@@ -151,4 +154,5 @@ public:
   virtual void OnKey(ui16 nKey) { CWnd::OnKey(nKey); }
 };
 
+#endif
 #endif

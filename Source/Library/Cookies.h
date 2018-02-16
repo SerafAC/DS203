@@ -1,5 +1,8 @@
+#pragma once
+#ifndef DSO_LIBRARY_COOKIES_H
+#define DSO_LIBRARY_COOKIES_H
 #include <Source/HwLayer/Bios.h>
-
+#include <Source/Core/Utils.h>
 class CCookies {
 public:
   static char *GetCookie(char *strName) {
@@ -84,3 +87,4 @@ public:
       strBuffer[i - nReduce] = strBuffer[i];
   }
 };
+#endif

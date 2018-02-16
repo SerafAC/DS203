@@ -1,5 +1,6 @@
-#ifndef __GENERATOR_H__
-#define __GENERATOR_H__
+#pragma once
+#ifndef DSO_GUI_GENERATOR_MAIN_MENUGENMAIN_H
+#define DSO_GUI_GENERATOR_MAIN_MENUGENMAIN_H
 
 //#include <Source/HwLayer/bios.h>
 #include <Source/Core/ListItems.h>

@@ -1,5 +1,6 @@
-#ifndef __ITEMGENDUTY_H__
-#define __ITEMGENDUTY_H__
+#pragma once
+#ifndef DSO_GUI_GENERATOR_MAIN_ITEMGENDUTY_H
+#define DSO_GUI_GENERATOR_MAIN_ITEMGENDUTY_H
 #include <Source/Core/Controls.h>
 #include <Source/Gui/Generator/Core/CoreGenerator.h>
 #include <Source/Core/Settings.h>

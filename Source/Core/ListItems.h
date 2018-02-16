@@ -1,5 +1,6 @@
-#ifndef __LISTITEMS_H__
-#define __LISTITEMS_H__
+#pragma once
+#ifndef DSO_CORE_LISTITEMS_H
+#define DSO_CORE_LISTITEMS_H
 
 #include "Controls.h"
 #include "Utils.h"

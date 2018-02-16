@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_SETTINGS_ITEMAUTOOFF_H
+#define DSO_GUI_SETTINGS_ITEMAUTOOFF_H
 #include <Source/HwLayer/Bios.h>
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
@@ -60,3 +63,4 @@ public:
     CItemProvider::OnKey(nKey);
   }
 };
+#endif

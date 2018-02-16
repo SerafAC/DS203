@@ -1,5 +1,6 @@
-#ifndef __SHAPES_H__
-#define __SHAPES_H__
+#pragma once
+#ifndef DSO_CORE_SHAPES_H
+#define DSO_CORE_SHAPES_H
 
 class CShapes {
 public:

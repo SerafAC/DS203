@@ -1,5 +1,6 @@
-#ifndef __CALIBANALOG_H__
-#define __CALIBANALOG_H__
+#pragma once
+#ifndef DSO_GUI_CALIBRATION_CALIBANALOG_H
+#define DSO_GUI_CALIBRATION_CALIBANALOG_H
 
 #include "CalibCore.h"
 #include <Source/Core/Controls.h>

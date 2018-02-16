@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_MOUSE_H
+#define DSO_GUI_MOUSE_H
 #include <Source/HwLayer/Types.h>
 #include <Source/HwLayer/Bios.h>
 
@@ -98,3 +101,4 @@ public:
     return true;
   }
 };
+#endif

@@ -1,5 +1,6 @@
-#ifndef __MENUSPECTMARKER_H__
-#define __MENUSPECTMARKER_H__
+#pragma once
+#ifndef DSO_GUI_SPECTRUM_MARKER_MENUSPECTMARKER_H
+#define DSO_GUI_SPECTRUM_MARKER_MENUSPECTMARKER_H
 
 #include "ItemMarker.h"
 #include <Source/Core/Controls.h>

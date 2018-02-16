@@ -1,5 +1,6 @@
-#ifndef __GENERATOR_H_
-#define __GENERATOR_H_
+#pragma once
+#ifndef DSO_GUI_GENERATOR_GENERATOR_H
+#define DSO_GUI_GENERATOR_GENERATOR_H
 
 // input
 #include "Controls/GraphSig.h"

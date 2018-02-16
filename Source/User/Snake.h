@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_SNAKE_H
+#define DSO_USER_SNAKE_H
 ADD_MODULE("Snake", CWndSnake)
 
 #ifndef __SNAKE_H__
@@ -389,4 +392,5 @@ public:
   }
 };
 
+#endif
 #endif

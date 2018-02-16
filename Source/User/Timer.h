@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_USER_TIMER_H
+#define DSO_USER_TIMER_H
 #define ENABLE_MODULE_TIMER
 
 #if defined(ADD_MODULE) && defined(ENABLE_MODULE_TIMER)
@@ -36,4 +39,5 @@ public:
   virtual void OnKey(ui16 nKey);
 };
 
+#endif
 #endif

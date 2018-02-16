@@ -1,5 +1,6 @@
-#ifndef __COREOSCILLOSCOPE_H__
-#define __COREOSCILLOSCOPE_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_CORE_COREOSCILLOSCOPE_H
+#define DSO_GUI_OSCILLOSCOPE_CORE_COREOSCILLOSCOPE_H
 
 #include <Source/Framework/Classes.h>
 #include <Source/HwLayer/Types.h>

@@ -1,5 +1,6 @@
-#ifndef __ITEMGENWAVEFORM_H__
-#define __ITEMGENWAVEFORM_H__
+#pragma once
+#ifndef DSO_GUI_GENERATOR_MAIN_ITEMGENWAVEFORM_H
+#define DSO_GUI_GENERATOR_MAIN_ITEMGENWAVEFORM_H
 
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>

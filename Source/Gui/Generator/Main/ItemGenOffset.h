@@ -1,5 +1,6 @@
-#ifndef __ITEMGENOFFSET_H__
-#define __ITEMGENOFFSET_H__
+#pragma once
+#ifndef DSO_GUI_GENERATOR_MAIN_ITEMGENOFFSET_H
+#define DSO_GUI_GENERATOR_MAIN_ITEMGENOFFSET_H
 #include <Source/Core/Controls.h>
 
 class CItemOffset : public CWndMenuItem {

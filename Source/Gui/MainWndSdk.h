@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_GUI_MAINWNDSDK_H
+#define DSO_GUI_MAINWNDSDK_H
 #include <Source/Core/Sdk.h>
 
 class CSdkStreamProvider : public CSdkEval {
@@ -273,3 +276,4 @@ void CMainWnd::SdkDiskProc() {
 	bInit = TRUE;
 #endif
 }
+#endif

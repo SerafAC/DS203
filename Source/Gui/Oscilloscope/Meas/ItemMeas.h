@@ -1,5 +1,6 @@
-#ifndef __MENUITEMMEAS_H__
-#define __MENUITEMMEAS_H__
+#pragma once
+#ifndef DSO_GUI_OSCILLOSCOPE_MEAS_ITEMMEAS_H
+#define DSO_GUI_OSCILLOSCOPE_MEAS_ITEMMEAS_H
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
 

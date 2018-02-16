@@ -1,3 +1,6 @@
+#pragma once
+#ifndef DSO_CORE_SDK_H
+#define DSO_CORE_SDK_H
 #include <Source/Framework/Eval.h>
 #include <Source/Gui/MainWnd.h>
 #include <Source/Gui/Oscilloscope/Core/CoreOscilloscope.h>
@@ -201,3 +204,4 @@ public:
     return NULL;
   }
 };
+#endif

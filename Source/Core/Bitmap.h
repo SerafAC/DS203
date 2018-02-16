@@ -1,5 +1,6 @@
-#ifndef __BITMAP_H__
-#define __BITMAP_H__
+#pragma once
+#ifndef DSO_CORE_BITMAP_H
+#define DSO_CORE_BITMAP_H
 #include <Source/HwLayer/Types.h>
 #include <Source/HwLayer/Bios.h>
 

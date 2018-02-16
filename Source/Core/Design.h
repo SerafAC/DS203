@@ -1,5 +1,6 @@
-#ifndef __DESIGN_H__
-#define __DESIGN_H__
+#pragma once
+#ifndef DSO_CORE_DESIGN_H
+#define DSO_CORE_DESIGN_H
 
 #include <Source/HwLayer/Bios.h>
 #include <Source/Framework/Classes.h>
