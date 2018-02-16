@@ -1,6 +1,7 @@
 #include "device.h"
 #include <SDL.h>
 #include <SDL_keycode.h>
+#include <Source/Core/Utils.h>
 #include <Source/HwLayer/Bios.h>
 #include <Source/HwLayer/Types.h>
 #include <assert.h>
@@ -500,10 +501,10 @@ bool BIOS::DSK::Open(FILEINFO *pFileInfo, const char *strName, ui8 nIoMode) {
   char name[32];
   memcpy(name, strName, 8);
   name[8] = 0;
-  while (name[BIOS::UTIL::StrLen(name) - 1] == ' ')
-    name[BIOS::UTIL::StrLen(name) - 1] = 0;
-  BIOS::UTIL::StrCat(name, ".");
-  BIOS::UTIL::StrCat(name, strName + 8);
+  while (name[CUtils::StrLen(name) - 1] == ' ')
+    name[CUtils::StrLen(name) - 1] = 0;
+  CUtils::StrCat(name, ".");
+  CUtils::StrCat(name, strName + 8);
   errno_t err;
   if (nIoMode == BIOS::DSK::IoRead)
     err = fopen_s(&pFileInfo->f, name, "rb");
@@ -786,13 +787,13 @@ HANDLE hFindFile = NULL;
 char strFind[128];
 
 BIOS::FAT::EResult BIOS::FAT::OpenDir(char *strPath) {
-  BIOS::UTIL::StrCpy(strFind, strPath);
+  CUtils::StrCpy(strFind, strPath);
   char *strFound = NULL;
   while ((strFound = strstr(strFind, "/")) != NULL)
     *strFound = '\\';
   if (strFind[0] != 0)
-    BIOS::UTIL::StrCat(strFind, "\\");
-  BIOS::UTIL::StrCat(strFind, "*.*");
+    CUtils::StrCat(strFind, "\\");
+  CUtils::StrCat(strFind, "*.*");
   bResetFind = true;
   return BIOS::FAT::EOk;
 }
@@ -817,7 +818,7 @@ BIOS::FAT::EResult BIOS::FAT::FindNext(TFindFile *pFile) {
 
   pFile->nFileLength = FindFileData.nFileSizeLow;
   char strName[128] = {0};
-  BIOS::UTIL::StrCpy(strName, FindFileData.cFileName);
+  CUtils::StrCpy(strName, FindFileData.cFileName);
   strName[12] = 0;
   memcpy(pFile->strName, strName, 13);
 

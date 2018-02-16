@@ -50,6 +50,10 @@ public:
   static ui16 InterpolateColor(ui16 clrA, ui16 clrB, int nLevel);
   static int Sqrt(int a);
   static int StrEq(const char *a, const char *b);
+  static int StrLen(const char *s);
+  static char *StrCat(char *dst, const char *src);
+  static char *StrCpy(char *dst, const char *src);
+  static int StrCmp(const char *a, const char *b);
 };
 
 #endif

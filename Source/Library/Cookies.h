@@ -22,7 +22,7 @@ public:
   }
 
   static void SetCookie(char *strName, char *strValue) {
-    if (strValue == NULL || BIOS::UTIL::StrLen(strValue) == 0) {
+    if (strValue == NULL || CUtils::StrLen(strValue) == 0) {
       DeleteCookie(strName);
       return;
     }
@@ -30,8 +30,8 @@ public:
     int nLength = BIOS::SYS::GetSharedLength();
     char *pCookie = GetCookie(strName);
 
-    _ASSERT((int)((pCookie ? BIOS::UTIL::StrLen(pCookie) : 0) +
-                  BIOS::UTIL::StrLen(strName) + BIOS::UTIL::StrLen(strValue)) +
+    _ASSERT((int)((pCookie ? CUtils::StrLen(pCookie) : 0) +
+                  CUtils::StrLen(strName) + CUtils::StrLen(strValue)) +
                 2 <
             nLength);
 
@@ -39,25 +39,25 @@ public:
       _ASSERT(!strstr(strName, "=") && !strstr(strName, ";"));
       _ASSERT(!strstr(strValue, "=") && !strstr(strValue, ";"));
 
-      char *strEnd = strBuffer + BIOS::UTIL::StrLen(strBuffer);
-      BIOS::UTIL::StrCat(strEnd, strName);
-      BIOS::UTIL::StrCat(strEnd, "=");
-      BIOS::UTIL::StrCat(strEnd, strValue);
-      BIOS::UTIL::StrCat(strEnd, ";");
+      char *strEnd = strBuffer + CUtils::StrLen(strBuffer);
+      CUtils::StrCat(strEnd, strName);
+      CUtils::StrCat(strEnd, "=");
+      CUtils::StrCat(strEnd, strValue);
+      CUtils::StrCat(strEnd, ";");
       return;
     }
 
     int nOldLength = strstr(pCookie, ";") - pCookie;
-    int nNewLength = BIOS::UTIL::StrLen(strValue);
+    int nNewLength = CUtils::StrLen(strValue);
     // move bytes
     if (nNewLength < nOldLength) {
       int nReduce = nOldLength - nNewLength;
       for (int i = pCookie - strBuffer + nOldLength;
-           i <= (int)BIOS::UTIL::StrLen(strBuffer); i++)
+           i <= (int)CUtils::StrLen(strBuffer); i++)
         strBuffer[i - nReduce] = strBuffer[i];
     } else if (nNewLength > nOldLength) {
       int nExpand = nNewLength - nOldLength;
-      for (int i = BIOS::UTIL::StrLen(strBuffer);
+      for (int i = CUtils::StrLen(strBuffer);
            i >= pCookie - strBuffer + nOldLength; i--)
         strBuffer[i + nExpand] = strBuffer[i];
     }
@@ -75,12 +75,12 @@ public:
       _ASSERT(0);
       return;
     }
-    pCookie -= BIOS::UTIL::StrLen(strName) + 1;
+    pCookie -= CUtils::StrLen(strName) + 1;
     int nBegin = pCookie - strBuffer;
     int nEnd = pEnd - strBuffer + 1;
 
     int nReduce = nEnd - nBegin;
-    for (int i = nEnd; i <= (int)BIOS::UTIL::StrLen(strBuffer); i++)
+    for (int i = nEnd; i <= (int)CUtils::StrLen(strBuffer); i++)
       strBuffer[i - nReduce] = strBuffer[i];
   }
 };

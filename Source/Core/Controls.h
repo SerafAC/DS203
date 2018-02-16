@@ -22,7 +22,7 @@ public:
   virtual void OnPaint() {
     CDesign::Window(m_rcClient, m_clrFrame);
     BIOS::LCD::Print(m_rcClient.CenterX() -
-                         ((ui8)BIOS::UTIL::StrLen(m_pszId) << 2),
+                         ((ui8)CUtils::StrLen(m_pszId) << 2),
                      m_rcClient.top + 2, RGB565(000000), RGBTRANS, m_pszId);
   }
 
@@ -367,7 +367,7 @@ public:
     CDesign::WindowSelector(m_rcClient, m_clrFrame);
 
     BIOS::LCD::Print(rcClient.CenterX() -
-                         ((ui8)BIOS::UTIL::StrLen(m_pszId) << 2),
+                         ((ui8)CUtils::StrLen(m_pszId) << 2),
                      rcClient.top + 2, RGB565(000000), RGBTRANS, m_pszId);
     BIOS::LCD::Draw(m_rcClient.left + 6, m_rcClient.top + 20, RGB565(000000),
                     RGBTRANS, CShapes::more_left);
@@ -382,7 +382,7 @@ public:
 
     BIOS::RoundRect(rcClient, m_clrFrame);
 
-    BIOS::Print( rcClient.CenterX()-((ui8)BIOS::UTIL::StrLen(m_pszId)<<2),
+    BIOS::Print( rcClient.CenterX()-((ui8)CUtils::StrLen(m_pszId)<<2),
     rcClient.top,
             RGB565(000000), RGBTRANS, m_pszId);
 

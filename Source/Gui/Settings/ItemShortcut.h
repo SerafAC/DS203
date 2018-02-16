@@ -59,8 +59,8 @@ public:
   virtual ui16 GetWidth() {
     const char *strA = GetLabelA();
     const char *strB = GetLabelB();
-    size_t nWidth = strA ? BIOS::UTIL::StrLen(strA) : 0;
-    nWidth += strB ? BIOS::UTIL::StrLen(strB) : 0;
+    size_t nWidth = strA ? CUtils::StrLen(strA) : 0;
+    nWidth += strB ? CUtils::StrLen(strB) : 0;
     if (strB)
       nWidth += 2;
     return narrow_cast<ui16>(nWidth * 8);

@@ -55,8 +55,8 @@ public:
 
       BIOS::DBG::sprintf(str, "%3f", fValue);
 
-      while (BIOS::UTIL::StrLen(str) + BIOS::UTIL::StrLen(suffix) > 7)
-        str[BIOS::UTIL::StrLen(str) - 1] = 0;
+      while (CUtils::StrLen(str) + CUtils::StrLen(suffix) > 7)
+        str[CUtils::StrLen(str) - 1] = 0;
 
       x += BIOS::LCD::Print(x, y, clr, RGBTRANS, str);
       x += 4;

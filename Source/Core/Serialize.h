@@ -1,6 +1,7 @@
 #ifndef __SERIALIZE_H__
 #define __SERIALIZE_H__
 
+#include <Source/Core/Utils.h>
 #include <Source/HwLayer/Bios.h>
 #include <Source/HwLayer/Types.h>
 class CStream;
@@ -26,7 +27,7 @@ public:
   }
   CStream(PSTR strBuffer) {
     m_pBuffer = strBuffer;
-    m_nLength = BIOS::UTIL::StrLen(strBuffer);
+    m_nLength = CUtils::StrLen(strBuffer);
     m_nOffset = 0;
   }
 

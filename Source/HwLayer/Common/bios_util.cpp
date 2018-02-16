@@ -1,9 +1,9 @@
 #include <Source/HwLayer/Bios.h>
 #include <Source/HwLayer/Types.h>
-
-// Non-size_t BIOS::UTIL::StrLen, because the code assumes BIOS::UTIL::StrLen()
+#if false
+// Non-size_t CUtils::StrLen, because the code assumes CUtils::StrLen()
 // returns something compatible with int
-int BIOS::UTIL::StrLen(const char *s) {
+int CUtils::StrLen(const char *s) {
   const char *t = s;
   while (*t) {
     t++;
@@ -11,22 +11,23 @@ int BIOS::UTIL::StrLen(const char *s) {
   return (int)(t - s); // assuming in int range
 }
 
-char *BIOS::UTIL::StrCpy(char *dst, const char *src) {
+char *CUtils::StrCpy(char *dst, const char *src) {
   char *t = dst;
   while ((*dst++ = *src++)) {
   }
   return t;
 }
 
-char *BIOS::UTIL::StrCat(char *dst, const char *src) {
-  StrCpy(dst + BIOS::UTIL::StrLen(dst), src);
+char *CUtils::StrCat(char *dst, const char *src) {
+  StrCpy(dst + CUtils::StrLen(dst), src);
   return dst;
 }
 
-int BIOS::UTIL::StrCmp(const char *a, const char *b) {
+int CUtils::StrCmp(const char *a, const char *b) {
   while (*a != '\0' && *a == *b) {
     a++;
     b++;
   }
   return (*(unsigned char *)a) - (*(unsigned char *)b);
 }
+#endif

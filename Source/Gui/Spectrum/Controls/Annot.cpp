@@ -49,7 +49,7 @@
   BIOS::LCD::Bar(rcTarget.left, rcTarget.bottom + 2, rcTarget.right,
                  rcTarget.bottom + 18, RGB565(000000));
 
-  x = rcTarget.right - BIOS::UTIL::StrLen(strFreq) * 8;
+  x = rcTarget.right - CUtils::StrLen(strFreq) * 8;
   strUnits = strstr(strFreq, " ");
   if (strUnits) {
     *strUnits = 0;

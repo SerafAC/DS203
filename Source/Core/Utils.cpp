@@ -91,7 +91,7 @@ bool ishex(char c)
 }
 /*static*/ char *CUtils::FormatVoltage(float fV, int nChars) {
   BIOS::DBG::sprintf(tmp, "%f", fV);
-  int nLen = BIOS::UTIL::StrLen(tmp);
+  int nLen = CUtils::StrLen(tmp);
   _ASSERT(nLen < 15);
   while (nLen > nChars - 1)
     tmp[--nLen] = 0;
@@ -112,13 +112,13 @@ bool ishex(char c)
     fF *= 0.001f;
   }
   BIOS::DBG::sprintf(tmp, "%f", fF);
-  int nLen = BIOS::UTIL::StrLen(tmp);
-  int nLenUnits = BIOS::UTIL::StrLen(strUnits);
+  int nLen = CUtils::StrLen(tmp);
+  int nLenUnits = CUtils::StrLen(strUnits);
   while (nLen + nLenUnits > nChars)
     tmp[--nLen] = 0;
   if (tmp[nLen - 1] == '.')
     tmp[--nLen] = 0;
-  BIOS::UTIL::StrCat(tmp, strUnits);
+  CUtils::StrCat(tmp, strUnits);
   return tmp;
 }
 
@@ -134,13 +134,13 @@ bool ishex(char c)
   }
 
   BIOS::DBG::sprintf(tmp, "%f", fT);
-  int nLen = BIOS::UTIL::StrLen(tmp);
-  int nLenUnits = BIOS::UTIL::StrLen(strUnits);
+  int nLen = CUtils::StrLen(tmp);
+  int nLenUnits = CUtils::StrLen(strUnits);
   while (nLen + nLenUnits > nChars)
     tmp[--nLen] = 0;
   if (tmp[nLen - 1] == '.')
     tmp[--nLen] = 0;
-  BIOS::UTIL::StrCat(tmp, strUnits);
+  CUtils::StrCat(tmp, strUnits);
   return tmp;
 }
 
@@ -159,7 +159,7 @@ bool ishex(char c)
   BIOS::DBG::sprintf(tmp + 1, "%d", (int)f);
   f -= (int)f;
   f *= 1000.0f;
-  BIOS::DBG::sprintf(tmp + BIOS::UTIL::StrLen(tmp), ".%03d", (int)f);
+  BIOS::DBG::sprintf(tmp + CUtils::StrLen(tmp), ".%03d", (int)f);
   tmp[6] = 0;
   return tmp;
 }
@@ -222,5 +222,34 @@ int CUtils::Sqrt(int a) {
 }
 
 int CUtils::StrEq(const char *a, const char *b) {
-  return (a == b) || BIOS::UTIL::StrCmp(a, b) == 0;
+  return (a == b) || CUtils::StrCmp(a, b) == 0;
+}
+// Non-size_t CUtils::StrLen, because the code assumes CUtils::StrLen()
+// returns something compatible with int
+int CUtils::StrLen(const char *s) {
+  const char *t = s;
+  while (*t) {
+    t++;
+  }
+  return (int)(t - s); // assuming in int range
+}
+
+char *CUtils::StrCpy(char *dst, const char *src) {
+  char *t = dst;
+  while ((*dst++ = *src++)) {
+  }
+  return t;
+}
+
+char *CUtils::StrCat(char *dst, const char *src) {
+  StrCpy(dst + CUtils::StrLen(dst), src);
+  return dst;
+}
+
+int CUtils::StrCmp(const char *a, const char *b) {
+  while (*a != '\0' && *a == *b) {
+    a++;
+    b++;
+  }
+  return (*(unsigned char *)a) - (*(unsigned char *)b);
 }

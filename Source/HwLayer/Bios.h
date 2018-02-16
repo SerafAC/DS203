@@ -12,14 +12,15 @@ public:
     // move to utils?
     static int sprintf(char *buf, const char *format, ...);
   };
-
-  class DLLAPI UTIL {
-  public:
-    static int StrLen(const char *s);
-    static char *StrCat(char *dst, const char *src);
-    static char *StrCpy(char *dst, const char *src);
-    static int StrCmp(const char *a, const char *b);
-  };
+  /*
+    class DLLAPI UTIL {
+    public:
+      static int StrLen(const char *s);
+      static char *StrCat(char *dst, const char *src);
+      static char *StrCpy(char *dst, const char *src);
+      static int StrCmp(const char *a, const char *b);
+    };
+    */
   class DLLAPI SYS {
   public:
     enum { EApp1 = 0, EApp2, EApp3, EApp4, ESys, EDfu };

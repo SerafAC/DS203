@@ -29,7 +29,7 @@ public:
       return "Never";
 
     char *pText = CUtils::itoa(GetValue());
-    BIOS::UTIL::StrCat(pText, " mins");
+    CUtils::StrCat(pText, " mins");
     return pText;
   }
 
@@ -39,7 +39,7 @@ public:
     x += BIOS::LCD::Print(x, rcRect.top, clr, RGBTRANS, GetLabel());
   }
 
-  virtual ui16 GetWidth() { return (ui16)BIOS::UTIL::StrLen(GetLabel()) << 3; }
+  virtual ui16 GetWidth() { return (ui16)CUtils::StrLen(GetLabel()) << 3; }
 };
 
 class CMIAutoOff : public CItemProvider {

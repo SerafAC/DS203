@@ -177,7 +177,7 @@ int Read_IHexRecord(IHexRecord *ihexRecord, CBufferedReader2 &in) {
       return IHEX_ERROR_FILE;
   }
   /* Null-terminate the string at the first sign of a \r or \n */
-  for (i = 0; i < (int) BIOS::UTIL::StrLen(recordBuff); i++) {
+  for (i = 0; i < (int) CUtils::StrLen(recordBuff); i++) {
     if (recordBuff[i] == '\r' || recordBuff[i] == '\n') {
       recordBuff[i] = 0;
       break;
@@ -186,11 +186,11 @@ int Read_IHexRecord(IHexRecord *ihexRecord, CBufferedReader2 &in) {
 #endif
 
   /* Check if we hit a newline */
-  if (BIOS::UTIL::StrLen(recordBuff) == 0)
+  if (CUtils::StrLen(recordBuff) == 0)
     return IHEX_ERROR_NEWLINE;
 
   /* Size check for start code, count, addess, and type fields */
-  if (BIOS::UTIL::StrLen(recordBuff) <
+  if (CUtils::StrLen(recordBuff) <
       (unsigned int)(1 + IHEX_COUNT_LEN + IHEX_ADDRESS_LEN + IHEX_TYPE_LEN))
     return IHEX_ERROR_INVALID_RECORD;
 
@@ -218,7 +218,7 @@ int Read_IHexRecord(IHexRecord *ihexRecord, CBufferedReader2 &in) {
 
   /* Size check for start code, count, address, type, data and checksum fields
    */
-  if (BIOS::UTIL::StrLen(recordBuff) <
+  if (CUtils::StrLen(recordBuff) <
       (unsigned int)(1 + IHEX_COUNT_LEN + IHEX_ADDRESS_LEN + IHEX_TYPE_LEN +
                      dataCount * 2 + IHEX_CHECKSUM_LEN))
     return IHEX_ERROR_INVALID_RECORD;

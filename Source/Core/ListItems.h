@@ -32,7 +32,7 @@ public:
   }
 
   virtual ui16 GetWidth() {
-    return (ui16)BIOS::UTIL::StrLen(((const char **)m_ppszText)[*m_pVal]) << 3;
+    return (ui16)CUtils::StrLen(((const char **)m_ppszText)[*m_pVal]) << 3;
   }
 
   virtual void Set(ui32 val) { *m_pVal = (NATIVEENUM)val; }
@@ -72,7 +72,7 @@ public:
   }
 
   virtual ui16 GetWidth() {
-    return (ui16)BIOS::UTIL::StrLen(CUtils::itoa(*m_pVal)) << 3;
+    return (ui16)CUtils::StrLen(CUtils::itoa(*m_pVal)) << 3;
   }
 
   void SetMin(si16 nMin) { m_nMin = nMin; }
@@ -111,7 +111,7 @@ public:
   }
 
   virtual ui16 GetWidth() {
-    return (ui16)BIOS::UTIL::StrLen(CUtils::itoa(*m_pVal)) << 3;
+    return (ui16)CUtils::StrLen(CUtils::itoa(*m_pVal)) << 3;
   }
 };
 

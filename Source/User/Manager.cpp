@@ -79,7 +79,7 @@ bool CWndUserManager::LoadFileList(char *strPath) {
 
   BIOS::FAT::TFindFile curFile;
   if (strPath[0] != 0) {
-    BIOS::UTIL::StrCpy(curFile.strName, "..");
+    CUtils::StrCpy(curFile.strName, "..");
     curFile.nAtrib = BIOS::FAT::EDirectory;
     curFile.nDate = 0;
     curFile.nTime = 0;
@@ -99,7 +99,7 @@ bool CWndUserManager::LoadFileList(char *strPath) {
 
 void CWndUserManager::SortFileList() { m_arrFiles.Sort(CompareFile); }
 
-CWndUserManager::CWndUserManager() { BIOS::UTIL::StrCpy(m_strCurrentPath, ""); }
+CWndUserManager::CWndUserManager() { CUtils::StrCpy(m_strCurrentPath, ""); }
 
 void CWndUserManager::Create(CWnd *pParent, ui16 dwFlags) {
   CWnd::Create("CWndManager", dwFlags, CRect(0, 16, 400, 240), pParent);
@@ -227,19 +227,19 @@ void CWndUserManager::DrawLine(BIOS::FAT::TFindFile &fileInfo, int y,
   // bool bSelected = (nSelected == i+nScroll);
 
   if (strcmp(fileInfo.strName, "..") == 0) {
-    BIOS::UTIL::StrCpy(strFile, fileInfo.strName);
-    BIOS::UTIL::StrCpy(strExt, "");
+    CUtils::StrCpy(strFile, fileInfo.strName);
+    CUtils::StrCpy(strExt, "");
     bUp = true;
   } else if (pComma) {
     _ASSERT(pComma);
-    BIOS::UTIL::StrCpy(strFile, fileInfo.strName);
+    CUtils::StrCpy(strFile, fileInfo.strName);
     strFile[pComma - fileInfo.strName] = 0;
 
     memcpy(strExt, pComma + 1, 3);
     strExt[3] = 0;
   } else {
-    BIOS::UTIL::StrCpy(strFile, fileInfo.strName);
-    BIOS::UTIL::StrCpy(strExt, "");
+    CUtils::StrCpy(strFile, fileInfo.strName);
+    CUtils::StrCpy(strExt, "");
   }
 
   ui16 clr = bSelected ? RGB565(000000) : RGB565(00ffff);
@@ -261,9 +261,9 @@ void CWndUserManager::DrawLine(BIOS::FAT::TFindFile &fileInfo, int y,
 
   char strAux[16];
   if (bUp)
-    BIOS::UTIL::StrCpy(strAux, "  Up");
+    CUtils::StrCpy(strAux, "  Up");
   else if (bDir)
-    BIOS::UTIL::StrCpy(strAux, "Folder");
+    CUtils::StrCpy(strAux, "Folder");
   else if (fileInfo.nFileLength < 1000000)
     BIOS::DBG::sprintf(strAux, "%6d", fileInfo.nFileLength);
   else
@@ -285,7 +285,7 @@ void CWndUserManager::DrawLine(BIOS::FAT::TFindFile &fileInfo, int y,
     BIOS::LCD::Print(4 + 39 * 8, y, clr, clrBack, strAux);
   } else if (fileInfo.nAtrib &
              (BIOS::FAT::EReadOnly | BIOS::FAT::EHidden | BIOS::FAT::ESystem)) {
-    BIOS::UTIL::StrCpy(strAux, "RHS");
+    CUtils::StrCpy(strAux, "RHS");
     if ((~fileInfo.nAtrib) & BIOS::FAT::EReadOnly)
       strAux[0] = ' ';
     if ((~fileInfo.nAtrib) & BIOS::FAT::EHidden)
@@ -331,29 +331,29 @@ void CWndUserManager::OnKey(ui16 nKey) {
   if (nKey == BIOS::KEY::KeyEnter) {
     if (m_arrFiles[nSelected].nAtrib & BIOS::FAT::EDirectory) {
       char strBack[16];
-      BIOS::UTIL::StrCpy(strBack, "");
+      CUtils::StrCpy(strBack, "");
       if (m_strCurrentPath[0] == 0)
-        BIOS::UTIL::StrCpy(m_strCurrentPath, m_arrFiles[nSelected].strName);
+        CUtils::StrCpy(m_strCurrentPath, m_arrFiles[nSelected].strName);
       else {
         if (strcmp(m_arrFiles[nSelected].strName, "..") == 0) {
           char *delim = strrchr(m_strCurrentPath, '/');
           if (delim) {
-            BIOS::UTIL::StrCpy(strBack, delim + 1);
+            CUtils::StrCpy(strBack, delim + 1);
             *delim = 0;
           } else {
-            BIOS::UTIL::StrCpy(strBack, m_strCurrentPath);
-            BIOS::UTIL::StrCpy(m_strCurrentPath, "");
+            CUtils::StrCpy(strBack, m_strCurrentPath);
+            CUtils::StrCpy(m_strCurrentPath, "");
           }
         } else {
-          BIOS::UTIL::StrCat(m_strCurrentPath, "/");
-          BIOS::UTIL::StrCat(m_strCurrentPath, m_arrFiles[nSelected].strName);
+          CUtils::StrCat(m_strCurrentPath, "/");
+          CUtils::StrCat(m_strCurrentPath, m_arrFiles[nSelected].strName);
         }
       }
       nSelected = 0;
       nScroll = 0;
       LoadFileList(m_strCurrentPath);
       SortFileList();
-      if (BIOS::UTIL::StrLen(strBack) != 0)
+      if (CUtils::StrLen(strBack) != 0)
         SelectFile(strBack);
       Invalidate();
     } else {
@@ -405,7 +405,7 @@ void CWndUserManager::OnMessage(CWnd *pSender, ui16 code, ui32 data) {
       char *pPathEnd = strrchr(strLastFile, '/');
       if (pPathEnd == NULL) {
         pLastFile = strLastFile;
-        BIOS::UTIL::StrCpy(m_strCurrentPath, "");
+        CUtils::StrCpy(m_strCurrentPath, "");
       } else {
         memcpy(m_strCurrentPath, strLastFile, pPathEnd - strLastFile);
         m_strCurrentPath[pPathEnd - strLastFile] = 0;
@@ -427,12 +427,12 @@ void CWndUserManager::OnMessage(CWnd *pSender, ui16 code, ui32 data) {
 void CWndUserManager::Exec(char *strPath, char *strFile, int nLength) {
   char strFullName[64];
   if (strPath[0] == 0) {
-    BIOS::UTIL::StrCpy(strFullName, "");
+    CUtils::StrCpy(strFullName, "");
   } else {
-    BIOS::UTIL::StrCpy(strFullName, strPath);
-    BIOS::UTIL::StrCat(strFullName, "/");
+    CUtils::StrCpy(strFullName, strPath);
+    CUtils::StrCat(strFullName, "/");
   }
-  BIOS::UTIL::StrCat(strFullName, strFile);
+  CUtils::StrCat(strFullName, strFile);
 
   char *strSuffix = strrchr(strFile, '.');
   enum { ENone, EHex, EElf, EBmp, EWav, EAdr, ETxt, EExe } eType = ENone;
@@ -552,8 +552,8 @@ void CWndUserManager::Exec(char *strPath, char *strFile, int nLength) {
     GetModuleFileName(NULL, pszFileName, 256);
     char *strModuleName = strrchr(pszFileName, '\\');
     strModuleName = strModuleName ? strModuleName + 1 : pszFileName;
-    if (stricmp(strFullName + BIOS::UTIL::StrLen(strFullName) -
-                    BIOS::UTIL::StrLen(strModuleName),
+    if (stricmp(strFullName + CUtils::StrLen(strFullName) -
+                    CUtils::StrLen(strModuleName),
                 strModuleName) == 0)
       MainWnd.m_wndMessage.Show(this, "Manager", "Already running!",
                                 RGB565(FF0000));
@@ -740,7 +740,7 @@ bool CWndUserManager::FpgaLoad(char *strFile) {
   char *pExt = strrchr(strFile, '.');
   if (!pExt)
     return false;
-  BIOS::UTIL::StrCpy(pExt, ".adr");
+  CUtils::StrCpy(pExt, ".adr");
 
   CBufferedReader2 fw;
   if (!fw.Open(strFile))
@@ -757,7 +757,7 @@ bool CWndUserManager::FpgaLoad(char *strFile) {
   pExt = strrchr(strFile, '.');
   if (!pExt)
     return false;
-  BIOS::UTIL::StrCpy(pExt, ".bin");
+  CUtils::StrCpy(pExt, ".bin");
 
   if (!fw.Open(strFile))
     return false;
@@ -785,7 +785,7 @@ bool CWndUserManager::FpgaGetInfo(char *strFile, ui32 &dwBegin, ui32 &dwEnd) {
   char *pExt = strrchr(strFile, '.');
   if (!pExt)
     return false;
-  BIOS::UTIL::StrCpy(pExt, ".adr");
+  CUtils::StrCpy(pExt, ".adr");
 
   CBufferedReader2 fw;
   if (!fw.Open(strFile)) {
@@ -804,7 +804,7 @@ bool CWndUserManager::FpgaGetInfo(char *strFile, ui32 &dwBegin, ui32 &dwEnd) {
   pExt = strrchr(strFile, '.');
   if (!pExt)
     return false;
-  BIOS::UTIL::StrCpy(pExt, ".bin");
+  CUtils::StrCpy(pExt, ".bin");
 
   if (!fw.Open(strFile)) {
     BIOS::DBG::Print("Cannot open '%s' !", strFile);
@@ -853,7 +853,7 @@ bool CWndUserManager::ElfGetInfo(char *strFile, ui32 &dwEntry, ui32 &dwBegin,
 }
 
 bool CWndUserManager::CheckModule(char *strName, int nLength, char *strLoaded) {
-  BIOS::UTIL::StrCpy(strLoaded, "");
+  CUtils::StrCpy(strLoaded, "");
   for (int i = 0; i < m_arrLoaded.GetSize(); i++) {
     TLoadedModule &mod = m_arrLoaded[i];
     if (strcmp(strName, mod.strFileName) != 0)
@@ -864,12 +864,12 @@ bool CWndUserManager::CheckModule(char *strName, int nLength, char *strLoaded) {
     if (mod.dwEntry == (ui32)-1) {
       char *strExt = strrchr(strName, '.');
       if (strExt && stricmp(strExt + 1, "adr") == 0) {
-        BIOS::UTIL::StrCpy(strLoaded, "Fpga");
+        CUtils::StrCpy(strLoaded, "Fpga");
       }
       return true;
     }
     if (mod.dwBegin == 0x08004000) {
-      BIOS::UTIL::StrCpy(strLoaded, "System");
+      CUtils::StrCpy(strLoaded, "System");
       return true;
     }
     char chSlotBegin = '?';
@@ -897,7 +897,7 @@ bool CWndUserManager::CheckModule(char *strName, int nLength, char *strLoaded) {
     if (chSlotBegin == chSlotEnd)
       BIOS::DBG::sprintf(strLoaded, "Slot %c", chSlotBegin);
     else if (chSlotBegin == '?')
-      BIOS::UTIL::StrCpy(strLoaded, "Loaded");
+      CUtils::StrCpy(strLoaded, "Loaded");
     else
       BIOS::DBG::sprintf(strLoaded, "Slot %c-%c", chSlotBegin, chSlotEnd);
     break;
@@ -912,7 +912,7 @@ void CWndUserManager::AddModule(char *strName, int nLength, ui32 dwEntry,
 
   TLoadedModule mod;
   memset(mod.strFileName, 0, sizeof(mod.strFileName));
-  BIOS::UTIL::StrCpy(mod.strFileName, strName);
+  CUtils::StrCpy(mod.strFileName, strName);
   mod.dwFileLength = nLength;
   mod.dwBegin = dwBegin;
   mod.dwEnd = dwEnd;
