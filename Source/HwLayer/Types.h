@@ -21,6 +21,17 @@ typedef ui32 UINT;
 typedef uintptr_t CodeParam;
 typedef uintptr_t DataParam;
 
+template<int sz> struct sized_int; 
+template<> struct sized_int<1> { typedef si8 type;}; 
+template<> struct sized_int<2> { typedef si16 type;}; 
+template<> struct sized_int<4> { typedef si32 type;}; 
+namespace 
+{
+enum dummy {}; 
+}
+typedef sized_int<sizeof(dummy)>::type NATIVEENUM;
+
+
 extern void AssertFailed(const char* file, int line, const char *expr);
 #ifdef _ASSERT
 # undef _ASSERT
@@ -35,6 +46,9 @@ template<class A, class B>
 auto max(const A& a, const B& b) -> decltype(a>b?a:b) { return (a>b?a:b); }
 template<class T>
 T abs(const T& a) { return (a>0?a:-a); }
+
+#define ToWord(a, b) (ui16)(((a)<<8)|(b))
+#define ToDword(a, b, c, d) (ui32)((ToWord(d, c)<<16)|ToWord(b,a))
 
 #define RGB565RGB(r, g, b) (((r)>>3)|(((g)>>2)<<5)|(((b)>>3)<<11))
 #define Get565R(rgb) (((rgb)&0x1f)<<3)
@@ -63,6 +77,10 @@ T abs(const T& a) { return (a>0?a:-a); }
 
 #ifdef _WINDOWS
 #	include "Win32/Types.h"
+#endif
+
+#ifdef _SDL2
+#	include "SDL2/Types.h"
 #endif
 
 #ifdef _ARM

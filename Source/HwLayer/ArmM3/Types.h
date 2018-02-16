@@ -8,12 +8,6 @@
 #include <string.h>
 #include <stdint.h>
 
-#define NATIVEPTR ui32
-#define NATIVEENUM unsigned char
-
-#define ToWord(a, b) (ui16)(((a)<<8)|(b))
-#define ToDword(a, b, c, d) (ui32)((ToWord(d, c)<<16)|ToWord(b,a))
-
 //#define LINKERSECTION(sec) __attribute__((section(".extra")))
 #define LINKERSECTION(sec) 
 
