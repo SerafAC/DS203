@@ -16,9 +16,10 @@ public:
       DTOR(m_item);
   }
   SdlItem &operator=(T *m) {
-    if (m_item)
+    if (m_item && (m_item != m))
       DTOR(m_item);
     m_item = m;
+    return *this;
   }
   operator T *() const { return m_item; }
   T *operator->() const { return m_item; }

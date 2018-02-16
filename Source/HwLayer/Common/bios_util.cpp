@@ -22,3 +22,11 @@ char *BIOS::UTIL::StrCat(char *dst, const char *src) {
   StrCpy(dst + BIOS::UTIL::StrLen(dst), src);
   return dst;
 }
+
+int BIOS::UTIL::StrCmp(const char *a, const char *b) {
+  while (*a != '\0' && *a == *b) {
+    a++;
+    b++;
+  }
+  return (*(unsigned char *)a) - (*(unsigned char *)b);
+}

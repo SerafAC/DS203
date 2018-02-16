@@ -49,6 +49,7 @@ public:
 
   static ui16 InterpolateColor(ui16 clrA, ui16 clrB, int nLevel);
   static int Sqrt(int a);
+  static int StrEq(const char *a, const char *b);
 };
 
 #endif

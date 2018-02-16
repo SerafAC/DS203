@@ -1,6 +1,10 @@
 #include "CalibDac.h"
 #include "Source/Gui/MainWnd.h"
 
+static bool compare(DataParam p, const char *b) {
+  return CUtils::StrEq((const char *)p, b);
+}
+
 /*virtual*/ void CWndListCalDac::OnMessage(CWnd *pSender, CodeParam code,
                                            DataParam data) {
   if (pSender == &m_itmANumber && code == ToWord('u', 'p')) {
@@ -41,7 +45,7 @@
   }
 
   if (pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') &&
-      data == (DataParam) "Yes") {
+      compare(data, "Yes")) {
     MainWnd.m_wndConfirm.Hide();
     StopModal();
     Save();
@@ -50,7 +54,7 @@
     return;
   }
   if (pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') &&
-      data == (DataParam) "No") {
+      compare(data, "No")) {
     MainWnd.m_wndConfirm.Hide();
     StopModal(); // hide this list
     return;

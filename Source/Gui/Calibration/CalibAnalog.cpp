@@ -6,6 +6,10 @@
 #define V_LEVEL_HI 180
 #define V_LEVEL 20
 
+static bool compare(DataParam p, const char *b) {
+  return CUtils::StrEq((const char *)p, b);
+}
+
 void CWndListCalSimple::LoadCalib() {
   Settings.Trig.Sync = CSettings::Trigger::_None;
   _ASSERT((int)m_calRange >= 0 &&
@@ -194,7 +198,7 @@ void CWndListCalSimple::OnWave() {
     return;
   }
   if (pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') &&
-      data == (DataParam) "Yes") {
+      compare(data, "Yes")) {
     m_proReset.m_pName = "Wait...";
     m_itmReset.Invalidate();
 
@@ -203,7 +207,7 @@ void CWndListCalSimple::OnWave() {
     return;
   }
   if (pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') &&
-      data == (DataParam) "No") {
+      compare(data, "No")) {
     MainWnd.m_wndConfirm.Hide();
     return;
   }

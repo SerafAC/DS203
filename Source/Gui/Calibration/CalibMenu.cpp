@@ -6,6 +6,10 @@
 #include <Source/Gui/MainWnd.h>
 #include <Source/Main/Application.h>
 
+static bool compare(DataParam p, const char *b) {
+  return CUtils::StrEq((const char *)p, b);
+}
+
 /*virtual*/ void CWndMenuCalibration::OnMessage(CWnd *pSender, CodeParam code,
                                                 DataParam data) {
 #if 0
@@ -45,7 +49,7 @@
     return;
   }
   if (pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') &&
-      data == (DataParam) "Save") {
+      compare(data, "Save")) {
     MainWnd.m_wndConfirm.Hide();
     Settings.SaveCalibration();
     MainWnd.m_wndMessage.Show(this, "Message", "Calibration data saved",
@@ -53,7 +57,7 @@
     return;
   }
   if (pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') &&
-      data == (DataParam) "Load") {
+      compare(data, "Load")) {
     MainWnd.m_wndConfirm.Hide();
     if (Settings.LoadCalibration())
       MainWnd.m_wndMessage.Show(this, "Message", "Calibration data loaded",
@@ -66,14 +70,14 @@
   }
 
   if (pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') &&
-      data == (DataParam) "Reset") {
+      compare(data, "Reset")) {
     MainWnd.m_wndConfirm.Hide();
     Settings.ResetCalibration();
     return;
   }
 
   if (pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') &&
-      data == (DataParam) "Cancel") {
+      compare(data, "Cancel")) {
     MainWnd.m_wndConfirm.Hide();
     return;
   }

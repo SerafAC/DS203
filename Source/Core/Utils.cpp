@@ -220,3 +220,7 @@ int CUtils::Sqrt(int a) {
   }
   return ret;
 }
+
+int CUtils::StrEq(const char *a, const char *b) {
+  return (a == b) || BIOS::UTIL::StrCmp(a, b) == 0;
+}
