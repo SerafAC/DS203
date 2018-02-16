@@ -12,7 +12,7 @@ typedef int errno_t;
 static errno_t fopen_s(FILE**f,const char *name, const char *mode) 
 {
 	*f=fopen(name,mode);
-	if (!f) return errno; 
+    if (!*f) return errno;
 	return 0; 
 }
 
@@ -287,29 +287,7 @@ void AssertFailed(const char *location,int line, const char *expr)
 
 /*static*/ ui16 BIOS::KEY::GetKeys()
 {
-	int *pKeys = DEVICE->GetKeys();
-	ui16 nKeys = 0;
-	if ( pKeys[SDLK_LEFT] )
-		nKeys |= KeyLeft;
-	if ( pKeys[SDLK_RIGHT] )
-		nKeys |= KeyRight;
-	if ( pKeys[SDLK_UP] )
-		nKeys |= KeyUp;
-	if ( pKeys[SDLK_DOWN] )
-		nKeys |= KeyDown;
-	if ( pKeys[SDLK_RETURN] )
-		nKeys |= KeyEnter;
-	if ( pKeys[SDLK_BACKSPACE] )
-		nKeys |= KeyEscape;
-	if ( pKeys[SDLK_SPACE] )
-		nKeys |= KeyFunction;
-	if ( pKeys[SDLK_DELETE] )
-		nKeys |= KeyFunction2;
-	if ( pKeys[SDLK_F1] )
-		nKeys |= KeyS1;
-	if ( pKeys[SDLK_F2] )
-		nKeys |= KeyS2;
-	return nKeys;
+    return DEVICE->GetKeys();
 }
 
 /*static*/ ui8 _Round(int x, int y)
@@ -626,7 +604,8 @@ unsigned long g_ADCMem[ADCSIZE];
 /*static*/ PVOID BIOS::DSK::GetSharedBuffer()
 {
 	static ui8 pSectorBuffer[FILEINFO::SectorSize];
-	return (PVOID)pSectorBuffer;
+    void *p=pSectorBuffer;
+    return p;
 }
 
 

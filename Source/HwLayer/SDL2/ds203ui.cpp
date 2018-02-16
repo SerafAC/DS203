@@ -1,9 +1,11 @@
 #include <SDL.h>
+#include <Source/HwLayer/Types.h>
+#include <Source/HwLayer/Bios.h>
 #include <Source/HwLayer/SDL2/device.h>
 #include <Source/Framework/Application.h>
 
-CApplication myApp;
-CApplicationProto* g_app = &myApp;
+//CApplication myApp;
+//CApplicationProto* g_app = &myApp;
 CDevice *CDevice::m_pInstance=NULL; 
 
 template<class T, void DTOR(T*)>
@@ -39,12 +41,11 @@ public:
 	SdlDevice()
 	{
 		m_win=SDL_CreateWindow("Hello World", 0,0 , CDevice::Width, CDevice::Height, 0);
-		m_surface = SDL_CreateRGBSurface(0,CDevice::Width, CDevice::Height,32,0xff000000,0x00ff0000,0x0000ff00,0x000000ff);
+        m_surface = SDL_CreateRGBSurface(0,CDevice::Width, CDevice::Height,32,0x00ff0000,0x0000ff00,0x000000ff,0x00000000);
 		SDL_LockSurface(m_surface);
 		m_screen=SDL_GetWindowSurface(m_win); 
 		m_pInstance = this;
 		keys = 0;
-		memset(keybuf, 0, sizeof(keybuf));
 		mousex = -1;
 		mousey = -1;
 		moused = 0;
@@ -63,17 +64,41 @@ public:
 			SDL_UpdateWindowSurface(m_win);
 		SDL_LockSurface(m_surface);
 	}
+    void proc1(int k, bool s)
+    {
+        if (s)
+        {
+            this->keys |= k;
+        }
+        else
+        {
+            this->keys &= ~k;
+        }
+    }
+    void procKey(int k, bool s)
+    {
+        switch(k)
+        {
+        case SDLK_LEFT: proc1(BIOS::KEY::KeyLeft,s); break;
+        case SDLK_RIGHT: proc1(BIOS::KEY::KeyRight,s); break;
+        case SDLK_UP: proc1(BIOS::KEY::KeyUp,s); break;
+        case SDLK_DOWN: proc1(BIOS::KEY::KeyDown,s); break;
+        case SDLK_RETURN: proc1(BIOS::KEY::KeyEnter,s); break;
+        case SDLK_BACKSPACE: proc1(BIOS::KEY::KeyEscape,s); break;
+        case SDLK_SPACE: proc1(BIOS::KEY::KeyFunction,s); break;
+        case SDLK_DELETE: proc1(BIOS::KEY::KeyFunction2,s); break;
+        case SDLK_F1: proc1(BIOS::KEY::KeyS1,s); break;
+        case SDLK_F2: proc1(BIOS::KEY::KeyS2,s); break;
+        }
+    }
+
 	void OnKeyDown(int k)
 	{
-		_ASSERT( k >= 0 && k < 1000 );
-		keybuf[k] = 1;
-		//keys |= k;
+        procKey(k,true);
 	}
 	void OnKeyUp(int k)
 	{
-		_ASSERT( k >= 0 && k < 1000 );
-		keybuf[k] = 0;
-		//keys |= k;
+        procKey(k,false);
 	}
 	void OnMouseMove(int x, int y)
 	{
@@ -90,6 +115,9 @@ public:
 	}
 	void Loop() 
 	{
+        current_buffer=(ui32*)m_surface->pixels;
+        CApplication app;
+        app.Create();
 		bool quit=false;
 		int frame=0;
 		while (!quit) {
@@ -117,11 +145,7 @@ public:
 						break; 
 					}
 			}
-			ui32 *p=(ui32*)m_surface->pixels; 
-			for (int i=0;i<40000;i++) 
-			{
-				p[i]=i+256*frame;
-			}
+            app();
 			frame++;
 			Blit();
 		}

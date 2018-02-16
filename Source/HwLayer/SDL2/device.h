@@ -10,17 +10,18 @@ public:
 	static CDevice* m_pInstance;
 	//CFrameBuffer display;
 	int keys;
-	int keybuf[1000];
 	int mousex, mousey, moused;
+        void *current_buffer=NULL;
 
 public:
-	int* GetKeys()
+
+        int GetKeys()
 	{
-		return keybuf;
+                return keys;
 	}
 	void* GetBuffer()
 	{
-		return NULL;
+                return current_buffer;
 	}
 };
 

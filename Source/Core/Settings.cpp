@@ -345,9 +345,10 @@ void CSettings::Load()
 		return;
 	}
 
-	ui8* pSharedBuffer = (ui8*)BIOS::DSK::GetSharedBuffer();
-
-	_ASSERT( BIOS::DSK::Read(&f, pSharedBuffer) );
+    void* pSharedBuffer = BIOS::DSK::GetSharedBuffer();
+    unsigned char *buf=(unsigned char *)pSharedBuffer;
+    unsigned short *buf2=(unsigned short *)pSharedBuffer;
+    _ASSERT( BIOS::DSK::Read(&f, buf) );
 
 	CStream bufStream( pSharedBuffer, FILEINFO::SectorSize );
 	bufStream >> *this;
