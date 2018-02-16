@@ -49,7 +49,7 @@
 
 	if (code == ToWord('m', 'c') && bSenderOperand )	
 	{
-		m_wndListOperand.Create( (CSettings::MathOperand*)(NATIVEPTR)data, this );
+		m_wndListOperand.Create( (CSettings::MathOperand*)data, this );
 		m_wndListOperand.StartModal( &m_wndListOperand.m_itmType );
 		return;
 	}
