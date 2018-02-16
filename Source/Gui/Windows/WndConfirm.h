@@ -1,4 +1,5 @@
 #include "WndButton.h"
+#include <Source/Core/Design.h>
 
 class CWndConfirm : public CWnd {
   ui16 m_clrFrame;

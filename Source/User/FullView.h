@@ -5,6 +5,7 @@ ADD_MODULE("FView", CWndFullView)
 #define __FULLVIEW_H__
 
 #include <Source/Framework/Wnd.h>
+#include <Source/Gui/Windows/WndButton.h>
 
 class CWndFullView : public CWnd {
 

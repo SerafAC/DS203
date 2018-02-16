@@ -1,6 +1,8 @@
 #ifndef __ITEMGENFREQUENCY_H__
 #define __ITEMGENFREQUENCY_H__
 #include <Source/Core/Settings.h>
+#include <Source/Core/Controls.h>
+#include <Source/Gui/Generator/Core/CoreGenerator.h>
 
 #define Hz *1.0f
 #define KHz *1000.0f

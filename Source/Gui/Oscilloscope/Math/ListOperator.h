@@ -1,6 +1,10 @@
 #ifndef __LISTOPERATOR_H__
 #define __LISTOPERATOR_H__
 
+#include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
+#include <Source/Core/ListItems.h>
+
 class CWndListOperator : public CListBox {
 public:
   CSettings::MathOperator *m_pOper;

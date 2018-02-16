@@ -1,3 +1,7 @@
+#include <Source/Core/Settings.h>
+#include <Source/Gui/Settings/Controls/Slider.h>
+#include <Source/Gui/Settings/Core/SettingsCore.h>
+
 class CMIVolume : public CMIProgress {
 public:
   virtual int GetValue() { return Settings.Runtime.m_nVolume / 4; }

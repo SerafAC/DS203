@@ -1,3 +1,4 @@
+
 #define ENABLE_MODULE_GPIOTEST
 ADD_MODULE("OneWire", CWndGpioTest)
 
@@ -8,6 +9,7 @@ ADD_MODULE("OneWire", CWndGpioTest)
 #include <Source/Library/BMP085.h>
 #include <Source/Library/DHT11.h>
 #include <Source/Library/DS1820.h>
+#include <Source/Core/Utils.h>
 
 class CWndGpioTest : public CWnd {
   CDS1820 m_Thermometer;

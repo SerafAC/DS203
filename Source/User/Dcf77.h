@@ -1,3 +1,6 @@
+#include <Source/Core/Utils.h>
+#include <Source/Core/Settings.h>
+
 #define ENABLE_MODULE_DCF77
 ADD_MODULE("Dcf77", CWndDcf77)
 

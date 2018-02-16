@@ -2,7 +2,7 @@ ADD_MODULE("Snake", CWndSnake)
 
 #ifndef __SNAKE_H__
 #define __SNAKE_H__
-
+#include <Source/HwLayer/Types.h>
 //			BIOS::LCD::LcdWidth = 400,
 //			BIOS::LCD::LcdHeight = 240,
 

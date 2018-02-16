@@ -76,15 +76,15 @@ T abs(const T& a) { return (a>0?a:-a); }
 #define MININT      INT_MIN
 
 #ifdef _WINDOWS
-#	include "Win32/Types.h"
+#	include "Win32/Types.inc"
 #endif
 
 #ifdef _SDL2
-#	include "SDL2/Types.h"
+#	include "SDL2/Types.inc"
 #endif
 
 #ifdef _ARM
-#	include "ArmM3/Types.h"
+#	include "ArmM3/Types.inc"
 #endif
 
 #ifndef __TYPES_H__

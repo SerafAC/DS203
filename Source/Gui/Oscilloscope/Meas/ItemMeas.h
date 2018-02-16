@@ -1,5 +1,7 @@
 #ifndef __MENUITEMMEAS_H__
 #define __MENUITEMMEAS_H__
+#include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
 
 class CItemMeas : public CWndMenuItem {
 public:

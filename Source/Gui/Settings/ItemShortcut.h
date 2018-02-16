@@ -2,6 +2,9 @@
 #define __ITEMSHORTCUT_H__
 
 #include <Source/Gui/Toolbar.h>
+#include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
+
 class CProviderShortcut : public CValueProvider {
   enum { Invalid = -999 };
   int *m_pVal;

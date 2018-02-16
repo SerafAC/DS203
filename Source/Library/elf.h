@@ -1,5 +1,5 @@
 #pragma once
-
+#include <stdint.h>
 typedef uint32_t Elf32_Addr;
 typedef uint16_t Elf32_Half;
 typedef uint32_t Elf32_Off;

@@ -1,3 +1,6 @@
+#include <math.h>
+#include <Source/Gui/Windows/WndButton.h>
+#include <Source/Core/Utils.h>
 #define ENABLE_MODULE_ZOOMVIEW
 ADD_MODULE("Zoom", CWndZoomView)
 

@@ -2,6 +2,8 @@
 #define __LISTMARKER_H__
 #include <Source/HwLayer/Types.h>
 #include <Source/Core/Settings.h>
+#include <Source/Core/Controls.h>
+#include <Source/Core/ListItems.h>
 
 class CWndListMarker : public CListBox {
 public:

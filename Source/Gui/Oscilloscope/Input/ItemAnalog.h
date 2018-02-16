@@ -1,5 +1,7 @@
 #ifndef __MENUANALOG_H__
 #define __MENUANALOG_H__
+#include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
 
 class CItemAnalog : public CWndMenuItem {
   CSettings::AnalogChannel *m_pInfo;

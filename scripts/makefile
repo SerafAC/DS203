@@ -3,8 +3,8 @@ hc_obj=$(addsuffix .o, $(hc_src))
 CXXFLAGS=-I..
 
 %.cpp.o: %.cpp
-		g++ -D_VERSION2 -c --std=gnu++11 -D_SDL2 -I.. $^ -o $@
-		#g++  -c --std=gnu++11 -D_SDL2 -I.. $^ -o $@
+		g++ -Werror -Wall -D_VERSION2 -c --std=gnu++11 -D_SDL2 -I.. $^ -o $@
+		rm $^ $@
 		
 hc: $(hc_obj)
 	

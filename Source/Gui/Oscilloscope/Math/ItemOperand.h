@@ -2,6 +2,7 @@
 #define __MENUITEMOPERAND_H__
 #include <Source/HwLayer/Bios.h>
 #include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
 
 class CItemOperand : public CWndMenuItem {
 public:

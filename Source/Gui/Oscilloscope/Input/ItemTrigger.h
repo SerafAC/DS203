@@ -1,5 +1,8 @@
 #ifndef __MENUTRIGGER_H__
 #define __MENUTRIGGER_H__
+#include <Source/Core/Controls.h>
+#include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
 
 class CItemTrigger : public CWndMenuItem {
   CProviderNum m_proLevel;

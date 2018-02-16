@@ -1,5 +1,6 @@
 #ifndef __ITEMGENOFFSET_H__
 #define __ITEMGENOFFSET_H__
+#include <Source/Core/Controls.h>
 
 class CItemOffset : public CWndMenuItem {
   int m_nVolt;

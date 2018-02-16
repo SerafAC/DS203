@@ -1,5 +1,7 @@
 #ifndef __MESSAGEBOX_H__
 #define __MESSAGEBOX_H__
+#include <Source/Framework/Wnd.h>
+#include <Source/Core/Design.h>
 
 class CWndMessageBox : public CWnd {
   ui16 m_clrFrame;

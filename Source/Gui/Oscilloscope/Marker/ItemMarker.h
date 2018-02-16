@@ -1,6 +1,10 @@
 #ifndef __MENUITEMMARKER_H__
 #define __MENUITEMMARKER_H__
 
+#include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
+#include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
+
 class CItemMarker : public CWndMenuItem {
   CSettings::Marker *m_pMarker;
   PSTR m_strId;
