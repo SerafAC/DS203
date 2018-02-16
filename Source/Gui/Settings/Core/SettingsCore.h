@@ -1,4 +1,4 @@
-#ifndef __CORESETINGS_H__
+#ifndef __CORESETTINGS_H__
 #define __CORESETTINGS_H__
 
 #include <Source/HwLayer/Types.h>

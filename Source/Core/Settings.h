@@ -59,7 +59,7 @@ public:
 		enum {_NO = 0, _YES = 1, _EnabledMax = _YES}
 			Enabled;
 		ui16 u16Color;
-		ui16 u16Position;
+        si16 u16Position;
 		enum {_POS=0, _NEG, _PolarityMax = _NEG}
 			Polarity;
 
