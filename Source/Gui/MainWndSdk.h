@@ -1,185 +1,180 @@
 #include <Source/Core/Sdk.h>
 
-class CSdkStreamProvider : public CSdkEval
-{
+class CSdkStreamProvider : public CSdkEval {
 public:
-	CHAR m_strExpression[FILEINFO::SectorSize];
-	CHAR m_strSimpleAns[64];
-	PSTR m_pszExpression;
-	int m_nSimpleLen;
-	int m_nStreamLen;
-	int m_nSimplePos;
-	bool m_bTerminator;
-	CEval::CStream* m_pStream;
+  CHAR m_strExpression[FILEINFO::SectorSize];
+  CHAR m_strSimpleAns[64];
+  PSTR m_pszExpression;
+  int m_nSimpleLen;
+  int m_nStreamLen;
+  int m_nSimplePos;
+  bool m_bTerminator;
+  CEval::CStream *m_pStream;
 
-  void Evaluate( PSTR pszExpression )
-	{
-		// copy buffer and set pointer to start of that string
-		BIOS::UTIL::StrCpy( m_strExpression, pszExpression );
-		m_pszExpression = m_strExpression; // points to the first letter
-		m_nSimplePos = 0;
-		m_nStreamLen = -1;
-		m_nSimpleLen = -1;
-		m_pStream = NULL;
-		m_bTerminator = false;
-	}
+  void Evaluate(PSTR pszExpression) {
+    // copy buffer and set pointer to start of that string
+    BIOS::UTIL::StrCpy(m_strExpression, pszExpression);
+    m_pszExpression = m_strExpression; // points to the first letter
+    m_nSimplePos = 0;
+    m_nStreamLen = -1;
+    m_nSimpleLen = -1;
+    m_pStream = NULL;
+    m_bTerminator = false;
+  }
 
-	int GetChar()
-	{	
-		if ( m_nSimpleLen > 0 )
-		{
-			int ch = m_strSimpleAns[ m_nSimplePos++ ];
-			if ( m_nSimplePos >= m_nSimpleLen )
-				m_nSimpleLen = -1;
-			return ch;
-		}
+  int GetChar() {
+    if (m_nSimpleLen > 0) {
+      int ch = m_strSimpleAns[m_nSimplePos++];
+      if (m_nSimplePos >= m_nSimpleLen)
+        m_nSimpleLen = -1;
+      return ch;
+    }
 
-		if ( m_nStreamLen > 0 )
-		{
-			int ch = m_pStream->Get();
-			if ( --m_nStreamLen <= 0 )
-				m_nStreamLen = -1;
-			return ch;
-		}
+    if (m_nStreamLen > 0) {
+      int ch = m_pStream->Get();
+      if (--m_nStreamLen <= 0)
+        m_nStreamLen = -1;
+      return ch;
+    }
 
-		if ( m_nSimpleLen == -1 && m_nStreamLen == -1 )
-		{
-			if ( m_pszExpression == NULL || *m_pszExpression == 0 )
-			{/*
-				if ( !m_bTerminator )
-				{
-					m_bTerminator = TRUE;
-					BIOS::UTIL::StrCpy( m_strSimpleAns, "END\x1b" );
-					m_nSimpleLen = 4;
-					m_nSimplePos = 0;
-					return GetChar();
-				}*/
-				// at end of evaluated expression
-				return -1;
-			} else
-			{
-				// Evaluate expression
-				CSdkEval::CEvalOperand opResult = Eval(m_pszExpression);
+    if (m_nSimpleLen == -1 && m_nStreamLen == -1) {
+      if (m_pszExpression == NULL ||
+          *m_pszExpression == 0) { /*
+                                          if ( !m_bTerminator )
+                                          {
+                                                  m_bTerminator = TRUE;
+                                                  BIOS::UTIL::StrCpy(
+                                      m_strSimpleAns, "END\x1b" );
+                                                  m_nSimpleLen = 4;
+                                                  m_nSimplePos = 0;
+                                                  return GetChar();
+                                          }*/
+        // at end of evaluated expression
+        return -1;
+      } else {
+        // Evaluate expression
+        CSdkEval::CEvalOperand opResult = Eval(m_pszExpression);
 
-				if ( opResult.m_eType == CEval::CEvalOperand::eoVariable )
-				{
-					opResult = opResult.m_Data.m_pVariable->Get();
-				}
+        if (opResult.m_eType == CEval::CEvalOperand::eoVariable) {
+          opResult = opResult.m_Data.m_pVariable->Get();
+        }
 
-				switch ( opResult.m_eType )               
-				{
-					case CEval::CEvalOperand::eoError: 
-						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, msg) Error"); 
-						BIOS::DBG::Print("Error Evaluating '%s'", m_pszExpression);
-						MainWnd.m_wndMessage.Show(&MainWnd, "SDK Warning", "Invalid request", RGB565(FF0000));
+        switch (opResult.m_eType) {
+        case CEval::CEvalOperand::eoError:
+          BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, msg) Error");
+          BIOS::DBG::Print("Error Evaluating '%s'", m_pszExpression);
+          MainWnd.m_wndMessage.Show(&MainWnd, "SDK Warning", "Invalid request",
+                                    RGB565(FF0000));
 
-						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1; // including terminating zero
-						m_nSimplePos = 0;
-					break;
+          m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) +
+                         1; // including terminating zero
+          m_nSimplePos = 0;
+          break;
 
-					case CEval::CEvalOperand::eoFloat: 
-						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, float->int) %d", opResult.GetInteger()); 
-						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
-						m_nSimplePos = 0;
-					break;
+        case CEval::CEvalOperand::eoFloat:
+          BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, float->int) %d",
+                             opResult.GetInteger());
+          m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
+          m_nSimplePos = 0;
+          break;
 
-					case CEval::CEvalOperand::eoInteger: 	
-						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, si32) %d", opResult.m_Data.m_iData);	 
-						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
-						m_nSimplePos = 0;
-					break;
+        case CEval::CEvalOperand::eoInteger:
+          BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, si32) %d",
+                             opResult.m_Data.m_iData);
+          m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
+          m_nSimplePos = 0;
+          break;
 
-					case CEval::CEvalOperand::eoString: 
-						opResult.m_Data.m_pString[ opResult.m_Data.m_pData32[1] ] = 0;
-						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, string) %s", opResult.m_Data.m_pString); 
-						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
-						m_nSimplePos = 0;
-					break;
+        case CEval::CEvalOperand::eoString:
+          opResult.m_Data.m_pString[opResult.m_Data.m_pData32[1]] = 0;
+          BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, string) %s",
+                             opResult.m_Data.m_pString);
+          m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
+          m_nSimplePos = 0;
+          break;
 
-					case CEval::CEvalOperand::eoCString: 
-						//opResult.m_Data.m_pString[ opResult.m_Data.m_pData32[1] ] = 0;
-						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, string) ", opResult.m_Data.m_pcString); 
-						memcpy( m_strSimpleAns+BIOS::UTIL::StrLen(m_strSimpleAns), opResult.m_Data.m_pcString, opResult.m_Data.m_pData32[1]+1 );
-					
-						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
-						m_nSimplePos = 0;
-					break;
+        case CEval::CEvalOperand::eoCString:
+          // opResult.m_Data.m_pString[ opResult.m_Data.m_pData32[1] ] = 0;
+          BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, string) ",
+                             opResult.m_Data.m_pcString);
+          memcpy(m_strSimpleAns + BIOS::UTIL::StrLen(m_strSimpleAns),
+                 opResult.m_Data.m_pcString, opResult.m_Data.m_pData32[1] + 1);
 
-					case CEval::CEvalOperand::eoNone: 
-						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, msg) none");
-						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
-						m_nSimplePos = 0;
-					break;
+          m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
+          m_nSimplePos = 0;
+          break;
 
-					default:
-						_ASSERT( 0 );
-						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, msg) unknown");
-						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
-						m_nSimplePos = 0;
-					break;
+        case CEval::CEvalOperand::eoNone:
+          BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, msg) none");
+          m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
+          m_nSimplePos = 0;
+          break;
 
-					case CEval::CEvalOperand::eoStream:  
-						m_pStream = opResult.m_Data.m_pStream;
-						m_nStreamLen = m_pStream->GetSize();
+        default:
+          _ASSERT(0);
+          BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(text, msg) unknown");
+          m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns) + 1;
+          m_nSimplePos = 0;
+          break;
 
-						BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(binary, len=%d)", m_nStreamLen);
-						m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns);
-						m_nSimplePos = 0;
-					break;				
-				}
+        case CEval::CEvalOperand::eoStream:
+          m_pStream = opResult.m_Data.m_pStream;
+          m_nStreamLen = m_pStream->GetSize();
 
-				// tokenize the expression with ; as expression delimiter, jump to next expression
-//				m_pszExpression = strstr( m_pszExpression, ";" );
-//				if ( m_pszExpression )
-//					m_pszExpression++;
-				m_pszExpression = m_pEndPtr;
+          BIOS::DBG::sprintf(m_strSimpleAns, "ANS=(binary, len=%d)",
+                             m_nStreamLen);
+          m_nSimpleLen = BIOS::UTIL::StrLen(m_strSimpleAns);
+          m_nSimplePos = 0;
+          break;
+        }
 
-				return GetChar();	// call reursively 
-			}
-		}
-		_ASSERT( 0 );
-		return -1;
-	}
+        // tokenize the expression with ; as expression delimiter, jump to next
+        // expression
+        //				m_pszExpression = strstr( m_pszExpression, ";"
+        //);
+        //				if ( m_pszExpression )
+        //					m_pszExpression++;
+        m_pszExpression = m_pEndPtr;
+
+        return GetChar(); // call reursively
+      }
+    }
+    _ASSERT(0);
+    return -1;
+  }
 };
 
+void CMainWnd::SdkUartProc() {
+  static char buffer[128];
+  static int npos = 0;
+  static CSdkStreamProvider SdkStream;
 
+  int ch;
+  while ((ch = BIOS::SERIAL::Getch()) >= 0) {
+    if (Settings.Runtime.m_bUartEcho)
+      BIOS::SERIAL::Putch(ch);
 
-void CMainWnd::SdkUartProc()
-{
-	static char buffer[128];
-	static int npos = 0;
-	static CSdkStreamProvider SdkStream;
-
-	int ch;
-	while ( (ch = BIOS::SERIAL::Getch()) >= 0 )
-	{
-		if ( Settings.Runtime.m_bUartEcho )
-			BIOS::SERIAL::Putch(ch);
-
-		if ( ch == 0x0d || ch == 0x0a )
-		{
-			if (npos > 0)
-			{
-				buffer[npos] = 0;
-				// eval
-				SdkStream.Evaluate( buffer );
-				while ( ( ch = SdkStream.GetChar() ) != -1 )
-					BIOS::SERIAL::Putch( ch );
-			}
-			npos = 0;
-			continue;
-		}
-		buffer[npos++] = ch;
-		if ( npos >= (int)COUNT(buffer) -1 )
-		{
-			npos = 0;
-			m_wndMessage.Show(this, "SDK Warning", "Unrecognized command", RGB565(FF0000));
-		}
-	}
+    if (ch == 0x0d || ch == 0x0a) {
+      if (npos > 0) {
+        buffer[npos] = 0;
+        // eval
+        SdkStream.Evaluate(buffer);
+        while ((ch = SdkStream.GetChar()) != -1)
+          BIOS::SERIAL::Putch(ch);
+      }
+      npos = 0;
+      continue;
+    }
+    buffer[npos++] = ch;
+    if (npos >= (int)COUNT(buffer) - 1) {
+      npos = 0;
+      m_wndMessage.Show(this, "SDK Warning", "Unrecognized command",
+                        RGB565(FF0000));
+    }
+  }
 }
 
-void CMainWnd::SdkDiskProc()
-{
+void CMainWnd::SdkDiskProc() {
 #if 0
 	static FILEINFO fbase;
 	static bool bInit = true;
@@ -275,7 +270,6 @@ void CMainWnd::SdkDiskProc()
 
 	// buffer mismatch
 	m_wndMessage.Show(this, "SDK Warning", "SDK File Corrupted", RGB565(FF0000));
-	bInit = TRUE; 
+	bInit = TRUE;
 #endif
 }
-

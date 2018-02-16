@@ -1,185 +1,174 @@
 #include "ToolBox.h"
 #include <Source/Gui/MainWnd.h>
 
+const char *const CWndManager::tabs[] = {"Wave", "Bmp", "Csv",
+                                         "Svg",  "Dat", NULL};
+const char *const CWndManager::strTemplateDisplay[] = {
+    "    WAVE%03d.WAV", "    IMAGE%03d.BMP", "    WAVE%03d.CSV",
+    "    WAVE%03d.SVG", "    WAVE%03d.DAT"};
+const char *const CWndManager::strTemplateFile[] = {
+    "WAVE%03d WAV", "IMAGE%03dBMP", "WAVE%03d CSV", "WAVE%03d SVG",
+    "WAVE%03d DAT"};
 
-const char* const CWndManager::tabs[] = {"Wave", "Bmp", "Csv", "Svg", "Dat", NULL};
-const char* const CWndManager::strTemplateDisplay[] = {"    WAVE%03d.WAV", "    IMAGE%03d.BMP", "    WAVE%03d.CSV", "    WAVE%03d.SVG", "    WAVE%03d.DAT"};
-const char* const CWndManager::strTemplateFile[] = {"WAVE%03d WAV", "IMAGE%03dBMP", "WAVE%03d CSV", "WAVE%03d SVG", "WAVE%03d DAT"};
+CWndManager::CWndManager() { m_bRunning = false; }
 
-CWndManager::CWndManager()
-{
-	m_bRunning = false;
+void CWndManager::Create(CWnd *pParent) {
+  CListBox::Create("Wave Manager", CWnd::WsHidden | CWnd::WsModal,
+                   CRect((BIOS::LCD::LcdWidth - Width) / 2,
+                         (BIOS::LCD::LcdHeight - Height) / 2,
+                         (BIOS::LCD::LcdWidth + Width) / 2,
+                         (BIOS::LCD::LcdHeight + Height) / 2),
+                   RGB565(8080d0), pParent);
+
+  m_nValue = 0;
+  m_itmTabs.Create((const char **)tabs, RGB565(8080d0), this);
+  m_proValue.Create(&m_nValue, 0, 100);
+  m_itmValue.Create("File nr.", CWnd::WsVisible, &m_proValue, this);
+  m_itmSpace1.Create("", CWnd::WsVisible | CWnd::WsNoActivate, this);
+  m_itmFile.Create("    WAVE000.DAT", CWnd::WsVisible | CWnd::WsNoActivate,
+                   this);
+  //	m_itmSpace2.Create( "", CWnd::WsVisible | CWnd::WsNoActivate, this);
+  m_proLoad.Create("Load");
+  m_itmLoad.Create("", CWnd::WsVisible, &m_proLoad, this);
+  m_proSave.Create("Save");
+  m_itmSave.Create("", CWnd::WsVisible, &m_proSave, this);
 }
 
-void CWndManager::Create( CWnd* pParent )
-{
-	CListBox::Create("Wave Manager", CWnd::WsHidden | CWnd::WsModal, 
-		CRect( (BIOS::LCD::LcdWidth-Width)/2 ,
-		(BIOS::LCD::LcdHeight-Height)/2,
-		(BIOS::LCD::LcdWidth+Width)/2,
-		(BIOS::LCD::LcdHeight+Height)/2 ), 
-		RGB565(8080d0), 
-		pParent);
+/*virtual*/ bool CWndManager::IsRunning() { return m_bRunning; }
 
-	m_nValue = 0;
-	m_itmTabs.Create( (const char**)tabs, RGB565(8080d0), this );
-	m_proValue.Create( &m_nValue, 0, 100 );
-	m_itmValue.Create( "File nr.", CWnd::WsVisible, &m_proValue, this );
-	m_itmSpace1.Create( "", CWnd::WsVisible | CWnd::WsNoActivate, this);
-	m_itmFile.Create( "    WAVE000.DAT", CWnd::WsVisible | CWnd::WsNoActivate, this);
-//	m_itmSpace2.Create( "", CWnd::WsVisible | CWnd::WsNoActivate, this);
-	m_proLoad.Create( "Load" );
-	m_itmLoad.Create( "", CWnd::WsVisible, &m_proLoad, this );
-	m_proSave.Create( "Save" );
-	m_itmSave.Create( "", CWnd::WsVisible, &m_proSave, this );
+/*virtual*/ int CWndManager::GetResult() { return 0; }
+
+void CWndManager::Cancel() { m_bRunning = false; }
+
+void CWndManager::DoModal() {
+  m_bRunning = true;
+
+  OnMessage(&m_itmTabs, ToWord('u', 'p'), 0);
+  StartModal(&m_itmValue);
+
+  while (IsRunning()) {
+    Sleep(20);
+  }
+  StopModal();
 }
 
-/*virtual*/ bool CWndManager::IsRunning()
-{
-	return m_bRunning;
+bool CWndManager::Exists(char *strName) {
+  FILEINFO f;
+  if (BIOS::DSK::Open(&f, strName, BIOS::DSK::IoRead)) {
+    BIOS::DSK::Close(&f);
+    return true;
+  }
+  return false;
 }
 
-/*virtual*/ int CWndManager::GetResult()
-{
-	return 0;
-}
+/*virtual*/ void CWndManager::OnMessage(CWnd *pSender, CodeParam code,
+                                        DataParam data) {
+  char strName[13];
 
-void CWndManager::Cancel()
-{
-	m_bRunning = false;
-}
+  if (pSender == &m_itmTabs && code == ToWord('u', 'p')) {
+    // redirect to next function for redrawing the listbox
+    pSender = &m_itmValue;
+    // find nearest non used file
+    for (int i = 0; i < 10; i++) {
+      BIOS::DBG::sprintf(strName, strTemplateFile[m_itmTabs.GetFocus()], i);
+      if (!Exists(strName)) {
+        m_nValue = i;
+        break;
+      }
+    }
+  }
 
-void CWndManager::DoModal()
-{
-	m_bRunning = true;
-	
-	OnMessage( &m_itmTabs, ToWord('u', 'p'), 0 );
-	StartModal( &m_itmValue );
-	
-	while ( IsRunning() )
-	{
-		Sleep(20);
-	}
-	StopModal();
-}
+  if (pSender == &m_itmValue && code == ToWord('u', 'p')) {
+    BIOS::DBG::sprintf(m_strCurrent, strTemplateDisplay[m_itmTabs.GetFocus()],
+                       m_nValue);
+    m_itmFile.m_pszId = m_strCurrent;
+    m_itmFile.Invalidate();
 
-bool CWndManager::Exists(char *strName)
-{
-	FILEINFO f;
-    if ( BIOS::DSK::Open( &f, strName, BIOS::DSK::IoRead ) )
-	{
-		BIOS::DSK::Close( &f );
-		return true;
-	}
-	return false;
-}
+    BIOS::DBG::sprintf(strName, strTemplateFile[m_itmTabs.GetFocus()],
+                       m_nValue);
+    bool bExists = Exists(strName);
+    // set the flag even when the window is not displayed yet (instead of
+    // .IsVisible())
+    if (bExists != (m_itmLoad.m_dwFlags & CWnd::WsVisible)) {
+      m_itmLoad.ShowWindow(bExists ? CWnd::SwShow : CWnd::SwHide);
+      Invalidate();
+    }
+  }
+  if (code == ToWord('l', 'e') && data == (DataParam)&m_proLoad) {
+    // load
+    BIOS::DBG::sprintf(strName, strTemplateFile[m_itmTabs.GetFocus()],
+                       m_nValue);
 
-/*virtual*/ void CWndManager::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
-{
-	char strName[13];
+    switch (m_itmTabs.GetFocus()) {
+    case 0: // Wave
+      if (!CImport::LoadWave(strName))
+        MainWnd.m_wndMessage.Show(&MainWnd, "Sorry...", "Import failed!",
+                                  RGB565(ffff00));
+      else {
+        CWnd::PushOverlay();
+        MainWnd.Invalidate(); // to redraw the graph
+        CWnd::PopOverlay();
+      }
+      // Invalidate(); // Why it forgets to redraw current window!?
+      break;
+    case 1: // Bmp
+    case 2: // Csv
+    case 3: // Svg
+    case 4: // Dat
+      MainWnd.m_wndMessage.Show(&MainWnd, "Sorry...",
+                                "This feature is not\nimplemented yet",
+                                RGB565(ffff00));
+      break;
+    }
+    // load
+  }
+  if (code == ToWord('l', 'e') && data == (DataParam)&m_proSave) {
+    // save
+    BIOS::DBG::sprintf(strName, strTemplateFile[m_itmTabs.GetFocus()],
+                       m_nValue);
+    CRect rcSafe;
 
-	if ( pSender == &m_itmTabs && code == ToWord('u', 'p') )
-	{
-		// redirect to next function for redrawing the listbox
-		pSender = &m_itmValue;
-		// find nearest non used file
-		for ( int i=0; i<10; i++ )
-		{
-			BIOS::DBG::sprintf( strName, strTemplateFile[m_itmTabs.GetFocus()], i );
-			if ( !Exists(strName) )
-			{
-				m_nValue = i;
-				break;
-			}
-		}
-	}
+    switch (m_itmTabs.GetFocus()) {
+    case 0: // Wave
+      CExport::SaveWav(strName);
+      MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
+                                RGB565(ffff00));
+      break;
+    case 1: // Bmp
+      ShowWindow(CWnd::SwHide);
+      CWnd::PushOverlay();
+      MainWnd.Invalidate();
+      CWnd::PopOverlay();
 
-	if ( pSender == &m_itmValue && code == ToWord('u', 'p') )
-	{
-		BIOS::DBG::sprintf( m_strCurrent, strTemplateDisplay[m_itmTabs.GetFocus()], m_nValue );
-		m_itmFile.m_pszId = m_strCurrent;
-		m_itmFile.Invalidate();
-		
-		BIOS::DBG::sprintf( strName, strTemplateFile[m_itmTabs.GetFocus()], m_nValue );
-		bool bExists = Exists(strName);
-		// set the flag even when the window is not displayed yet (instead of .IsVisible())
-		if ( bExists != (m_itmLoad.m_dwFlags & CWnd::WsVisible) )
-		{
-			m_itmLoad.ShowWindow( bExists ? CWnd::SwShow : CWnd::SwHide );
-			Invalidate();
-		} 
-	}
-	if ( code == ToWord('l', 'e') && data == (DataParam)&m_proLoad )
-	{
-		// load
-		BIOS::DBG::sprintf( strName, strTemplateFile[m_itmTabs.GetFocus()], m_nValue );
-
-		switch ( m_itmTabs.GetFocus() )
-		{
-			case 0:	// Wave
-				if ( !CImport::LoadWave( strName ) )
-					MainWnd.m_wndMessage.Show(&MainWnd, "Sorry...", "Import failed!", RGB565(ffff00));
-				else
-				{
-					CWnd::PushOverlay();
-					MainWnd.Invalidate(); // to redraw the graph
-					CWnd::PopOverlay();
-				}
-				//Invalidate(); // Why it forgets to redraw current window!?
-				break;
-			case 1: // Bmp
-			case 2: // Csv
-			case 3: // Svg
-			case 4: // Dat
-				MainWnd.m_wndMessage.Show(&MainWnd, "Sorry...", "This feature is not\nimplemented yet", RGB565(ffff00));
-				break;
-		}
-		// load
-	}
-	if ( code == ToWord('l', 'e') && data == (DataParam)&m_proSave )
-	{
-		// save
-		BIOS::DBG::sprintf( strName, strTemplateFile[m_itmTabs.GetFocus()], m_nValue );
-		CRect rcSafe;
-
-		switch ( m_itmTabs.GetFocus() )
-		{
-			case 0:	// Wave
-				CExport::SaveWav( strName );
-				MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved", RGB565(ffff00));
-				break;
-			case 1: // Bmp
-				ShowWindow(CWnd::SwHide);
-				CWnd::PushOverlay();
-				MainWnd.Invalidate();
-				CWnd::PopOverlay();
-
-				CExport::SaveScreenshot16( strName );
-				ShowWindow(CWnd::SwShow);
-				MainWnd.Invalidate();
-				MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved", RGB565(ffff00));
-				break;
-			case 2: // Csv
-				CExport::SaveCsv( strName );
-				MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved", RGB565(ffff00));
-				break;
-			case 3: // Svg
-				CExport::SaveSvg( strName );
-				MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved", RGB565(ffff00));
-//				MainWnd.m_wndMessage.Show(&MainWnd, "Sorry...", "This feature is not implemented yet", RGB565(ffff00));
-				break;
-			case 4: // Dat
-				CExport::SaveBinary( strName );
-				MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved", RGB565(ffff00));
-				break;
-		}
-	}
-	if ( code == ToWord('o', 'k') )
-	{
-		m_bRunning = false;
-	}
-	if ( code == ToWord('e', 'x') )
-	{
-		m_bRunning = false;
-	}
+      CExport::SaveScreenshot16(strName);
+      ShowWindow(CWnd::SwShow);
+      MainWnd.Invalidate();
+      MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
+                                RGB565(ffff00));
+      break;
+    case 2: // Csv
+      CExport::SaveCsv(strName);
+      MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
+                                RGB565(ffff00));
+      break;
+    case 3: // Svg
+      CExport::SaveSvg(strName);
+      MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
+                                RGB565(ffff00));
+      //				MainWnd.m_wndMessage.Show(&MainWnd,
+      //"Sorry...", "This feature is not implemented yet", RGB565(ffff00));
+      break;
+    case 4: // Dat
+      CExport::SaveBinary(strName);
+      MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
+                                RGB565(ffff00));
+      break;
+    }
+  }
+  if (code == ToWord('o', 'k')) {
+    m_bRunning = false;
+  }
+  if (code == ToWord('e', 'x')) {
+    m_bRunning = false;
+  }
 }

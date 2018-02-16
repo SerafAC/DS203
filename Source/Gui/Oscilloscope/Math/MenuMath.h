@@ -11,25 +11,19 @@
 #include "ListOperand.h"
 #include "ListOperator.h"
 
-
-class CWndMenuMath : public CWnd
-{
-  enum {
-    A = 0, 
-    B = 1,
-    C = 2
-  };
+class CWndMenuMath : public CWnd {
+  enum { A = 0, B = 1, C = 2 };
 
 public:
-	// Menu items
-	CItemOperand		m_itmOperand[3];
-	CItemOperator		m_itmOperator;
-	
-	CWndListOperand		m_wndListOperand;
-	CWndListOperator	m_wndListOperator;
+  // Menu items
+  CItemOperand m_itmOperand[3];
+  CItemOperator m_itmOperator;
 
-	virtual void		Create(CWnd *pParent, ui16 dwFlags);
-	virtual void		OnMessage(CWnd* pSender, CodeParam code, DataParam data);
+  CWndListOperand m_wndListOperand;
+  CWndListOperator m_wndListOperator;
+
+  virtual void Create(CWnd *pParent, ui16 dwFlags);
+  virtual void OnMessage(CWnd *pSender, CodeParam code, DataParam data);
 };
 
 #endif

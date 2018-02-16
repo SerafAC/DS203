@@ -1,9 +1,9 @@
 #ifdef _VERSION2
 /*
-#include "Manager.cpp"
-#include "Execute.cpp"
-#include "EMeter.cpp"
 #include "CharMap.cpp"
+#include "EMeter.cpp"
+#include "Execute.cpp"
+#include "Manager.cpp"
 #include "Monitor.cpp"
 */
 #else

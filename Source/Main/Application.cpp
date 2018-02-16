@@ -7,136 +7,118 @@ void CApplicationProto::Destroy() {}
 bool CApplicationProto::operator ()() { return false; }
 */
 
-/*static*/ CApplication* CApplication::m_pInstance = NULL;
+/*static*/ CApplication *CApplication::m_pInstance = NULL;
 
-class CKeyProcessor
-{
-	ui16 keys;
-	ui32 last;
-	ui16 delay;
+class CKeyProcessor {
+  ui16 keys;
+  ui32 last;
+  ui16 delay;
+
 public:
-	CKeyProcessor()
-	{
-		last = BIOS::SYS::GetTick();
-		delay = 301;
-	}
-	void operator <<(const ui16& in)
-	{
-		if (keys == 0)
-			delay = 301;
-		keys = in;
-	}
-	void operator >>(ui16& out)
-	{
-		ui32 now = BIOS::SYS::GetTick();
-		if (now-last > delay && keys)
-		{
-			out = keys;
-			last = now;
-			if ( delay == 301 )
-				delay = 300;
-			else if ( delay == 300 )
-				delay = 100;
-			else if (delay > 10)
-				delay -= 10;
-		}
-		else
-			out = 0;
-	}
+  CKeyProcessor() {
+    last = BIOS::SYS::GetTick();
+    delay = 301;
+  }
+  void operator<<(const ui16 &in) {
+    if (keys == 0)
+      delay = 301;
+    keys = in;
+  }
+  void operator>>(ui16 &out) {
+    ui32 now = BIOS::SYS::GetTick();
+    if (now - last > delay && keys) {
+      out = keys;
+      last = now;
+      if (delay == 301)
+        delay = 300;
+      else if (delay == 300)
+        delay = 100;
+      else if (delay > 10)
+        delay -= 10;
+    } else
+      out = 0;
+  }
 };
 
-/* workaround class for the issue of global classes constructors being not called */
+/* workaround class for the issue of global classes constructors being not
+ * called */
 
 #define GLOBAL (*CInit::getInstance())
 
-class CInit
-{
+class CInit {
 public:
-	CMainWnd m_wndMain;
-	CSettings m_Settings;
-	CKeyProcessor m_kp;
+  CMainWnd m_wndMain;
+  CSettings m_Settings;
+  CKeyProcessor m_kp;
 
-	static CInit* getInstance()
-	{
-		static CInit init;
-		return &init;
-	}
+  static CInit *getInstance() {
+    static CInit init;
+    return &init;
+  }
 };
 
-CApplication::CApplication()
-{
-	m_pInstance = this;
-}
+CApplication::CApplication() { m_pInstance = this; }
 
-CApplication::~CApplication()
-{
-}
+CApplication::~CApplication() {}
 
-void CApplication::Create()
-{
-	BIOS::SYS::Init();
+void CApplication::Create() {
+  BIOS::SYS::Init();
 #ifdef _VERSION2
-	BIOS::FAT::Init();
+  BIOS::FAT::Init();
 #endif
-	GLOBAL.m_wndMain.Create();
-	GLOBAL.m_wndMain.WindowMessage( CWnd::WmPaint );
+  GLOBAL.m_wndMain.Create();
+  GLOBAL.m_wndMain.WindowMessage(CWnd::WmPaint);
 
-	CCoreOscilloscope::ConfigureAdc();
-	CCoreOscilloscope::ConfigureTrigger();
-	CCoreGenerator::Update();
+  CCoreOscilloscope::ConfigureAdc();
+  CCoreOscilloscope::ConfigureTrigger();
+  CCoreGenerator::Update();
 
-	BIOS::ADC::Restart();
+  BIOS::ADC::Restart();
 }
 
-void CApplication::Destroy()
-{
-}
+void CApplication::Destroy() {}
 
 #ifdef _WIN32
-	extern "C" { void __stdcall Sleep(int); }
+extern "C" {
+void __stdcall Sleep(int);
+}
 #endif
 
-bool CApplication::operator ()()
-{
-	static ui32 lLastTick = (ui32)-1;
-	static ui16 lLastKeys = (ui16)-1;
-	ui32 lCurTick = BIOS::SYS::GetTick();
-	if ( lLastTick == (ui32)-1 )
-		lLastTick = lCurTick;
-	if ( lCurTick - lLastTick > 1000 )
-	{
-		int nSeconds = (lCurTick - lLastTick) / 1000;
-		lLastTick += nSeconds * 1000;
-		GLOBAL.m_Settings.Runtime.m_nUptime += nSeconds;
-	}
+bool CApplication::operator()() {
+  static ui32 lLastTick = (ui32)-1;
+  static ui16 lLastKeys = (ui16)-1;
+  ui32 lCurTick = BIOS::SYS::GetTick();
+  if (lLastTick == (ui32)-1)
+    lLastTick = lCurTick;
+  if (lCurTick - lLastTick > 1000) {
+    int nSeconds = (lCurTick - lLastTick) / 1000;
+    lLastTick += nSeconds * 1000;
+    GLOBAL.m_Settings.Runtime.m_nUptime += nSeconds;
+  }
 
-	ui16 nKeys = BIOS::KEY::GetKeys();
-	if(!nKeys)
-	{
-		lLastKeys = 0;
-	}
+  ui16 nKeys = BIOS::KEY::GetKeys();
+  if (!nKeys) {
+    lLastKeys = 0;
+  }
 
-	GLOBAL.m_kp << nKeys;
-	GLOBAL.m_kp >> nKeys;
+  GLOBAL.m_kp << nKeys;
+  GLOBAL.m_kp >> nKeys;
 
-	if ( nKeys )
-	{
-		if ( nKeys != lLastKeys && Settings.Runtime.m_Beep == CSettings::CRuntime::_On ) 
-			BIOS::SYS::Beep(50);
+  if (nKeys) {
+    if (nKeys != lLastKeys &&
+        Settings.Runtime.m_Beep == CSettings::CRuntime::_On)
+      BIOS::SYS::Beep(50);
 
-		GLOBAL.m_wndMain.WindowMessage( CWnd::WmKey, nKeys );
-		lLastKeys = nKeys;
-	}
+    GLOBAL.m_wndMain.WindowMessage(CWnd::WmKey, nKeys);
+    lLastKeys = nKeys;
+  }
 
-	GLOBAL.m_wndMain.WindowMessage( CWnd::WmTick, 0 );
+  GLOBAL.m_wndMain.WindowMessage(CWnd::WmTick, 0);
 
 #ifdef _WIN32
-	Sleep(1);
+  Sleep(1);
 #endif
-	return true;
+  return true;
 }
 
-/*static*/ CApplication* CApplication::getInstance()
-{
-	return m_pInstance;	
-}
+/*static*/ CApplication *CApplication::getInstance() { return m_pInstance; }

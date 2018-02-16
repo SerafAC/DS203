@@ -6,18 +6,17 @@
 
 #define Application (*CApplication::getInstance())
 
-class CApplication : public CApplicationProto
-{
-	static CApplication* m_pInstance;
- 
-public:
-	static CApplication* getInstance();
+class CApplication : public CApplicationProto {
+  static CApplication *m_pInstance;
 
-	CApplication();
-	~CApplication();
-	virtual void Create();
-	virtual void Destroy();
-	virtual bool operator ()();
+public:
+  static CApplication *getInstance();
+
+  CApplication();
+  ~CApplication();
+  virtual void Create();
+  virtual void Destroy();
+  virtual bool operator()();
 };
 
 #endif

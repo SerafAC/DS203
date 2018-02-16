@@ -5,23 +5,21 @@
 #error Include the folder "HwLayer/Win32" only for desktop application compilation
 #endif
 
-#define LINKERSECTION(sec) 
-#define __asm__(x) 
+#define LINKERSECTION(sec)
+#define __asm__(x)
 
 #include <stdio.h>
 struct FILEINFO {
-	enum {
-		SectorSize = 512
-	};
-	ui8 nMode;
-	ui8 nSectors;
-	FILE *f;
+  enum { SectorSize = 512 };
+  ui8 nMode;
+  ui8 nSectors;
+  FILE *f;
 };
 
 #ifdef _DLLEXPORT
-#	define DLLAPI __declspec(dllexport)
+#define DLLAPI __declspec(dllexport)
 #else
-#	define DLLAPI
+#define DLLAPI
 #endif
 
 #endif

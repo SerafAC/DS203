@@ -1,8 +1,8 @@
 #ifndef __BIOS_H__
 #define __BIOS_H__
 
+#include <Source/HwLayer/Types.h>
 #include <Source/Framework/Classes.h>
-#include "Types.h"
 
 class DLLAPI BIOS {
 public:

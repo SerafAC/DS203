@@ -1,11 +1,11 @@
 #ifdef _VERSION2
 /*
-#include "EMeter.h"
-#include "Manager.h"
 #include "CharMap.h"
-#include "Monitor.h"
 #include "Dcf77.h"
+#include "EMeter.h"
 #include "GpioTest.h"
+#include "Manager.h"
+#include "Monitor.h"
 */
 #else
 /*
@@ -20,8 +20,8 @@
 //#include "Thermometer.h"
 //#include "Balls.h"
 //#include "Meter.h"
-#include "PidRegulator.h"
 #include "GpioTest.h"
+#include "PidRegulator.h"
 //#include "Geiger.h"
 //#include "Dcf77.h"
 //#include "EMeter.h"

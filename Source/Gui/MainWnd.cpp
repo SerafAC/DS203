@@ -1,463 +1,432 @@
 #include "MainWnd.h"
 #include "MainWndSdk.h"
 
-/*static*/ CMainWnd	*CMainWnd::m_pInstance = NULL;
+/*static*/ CMainWnd *CMainWnd::m_pInstance = NULL;
 
-void CMainWnd::Create()
-{
-	m_pInstance = this;
+void CMainWnd::Create() {
+  m_pInstance = this;
 
-	// image correctly uploaded in ROM ?
-	_ASSERT( 
-		CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s][0] == '1' &&
-		CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s][1] == 's' &&
-		CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s][2] == 0 );
+  // image correctly uploaded in ROM ?
+  _ASSERT(CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s]
+                                                 [0] == '1' &&
+          CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s]
+                                                 [1] == 's' &&
+          CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s]
+                                                 [2] == 0);
 
-	Settings.Load();
-	Settings.LoadCalibration();
-	CCoreOscilloscope::ConfigureAdc();
-	CCoreGenerator::Update();
-	CCoreSettings::Update();
+  Settings.Load();
+  Settings.LoadCalibration();
+  CCoreOscilloscope::ConfigureAdc();
+  CCoreGenerator::Update();
+  CCoreSettings::Update();
 
-	m_nLastKey = BIOS::SYS::GetTick();
-	m_bSleeping = false;
-	
-	CWnd::Create("CMainWnd", WsVisible | WsListener, CRect(0, 0, BIOS::LCD::LcdWidth, BIOS::LCD::LcdHeight), NULL );
+  m_nLastKey = BIOS::SYS::GetTick();
+  m_bSleeping = false;
 
-	m_wndToolBar.Create( this );
-	m_wndGraph.Create( this, WsHidden | WsNoActivate );
-	m_wndSignalGraph.Create( this, WsNoActivate );
-	m_wndSpectrumGraph.Create( this, WsNoActivate );
-	m_wndSpectrumMiniFD.Create( this, WsNoActivate );
-	m_wndSpectrumMiniTD.Create( this, WsNoActivate );
-	m_wndSpectrumMiniSG.Create( this, WsNoActivate );
+  CWnd::Create("CMainWnd", WsVisible | WsListener,
+               CRect(0, 0, BIOS::LCD::LcdWidth, BIOS::LCD::LcdHeight), NULL);
 
-	m_wndMenuInput.Create( this, WsHidden );
-	m_wndMenuCursor.Create( this, WsHidden );
-	m_wndMenuMeas.Create( this, WsHidden );
-	m_wndMenuMath.Create( this, WsHidden );
-	m_wndMenuSettings.Create( this, WsHidden );
-	m_wndMenuKeySettings.Create( this, WsHidden );
-	m_wndMenuDisplay.Create( this, WsHidden );
-	m_wndMenuMask.Create( this, WsHidden );
-	m_wndMenuGenerator.Create( this, WsHidden );
-//	m_wndMenuGeneratorMod.Create( this, WsHidden );
-	m_wndMenuGeneratorEdit.Create( this, WsHidden );
-	m_wndZoomBar.Create( this, WsHidden, &m_wndGraph );
-	m_wndInfoBar.Create( this, WsHidden, &m_wndGraph );
-	m_wndLReferences.Create( this, WsHidden );
-	m_wndLReferencesM.Create( this, WsHidden );
-	m_wndTReferences.Create( this, WsHidden );
-	m_wndSpectrumMain.Create( this, WsHidden );
-	m_wndSpectrumMarker.Create( this, WsHidden );
-	m_wndSpectrumAnnot.Create( this, WsHidden );
-	m_wndAboutFirmware.Create( this, WsHidden );
-	m_wndAboutDevice.Create( this, WsHidden );
-	m_wndAboutStatus.Create( this, WsHidden );
-	m_wndAboutModules.Create( this, WsHidden );
-	m_wndModuleSel.Create(this, WsHidden );
-	m_wndCalibration.Create( this, WsHidden );
+  m_wndToolBar.Create(this);
+  m_wndGraph.Create(this, WsHidden | WsNoActivate);
+  m_wndSignalGraph.Create(this, WsNoActivate);
+  m_wndSpectrumGraph.Create(this, WsNoActivate);
+  m_wndSpectrumMiniFD.Create(this, WsNoActivate);
+  m_wndSpectrumMiniTD.Create(this, WsNoActivate);
+  m_wndSpectrumMiniSG.Create(this, WsNoActivate);
 
-#	define ADD_MODULE( strName, type ) m_wndUser##type.Create( this, WsHidden );
-#	include <Source/User/_Modules.h>
-#	undef ADD_MODULE
+  m_wndMenuInput.Create(this, WsHidden);
+  m_wndMenuCursor.Create(this, WsHidden);
+  m_wndMenuMeas.Create(this, WsHidden);
+  m_wndMenuMath.Create(this, WsHidden);
+  m_wndMenuSettings.Create(this, WsHidden);
+  m_wndMenuKeySettings.Create(this, WsHidden);
+  m_wndMenuDisplay.Create(this, WsHidden);
+  m_wndMenuMask.Create(this, WsHidden);
+  m_wndMenuGenerator.Create(this, WsHidden);
+  //	m_wndMenuGeneratorMod.Create( this, WsHidden );
+  m_wndMenuGeneratorEdit.Create(this, WsHidden);
+  m_wndZoomBar.Create(this, WsHidden, &m_wndGraph);
+  m_wndInfoBar.Create(this, WsHidden, &m_wndGraph);
+  m_wndLReferences.Create(this, WsHidden);
+  m_wndLReferencesM.Create(this, WsHidden);
+  m_wndTReferences.Create(this, WsHidden);
+  m_wndSpectrumMain.Create(this, WsHidden);
+  m_wndSpectrumMarker.Create(this, WsHidden);
+  m_wndSpectrumAnnot.Create(this, WsHidden);
+  m_wndAboutFirmware.Create(this, WsHidden);
+  m_wndAboutDevice.Create(this, WsHidden);
+  m_wndAboutStatus.Create(this, WsHidden);
+  m_wndAboutModules.Create(this, WsHidden);
+  m_wndModuleSel.Create(this, WsHidden);
+  m_wndCalibration.Create(this, WsHidden);
 
-	m_wndToolbox.Create(this);
+#define ADD_MODULE(strName, type) m_wndUser##type.Create(this, WsHidden);
+#include <Source/User/_Modules.h>
+#undef ADD_MODULE
 
-	if ( Settings.Runtime.m_nMenuItem == -1 )
-		Settings.Runtime.m_nMenuItem = 1;
-	
-	SendMessage( &m_wndToolBar, ToWord('g', 'i'), Settings.Runtime.m_nMenuItem);
+  m_wndToolbox.Create(this);
 
-	m_lLastAcquired = 0;
-	SetTimer(200);
+  if (Settings.Runtime.m_nMenuItem == -1)
+    Settings.Runtime.m_nMenuItem = 1;
+
+  SendMessage(&m_wndToolBar, ToWord('g', 'i'), Settings.Runtime.m_nMenuItem);
+
+  m_lLastAcquired = 0;
+  SetTimer(200);
 }
 
-/*virtual*/ void CMainWnd::OnTimer()
-{
-	// every 200ms
-	static int nSubCounter = 0;
+/*virtual*/ void CMainWnd::OnTimer() {
+  // every 200ms
+  static int nSubCounter = 0;
 
-	if ( ++nSubCounter == 5 )
-	{
-		nSubCounter = 0;
-		static ui32 nChecksum = -1;
-		static int nSeconds = 0;
-		nSeconds++;
+  if (++nSubCounter == 5) {
+    nSubCounter = 0;
+    static ui32 nChecksum = -1;
+    static int nSeconds = 0;
+    nSeconds++;
 
-		if ( Settings.Runtime.m_nStandby != 0 )
-		{
-			if ( (int)BIOS::SYS::GetTick() > m_nLastKey + Settings.Runtime.m_nStandby*60000 )
-			{
-				// enter sleep mode
-				BIOS::SYS::SetVolume(0);
-				m_wndMessage.Show(this, "Information", "Entering sleep mode", RGB565(ffff00));
-				BIOS::ADC::Enable( false );
-				for ( int i = Settings.Runtime.m_nBacklight; i > 0; i--)
-				{
-					BIOS::SYS::SetBacklight( i );
-					BIOS::SYS::DelayMs(10);
-				}
-				BIOS::SYS::Standby( true );
-				m_bSleeping = true;
-				KillTimer();
-			}
-		}
+    if (Settings.Runtime.m_nStandby != 0) {
+      if ((int)BIOS::SYS::GetTick() >
+          m_nLastKey + Settings.Runtime.m_nStandby * 60000) {
+        // enter sleep mode
+        BIOS::SYS::SetVolume(0);
+        m_wndMessage.Show(this, "Information", "Entering sleep mode",
+                          RGB565(ffff00));
+        BIOS::ADC::Enable(false);
+        for (int i = Settings.Runtime.m_nBacklight; i > 0; i--) {
+          BIOS::SYS::SetBacklight(i);
+          BIOS::SYS::DelayMs(10);
+        }
+        BIOS::SYS::Standby(true);
+        m_bSleeping = true;
+        KillTimer();
+      }
+    }
 
- 		if ( nChecksum == (ui32)-1 )
-		{
-			int nUptime = Settings.Runtime.m_nUptime;
-			Settings.Runtime.m_nUptime = 0;
-			nChecksum = Settings.GetChecksum();
-			Settings.Runtime.m_nUptime = nUptime;
-		}
-		if ( Settings.m_lLastChange != 0 )
-		{
-			// save settings in 20 seconds
-			nSeconds = 120 - 20;
-			Settings.m_lLastChange = 0;
-		}
-		if ( nSeconds >= 120 )
-		{
-			nSeconds = 0;
-	
-			ui32 nNewChecksum = Settings.GetStaticChecksum();
-			if ( nNewChecksum != nChecksum )
-			{
-				//m_wndMessage.Show(this, "Information", "Saving settings...", RGB565(ffff00));
-				Settings.Save();
-				nChecksum = nNewChecksum;
-			}
-		}
+    if (nChecksum == (ui32)-1) {
+      int nUptime = Settings.Runtime.m_nUptime;
+      Settings.Runtime.m_nUptime = 0;
+      nChecksum = Settings.GetChecksum();
+      Settings.Runtime.m_nUptime = nUptime;
+    }
+    if (Settings.m_lLastChange != 0) {
+      // save settings in 20 seconds
+      nSeconds = 120 - 20;
+      Settings.m_lLastChange = 0;
+    }
+    if (nSeconds >= 120) {
+      nSeconds = 0;
 
-		if ( Settings.Runtime.m_bUartTest )
-		{
-			char test[32];
-			static int nCounter=0;
-			BIOS::DBG::sprintf(test, "Ready.(%d)\n", nCounter++);
-			BIOS::SERIAL::Send("TEST!");
-			BIOS::SERIAL::Send(test);
-		}
-	}
+      ui32 nNewChecksum = Settings.GetStaticChecksum();
+      if (nNewChecksum != nChecksum) {
+        // m_wndMessage.Show(this, "Information", "Saving settings...",
+        // RGB565(ffff00));
+        Settings.Save();
+        nChecksum = nNewChecksum;
+      }
+    }
 
-	if ( BIOS::ADC::Enabled() && Settings.Trig.Sync == CSettings::Trigger::_Auto )
-	{
-		if ( m_lLastAcquired != -1 && BIOS::SYS::GetTick() - m_lLastAcquired > 150 )
-		{
-			bool bScreenReady = BIOS::ADC::GetPointer() > (300 + Settings.Time.InvalidFirst);
-			BIOS::ADC::Copy( BIOS::ADC::GetCount() );
+    if (Settings.Runtime.m_bUartTest) {
+      char test[32];
+      static int nCounter = 0;
+      BIOS::DBG::sprintf(test, "Ready.(%d)\n", nCounter++);
+      BIOS::SERIAL::Send("TEST!");
+      BIOS::SERIAL::Send(test);
+    }
+  }
 
-			// redraw the screen even when the sampler is not full
-			//BIOS::LCD::Print(0, 0, RGB565(ff0000), 0, "U");
-			WindowMessage( CWnd::WmBroadcast, ToWord('d', 'g') );
-			//BIOS::LCD::Print(0, 0, RGB565(808080), 0, "u");
-		
-			// force restart if the write pointer is behind current window
-			// TODO: the FPGA program is unreliable and stupid!, the restart wont reset the WPTR to begin of buffer
-			if ( bScreenReady )
-			{
-				//BIOS::LCD::Print(0, 0, RGB565(ff0000), 0, "R");
-				BIOS::ADC::Restart();
-			} 
-		}
-	}
+  if (BIOS::ADC::Enabled() && Settings.Trig.Sync == CSettings::Trigger::_Auto) {
+    if (m_lLastAcquired != -1 && BIOS::SYS::GetTick() - m_lLastAcquired > 150) {
+      bool bScreenReady =
+          BIOS::ADC::GetPointer() > (300 + Settings.Time.InvalidFirst);
+      BIOS::ADC::Copy(BIOS::ADC::GetCount());
+
+      // redraw the screen even when the sampler is not full
+      // BIOS::LCD::Print(0, 0, RGB565(ff0000), 0, "U");
+      WindowMessage(CWnd::WmBroadcast, ToWord('d', 'g'));
+      // BIOS::LCD::Print(0, 0, RGB565(808080), 0, "u");
+
+      // force restart if the write pointer is behind current window
+      // TODO: the FPGA program is unreliable and stupid!, the restart wont
+      // reset the WPTR to begin of buffer
+      if (bScreenReady) {
+        // BIOS::LCD::Print(0, 0, RGB565(ff0000), 0, "R");
+        BIOS::ADC::Restart();
+      }
+    }
+  }
 }
 
-/*virtual*/ void CMainWnd::OnPaint()
-{
-	BIOS::LCD::Clear(RGB565(000000));
+/*virtual*/ void CMainWnd::OnPaint() { BIOS::LCD::Clear(RGB565(000000)); }
+
+/*virtual*/ void CMainWnd::OnMessage(CWnd *pSender, CodeParam code,
+                                     DataParam data) {
+  if (pSender == &m_wndToolBar) {
+    if (code == ToWord('L', 'D') && data) // Layout disable
+    {
+      CWnd *pLayout = (CWnd *)data;
+      SendMessage(pLayout, code, 0);
+      pLayout->ShowWindow(SwHide);
+    }
+    if (code == ToWord('L', 'E') && data) // Layout enable
+    {
+      CWnd *pLayout = (CWnd *)data;
+      SendMessage(pLayout, code, 0);
+      pLayout->ShowWindow(SwShow);
+    }
+    if (code == ToWord('L', 'R')) // Layout reset
+    {
+      Invalidate();
+    }
+    return;
+  }
 }
 
-/*virtual*/ void CMainWnd::OnMessage(CWnd* pSender, CodeParam code, DataParam data)
-{
-	if ( pSender == &m_wndToolBar )
-	{
-		if ( code == ToWord('L', 'D') && data )	// Layout disable
-		{
-			CWnd* pLayout = (CWnd*)data;
-			SendMessage( pLayout, code, 0 );
-			pLayout->ShowWindow( SwHide );
-		}
-		if ( code == ToWord('L', 'E') && data )	// Layout enable
-		{
-			CWnd* pLayout = (CWnd*)data;
-			SendMessage( pLayout, code, 0 );
-			pLayout->ShowWindow( SwShow );
-		}
-		if ( code == ToWord('L', 'R') )	// Layout reset
-		{
-			Invalidate();
-		}
-		return;
-	}
+CWnd *GetWindowByPoint(CWnd *pParent, int x, int y) {
+  if (!pParent->m_rcClient.IsInside(x, y))
+    return NULL;
+
+  CWnd *pChild = pParent->m_pFirst;
+  while (pChild) {
+    if (pChild->m_dwFlags & CWnd::WsVisible &&
+        !(pChild->m_dwFlags & CWnd::WsNoActivate)) {
+      CWnd *pFound = GetWindowByPoint(pChild, x, y);
+      if (pFound)
+        return pFound;
+    }
+    pChild = pChild->m_pNext;
+  }
+  return pParent;
 }
 
-CWnd* GetWindowByPoint( CWnd* pParent, int x, int y )
-{
-	if ( !pParent->m_rcClient.IsInside(x, y) )
-		return NULL;
+void CMainWnd::OnMouseClick() {
+  CWnd *pTopDialog = GetFocus();
+  while (pTopDialog->m_pParent) {
+    if (pTopDialog->m_dwFlags & CWnd::WsModal)
+      break;
+    pTopDialog = pTopDialog->m_pParent;
+  }
 
-	CWnd *pChild = pParent->m_pFirst;
-	while (pChild)
-	{
-		if ( pChild->m_dwFlags & CWnd::WsVisible && !(pChild->m_dwFlags & CWnd::WsNoActivate) )
-		{
-			CWnd* pFound = GetWindowByPoint( pChild, x, y );
-			if ( pFound )
-				return pFound;
-		}
-		pChild = pChild->m_pNext;
-	}
-	return pParent;
+  CWnd *pWnd = GetWindowByPoint(pTopDialog, m_Mouse.GetX(), m_Mouse.GetY());
+  if (pWnd) {
+    if (pWnd == pTopDialog) {
+    } else if (pWnd == GetFocus()) {
+      if (!(pWnd->m_dwFlags & CWnd::WsNoActivate)) {
+        bool bProcess = true;
+        pTopDialog->SendMessage(pWnd, ToWord('M', 'D'), &bProcess);
+        if (bProcess)
+          pWnd->WindowMessage(CWnd::WmKey, BIOS::KEY::KeyEnter);
+      }
+    } else if (!(pWnd->m_dwFlags & CWnd::WsNoActivate)) {
+      CWnd *pPrevFocus = GetFocus();
+      pWnd->SetFocus();
+      pPrevFocus->Invalidate();
+      bool bProcess = false;
+      pTopDialog->SendMessage(pWnd, ToWord('M', 'C'), &bProcess);
+      pWnd->Invalidate();
+    }
+  } else {
+    GetFocus()->WindowMessage(CWnd::WmKey, BIOS::KEY::KeyEscape);
+  }
 }
 
-void CMainWnd::OnMouseClick()
-{
-	CWnd* pTopDialog = GetFocus();
-	while ( pTopDialog->m_pParent )
-	{
-		if ( pTopDialog->m_dwFlags & CWnd::WsModal )
-			break;
-		pTopDialog = pTopDialog->m_pParent;
-	}
+ui32 GetInterpolatedSample(int nSample256) {
+  // real sample index = nSample256 / 256.0f
+  int nBase = nSample256 / 1024;
+  int nFraction = nSample256 & 1023;
 
-	CWnd* pWnd = GetWindowByPoint( pTopDialog, m_Mouse.GetX(), m_Mouse.GetY() );
-	if ( pWnd )
-	{
-		if ( pWnd == pTopDialog )
-		{
-		} else
-		if ( pWnd == GetFocus() )
-		{
-			if ( !(pWnd->m_dwFlags & CWnd::WsNoActivate) )
-			{
-				bool bProcess = true;
-				pTopDialog->SendMessage( pWnd, ToWord('M', 'D'), &bProcess );
-				if ( bProcess )
-					pWnd->WindowMessage( CWnd::WmKey, BIOS::KEY::KeyEnter );
-			}
-		} else if ( !(pWnd->m_dwFlags & CWnd::WsNoActivate) )
-		{
-			CWnd* pPrevFocus = GetFocus();
-			pWnd->SetFocus();
-			pPrevFocus->Invalidate();
-			bool bProcess = false;
-			pTopDialog->SendMessage( pWnd, ToWord('M', 'C'), &bProcess );
-			pWnd->Invalidate();
-		}
-	} else
-	{
-		GetFocus()->WindowMessage( CWnd::WmKey, BIOS::KEY::KeyEscape );
-	}
+  _ASSERT(nBase + 1 < (int)BIOS::ADC::GetCount());
+
+  BIOS::ADC::SSample nSampleA;
+  nSampleA.nValue = BIOS::ADC::GetAt(nBase);
+
+  BIOS::ADC::SSample nSampleB;
+  nSampleB.nValue = BIOS::ADC::GetAt(nBase + 1);
+
+  // interpolate values for CH1 and CH2 in nSampleA..nSampleB and store result
+  // in nSampleA
+  nSampleA.CH1 += (int)(nSampleB.CH1 - nSampleA.CH1) * nFraction / 1024;
+  nSampleA.CH2 += (int)(nSampleB.CH2 - nSampleA.CH2) * nFraction / 1024;
+
+  return nSampleA.nValue;
 }
 
-ui32 GetInterpolatedSample( int nSample256 )
-{
-	// real sample index = nSample256 / 256.0f
-	int nBase = nSample256 / 1024;
-	int nFraction = nSample256 & 1023;
+void CMainWnd::Resample() {
+  int nTimebaseCorrection =
+      Settings.Time
+          .pfValueResolutionCorrection[(NATIVEENUM)Settings.Time.Resolution];
+  if (nTimebaseCorrection == 1024)
+    return;
 
-	_ASSERT( nBase + 1 < (int)BIOS::ADC::GetCount() );
+  if (nTimebaseCorrection < 1024) {
+    // shrink
+    for (int i = 4096 - 1; i >= 1;
+         i--) // no need to copy [0] <- [0*nCorrect/1k]
+    {
+      BIOS::ADC::SSample &nSample = (BIOS::ADC::SSample &)BIOS::ADC::GetAt(i);
+      BIOS::ADC::SSample nInterpolated;
+      nInterpolated.nValue = GetInterpolatedSample(i * nTimebaseCorrection);
 
-	BIOS::ADC::SSample nSampleA;
-	nSampleA.nValue = BIOS::ADC::GetAt( nBase );
-
-	BIOS::ADC::SSample nSampleB;
-	nSampleB.nValue = BIOS::ADC::GetAt( nBase + 1 );
-
-	// interpolate values for CH1 and CH2 in nSampleA..nSampleB and store result in nSampleA
-	nSampleA.CH1 += (int)(nSampleB.CH1 - nSampleA.CH1) * nFraction / 1024;
-	nSampleA.CH2 += (int)(nSampleB.CH2 - nSampleA.CH2) * nFraction / 1024;
-
-	return nSampleA.nValue;
+      nSample.CH[0] = nInterpolated.CH[0];
+      nSample.CH[1] = nInterpolated.CH[1];
+      nSample.CH[2] = nInterpolated.CH[2]; // contains CH3 & CH4
+    }
+  } else {
+    // expand
+    _ASSERT(0);
+  }
 }
 
-void CMainWnd::Resample()
-{
-	int nTimebaseCorrection = Settings.Time.pfValueResolutionCorrection[ (NATIVEENUM)Settings.Time.Resolution ];
-	if ( nTimebaseCorrection == 1024 )
-		return;
+/*virtual*/ void CMainWnd::WindowMessage(int nMsg, int nParam /*=0*/) {
+  //	BIOS::LCD::Printf( 0, 0, RGB565(ff0000), RGB565(ffffff), "%d",
+  //BIOS::ADC::GetState() );
+  if (nMsg == WmTick) {
+    if (m_bSleeping)
+      return;
 
-	if ( nTimebaseCorrection < 1024 )
-	{
-		// shrink
-		for (int i=4096-1; i>=1; i--) // no need to copy [0] <- [0*nCorrect/1k]
-		{
-			BIOS::ADC::SSample& nSample = (BIOS::ADC::SSample&)BIOS::ADC::GetAt( i );
-			BIOS::ADC::SSample nInterpolated;
-			nInterpolated.nValue = GetInterpolatedSample( i * nTimebaseCorrection );
+    m_Mouse.Hide();
+    if (m_Mouse.Clicked())
+      OnMouseClick();
 
-			nSample.CH[0] = nInterpolated.CH[0];
-			nSample.CH[1] = nInterpolated.CH[1];
-			nSample.CH[2] = nInterpolated.CH[2]; // contains CH3 & CH4
-		}
-	} else {
-		// expand
-		_ASSERT( 0 );
-	}
-}
-
-/*virtual*/ void CMainWnd::WindowMessage(int nMsg, int nParam /*=0*/)
-{
-//	BIOS::LCD::Printf( 0, 0, RGB565(ff0000), RGB565(ffffff), "%d", BIOS::ADC::GetState() );
-	if ( nMsg == WmTick )
-	{
-		if ( m_bSleeping )
-			return;
-
-		m_Mouse.Hide();
-		if ( m_Mouse.Clicked() )
-			OnMouseClick();
-
-		// timers update
-		CWnd::WindowMessage( nMsg, nParam );
-		bool bEnableSdk = Settings.Runtime.m_bUartSdk ? true : false;
+    // timers update
+    CWnd::WindowMessage(nMsg, nParam);
+    bool bEnableSdk = Settings.Runtime.m_bUartSdk ? true : false;
 
 #ifdef ENABLE_MONITOR
-		// When the user is in UART monitor screen, do not intercept UART traffic
-		if ( MainWnd.m_wndToolBar.GetCurrentLayout() == &MainWnd.m_wndUserCWndUserMonitor )
-			bEnableSdk = false;
+    // When the user is in UART monitor screen, do not intercept UART traffic
+    if (MainWnd.m_wndToolBar.GetCurrentLayout() ==
+        &MainWnd.m_wndUserCWndUserMonitor)
+      bEnableSdk = false;
 #endif
 
 #ifdef ENABLE_MODULE_GPIOTEST
-		if ( MainWnd.m_wndToolBar.GetCurrentLayout() == &MainWnd.m_wndUserCWndGpioTest )
-			bEnableSdk = false;
+    if (MainWnd.m_wndToolBar.GetCurrentLayout() ==
+        &MainWnd.m_wndUserCWndGpioTest)
+      bEnableSdk = false;
 #endif
 
-		if ( bEnableSdk )
-			SdkUartProc();
+    if (bEnableSdk)
+      SdkUartProc();
 
-		if ( (Settings.Trig.Sync != CSettings::Trigger::_None) && BIOS::ADC::Enabled() && BIOS::ADC::Ready() )
-		{
-			// ADC::Ready means that the write pointer is at the end of buffer, we can restart sampler
-			BIOS::ADC::Copy( BIOS::ADC::GetCount() );
-			BIOS::ADC::Restart();
-			Resample();
+    if ((Settings.Trig.Sync != CSettings::Trigger::_None) &&
+        BIOS::ADC::Enabled() && BIOS::ADC::Ready()) {
+      // ADC::Ready means that the write pointer is at the end of buffer, we can
+      // restart sampler
+      BIOS::ADC::Copy(BIOS::ADC::GetCount());
+      BIOS::ADC::Restart();
+      Resample();
 
-			// trig stuff
-			m_lLastAcquired = BIOS::SYS::GetTick();
-			if ( BIOS::ADC::Enabled() && Settings.Trig.Sync == CSettings::Trigger::_Single )
-			{
-				BIOS::ADC::Enable( false );
-				Settings.Trig.State = CSettings::Trigger::_Stop;
-				if ( m_wndMenuInput.m_itmTrig.IsVisible() )
-					m_wndMenuInput.m_itmTrig.Invalidate();
-			}
+      // trig stuff
+      m_lLastAcquired = BIOS::SYS::GetTick();
+      if (BIOS::ADC::Enabled() &&
+          Settings.Trig.Sync == CSettings::Trigger::_Single) {
+        BIOS::ADC::Enable(false);
+        Settings.Trig.State = CSettings::Trigger::_Stop;
+        if (m_wndMenuInput.m_itmTrig.IsVisible())
+          m_wndMenuInput.m_itmTrig.Invalidate();
+      }
 
-			// broadcast message for windows that process waveform data
-			WindowMessage( CWnd::WmBroadcast, ToWord('d', 'g') );
-		}
-		m_Mouse.Show();
-		return;
-	}
+      // broadcast message for windows that process waveform data
+      WindowMessage(CWnd::WmBroadcast, ToWord('d', 'g'));
+    }
+    m_Mouse.Show();
+    return;
+  }
 
-	if ( nMsg == WmKey )
-	{
-		if ( m_bSleeping )
-		{
-			SetTimer( 200 );
-			m_bSleeping = false;
-			BIOS::SYS::Standby( false );
+  if (nMsg == WmKey) {
+    if (m_bSleeping) {
+      SetTimer(200);
+      m_bSleeping = false;
+      BIOS::SYS::Standby(false);
 
-			CCoreOscilloscope::ConfigureAdc();
-			CCoreGenerator::Update();
-			m_wndMessage.Hide();
-			Invalidate();
+      CCoreOscilloscope::ConfigureAdc();
+      CCoreGenerator::Update();
+      m_wndMessage.Hide();
+      Invalidate();
 
-			for ( int i = 0; i < Settings.Runtime.m_nBacklight; i++)
-			{
-				BIOS::SYS::SetBacklight( i );
-				BIOS::SYS::DelayMs(10);
-			}
+      for (int i = 0; i < Settings.Runtime.m_nBacklight; i++) {
+        BIOS::SYS::SetBacklight(i);
+        BIOS::SYS::DelayMs(10);
+      }
 
-			m_nLastKey = BIOS::SYS::GetTick();
-			CCoreSettings::Update();	// display backlight
-			return;
-		}
+      m_nLastKey = BIOS::SYS::GetTick();
+      CCoreSettings::Update(); // display backlight
+      return;
+    }
 
-		m_nLastKey = BIOS::SYS::GetTick();
+    m_nLastKey = BIOS::SYS::GetTick();
 
-		if ( nParam & ( BIOS::KEY::KeyFunction | BIOS::KEY::KeyFunction2 | BIOS::KEY::KeyS2 | BIOS::KEY::KeyS1 ) )
-		{
-			m_Mouse.Hide();
-			if ( nParam == BIOS::KEY::KeyFunction )
-				CMainWnd::CallShortcut(Settings.Runtime.m_nShortcutCircle);
+    if (nParam & (BIOS::KEY::KeyFunction | BIOS::KEY::KeyFunction2 |
+                  BIOS::KEY::KeyS2 | BIOS::KEY::KeyS1)) {
+      m_Mouse.Hide();
+      if (nParam == BIOS::KEY::KeyFunction)
+        CMainWnd::CallShortcut(Settings.Runtime.m_nShortcutCircle);
 
-			if ( nParam == BIOS::KEY::KeyFunction2 )
-				CMainWnd::CallShortcut(Settings.Runtime.m_nShortcutTriangle);
+      if (nParam == BIOS::KEY::KeyFunction2)
+        CMainWnd::CallShortcut(Settings.Runtime.m_nShortcutTriangle);
 
-			if ( nParam == BIOS::KEY::KeyS2 )
-				CMainWnd::CallShortcut(Settings.Runtime.m_nShortcutS2);
+      if (nParam == BIOS::KEY::KeyS2)
+        CMainWnd::CallShortcut(Settings.Runtime.m_nShortcutS2);
 
-			if ( nParam == BIOS::KEY::KeyS1 )
-				CMainWnd::CallShortcut(Settings.Runtime.m_nShortcutS1);
-			m_Mouse.Show();
-			return;
-		}
-	}
+      if (nParam == BIOS::KEY::KeyS1)
+        CMainWnd::CallShortcut(Settings.Runtime.m_nShortcutS1);
+      m_Mouse.Show();
+      return;
+    }
+  }
 
-	m_Mouse.Hide();
-	CWnd::WindowMessage( nMsg, nParam );
-	m_Mouse.Show();
+  m_Mouse.Hide();
+  CWnd::WindowMessage(nMsg, nParam);
+  m_Mouse.Show();
 }
 
-void CMainWnd::CallShortcut(int nShortcut)
-{
-	static int nOldFocus = -1;
-	if ( nShortcut >= 0 )
-	{
-		// +1 => first submenu in section
-		if ( nShortcut == MainWnd.m_wndToolBar.m_nFocus )
-		{
-			if ( nOldFocus != -1 )
-				SendMessage( &MainWnd.m_wndToolBar, ToWord('g', '2'), nOldFocus );
-		} else {
-			nOldFocus = MainWnd.m_wndToolBar.m_nFocus;
-			SendMessage( &MainWnd.m_wndToolBar, ToWord('g', '2'), nShortcut );
-		}
-		return;
-	}
-	switch ( nShortcut )
-	{
-		case CSettings::CRuntime::None:
-			break;
-		case CSettings::CRuntime::StartStop:
-			m_wndToolbox.ToggleAdc();
-			break;
-		case CSettings::CRuntime::Toolbox:
-			if ( !m_wndToolbox.IsVisible() && !m_wndManager.IsVisible() )
-			{
-				m_wndToolbox.DoModal();
-				if ( m_wndToolbox.GetResult() == CWndToolbox::MenuManager)
-				{
-					m_wndManager.Create(this);
-					m_wndManager.DoModal();
-				}
-			}
-			break;
-		case CSettings::CRuntime::WaveManager:
-			if ( m_wndManager.IsVisible() )
-				m_wndManager.Cancel();
-			else
-			{
-				m_wndManager.Create(this);
-				m_wndManager.DoModal();
-			}
-			break;
-		case CSettings::CRuntime::Screenshot:
-			m_wndToolbox.SaveScreenshot16();
-			break;
-	default:
-		_ASSERT( !!!"Unknown shortcut" );
-	}
+void CMainWnd::CallShortcut(int nShortcut) {
+  static int nOldFocus = -1;
+  if (nShortcut >= 0) {
+    // +1 => first submenu in section
+    if (nShortcut == MainWnd.m_wndToolBar.m_nFocus) {
+      if (nOldFocus != -1)
+        SendMessage(&MainWnd.m_wndToolBar, ToWord('g', '2'), nOldFocus);
+    } else {
+      nOldFocus = MainWnd.m_wndToolBar.m_nFocus;
+      SendMessage(&MainWnd.m_wndToolBar, ToWord('g', '2'), nShortcut);
+    }
+    return;
+  }
+  switch (nShortcut) {
+  case CSettings::CRuntime::None:
+    break;
+  case CSettings::CRuntime::StartStop:
+    m_wndToolbox.ToggleAdc();
+    break;
+  case CSettings::CRuntime::Toolbox:
+    if (!m_wndToolbox.IsVisible() && !m_wndManager.IsVisible()) {
+      m_wndToolbox.DoModal();
+      if (m_wndToolbox.GetResult() == CWndToolbox::MenuManager) {
+        m_wndManager.Create(this);
+        m_wndManager.DoModal();
+      }
+    }
+    break;
+  case CSettings::CRuntime::WaveManager:
+    if (m_wndManager.IsVisible())
+      m_wndManager.Cancel();
+    else {
+      m_wndManager.Create(this);
+      m_wndManager.DoModal();
+    }
+    break;
+  case CSettings::CRuntime::Screenshot:
+    m_wndToolbox.SaveScreenshot16();
+    break;
+  default:
+    _ASSERT(!!!"Unknown shortcut");
+  }
 }
 
-bool CMainWnd::HasOverlay()
-{
-	return CWnd::GetOverlay().IsValid() || m_wndToolbox.IsVisible() || m_wndManager.IsVisible();
+bool CMainWnd::HasOverlay() {
+  return CWnd::GetOverlay().IsValid() || m_wndToolbox.IsVisible() ||
+         m_wndManager.IsVisible();
 }
 
-bool HasOverlay()
-{
-	return MainWnd.HasOverlay();
-}
+bool HasOverlay() { return MainWnd.HasOverlay(); }

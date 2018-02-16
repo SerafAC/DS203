@@ -3,20 +3,16 @@
 
 #include <Source/Framework/Wnd.h>
 
-class CWndSpecAnnotations : public CWnd
-{
+class CWndSpecAnnotations : public CWnd {
 public:
-	virtual void Create(CWnd *pParent, ui16 wFlags)
-	{
-		CWnd::Create("CWndSpecAnnotations", wFlags | CWnd::WsNoActivate, CRect(0, 0, 1, 1), pParent);
-	}
+  virtual void Create(CWnd *pParent, ui16 wFlags) {
+    CWnd::Create("CWndSpecAnnotations", wFlags | CWnd::WsNoActivate,
+                 CRect(0, 0, 1, 1), pParent);
+  }
 
-	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data)
-	{
-	}
+  virtual void OnMessage(CWnd *pSender, CodeParam code, DataParam data) {}
 
-	virtual void OnPaint();
-
+  virtual void OnPaint();
 };
 
 #endif

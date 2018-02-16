@@ -1,741 +1,641 @@
-#define _SAFE(a) if (!(a)) { _ASSERT(0); return CEvalOperand(CEvalOperand::eoError); }
+#define _SAFE(a)                                                               \
+  if (!(a)) {                                                                  \
+    _ASSERT(0);                                                                \
+    return CEvalOperand(CEvalOperand::eoError);                                \
+  }
 
-class CEvalClasses 
-{
+class CEvalClasses {
 public:
-	enum {
-		RpnLength = 32,
-		StackLength = 16
-		//,
-		//MaxTokenLength = 20
-	};
+  enum {
+    RpnLength = 32,
+    StackLength = 16
+    //,
+    // MaxTokenLength = 20
+  };
 
 public:
-	class CStream 
-	{
-	public:
-		virtual INT GetSize() = 0;
-		virtual CHAR Get() = 0;
-	};
+  class CStream {
+  public:
+    virtual INT GetSize() = 0;
+    virtual CHAR Get() = 0;
+  };
 
-	template <class TYPE>
-	class CArray
-	{
-		TYPE	*m_arrElements;
-		ui16	m_nCount;
-		ui16	m_nMaxCount;
-	public:
-		CArray()
-		{
-		}
+  template <class TYPE> class CArray {
+    TYPE *m_arrElements;
+    ui16 m_nCount;
+    ui16 m_nMaxCount;
 
-		CArray( TYPE *pSource, INT nLength )
-		{
-			m_arrElements = pSource;
-			m_nCount = 0;
-			m_nMaxCount = nLength;
-		}
-		
-		void Init( TYPE *pSource, INT nLength )
-		{
-			m_arrElements = pSource;
-			m_nCount = 0;
-			m_nMaxCount = nLength;
-		}
+  public:
+    CArray() {}
 
-		bool IsEmpty()
-		{
-			_ASSERT( m_arrElements );
-			return m_nCount == 0;
-		}
+    CArray(TYPE *pSource, INT nLength) {
+      m_arrElements = pSource;
+      m_nCount = 0;
+      m_nMaxCount = nLength;
+    }
 
-		void Add(TYPE t)
-		{
-			_ASSERT( m_nCount < m_nMaxCount );
-			m_arrElements[m_nCount++] = t;
-		}
+    void Init(TYPE *pSource, INT nLength) {
+      m_arrElements = pSource;
+      m_nCount = 0;
+      m_nMaxCount = nLength;
+    }
 
-		TYPE &GetLast()
-		{
-			_ASSERT( m_nCount > 0 );
-			return m_arrElements[m_nCount-1];
-		}
-		
-		TYPE RemoveLast()
-		{
-			_ASSERT( m_nCount > 0 );
-			TYPE& t = m_arrElements[--m_nCount];
-			return t;
-		}
+    bool IsEmpty() {
+      _ASSERT(m_arrElements);
+      return m_nCount == 0;
+    }
 
-		void Resize( INT nDif )
-		{
-			m_nCount += nDif;
-			_ASSERT( m_nCount >= 0 && m_nCount < m_nMaxCount );
-		}
+    void Add(TYPE t) {
+      _ASSERT(m_nCount < m_nMaxCount);
+      m_arrElements[m_nCount++] = t;
+    }
 
-		INT GetSize()
-		{
-			return m_nCount;
-		}
+    TYPE &GetLast() {
+      _ASSERT(m_nCount > 0);
+      return m_arrElements[m_nCount - 1];
+    }
 
-		TYPE& operator []( INT i )
-		{
-			if ( i < 0 )
-				i += m_nCount;
-			_ASSERT( i >= 0 && i < GetSize() );
-			return m_arrElements[i];
-		}
-	};
+    TYPE RemoveLast() {
+      _ASSERT(m_nCount > 0);
+      TYPE &t = m_arrElements[--m_nCount];
+      return t;
+    }
 
-	class CEvalOperand;
-	typedef CEvalOperand (*PEvalFunc)( CArray<CEvalOperand>& arrOperands );
+    void Resize(INT nDif) {
+      m_nCount += nDif;
+      _ASSERT(m_nCount >= 0 && m_nCount < m_nMaxCount);
+    }
 
-	class CEvalVariable
-	{
-	public:
-		virtual void Set( CEvalOperand& pOperand ) = 0;
-		virtual CEvalOperand Get() = 0;
-	};
+    INT GetSize() { return m_nCount; }
 
-	class CEvalToken {
-	public:
-		enum ePrecedence {
-			PrecedenceToken = -1,
-			PrecedenceNone = 0,
-			PrecedenceMul = 9,
-			PrecedenceAdd = 8,
-			PrecedenceLow = 4,
-			PrecedenceFunc = 20,
-			PrecedenceFuncLow = 5,
-			PrecedenceConst = 30,
-			PrecedenceVar = 31
-		};
+    TYPE &operator[](INT i) {
+      if (i < 0)
+        i += m_nCount;
+      _ASSERT(i >= 0 && i < GetSize());
+      return m_arrElements[i];
+    }
+  };
 
-		const CHAR*			m_pszToken;
-		const si8			m_ePrecedence;
-		const PEvalFunc		m_pEval;
-	};
+  class CEvalOperand;
+  typedef CEvalOperand (*PEvalFunc)(CArray<CEvalOperand> &arrOperands);
 
-	/*
-	class CEvalToken 
-	{
-	public:
-		enum ePrecedence {
-			PrecedenceToken = -1,
-			PrecedenceNone = 0,
-			PrecedenceMul = 9,
-			PrecedenceAdd = 8,
-			PrecedenceLow = 4,
-			PrecedenceFunc = 20,
-			PrecedenceFuncLow = 5,
-			PrecedenceConst = 30,
-			PrecedenceVar = 31
-		};
+  class CEvalVariable {
+  public:
+    virtual void Set(CEvalOperand &pOperand) = 0;
+    virtual CEvalOperand Get() = 0;
+  };
 
-		CHAR			m_pszToken[MaxTokenLength];
-		ui8				m_nTokenLen;
-		si8				m_ePrecedence;
-		PEvalFunc		m_pEval;
+  class CEvalToken {
+  public:
+    enum ePrecedence {
+      PrecedenceToken = -1,
+      PrecedenceNone = 0,
+      PrecedenceMul = 9,
+      PrecedenceAdd = 8,
+      PrecedenceLow = 4,
+      PrecedenceFunc = 20,
+      PrecedenceFuncLow = 5,
+      PrecedenceConst = 30,
+      PrecedenceVar = 31
+    };
 
-		CEvalToken()
-		{
-		}
+    const CHAR *m_pszToken;
+    const si8 m_ePrecedence;
+    const PEvalFunc m_pEval;
+  };
 
-		CEvalToken(PCSTR pszToken, si8 Precedence = PrecedenceNone, PEvalFunc pEval = NULL) :
-			m_ePrecedence( Precedence ),
-			m_pEval( pEval )
-		{
-			if ( pszToken )
-			{
-				m_nTokenLen = (ui8) BIOS::UTIL::StrLen(pszToken);
-				_ASSERT( m_nTokenLen < MaxTokenLength-1 );
-				BIOS::UTIL::StrCpy( m_pszToken, pszToken );
-			}
-			else
-			{
-				m_pszToken[0] = 0;
-				m_nTokenLen = 0;
-			}
-		}
-	};
-	*/
+  /*
+  class CEvalToken
+  {
+  public:
+          enum ePrecedence {
+                  PrecedenceToken = -1,
+                  PrecedenceNone = 0,
+                  PrecedenceMul = 9,
+                  PrecedenceAdd = 8,
+                  PrecedenceLow = 4,
+                  PrecedenceFunc = 20,
+                  PrecedenceFuncLow = 5,
+                  PrecedenceConst = 30,
+                  PrecedenceVar = 31
+          };
 
-	class CEvalOperand 
-	{
-	public:
-		enum EOperandType {
-			eoInteger,
-			eoFloat,
-			eoString,
-			eoCString,
-			eoAttribute,
-			eoOperator,
-			eoError,
-			eoNone,
-			eoStream,
-			eoVariable,
-			eoVoidPointer
-		};
-		
-	public:
-		EOperandType m_eType;
+          CHAR			m_pszToken[MaxTokenLength];
+          ui8				m_nTokenLen;
+          si8				m_ePrecedence;
+          PEvalFunc		m_pEval;
 
-		union {
-			void*			m_pVoid;
-			INT				m_iData;
-			FLOAT			m_fData;
-			const CEvalToken	*m_pOperator;
-			CStream			*m_pStream;
-			char			*m_pString;
-			const char		*m_pcString;
-			ui8				m_pData8[8];
-			ui32			m_pData32[2];
-			CEvalVariable	*m_pVariable;
-		} m_Data;
+          CEvalToken()
+          {
+          }
 
-	public:
-		explicit CEvalOperand( EOperandType eType ) : m_eType( eType )
-		{
-		}
+          CEvalToken(PCSTR pszToken, si8 Precedence = PrecedenceNone, PEvalFunc
+  pEval = NULL) :
+                  m_ePrecedence( Precedence ),
+                  m_pEval( pEval )
+          {
+                  if ( pszToken )
+                  {
+                          m_nTokenLen = (ui8) BIOS::UTIL::StrLen(pszToken);
+                          _ASSERT( m_nTokenLen < MaxTokenLength-1 );
+                          BIOS::UTIL::StrCpy( m_pszToken, pszToken );
+                  }
+                  else
+                  {
+                          m_pszToken[0] = 0;
+                          m_nTokenLen = 0;
+                  }
+          }
+  };
+  */
 
-		CEvalOperand()
-		{
-		}
+  class CEvalOperand {
+  public:
+    enum EOperandType {
+      eoInteger,
+      eoFloat,
+      eoString,
+      eoCString,
+      eoAttribute,
+      eoOperator,
+      eoError,
+      eoNone,
+      eoStream,
+      eoVariable,
+      eoVoidPointer
+    };
 
-		CEvalOperand( FLOAT f ) : m_eType( eoFloat )
-		{
-			m_Data.m_fData = f;
-		}
+  public:
+    EOperandType m_eType;
 
-		CEvalOperand( INT i ) : m_eType( eoInteger )
-		{
-			m_Data.m_iData = i;
-		}
+    union {
+      void *m_pVoid;
+      INT m_iData;
+      FLOAT m_fData;
+      const CEvalToken *m_pOperator;
+      CStream *m_pStream;
+      char *m_pString;
+      const char *m_pcString;
+      ui8 m_pData8[8];
+      ui32 m_pData32[2];
+      CEvalVariable *m_pVariable;
+    } m_Data;
 
-		CEvalOperand( UINT i ) : m_eType( eoInteger )
-		{
-			m_Data.m_iData = i;
-		}
+  public:
+    explicit CEvalOperand(EOperandType eType) : m_eType(eType) {}
 
-		CEvalOperand( CHAR* str, INT nLength, EOperandType eType = eoString ) :
-			m_eType( eType )
-		{
-			m_Data.m_pString = str;
-			m_Data.m_pData32[1] = nLength;
-		}
+    CEvalOperand() {}
 
-		CEvalOperand( const CHAR* str, INT nLength = -1, EOperandType eType = eoCString ) :
-			m_eType( eType )
-		{
-			m_Data.m_pcString = str;
-			m_Data.m_pData32[1] = (nLength > -1) ? nLength : BIOS::UTIL::StrLen(str);
-		}
+    CEvalOperand(FLOAT f) : m_eType(eoFloat) { m_Data.m_fData = f; }
 
-		CEvalOperand( const CEvalToken* pToken ) : m_eType( eoOperator )
-		{
-			m_Data.m_pOperator = pToken;
-		}
+    CEvalOperand(INT i) : m_eType(eoInteger) { m_Data.m_iData = i; }
 
-		CEvalOperand( CStream* pStream ) : m_eType( eoStream )
-		{
-			m_Data.m_pStream = pStream;
-		}
+    CEvalOperand(UINT i) : m_eType(eoInteger) { m_Data.m_iData = i; }
 
-		CEvalOperand( CEvalVariable *pVariable ) : m_eType( eoVariable )
-		{
-			m_Data.m_pVariable = pVariable;
-		}
-		CEvalOperand(void *p) : m_eType(eoVoidPointer)
-		{
-			m_Data.m_pVoid = p;
-		}
+    CEvalOperand(CHAR *str, INT nLength, EOperandType eType = eoString)
+        : m_eType(eType) {
+      m_Data.m_pString = str;
+      m_Data.m_pData32[1] = nLength;
+    }
 
-		FLOAT GetFloat()
-		{
-			if ( m_eType == eoInteger )
-				return (FLOAT) m_Data.m_iData;
-			if ( m_eType == eoFloat )
-				return (FLOAT) m_Data.m_fData;
-			if ( m_eType == eoVariable )
-				return this->m_Data.m_pVariable->Get().GetFloat();
-			_ASSERT( 0 );
-			return 0.0f;
-		}
+    CEvalOperand(const CHAR *str, INT nLength = -1,
+                 EOperandType eType = eoCString)
+        : m_eType(eType) {
+      m_Data.m_pcString = str;
+      m_Data.m_pData32[1] = (nLength > -1) ? nLength : BIOS::UTIL::StrLen(str);
+    }
 
-		INT GetInteger()
-		{
-			if ( m_eType == eoInteger )
-				return m_Data.m_iData;
-			if ( m_eType == eoFloat )
-				return (INT) m_Data.m_fData;
-			if ( m_eType == eoVariable )
-				return this->m_Data.m_pVariable->Get().GetInteger();
-			_ASSERT( 0 );
-			return 0L;
-		}
-		void* GetVoidPointer()
-		{
-			if (m_eType == eoVoidPointer)
-				return m_Data.m_pVoid;	
-			_ASSERT(0);
-			return 0;
-		}
-		bool Is( EOperandType eType )
-		{
-			return m_eType == eType;
-		}
+    CEvalOperand(const CEvalToken *pToken) : m_eType(eoOperator) {
+      m_Data.m_pOperator = pToken;
+    }
 
-		bool Is( const CEvalToken* pToken )
-		{
-			if ( m_eType != eoOperator )
-				return false;
-			return m_Data.m_pOperator == pToken;
-		}
-	};
+    CEvalOperand(CStream *pStream) : m_eType(eoStream) {
+      m_Data.m_pStream = pStream;
+    }
+
+    CEvalOperand(CEvalVariable *pVariable) : m_eType(eoVariable) {
+      m_Data.m_pVariable = pVariable;
+    }
+    CEvalOperand(void *p) : m_eType(eoVoidPointer) { m_Data.m_pVoid = p; }
+
+    FLOAT GetFloat() {
+      if (m_eType == eoInteger)
+        return (FLOAT)m_Data.m_iData;
+      if (m_eType == eoFloat)
+        return (FLOAT)m_Data.m_fData;
+      if (m_eType == eoVariable)
+        return this->m_Data.m_pVariable->Get().GetFloat();
+      _ASSERT(0);
+      return 0.0f;
+    }
+
+    INT GetInteger() {
+      if (m_eType == eoInteger)
+        return m_Data.m_iData;
+      if (m_eType == eoFloat)
+        return (INT)m_Data.m_fData;
+      if (m_eType == eoVariable)
+        return this->m_Data.m_pVariable->Get().GetInteger();
+      _ASSERT(0);
+      return 0L;
+    }
+    void *GetVoidPointer() {
+      if (m_eType == eoVoidPointer)
+        return m_Data.m_pVoid;
+      _ASSERT(0);
+      return 0;
+    }
+    bool Is(EOperandType eType) { return m_eType == eType; }
+
+    bool Is(const CEvalToken *pToken) {
+      if (m_eType != eoOperator)
+        return false;
+      return m_Data.m_pOperator == pToken;
+    }
+  };
 };
 
-class CEvalTools 
-{
+class CEvalTools {
 public:
-	INT HexToInt(CHAR c)
-	{
-		if ( c < '0' || c > 'f' )
-			return -1;
+  INT HexToInt(CHAR c) {
+    if (c < '0' || c > 'f')
+      return -1;
 
-		if ( (c>>4) == 3 ) 
-			return c-'0'; 
-		else 
-			return (c&0xf)+9;
-	}
+    if ((c >> 4) == 3)
+      return c - '0';
+    else
+      return (c & 0xf) + 9;
+  }
 
-	FLOAT StrIsFloat ( CHAR *s )
-	{
-		while ( *s >= '0' && *s <= '9' )
-			s++;
-		if (*s == '.')
-			return true;
-		return false;
-	}
-	
-	FLOAT StrToFloat ( CHAR *s, CHAR **endp )
-	{
-		*endp = NULL;
-		
-		CHAR* digit = s;
-		FLOAT sign = 1.0f;
-		FLOAT result = 0.0f;
+  FLOAT StrIsFloat(CHAR *s) {
+    while (*s >= '0' && *s <= '9')
+      s++;
+    if (*s == '.')
+      return true;
+    return false;
+  }
 
-		// check sign
-		if (*digit == '-') 
-		{
-			sign = -1;
-			digit++;
-		}
+  FLOAT StrToFloat(CHAR *s, CHAR **endp) {
+    *endp = NULL;
 
-		//--- get integer portion
-		while (*digit >= '0' && *digit <='9') 
-		{
-			result = (result * 10) + *digit-'0';
-			digit++;
-		}
+    CHAR *digit = s;
+    FLOAT sign = 1.0f;
+    FLOAT result = 0.0f;
 
-		//--- get decimal point and fraction, if any.
-		if (*digit == '.') 
-		{
-			digit++;
-			FLOAT scale = 0.1f;
+    // check sign
+    if (*digit == '-') {
+      sign = -1;
+      digit++;
+    }
 
-			while (*digit >= '0' && *digit <='9') 
-			{
-				result += (*digit-'0') * scale;
-				scale *= 0.1f;
-				digit++;
-			}
-		}
+    //--- get integer portion
+    while (*digit >= '0' && *digit <= '9') {
+      result = (result * 10) + *digit - '0';
+      digit++;
+    }
 
-		//--- error if we're not at the end of the number
-		if (*digit != 0) 
-			*endp = digit;
+    //--- get decimal point and fraction, if any.
+    if (*digit == '.') {
+      digit++;
+      FLOAT scale = 0.1f;
 
-		//--- set to sign given at the front
-		result = result * sign;
-		
-		return result;
-	}
+      while (*digit >= '0' && *digit <= '9') {
+        result += (*digit - '0') * scale;
+        scale *= 0.1f;
+        digit++;
+      }
+    }
 
-	INT StrToInt ( CHAR *s, CHAR **endp )
-	{
-		*endp = NULL;
-		
-		CHAR* digit = s;
-		INT result = 0;
+    //--- error if we're not at the end of the number
+    if (*digit != 0)
+      *endp = digit;
 
-		while (*digit >= '0' && *digit <='9') 
-		{
-			result = (result * 10) + *digit-'0';
-			digit++;
-		}
+    //--- set to sign given at the front
+    result = result * sign;
 
-		if (*digit != 0) 
-			*endp = digit;
+    return result;
+  }
 
-		return result;
-	}
+  INT StrToInt(CHAR *s, CHAR **endp) {
+    *endp = NULL;
 
+    CHAR *digit = s;
+    INT result = 0;
+
+    while (*digit >= '0' && *digit <= '9') {
+      result = (result * 10) + *digit - '0';
+      digit++;
+    }
+
+    if (*digit != 0)
+      *endp = digit;
+
+    return result;
+  }
 };
 
-class CEvalCore : public CEvalTools, public CEvalClasses
-{
-public:	
-	CEvalOperand m_arrRpn_[RpnLength];
-	CArray<CEvalOperand> m_arrRpn;
-	PSTR m_pEndPtr;
+class CEvalCore : public CEvalTools, public CEvalClasses {
+public:
+  CEvalOperand m_arrRpn_[RpnLength];
+  CArray<CEvalOperand> m_arrRpn;
+  PSTR m_pEndPtr;
 
 private:
-	virtual const CEvalToken* isOperator( CHAR* pszExpression ) = 0;
+  virtual const CEvalToken *isOperator(CHAR *pszExpression) = 0;
 
 public:
-	CEvalOperand Eval( PSTR pszExpression )
-	{
-		m_arrRpn.Init( m_arrRpn_, RpnLength );
+  CEvalOperand Eval(PSTR pszExpression) {
+    m_arrRpn.Init(m_arrRpn_, RpnLength);
 
-		if ( !ConvertToRpn( pszExpression ) )
-			return CEvalOperand( CEvalOperand::eoError );
+    if (!ConvertToRpn(pszExpression))
+      return CEvalOperand(CEvalOperand::eoError);
 
-		return EvalRpn();
-	}
+    return EvalRpn();
+  }
 
-	bool ConvertToRpn( PSTR pszExpression )
-	{
-		CEvalOperand arrStack_[StackLength];
-		CArray <CEvalOperand> arrStack( arrStack_, StackLength );
+  bool ConvertToRpn(PSTR pszExpression) {
+    CEvalOperand arrStack_[StackLength];
+    CArray<CEvalOperand> arrStack(arrStack_, StackLength);
 
-		PSTR pszEnd = pszExpression + BIOS::UTIL::StrLen( pszExpression );
-		
-		const CEvalToken *pPrevToken = NULL;
-		const CEvalToken *pTokLPar = isOperator( (char*)"(" );
-		const CEvalToken *pTokRPar = isOperator( (char*)")" );
-		const CEvalToken *pTokDelim = isOperator( (char*)"," );
-		const CEvalToken *pTokEq = isOperator( (char*)"=" );
-		const CEvalToken *pTokTerm = isOperator( (char*)";" );
-		const CEvalToken *pToken = pTokLPar;
+    PSTR pszEnd = pszExpression + BIOS::UTIL::StrLen(pszExpression);
 
-		m_pEndPtr = NULL;
+    const CEvalToken *pPrevToken = NULL;
+    const CEvalToken *pTokLPar = isOperator((char *)"(");
+    const CEvalToken *pTokRPar = isOperator((char *)")");
+    const CEvalToken *pTokDelim = isOperator((char *)",");
+    const CEvalToken *pTokEq = isOperator((char *)"=");
+    const CEvalToken *pTokTerm = isOperator((char *)";");
+    const CEvalToken *pToken = pTokLPar;
 
-		for ( ; pszExpression < pszEnd; pszExpression++ )
-		{
-			if ( *pszExpression == ' ' )
-				continue;
-			
-			pPrevToken = pToken;
-			pToken = isOperator( pszExpression );
-			if ( pToken == pTokTerm )
-			{
-				pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken);
-				m_pEndPtr = pszExpression;
-				break;
-			}
+    m_pEndPtr = NULL;
 
-			if ( pToken == pTokLPar || pToken == pTokEq )
-			{
-				arrStack.Add( pToken );
-				continue;
-			}
+    for (; pszExpression < pszEnd; pszExpression++) {
+      if (*pszExpression == ' ')
+        continue;
 
-			if ( pToken == pTokRPar || pToken == pTokDelim )
-			{
-				while ( true )
-				{
-					if ( arrStack.IsEmpty() )
-						return false;
+      pPrevToken = pToken;
+      pToken = isOperator(pszExpression);
+      if (pToken == pTokTerm) {
+        pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken);
+        m_pEndPtr = pszExpression;
+        break;
+      }
 
-					if ( arrStack.GetLast().Is( pTokLPar ) ||
-						 arrStack.GetLast().Is( pTokEq ) ||
-						 arrStack.GetLast().Is( pTokDelim ) )
-					{
-						arrStack.RemoveLast();
-						break;
-					}
+      if (pToken == pTokLPar || pToken == pTokEq) {
+        arrStack.Add(pToken);
+        continue;
+      }
 
-					m_arrRpn.Add( arrStack.RemoveLast() );
-				}
-				if ( pToken == pTokDelim )
-				{
-					CEvalOperand Delim( pTokDelim );
-					m_arrRpn.Add( Delim );
-					arrStack.Add( Delim );
-				}
-				continue;
-			}
+      if (pToken == pTokRPar || pToken == pTokDelim) {
+        while (true) {
+          if (arrStack.IsEmpty())
+            return false;
 
-			// user function
-			if ( pToken && ( pToken->m_ePrecedence == CEvalToken::PrecedenceFunc ||
-				pToken->m_ePrecedence == CEvalToken::PrecedenceFuncLow ) )
-			{
-				arrStack.Add( pToken );
-				pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken) - 1;
-				continue;
-			}
+          if (arrStack.GetLast().Is(pTokLPar) ||
+              arrStack.GetLast().Is(pTokEq) ||
+              arrStack.GetLast().Is(pTokDelim)) {
+            arrStack.RemoveLast();
+            break;
+          }
 
-			// user constant
-			if ( pToken != NULL && 
-				 ( pToken->m_ePrecedence == CEvalToken::PrecedenceConst ||
-				   pToken->m_ePrecedence == CEvalToken::PrecedenceVar )
-				 )
-			{
-				m_arrRpn.Add( CEvalOperand(pToken) );
-				pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken) - 1;
-				continue;
-			}
+          m_arrRpn.Add(arrStack.RemoveLast());
+        }
+        if (pToken == pTokDelim) {
+          CEvalOperand Delim(pTokDelim);
+          m_arrRpn.Add(Delim);
+          arrStack.Add(Delim);
+        }
+        continue;
+      }
 
-			if ( !pToken )
-			{
-				if ( *pszExpression == '\'' )
-				{
-					// string
-					PSTR pszStart = ++pszExpression;
-					while ( *pszExpression && *pszExpression != '\'' )
-						pszExpression++;
+      // user function
+      if (pToken && (pToken->m_ePrecedence == CEvalToken::PrecedenceFunc ||
+                     pToken->m_ePrecedence == CEvalToken::PrecedenceFuncLow)) {
+        arrStack.Add(pToken);
+        pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken) - 1;
+        continue;
+      }
 
-					m_arrRpn.Add( CEvalOperand( pszStart, (INT)(pszExpression-pszStart) ) );
-					pszExpression++;
-				} else
-				if ( *pszExpression == '0' && pszExpression[1] == 'x' )
-				{
-					// number
-					UINT dwRet = 0;
-					pszExpression += 2;
-					INT nDigit = 0;
-					while ( (nDigit = HexToInt(*pszExpression)) >= 0 )
-					{
-						dwRet <<= 4;
-						dwRet |= nDigit;
-						pszExpression++;
-					}
+      // user constant
+      if (pToken != NULL &&
+          (pToken->m_ePrecedence == CEvalToken::PrecedenceConst ||
+           pToken->m_ePrecedence == CEvalToken::PrecedenceVar)) {
+        m_arrRpn.Add(CEvalOperand(pToken));
+        pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken) - 1;
+        continue;
+      }
 
-					m_arrRpn.Add( CEvalOperand( (INT)dwRet ) );
-				} else
-				if ( (*pszExpression >= '0' && *pszExpression <= '9') || (*pszExpression == '.') )
-				{
-					// number
-					char* pszNew = NULL;
-					if ( StrIsFloat(pszExpression) )
-					{
-						FLOAT fValue = StrToFloat(pszExpression, &pszNew);
-						if ( pszNew == pszExpression )
-						{
-							_ASSERT(0);
-							return false;
-						}
-						pszExpression = pszNew;
-						m_arrRpn.Add( CEvalOperand( fValue ) );
-					} else
-					{
-						INT lValue = StrToInt(pszExpression, &pszNew);
-						if ( pszNew == pszExpression )
-						{
-							_ASSERT(0);
-							return false;
-						}
-						pszExpression = pszNew;
-						m_arrRpn.Add( CEvalOperand( lValue ) );
-					}
-					if (!pszExpression)	// end of string
-						break;
-				} else
-				{
-					// string
-					char* pszStart = pszExpression;
-					while ( ( *pszExpression >= 'a' && *pszExpression <= 'z' ) || 
-							( *pszExpression >= 'A' && *pszExpression <= 'Z' ) || 
-							( *pszExpression >= '0' && *pszExpression <= '9' ) || 
-							( *pszExpression == '.' ) || 
-							( *pszExpression == '_' ) )
-					{
-						pszExpression++;
-					}
+      if (!pToken) {
+        if (*pszExpression == '\'') {
+          // string
+          PSTR pszStart = ++pszExpression;
+          while (*pszExpression && *pszExpression != '\'')
+            pszExpression++;
 
-					if ( pszExpression - pszStart == 0 )
-					{
-						return false;
-					}
+          m_arrRpn.Add(CEvalOperand(pszStart, (INT)(pszExpression - pszStart)));
+          pszExpression++;
+        } else if (*pszExpression == '0' && pszExpression[1] == 'x') {
+          // number
+          UINT dwRet = 0;
+          pszExpression += 2;
+          INT nDigit = 0;
+          while ((nDigit = HexToInt(*pszExpression)) >= 0) {
+            dwRet <<= 4;
+            dwRet |= nDigit;
+            pszExpression++;
+          }
 
-					m_arrRpn.Add( CEvalOperand(pszStart, (INT)(pszExpression-pszStart), CEvalOperand::eoAttribute ) );
-				}
-				pszExpression--; // trochu hlupe, ale for nam to zinkrementuje
-				continue;
-			}
-			
-			// pToken is valid
-			if ( pPrevToken != NULL && 
-				 pPrevToken != pTokRPar && 
-				 pPrevToken->m_ePrecedence != CEvalToken::PrecedenceConst && 
-				 pPrevToken->m_ePrecedence != CEvalToken::PrecedenceVar )
-			{
-				m_arrRpn.Add( CEvalOperand( (INT)0 ) );
-			}
+          m_arrRpn.Add(CEvalOperand((INT)dwRet));
+        } else if ((*pszExpression >= '0' && *pszExpression <= '9') ||
+                   (*pszExpression == '.')) {
+          // number
+          char *pszNew = NULL;
+          if (StrIsFloat(pszExpression)) {
+            FLOAT fValue = StrToFloat(pszExpression, &pszNew);
+            if (pszNew == pszExpression) {
+              _ASSERT(0);
+              return false;
+            }
+            pszExpression = pszNew;
+            m_arrRpn.Add(CEvalOperand(fValue));
+          } else {
+            INT lValue = StrToInt(pszExpression, &pszNew);
+            if (pszNew == pszExpression) {
+              _ASSERT(0);
+              return false;
+            }
+            pszExpression = pszNew;
+            m_arrRpn.Add(CEvalOperand(lValue));
+          }
+          if (!pszExpression) // end of string
+            break;
+        } else {
+          // string
+          char *pszStart = pszExpression;
+          while ((*pszExpression >= 'a' && *pszExpression <= 'z') ||
+                 (*pszExpression >= 'A' && *pszExpression <= 'Z') ||
+                 (*pszExpression >= '0' && *pszExpression <= '9') ||
+                 (*pszExpression == '.') || (*pszExpression == '_')) {
+            pszExpression++;
+          }
 
-			// get precedence
-			int precedence = pToken->m_ePrecedence;
-			int topPrecedence = 0;
-			pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken) - 1;
+          if (pszExpression - pszStart == 0) {
+            return false;
+          }
 
-			while ( true )
-			{
-				CEvalOperand myOper;
-				// get top's precedence
-				if ( !arrStack.IsEmpty() )
-				{
-					myOper = arrStack.GetLast();
+          m_arrRpn.Add(CEvalOperand(pszStart, (INT)(pszExpression - pszStart),
+                                    CEvalOperand::eoAttribute));
+        }
+        pszExpression--; // trochu hlupe, ale for nam to zinkrementuje
+        continue;
+      }
 
-					if ( myOper.m_eType == CEvalOperand::eoOperator && 
-						 myOper.m_Data.m_pOperator->m_ePrecedence >= 0 )
-						topPrecedence = myOper.m_Data.m_pOperator->m_ePrecedence;
-					else
-						topPrecedence = 1;
-				}
+      // pToken is valid
+      if (pPrevToken != NULL && pPrevToken != pTokRPar &&
+          pPrevToken->m_ePrecedence != CEvalToken::PrecedenceConst &&
+          pPrevToken->m_ePrecedence != CEvalToken::PrecedenceVar) {
+        m_arrRpn.Add(CEvalOperand((INT)0));
+      }
 
-				if ( arrStack.IsEmpty() || 
-					 arrStack.GetLast().Is( pTokRPar ) || 
-					 arrStack.GetLast().Is( pTokDelim ) ||
-					 precedence > topPrecedence )
-				{
-					arrStack.Add( pToken );
-					break;
-				}
-				// operator has lower precedence then pop it
-				else
-				{
-					arrStack.RemoveLast();
-					m_arrRpn.Add( myOper );
-				}
-			}
-		}
+      // get precedence
+      int precedence = pToken->m_ePrecedence;
+      int topPrecedence = 0;
+      pszExpression += BIOS::UTIL::StrLen(pToken->m_pszToken) - 1;
 
-		while ( !arrStack.IsEmpty() )
-		{
-			if ( arrStack.GetLast().Is( pTokLPar ) ) 
-				return false; //eval_unbalanced;
-			
-			m_arrRpn.Add( arrStack.RemoveLast() );
-		}
+      while (true) {
+        CEvalOperand myOper;
+        // get top's precedence
+        if (!arrStack.IsEmpty()) {
+          myOper = arrStack.GetLast();
 
-		return true; 
-	}	
+          if (myOper.m_eType == CEvalOperand::eoOperator &&
+              myOper.m_Data.m_pOperator->m_ePrecedence >= 0)
+            topPrecedence = myOper.m_Data.m_pOperator->m_ePrecedence;
+          else
+            topPrecedence = 1;
+        }
 
-	CEvalOperand EvalRpn()
-	{
-		CEvalOperand arrOperands_[StackLength];
-		CArray<CEvalOperand> arrOperands( arrOperands_, StackLength );
+        if (arrStack.IsEmpty() || arrStack.GetLast().Is(pTokRPar) ||
+            arrStack.GetLast().Is(pTokDelim) || precedence > topPrecedence) {
+          arrStack.Add(pToken);
+          break;
+        }
+        // operator has lower precedence then pop it
+        else {
+          arrStack.RemoveLast();
+          m_arrRpn.Add(myOper);
+        }
+      }
+    }
 
-		const CEvalToken *pTokDelim = isOperator( (char*)"," );
+    while (!arrStack.IsEmpty()) {
+      if (arrStack.GetLast().Is(pTokLPar))
+        return false; // eval_unbalanced;
 
-		for ( int i = 0; i < m_arrRpn.GetSize(); i++ )
-		{
-			CEvalOperand* pCurrent = &(m_arrRpn[i]);
+      m_arrRpn.Add(arrStack.RemoveLast());
+    }
 
-			if ( pCurrent->m_eType == CEvalOperand::eoOperator && 
-				 pCurrent->m_Data.m_pOperator != pTokDelim )
-			{
-				CEvalOperand opResult = pCurrent->m_Data.m_pOperator->m_pEval( arrOperands );
-				if ( opResult.Is( CEvalOperand::eoError ) )
-					return opResult;
-				arrOperands.Add( opResult );
-			}
-			else
-				arrOperands.Add( *pCurrent );
-		}
-		
-		if( arrOperands.GetSize() == 1 )
-		{
-			return arrOperands.RemoveLast();
-		}
+    return true;
+  }
 
-		return CEvalOperand( CEvalOperand::eoError );
-	}
+  CEvalOperand EvalRpn() {
+    CEvalOperand arrOperands_[StackLength];
+    CArray<CEvalOperand> arrOperands(arrOperands_, StackLength);
 
+    const CEvalToken *pTokDelim = isOperator((char *)",");
+
+    for (int i = 0; i < m_arrRpn.GetSize(); i++) {
+      CEvalOperand *pCurrent = &(m_arrRpn[i]);
+
+      if (pCurrent->m_eType == CEvalOperand::eoOperator &&
+          pCurrent->m_Data.m_pOperator != pTokDelim) {
+        CEvalOperand opResult =
+            pCurrent->m_Data.m_pOperator->m_pEval(arrOperands);
+        if (opResult.Is(CEvalOperand::eoError))
+          return opResult;
+        arrOperands.Add(opResult);
+      } else
+        arrOperands.Add(*pCurrent);
+    }
+
+    if (arrOperands.GetSize() == 1) {
+      return arrOperands.RemoveLast();
+    }
+
+    return CEvalOperand(CEvalOperand::eoError);
+  }
 };
 
-class CEval : public CEvalCore
-{
+class CEval : public CEvalCore {
 public:
-	static CEvalOperand _Mul( CArray<CEvalOperand>& arrOperands )
-	{
-		_SAFE( arrOperands.GetSize() >= 2 );
-		FLOAT fResult = arrOperands[-2].GetFloat() * arrOperands[-1].GetFloat();
-		arrOperands.Resize(-2);
-		return fResult;
-	}
-	static CEvalOperand _Div( CArray<CEvalOperand>& arrOperands )
-	{
-		_SAFE( arrOperands.GetSize() >= 2 );
-		_SAFE( arrOperands[-1].GetFloat() != 0.0f );
-		FLOAT fResult = arrOperands[-2].GetFloat() / arrOperands[-1].GetFloat();
-		arrOperands.Resize(-2);
-		return fResult;
-	}
-	static CEvalOperand _Add( CArray<CEvalOperand>& arrOperands )
-	{
-		_SAFE( arrOperands.GetSize() >= 2 );
-		return arrOperands.RemoveLast().GetFloat() + arrOperands.RemoveLast().GetFloat();
-	}
-	static CEvalOperand _Sub( CArray<CEvalOperand>& arrOperands )
-	{
-		_SAFE( arrOperands.GetSize() >= 2 );
-		FLOAT fResult = arrOperands[-2].GetFloat() - arrOperands[-1].GetFloat();
-		arrOperands.Resize(-2);
-		return fResult;
-	}
+  static CEvalOperand _Mul(CArray<CEvalOperand> &arrOperands) {
+    _SAFE(arrOperands.GetSize() >= 2);
+    FLOAT fResult = arrOperands[-2].GetFloat() * arrOperands[-1].GetFloat();
+    arrOperands.Resize(-2);
+    return fResult;
+  }
+  static CEvalOperand _Div(CArray<CEvalOperand> &arrOperands) {
+    _SAFE(arrOperands.GetSize() >= 2);
+    _SAFE(arrOperands[-1].GetFloat() != 0.0f);
+    FLOAT fResult = arrOperands[-2].GetFloat() / arrOperands[-1].GetFloat();
+    arrOperands.Resize(-2);
+    return fResult;
+  }
+  static CEvalOperand _Add(CArray<CEvalOperand> &arrOperands) {
+    _SAFE(arrOperands.GetSize() >= 2);
+    return arrOperands.RemoveLast().GetFloat() +
+           arrOperands.RemoveLast().GetFloat();
+  }
+  static CEvalOperand _Sub(CArray<CEvalOperand> &arrOperands) {
+    _SAFE(arrOperands.GetSize() >= 2);
+    FLOAT fResult = arrOperands[-2].GetFloat() - arrOperands[-1].GetFloat();
+    arrOperands.Resize(-2);
+    return fResult;
+  }
 
-	static CEvalOperand _Set( CArray<CEvalOperand>& arrOperands )
-	{
-		_SAFE( arrOperands.GetSize() >= 2 );
-		_SAFE( arrOperands[-2].Is( CEvalOperand::eoVariable ) );
-		arrOperands[-2].m_Data.m_pVariable->Set( arrOperands[-1] );
-		arrOperands.Resize(-2);
-		return CEvalOperand( CEvalOperand::eoNone );
-	}
+  static CEvalOperand _Set(CArray<CEvalOperand> &arrOperands) {
+    _SAFE(arrOperands.GetSize() >= 2);
+    _SAFE(arrOperands[-2].Is(CEvalOperand::eoVariable));
+    arrOperands[-2].m_Data.m_pVariable->Set(arrOperands[-1]);
+    arrOperands.Resize(-2);
+    return CEvalOperand(CEvalOperand::eoNone);
+  }
 
-	static const CEvalToken* getOperators()
-	{
-		static const CEvalToken myTokens[] = 
-		{
-			{ "(", -1, NULL },
-			{ ")", -1, NULL },
-			{ ",", -1, NULL },
-			{ ";", -1, NULL },
-			{ "=", -1, _Set },
+  static const CEvalToken *getOperators() {
+    static const CEvalToken myTokens[] = {
+        {"(", -1, NULL},
+        {")", -1, NULL},
+        {",", -1, NULL},
+        {";", -1, NULL},
+        {"=", -1, _Set},
 
-			{ "*", CEvalToken::PrecedenceMul, _Mul },
-			{ "/", CEvalToken::PrecedenceMul, _Div },
-			{ "+", CEvalToken::PrecedenceAdd, _Add },
-			{ "-", CEvalToken::PrecedenceAdd, _Sub },
+        {"*", CEvalToken::PrecedenceMul, _Mul},
+        {"/", CEvalToken::PrecedenceMul, _Div},
+        {"+", CEvalToken::PrecedenceAdd, _Add},
+        {"-", CEvalToken::PrecedenceAdd, _Sub},
 
-			{ NULL, -1, NULL }
-		};
-		return myTokens;
-	}
+        {NULL, -1, NULL}};
+    return myTokens;
+  }
 
-	const CEvalToken* isOperator( char* pszExpression )
-	{
-		const CEvalToken *pFind = getOperators();
-		const CEvalToken *pBest = NULL;
+  const CEvalToken *isOperator(char *pszExpression) {
+    const CEvalToken *pFind = getOperators();
+    const CEvalToken *pBest = NULL;
 
-		// ak to je func/var, hladat najdlhsiu
-		for (; pFind->m_pszToken; pFind++)
-			if ( strncmp( pszExpression, pFind->m_pszToken, BIOS::UTIL::StrLen(pFind->m_pszToken) ) == 0 )
-			{
-				if ( pFind->m_ePrecedence == CEvalToken::PrecedenceFunc ||
-					 pFind->m_ePrecedence == CEvalToken::PrecedenceVar )
-				{
-					if ( !pBest || BIOS::UTIL::StrLen(pFind->m_pszToken) > BIOS::UTIL::StrLen(pBest->m_pszToken) )
-						pBest = pFind;
-				} else
-					return pFind;
-			}
+    // ak to je func/var, hladat najdlhsiu
+    for (; pFind->m_pszToken; pFind++)
+      if (strncmp(pszExpression, pFind->m_pszToken,
+                  BIOS::UTIL::StrLen(pFind->m_pszToken)) == 0) {
+        if (pFind->m_ePrecedence == CEvalToken::PrecedenceFunc ||
+            pFind->m_ePrecedence == CEvalToken::PrecedenceVar) {
+          if (!pBest ||
+              BIOS::UTIL::StrLen(pFind->m_pszToken) >
+                  BIOS::UTIL::StrLen(pBest->m_pszToken))
+            pBest = pFind;
+        } else
+          return pFind;
+      }
 
-		return pBest;
-	}
-
+    return pBest;
+  }
 };

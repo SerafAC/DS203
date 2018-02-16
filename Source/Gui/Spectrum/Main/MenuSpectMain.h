@@ -8,25 +8,24 @@
 #include <Source/Gui/Oscilloscope/Input/ItemAnalog.h>
 #include <Source/Gui/Oscilloscope/Input/ItemTime.h>
 
-#include "ItemWindow.h"
 #include "ItemDisplay.h"
+#include "ItemWindow.h"
 
-class CWndMenuSpectMain : public CWnd
-{
+class CWndMenuSpectMain : public CWnd {
 public:
-	// Menu items
-	CItemAnalog		m_itmCH1;
-	CItemAnalog		m_itmCH2;
-	CItemTime		m_itmTime;
+  // Menu items
+  CItemAnalog m_itmCH1;
+  CItemAnalog m_itmCH2;
+  CItemTime m_itmTime;
 
-	CItemSpecWindow	m_itmWindow;
-	CItemSpecDisplay	m_itmDisplay;
-	CWndMenuItem	m_itmMarker;
+  CItemSpecWindow m_itmWindow;
+  CItemSpecDisplay m_itmDisplay;
+  CWndMenuItem m_itmMarker;
 
-	CWndMenuSpectMain();
+  CWndMenuSpectMain();
 
-	virtual void Create(CWnd *pParent, ui16 dwFlags);
-	virtual void OnMessage(CWnd* pSender, CodeParam code, DataParam data);
+  virtual void Create(CWnd *pParent, ui16 dwFlags);
+  virtual void OnMessage(CWnd *pSender, CodeParam code, DataParam data);
 };
 
 #endif

@@ -1,23 +1,23 @@
 #ifndef __CHANNELMATH_H__
 #define __CHANNELMATH_H__
 
-#include <Source/Core/Settings.h>
 #include "FirFilter.h"
+#include <Source/Core/Settings.h>
 
-class CMathChannel
-{
-	CSettings::Calibrator::FastCalc* m_pFC1;
-	CSettings::Calibrator::FastCalc* m_pFC2;
-	int m_nTemp;
-	CFirFilter	m_Fir;
+class CMathChannel {
+  CSettings::Calibrator::FastCalc *m_pFC1;
+  CSettings::Calibrator::FastCalc *m_pFC2;
+  int m_nTemp;
+  CFirFilter m_Fir;
 
 public:
-	void			MathSetup( CSettings::Calibrator::FastCalc* pFC1, CSettings::Calibrator::FastCalc* pFC2 );
-	int				MathCalc(ui32 nSample);
+  void MathSetup(CSettings::Calibrator::FastCalc *pFC1,
+                 CSettings::Calibrator::FastCalc *pFC2);
+  int MathCalc(ui32 nSample);
 
 private:
-	int				MathGet(CSettings::MathOperand& op, int nSample);
-	int				MathFx( int nParam, int nScale );
+  int MathGet(CSettings::MathOperand &op, int nSample);
+  int MathFx(int nParam, int nScale);
 };
 
 #endif
