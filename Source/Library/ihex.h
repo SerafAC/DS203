@@ -13,9 +13,13 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "ff.h"
 */
+
+#include <Source/HwLayer/Types.h>
+#include <Source/HwLayer/Bios.h>
+#include <Source/Core/BufferedIo.h>
+
 #ifdef _WIN32
 ui32 __strtol(char *str, char **p, int nBase);
 

@@ -1,5 +1,6 @@
 #ifndef __MENUWINDOW_H__
 #define __MENUWINDOW_H__
+#include <Source/Framework/Wnd.h>
 
 class CItemWindow : public CWndMenuItem {
   CProviderNum m_proTime;

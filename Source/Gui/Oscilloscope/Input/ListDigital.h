@@ -1,5 +1,8 @@
 #ifndef __LISTDINPUT_H__
 #define __LISTDINPUT_H__
+#include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
+#include <Source/Core/ListItems.h>
 
 class CWndListDInput : public CListBox {
 public:

@@ -1,3 +1,7 @@
+#include <Source/Framework/Wnd.h>
+#include <Source/Core/Settings.h>
+#include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
+
 class CWndZoomBar : public CWnd {
 public:
   virtual void Create(CWnd *pParent, ui16 nFlags, CWnd *pGraph) {

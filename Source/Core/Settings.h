@@ -454,7 +454,7 @@ public:
   };
 
 public:
-#include "Calibration.h"
+#include "Calibration.inc"
 
 public:
   CRuntime Runtime;

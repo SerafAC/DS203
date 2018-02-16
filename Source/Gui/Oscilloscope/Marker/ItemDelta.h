@@ -1,5 +1,8 @@
 #ifndef __MENUITEMMARKERDELTA_H__
 #define __MENUITEMMARKERDELTA_H__
+#include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
+#include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 
 class CItemMarkerDelta : public CWndMenuItem {
   CSettings::Marker *m_pMarker1;

@@ -1,3 +1,5 @@
+#include <Source/HwLayer/Bios.h>
+
 #define ENABLE_MODULE_MANAGER
 
 #if defined(ADD_MODULE) && defined(ENABLE_MODULE_MANAGER)

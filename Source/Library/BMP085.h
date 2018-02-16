@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 #include "I2C.h"
 
 // https://raw.github.com/adafruit/Adafruit-BMP085-Library/master/CBMP085.h

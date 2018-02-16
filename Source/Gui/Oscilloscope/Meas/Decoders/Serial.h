@@ -1,5 +1,8 @@
 #ifndef GUI_OSCI_MEAS_DECODERS_SERIAL_H
 #define GUI_OSCI_MEAS_DECODERS_SERIAL_H
+#include <Source/Gui/Oscilloscope/Meas/Statistics.h>
+#include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
+#include <Source/Core/Utils.h>
 
 class CBitDecoder {
 public:

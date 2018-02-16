@@ -1,4 +1,6 @@
 #pragma once
+#include <math.h>
+
 #include "Delay.h"
 #include "Pin.h"
 

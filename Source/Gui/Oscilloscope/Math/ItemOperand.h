@@ -1,5 +1,7 @@
 #ifndef __MENUITEMOPERAND_H__
 #define __MENUITEMOPERAND_H__
+#include <Source/HwLayer/Bios.h>
+#include <Source/Core/Controls.h>
 
 class CItemOperand : public CWndMenuItem {
 public:

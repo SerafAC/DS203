@@ -2,6 +2,7 @@
 #define __WNDBUTTON_H__
 
 #include <Source/Core/Shapes.h>
+#include <Source/Framework/Wnd.h>
 
 class CWndButton : public CWnd {
 public:

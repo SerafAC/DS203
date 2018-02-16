@@ -1,6 +1,7 @@
 #ifndef __THREAD_H__
 #define __THREAD_H__
 
+#include <Source/HwLayer/Bios.h>
 #include <Source/Main/Application.h>
 
 class CThread {

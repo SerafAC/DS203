@@ -1,4 +1,6 @@
 #include <Source/HwLayer/Bios.h>
+#include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
 
 class CProviderAutoOff : public CValueProvider {
   enum { Invalid = -999 };

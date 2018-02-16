@@ -1,5 +1,9 @@
 #ifndef __MENUDIGITAL_H__
 #define __MENUDIGITAL_H__
+#include <Source/Framework/Wnd.h>
+#include <Source/Core/Shapes.h>
+#include <Source/Core/Settings.h>
+#include <Source/Core/Controls.h>
 
 class CItemDigital : public CWndMenuItem {
   CSettings::DigitalChannel *m_pInfo;

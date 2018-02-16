@@ -9,6 +9,7 @@ ADD_MODULE("PID Regulator", CWndPidRegulator)
 
 #include <Source/Core/Utils.h>
 #include <Source/Framework/Wnd.h>
+#include <Source/HwLayer/Types.h>
 
 class CPid {
 public:
@@ -60,7 +61,7 @@ public:
     m_error = m_Target - m_Current;
 
     // In case of error too small then stop intergration
-    if (ABS(m_error) > m_fEpsilon)
+    if (abs(m_error) > m_fEpsilon)
       m_integral += m_error * m_dt;
 
     if (m_preError != m_fInvalid)

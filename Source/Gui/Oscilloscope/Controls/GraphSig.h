@@ -1,3 +1,6 @@
+#include <Source/HwLayer/Bios.h>
+#include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
+
 class CWndSigGraph : public CWndGraph {
   const ui16 *m_pSignal;
   ui16 m_nCount;

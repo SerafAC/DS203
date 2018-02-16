@@ -1,5 +1,8 @@
 #ifndef __MENUTIME_H__
 #define __MENUTIME_H__
+#include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
+#include <Source/Core/ListItems.h>
 
 class CItemTime : public CWndMenuItem {
   CSettings::TimeBase *m_pInfo;

@@ -1,3 +1,5 @@
+#include <Source/HwLayer/Bios.h>
+
 class CCookies {
 public:
   static char *GetCookie(char *strName) {

@@ -1,5 +1,8 @@
 #ifndef __LISTMEAS_H__
 #define __LISTMEAS_H__
+#include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
+#include <Source/Core/ListItems.h>
 
 class CWndListMeas : public CListBox {
 public:

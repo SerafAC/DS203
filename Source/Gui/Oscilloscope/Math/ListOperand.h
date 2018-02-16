@@ -1,5 +1,6 @@
 #ifndef __LISTOPERAND_H__
 #define __LISTOPERAND_H__
+#include <Source/Core/Settings.h>
 
 class CWndListOperand : public CListBox {
 public:

@@ -1,3 +1,6 @@
+#include <Source/HwLayer/Types.h>
+#include <Source/HwLayer/Bios.h>
+
 class CMouse {
   ui16 m_pixels[4];
   int m_nX;

@@ -1,6 +1,9 @@
 #ifndef __MENUITESPECDISPLAY_H__
 #define __MENUITESPECDISPLAY_H__
 #include <Source/Gui/Oscilloscope/Disp/ItemDisp.h>
+#include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
+
 class CItemSpecDisplay : public CMPItem {
   CProviderEnum m_proDisplay;
 

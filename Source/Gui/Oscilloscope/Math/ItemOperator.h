@@ -1,5 +1,6 @@
 #ifndef __MENUITEMOPERATOR_H__
 #define __MENUITEMOPERATOR_H__
+#include <Source/Core/Controls.h>
 
 class CItemOperator : public CWndMenuItem {
 public:

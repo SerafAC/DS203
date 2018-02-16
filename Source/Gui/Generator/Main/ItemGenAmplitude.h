@@ -1,5 +1,6 @@
 #ifndef __ITEMGENAMPLITUDE_H__
 #define __ITEMGENAMPLITUDE_H__
+#include <Source/Core/Controls.h>
 
 class CItemAmplitude : public CWndMenuItem {
   int m_nVolt;

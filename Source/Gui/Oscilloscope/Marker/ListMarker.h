@@ -1,5 +1,7 @@
 #ifndef __LISTMARKER_H__
 #define __LISTMARKER_H__
+#include <Source/HwLayer/Types.h>
+#include <Source/Core/Settings.h>
 
 class CWndListMarker : public CListBox {
 public:

@@ -1,3 +1,7 @@
+#ifndef SLIDER_H
+#define SLIDER_H
+#include <Source/Core/Controls.h>
+
 class CMIProgress : public CWndMenuItem {
 public:
   virtual void Create(const char *pszId, ui16 clr, ui8 rows, CWnd *pParent) {
@@ -41,3 +45,4 @@ public:
     BIOS::LCD::Bar(rcBar, clrFront);
   }
 };
+#endif

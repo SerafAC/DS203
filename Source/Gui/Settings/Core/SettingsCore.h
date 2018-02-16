@@ -1,6 +1,6 @@
 #ifndef __CORESETTINGS_H__
 #define __CORESETTINGS_H__
-
+#include <Source/Core/Settings.h>
 #include <Source/Framework/Classes.h>
 #include <Source/HwLayer/Types.h>
 

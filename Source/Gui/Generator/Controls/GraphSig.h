@@ -1,5 +1,6 @@
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 #include <Source/Gui/Generator/Core/CoreGenerator.h>
+#include <Source/Core/Settings.h>
 
 //#define _GENERATOR_MULTIVIEW
 

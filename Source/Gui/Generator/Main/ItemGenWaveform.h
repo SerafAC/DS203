@@ -1,6 +1,10 @@
 #ifndef __ITEMGENWAVEFORM_H__
 #define __ITEMGENWAVEFORM_H__
 
+#include <Source/Core/Controls.h>
+#include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
+
 class CItemGenWaveform : public CItemProvider {
   CProviderEnum m_proWave;
 

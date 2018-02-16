@@ -1,5 +1,7 @@
 #ifndef __BITMAP_H__
 #define __BITMAP_H__
+#include <Source/HwLayer/Types.h>
+#include <Source/HwLayer/Bios.h>
 
 class CBitmap {
   int naccum;

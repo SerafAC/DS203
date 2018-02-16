@@ -1,3 +1,8 @@
+#ifndef ITEMBACKLIGHT_H
+#define ITEMBACKLIGHT_H
+#include <Source/Gui/Settings/Controls/Slider.h>
+#include <Source/Gui/Settings/Core/SettingsCore.h>
+
 class CMIBacklight : public CMIProgress {
 public:
   virtual int GetValue() { return Settings.Runtime.m_nBacklight / 4; }
@@ -9,3 +14,4 @@ public:
   virtual int GetMin() { return 0; }
   virtual int GetMax() { return 25; }
 };
+#endif

@@ -6,6 +6,7 @@
 #include "LineTabs.h"
 #include <Source/Core/Controls.h>
 #include <Source/Framework/Thread.h>
+#include <Source/Core/ListItems.h>
 
 class CWndManager : public CListBox,
                     public CThread,

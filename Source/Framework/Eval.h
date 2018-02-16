@@ -1,3 +1,6 @@
+#include <Source/HwLayer/Types.h>
+#include <Source/HwLayer/Bios.h>
+
 #define _SAFE(a)                                                               \
   if (!(a)) {                                                                  \
     _ASSERT(0);                                                                \

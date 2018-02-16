@@ -21,8 +21,8 @@ public:
 
 class CSdkEval : public CEval {
 public:
-#include "SdkV0.h"
-#include "SdkV1.h"
+#include "SdkV0.inc"
+#include "SdkV1.inc"
 
   static const CEvalToken *getOperators() {
     static const CEvalToken myTokens[] = {

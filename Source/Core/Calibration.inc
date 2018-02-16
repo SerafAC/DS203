@@ -1,3 +1,7 @@
+#ifndef CORE_CALIBRATION_H
+#define CORE_CALIBRATION_H
+#include <Source/HwLayer/Types.h>
+#include <Source/Core/Settings.h>
 
 // input_storage_class, output_storage_class, input_variabe, output_variable,
 // internal_calculations, length
@@ -199,5 +203,6 @@ public:
 			float fZero = (float)fast.Q / 2048.0f;
 			return -fZero + ( ((fZero + fAdc) * fast.K) / 65536.0f / 32.0f );   
 		}
-#endif
+		#endif
 };
+#endif

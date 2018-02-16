@@ -1,3 +1,7 @@
+#include <Source/Framework/Wnd.h>
+#include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
+#include <Source/Core/Settings.h>
+
 class CWndLevelReferences : public CWnd {
 public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {

@@ -1,3 +1,7 @@
+#include <Source/Framework/Wnd.h>
+#include <Source/Core/Settings.h>
+
+
 class CWndOscInfo : public CWnd {
 public:
   virtual void Create(CWnd *pParent, ui16 nFlags, CWnd *pGraph) {

@@ -1,3 +1,5 @@
+#include <Source/Core/Controls.h>
+
 class CLTabs : public CListItem {
   ui16 m_clrBack;
   const char **m_arrItems;

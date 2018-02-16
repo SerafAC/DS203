@@ -1,5 +1,8 @@
 #ifndef __LISTTRIGGER_H__
 #define __LISTTRIGGER_H__
+#include <Source/Core/Controls.h>
+#include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
 
 class CWndListTrigger : public CListBox {
 public:
