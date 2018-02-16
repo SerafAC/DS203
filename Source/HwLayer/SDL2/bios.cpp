@@ -31,8 +31,6 @@ CPoint m_cpBuffer;
 int m_nKeys;
 int g_nBufferLen = 4096;
 
-#define RGB565RGB(r, g, b) (((r) >> 3) | (((g) >> 2) << 5) | (((b) >> 3) << 11))
-
 int _DrawChar(int x, int y, unsigned short clrf, unsigned short clrb, char ch);
 ui32 FROM_565_TO_RGB(unsigned short clr565);
 ui16 FROM_RGB_TO_565(unsigned int clrrgb);
