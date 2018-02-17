@@ -7,7 +7,7 @@
 #include <Source/HwLayer/Types.h>
 class CStream;
 
-#define _E(x) ((NATIVEENUM *)(&x))
+#define _E(x) reinterpret_cast<NATIVEENUM *>(&x)
 
 class CSerialize {
 public:

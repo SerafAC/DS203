@@ -47,9 +47,6 @@ auto max(const A& a, const B& b) -> decltype(a>b?a:b) { return (a>b?a:b); }
 template<class T>
 T abs(const T& a) { return (a>0?a:-a); }
 
-#define ToWord(a, b) (ui16)(((a)<<8)|(b))
-#define ToDword(a, b, c, d) (ui32)((ToWord(d, c)<<16)|ToWord(b,a))
-
 #define RGB565RGB(r, g, b) (((r)>>3)|(((g)>>2)<<5)|(((b)>>3)<<11))
 #define Get565R(rgb) (((rgb)&0x1f)<<3)
 #define Get565G(rgb) ((((rgb)>>5)&0x3f)<<2)
@@ -62,7 +59,15 @@ T abs(const T& a) { return (a>0?a:-a); }
 #define GetColorB(rgb) (((rgb) >> 16)&0xff)
 
 #define RGB565(rgb) RGB565RGB( GetHtmlR(0x##rgb), GetHtmlG(0x##rgb), GetHtmlB(0x##rgb))
-#define COUNT(arr) (int)(sizeof(arr)/sizeof(arr[0]))
+
+// pointer safe COUNT()
+namespace types{
+ template<int SZ> struct count_array { char a[SZ]; };
+ template<class T, int SZ>count_array<SZ> sizeof_helper(T (&in)[SZ]);
+}
+// code expects int, not size_t :(
+#define COUNT(arr) static_cast<int>(sizeof(types::sizeof_helper(arr)))
+// #define COUNT(arr) (static_cast<int>)int)(sizeof(arr)/sizeof(arr[0]))
 #define RGBTRANS (RGB565(ff00ff)-1)
 
 #define RGB32(r,g,b) ((r) | ((g)<<8) | ((b)<<16))
@@ -102,5 +107,7 @@ inline float narrow_cast(double s) {
 	return static_cast<float>(s);
 }
 
+#define ToWord(a, b) static_cast<ui16>(((a)<<8)|(b))
+#define ToDword(a, b, c, d) static_cast<ui32>((ToWord(d, c)<<16)|ToWord(b,a))
 
 #endif
