@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
-project(dso) 
+project(dso)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmakelib")
+include(extras)
+max_warning()
+dumpvars()
+
 set (CMAKE_CXX_STANDARD 11)
 add_executable(dso_sdl2 "")
 find_package(SDL2 REQUIRED)
@@ -30,3 +36,4 @@ target_link_libraries(dso_sdl2 ${SDL2_LIBRARIES})
 target_sources(dso_sdl2 PUBLIC ${dso_sdl2_src})
 target_sources(dso_sdl2 PUBLIC ${dso_sdl2_hdr})
 set_target_properties(dso_sdl2 PROPERTIES COMPILE_FLAGS -D_SDL2)
+
