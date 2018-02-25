@@ -37,10 +37,9 @@
   }
 
   float fTime = Settings.Runtime.m_fTimeRes;
-  if (fTime == 0)
-    return;
+  if (fTime == 0) return;
   // calculate time corresponding to single sample
-  fTime /= 30.0f; // CGraphWnd::BlkX
+  fTime /= 30.0f;  // CGraphWnd::BlkX
   // calculate sampling frequency;
   float fSample = 1.0f / fTime;
   // nyquist
@@ -64,7 +63,7 @@
   x += BIOS::LCD::Print(x, rcTarget.bottom + 2, RGB565(808080), RGB565(000000),
                         strUnits);
 
-  fSample *= 0.2f; // 1/5 for single div
+  fSample *= 0.2f;  // 1/5 for single div
   strFreq = CUtils::FormatFrequency(fSample);
   x = rcTarget.left;
   x += BIOS::LCD::Print(x, rcTarget.bottom + 2, RGB565(808080), RGB565(000000),

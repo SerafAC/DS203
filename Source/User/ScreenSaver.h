@@ -10,7 +10,7 @@ ADD_MODULE("Demo", CWndScreenSaver)
 #include <Source/Framework/Wnd.h>
 
 class CWndScreenSaver : public CWnd {
-public:
+ public:
   int m_x, m_y;
 
   CWndScreenSaver() {
@@ -30,8 +30,7 @@ public:
   }
 
   void OnTick() {
-    if (HasOverlay())
-      return;
+    if (HasOverlay()) return;
 
     const int ax[3] = {20, 380, 200};
     const int ay[3] = {40, 50, 220};

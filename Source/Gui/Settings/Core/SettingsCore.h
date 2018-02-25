@@ -6,7 +6,7 @@
 #include <Source/HwLayer/Types.h>
 
 class CCoreSettings {
-public:
+ public:
   static void Update() {
     BIOS::SYS::SetBacklight(Settings.Runtime.m_nBacklight);
     BIOS::SYS::SetVolume(Settings.Runtime.m_nVolume);

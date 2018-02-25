@@ -3,19 +3,19 @@
 #define DSO_CORE_SETTINGS_H
 
 #define Settings (*CSettings::m_pInstance)
-#include "Serialize.h"
 #include <Source/HwLayer/Bios.h>
 #include <Source/HwLayer/Types.h>
+#include "Serialize.h"
 
 #define _VERSION ToDword('D', 'S', 'C', 10)
 
 class CSettings : public CSerialize {
-public:
+ public:
   static CSettings *m_pInstance;
 
-public:
+ public:
   class AnalogChannel : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextEnabled[];
     static const char *const ppszTextCoupling[];
     static const char *const ppszTextResolution[];
@@ -56,7 +56,7 @@ public:
     }
   };
   class DigitalChannel : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextPolarity[];
 
     enum { _NO = 0, _YES = 1, _EnabledMax = _YES } Enabled;
@@ -77,7 +77,7 @@ public:
     }
   };
   class TimeBase : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextResolution[];
     enum EResolution {
       /*_100ns,*/ _200ns,
@@ -106,7 +106,7 @@ public:
     enum { _1, _2, _4, _FULL } Range;
 
     static const float pfValueResolution[];
-    static const int pfValueResolutionCorrection[]; // florian
+    static const int pfValueResolutionCorrection[];  // florian
 
     si16 Shift;
     int InvalidFirst;
@@ -122,7 +122,7 @@ public:
   };
 
   class Trigger : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextSync[];
     static const char *const ppszTextSource[];
     static const char *const ppszTextType[];
@@ -158,7 +158,7 @@ public:
     }
   };
   class Generator : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextWave[];
     enum {
       _Dc = 0,
@@ -174,13 +174,13 @@ public:
     int nPsc;
     int nArr;
     int nCcr;
-    int nScale;  // 65536 - full
-    int nOffset; // 0..65536
+    int nScale;   // 65536 - full
+    int nOffset;  // 0..65536
 
-    int nDuty; // wanted duty cycle, real duty can be calculated from arr/ccr
+    int nDuty;  // wanted duty cycle, real duty can be calculated from arr/ccr
     int nSamples;
     float nFrequency;
-    float fAmplitude; // 65536 -> full
+    float fAmplitude;  // 65536 -> full
 
     virtual CSerialize &operator<<(CStream &stream) {
       stream << _E(Wave) << nPsc << nArr << nScale;
@@ -192,7 +192,7 @@ public:
     }
   };
   class Marker : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextMode[];
     static const char *const ppszTextSource[];
     static const char *const ppszTextDisplay[];
@@ -201,7 +201,7 @@ public:
     enum {
       _Time,
       _Voltage
-    } Type; // not necessary to serialize, cannot be changed by user
+    } Type;  // not necessary to serialize, cannot be changed by user
     enum { _Off, _On, _Auto, _ModeMaxTime = _On, _ModeMaxVoltage = _Auto } Mode;
     enum { _CH1, _CH2, _SourceMax = _CH2 } Source;
     enum { _Raw, _Physical, _DisplayMax = _Physical } Display;
@@ -223,7 +223,7 @@ public:
     }
   };
   class Measure : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextEnabled[];
     static const char *const ppszTextSource[];
     static const char *const ppszTextType[];
@@ -274,7 +274,7 @@ public:
     }
   };
   class MathOperand : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextType[];
     // = {"CH1 raw", "CH1", "CH2 raw", "CH2", "Constant"}
     enum {
@@ -301,7 +301,7 @@ public:
     }
   };
   class MathOperator : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextType[];
     // = {"Off", "A", "B", "A+B+C", "A+B-C", "B-A+C"}
     enum {
@@ -335,7 +335,7 @@ public:
     }
   };
   class Display : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextAxes[];
     // = {"T-Y", "X-Y"};
     static const char *const ppszTextDraw[];
@@ -368,7 +368,7 @@ public:
     }
   };
   class Spectrum : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextWindow[];
     // = {"Rect", "Hann"};
     static const char *const ppszTextDisplay[];
@@ -404,7 +404,7 @@ public:
     }
   };
   class CRuntime : public CSerialize {
-  public:
+   public:
     static const char *const ppszTextBeepOnOff[];
     // = {"On", "Off"};
     static const char *const ppszTextShortcut[];
@@ -437,7 +437,7 @@ public:
     FLOAT m_fCH2Res;
 
     int m_bUartTest;
-    int m_bUartEcho; // not saved in settings
+    int m_bUartEcho;  // not saved in settings
     int m_bUartSdk;
 
     virtual CSerialize &operator<<(CStream &stream) {
@@ -454,10 +454,10 @@ public:
     }
   };
 
-public:
+ public:
 #include "Calibration.inc"
 
-public:
+ public:
   CRuntime Runtime;
   AnalogChannel CH1;
   AnalogChannel CH2;

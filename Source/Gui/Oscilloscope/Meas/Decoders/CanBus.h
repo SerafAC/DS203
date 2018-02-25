@@ -5,20 +5,20 @@
 #include <Source/Gui/Oscilloscope/Meas/Decoders/Serial.h>
 
 class CCanbusDecoder : public CBitDecoder {
-private:
+ private:
   bool m_bStartBit;
   int m_nLastBit;
   int m_nCount;
   int m_nIndex;
 
-public:
+ public:
   int m_nFrameArb;
   int m_nFrameDlc;
   int m_arrFrameData[8];
   int m_nFrameCrc;
   bool m_bFinished;
 
-public:
+ public:
   CCanbusDecoder() {
     m_bStartBit = false;
     m_nFrameArb = 0;
@@ -40,7 +40,7 @@ public:
     }
 
     if (m_nIndex > 22 + 8 * m_nFrameDlc + 15)
-      return true; // idle bits continue
+      return true;  // idle bits continue
 
     if (m_nCount == 5) {
       // bit stuffing
@@ -85,7 +85,7 @@ public:
 
     if (m_nIndex >= 22 + 8 * m_nFrameDlc + 1 &&
         m_nIndex <= 22 + 8 * m_nFrameDlc + 15) {
-      m_bFinished = true; // data bytes were received successfully
+      m_bFinished = true;  // data bytes were received successfully
 
       m_nFrameCrc <<= 1;
       m_nFrameCrc |= nBit;
@@ -111,11 +111,11 @@ public:
   void Test() {
     // http://www.valky.eu/data/software/!can.html
     // id=0x320, dlc=8,	0x12, 0x00, 0x7f, 0xff, 0xff, 0xc1, 0xff, 0x00
-    const char *ptest = "110011001000001000100000101001000001000001111101111101"
-                        "111101111101111101000001111101111100000100000110110011"
-                        "10110011111111111";
-    for (const char *p = ptest; *p; p++)
-      *this << *p - '0';
+    const char *ptest =
+        "110011001000001000100000101001000001000001111101111101"
+        "111101111101111101000001111101111100000100000110110011"
+        "10110011111111111";
+    for (const char *p = ptest; *p; p++) *this << *p - '0';
     Visualize();
   }
 };

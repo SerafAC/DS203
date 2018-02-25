@@ -12,7 +12,7 @@
 class CApplication : public CApplicationProto {
   static CApplication *m_pInstance;
 
-public:
+ public:
   static CApplication *getInstance();
 
   CApplication();

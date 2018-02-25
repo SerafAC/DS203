@@ -28,7 +28,7 @@
 class CDHT11 : public CPin, CDelay {
   ui8 m_buffer[5];
 
-public:
+ public:
   ui8 *GetBuffer() { return m_buffer; }
 
   bool Init() {
@@ -40,10 +40,8 @@ public:
     Float();
 
     // ACKNOWLEDGE or TIMEOUT
-    if (Delay(1000, true) == 1000)
-      return false;
-    if (Delay(1000, false) == 1000)
-      return false;
+    if (Delay(1000, true) == 1000) return false;
+    if (Delay(1000, false) == 1000) return false;
 
     return true;
   }
@@ -52,12 +50,10 @@ public:
     int i;
     nUs *= 2;
     for (i = 0; i < nUs; i += 3) {
-      if (Get() != bLevel)
-        break;
-      DelayUs(1); // single loop takes probably 1.5us, multiply 3/2 x
+      if (Get() != bLevel) break;
+      DelayUs(1);  // single loop takes probably 1.5us, multiply 3/2 x
     }
-    if (i >= nUs - 3)
-      i = nUs;
+    if (i >= nUs - 3) i = nUs;
 
     return i / 2;
   }
@@ -68,21 +64,17 @@ public:
     ui8 idx = 0;
 
     // EMPTY BUFFER
-    for (int i = 0; i < 5; i++)
-      m_buffer[i] = 0;
+    for (int i = 0; i < 5; i++) m_buffer[i] = 0;
 
     // READ OUTPUT - 40 BITS => 5 BYTES or TIMEOUT
     for (int i = 0; i < 40; i++) {
-      if (Delay(200, true) == 200)
-        return false;
+      if (Delay(200, true) == 200) return false;
 
-      if (Delay(200, false) == 200)
-        return false;
+      if (Delay(200, false) == 200) return false;
 
       int nTime = Delay(200, true);
 
-      if (nTime > 25)
-        m_buffer[idx] |= 1 << cnt;
+      if (nTime > 25) m_buffer[idx] |= 1 << cnt;
 
       if (cnt == 0) {
         cnt = 7;

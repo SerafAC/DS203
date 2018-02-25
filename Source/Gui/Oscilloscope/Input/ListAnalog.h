@@ -1,13 +1,13 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_INPUT_LISTANALOG_H
 #define DSO_GUI_OSCILLOSCOPE_INPUT_LISTANALOG_H
-#include <Source/Framework/Wnd.h>
 #include <Source/Core/Controls.h>
-#include <Source/Core/Settings.h>
 #include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
+#include <Source/Framework/Wnd.h>
 
 class CWndListAInput : public CListBox {
-public:
+ public:
   CSettings::AnalogChannel *m_pInfo;
 
   CProviderEnum m_proEnabled;
@@ -26,7 +26,7 @@ public:
   CLPItem m_itmColour;
   CLPItem m_itmRed, m_itmGrn, m_itmBlu;
 
-public:
+ public:
   void Create(CSettings::AnalogChannel *pInfo, CWnd *pParent) {
     m_pInfo = pInfo;
     CListBox::Create(pInfo->pszFullName, WsVisible | WsModal,

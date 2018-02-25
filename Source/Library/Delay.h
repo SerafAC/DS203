@@ -4,7 +4,7 @@
 #include <Source/HwLayer/Bios.h>
 
 class CDelay {
-public:
+ public:
   static void DelayUs(ui32 us) {
     us = us * 12;
     while (us--) {

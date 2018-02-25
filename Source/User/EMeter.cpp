@@ -56,8 +56,7 @@ void CWndEMeter::OnWave(int nValue) {
       nSnr = (nSnr * nFactor + TOFIXED(nCurSnr) * (256 - nFactor)) / 256;
   }
 
-  if (nCounter != -1)
-    nCounter++;
+  if (nCounter != -1) nCounter++;
 
   if (bSignal && !bLastSignal) {
     nRising = BIOS::SYS::GetTick();
@@ -131,8 +130,7 @@ void CWndEMeter::OnWave(int nValue) {
   BIOS::LCD::PutPixel(x, BIOS::LCD::LcdHeight - nLastVal / 2 - 2,
                       RGB565(ffff00));
 
-  if (++x >= BIOS::LCD::LcdWidth)
-    x = 0;
+  if (++x >= BIOS::LCD::LcdWidth) x = 0;
 
   BIOS::LCD::Bar(x, BIOS::LCD::LcdHeight - 128, x + 1, BIOS::LCD::LcdHeight,
                  RGB565(ff2020));

@@ -17,7 +17,7 @@ class CWndGeiger : public CWnd {
   int m_nLastSlot;
   int m_nCounter;
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndGeiger", dwFlags | CWnd::WsListener | CWnd::WsNoActivate,
                  CRect(0, 16, 400, 240), pParent);
@@ -49,16 +49,14 @@ public:
 
   int GetSum() {
     int nSum = 0;
-    for (int i = 0; i < 60; i++)
-      nSum += m_arrCounts[i];
+    for (int i = 0; i < 60; i++) nSum += m_arrCounts[i];
     return nSum;
   }
 
   int GetSum2(int q) {
     int nSum = 0;
     for (int i = 0; i < 60; i++)
-      if (i != q)
-        nSum += m_arrCounts[i];
+      if (i != q) nSum += m_arrCounts[i];
     return nSum;
   }
 
@@ -67,11 +65,9 @@ public:
   virtual void OnPaint() {
     int lTick = BIOS::SYS::GetTick();
     int nPassed = ((BIOS::SYS::GetTick() - m_nTickStart) / 1000) / TIMEMUL;
-    if (nPassed > 60)
-      nPassed = 60;
-    if (nPassed <= 0)
-      nPassed = 1;
-    int nPassed2 = min(59, nPassed); //(nPassed > 1) ? (nPassed-1) : 1;
+    if (nPassed > 60) nPassed = 60;
+    if (nPassed <= 0) nPassed = 1;
+    int nPassed2 = min(59, nPassed);  //(nPassed > 1) ? (nPassed-1) : 1;
 
     int nSlot = GetSlot();
     int nSum2 = GetSum2(nSlot);

@@ -5,10 +5,10 @@
 #include <Source/Core/Settings.h>
 
 class CItemOperator : public CWndMenuItem {
-public:
+ public:
   CSettings::MathOperator *m_pOper;
 
-public:
+ public:
   virtual void Create(CSettings::MathOperator *pOper, CWnd *pParent) {
     _ASSERT(pOper);
     m_pOper = pOper;

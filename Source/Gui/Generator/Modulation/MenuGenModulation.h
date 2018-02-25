@@ -8,7 +8,7 @@
 #include <Source/Gui/Generator/Core/CoreGenerator.h>
 
 class CWndMenuGeneratorMod : public CWnd {
-public:
+ public:
   CWndMenuItem m_itm[5];
 
   virtual void Create(CWnd *pParent, ui16 dwFlags);

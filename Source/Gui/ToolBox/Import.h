@@ -8,7 +8,7 @@
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 
 class CImport {
-public:
+ public:
   void LoadBinary(char *strName) {
     CBufferedReader reader;
     reader.Open(strName);

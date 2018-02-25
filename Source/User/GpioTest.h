@@ -8,11 +8,11 @@ ADD_MODULE("OneWire", CWndGpioTest)
 #if !defined(__GPIO_H__) && defined(ENABLE_MODULE_GPIOTEST)
 #define __GPIO_H__
 
+#include <Source/Core/Utils.h>
 #include <Source/Framework/Wnd.h>
 #include <Source/Library/BMP085.h>
 #include <Source/Library/DHT11.h>
 #include <Source/Library/DS1820.h>
-#include <Source/Core/Utils.h>
 
 class CWndGpioTest : public CWnd {
   CDS1820 m_Thermometer;
@@ -20,7 +20,7 @@ class CWndGpioTest : public CWnd {
   CBMP085 m_Barometer;
   bool m_bFocus;
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndGpioTest", dwFlags | CWnd::WsNoActivate,
                  CRect(0, 16, 400, 240), pParent);
@@ -33,8 +33,7 @@ public:
     for (int i = 0; i < 16; i++) {
       char str[2] = {'0', 0};
       value <<= 1;
-      if (value & 0x10000)
-        str[0] = '1';
+      if (value & 0x10000) str[0] = '1';
       x += BIOS::LCD::Print(x, y, RGB565(ffffff), RGB565(000000), str);
     }
   }
@@ -69,9 +68,10 @@ public:
                       nT);
     BIOS::LCD::Printf(20, 0xB0, RGB565(00ff00), 0, "Pressure = %2f hPa    ",
                       nPressure / 100.0f);
-    BIOS::LCD::Printf(20, 0xC0, RGB565(00ff00), 0, "Temperature = %2f "
-                                                   "\xf8"
-                                                   "C  ",
+    BIOS::LCD::Printf(20, 0xC0, RGB565(00ff00), 0,
+                      "Temperature = %2f "
+                      "\xf8"
+                      "C  ",
                       fTemp);
     BIOS::LCD::Printf(20, 0xD0, RGB565(00ff00), 0, "Altitude = %1f m  ", fAlt);
   }
@@ -94,17 +94,17 @@ public:
                         CUtils::tohex(pRom[i] >> 4),
                         CUtils::tohex(pRom[i] & 0xf));
 
-    if (!bRead)
-      return;
+    if (!bRead) return;
 
     int nTemp = m_Hygrometer.GetTemperature();
     int nHumidity = m_Hygrometer.GetHumidity();
 
     BIOS::LCD::Printf(20, 0xB0, clr, 0, "CRC = %s    ",
                       bCrc ? "Valid" : "Error");
-    BIOS::LCD::Printf(20, 0xC0, clr, 0, "Temperature = %d "
-                                        "\xf8"
-                                        "C  ",
+    BIOS::LCD::Printf(20, 0xC0, clr, 0,
+                      "Temperature = %d "
+                      "\xf8"
+                      "C  ",
                       nTemp);
     BIOS::LCD::Printf(20, 0xD0, clr, 0, "Humidity    = %d%%   ", nHumidity);
   }
@@ -119,12 +119,10 @@ public:
     bInit = m_Thermometer.Init();
     memset(pSP, 0, 9);
 
-    if (bInit)
-      bRom = m_Thermometer.ReadRom();
+    if (bInit) bRom = m_Thermometer.ReadRom();
 
     if (bRom) {
-      if (m_Thermometer.Crc(8))
-        nFamilyCode = pSP[0];
+      if (m_Thermometer.Crc(8)) nFamilyCode = pSP[0];
     }
 
     clr = (bRom && nFamilyCode) ? RGB565(ffff00) : RGB565(808080);
@@ -136,15 +134,15 @@ public:
 
     const char *strFamily = "Unknown";
     switch (nFamilyCode) {
-    case CDS1820::DS18S20_FAMILY_CODE:
-      strFamily = "DS18S20";
-      break;
-    case CDS1820::DS18B20_FAMILY_CODE:
-      strFamily = "DS18B20";
-      break;
-    case CDS1820::DS1822_FAMILY_CODE:
-      strFamily = "DS1822";
-      break;
+      case CDS1820::DS18S20_FAMILY_CODE:
+        strFamily = "DS18S20";
+        break;
+      case CDS1820::DS18B20_FAMILY_CODE:
+        strFamily = "DS18B20";
+        break;
+      case CDS1820::DS1822_FAMILY_CODE:
+        strFamily = "DS1822";
+        break;
     }
 
     BIOS::LCD::Printf(20, 0xB0, clr, 0, "Family code = (%c%c) %s  ",
@@ -152,10 +150,8 @@ public:
                       CUtils::tohex(nFamilyCode & 0xf), strFamily);
 
     memset(pSP, 0, 9);
-    if (bInit)
-      bConv = m_Thermometer.Convert(nFamilyCode);
-    if (bConv)
-      bCrc = m_Thermometer.Crc(9);
+    if (bInit) bConv = m_Thermometer.Convert(nFamilyCode);
+    if (bConv) bCrc = m_Thermometer.Crc(9);
     if (bCrc && nFamilyCode)
       bTemp = m_Thermometer.Temperature(fTemp, nFamilyCode);
 
@@ -181,28 +177,28 @@ public:
                         CUtils::tohex(pSP[i] & 0xf));
 
     clr = bTemp ? RGB565(ffff00) : RGB565(808080);
-    BIOS::LCD::Printf(20, 0xD0, clr, 0, "Temperature = %2f"
-                                        "\xf8"
-                                        "C   ",
+    BIOS::LCD::Printf(20, 0xD0, clr, 0,
+                      "Temperature = %2f"
+                      "\xf8"
+                      "C   ",
                       fTemp);
 
     if (nFamilyCode == CDS1820::DS18B20_FAMILY_CODE && pSP[4] != 0x7f) {
-      m_Thermometer.SetConfig(0, 0, 0x7f); // set 12 bits resolution
+      m_Thermometer.SetConfig(0, 0, 0x7f);  // set 12 bits resolution
     }
   }
 
   virtual void OnTimer() {
-    if (HasOverlay())
-      return;
+    if (HasOverlay()) return;
 
     ui32 *pCrl = BIOS::GPIO::GetRegister(BIOS::GPIO::PortA, BIOS::GPIO::RegCrl);
     ui32 *pCrh = BIOS::GPIO::GetRegister(BIOS::GPIO::PortA, BIOS::GPIO::RegCrh);
     ui32 *pIdr = BIOS::GPIO::GetRegister(BIOS::GPIO::PortA, BIOS::GPIO::RegIdr);
     ui32 *pOdr = BIOS::GPIO::GetRegister(BIOS::GPIO::PortA, BIOS::GPIO::RegOdr);
     //		ui32* pBsrr = BIOS::GPIO::GetRegister( BIOS::GPIO::PortA,
-    //BIOS::GPIO::RegBsrr );
+    // BIOS::GPIO::RegBsrr );
     //		ui32* pBrr = BIOS::GPIO::GetRegister( BIOS::GPIO::PortA,
-    //BIOS::GPIO::RegBrr );
+    // BIOS::GPIO::RegBrr );
     ui32 *pLckr =
         BIOS::GPIO::GetRegister(BIOS::GPIO::PortA, BIOS::GPIO::RegLckr);
 
@@ -212,11 +208,11 @@ public:
                       "CRL  (0x%x) = 0x%x", pCrl, *pCrl);
     BIOS::LCD::Printf(20, 0x40, RGB565(ffffff), RGB565(000000),
                       "CRH  (0x%x) = 0x%x", pCrh, *pCrh);
-    BIOS::LCD::Printf(20, 0x50, RGB565(ffffff), RGB565(000000), "IDR  (0x%x) =",
-                      pIdr);
+    BIOS::LCD::Printf(20, 0x50, RGB565(ffffff), RGB565(000000),
+                      "IDR  (0x%x) =", pIdr);
     PrintBits(20 + 20 * 8, 0x50, *pIdr);
-    BIOS::LCD::Printf(20, 0x60, RGB565(ffffff), RGB565(000000), "ODR  (0x%x) =",
-                      pOdr);
+    BIOS::LCD::Printf(20, 0x60, RGB565(ffffff), RGB565(000000),
+                      "ODR  (0x%x) =", pOdr);
     PrintBits(20 + 20 * 8, 0x60, *pOdr);
     BIOS::LCD::Printf(20, 0x70, RGB565(ffffff), RGB565(000000),
                       "LCKR (0x%x) = 0x%x", pLckr, *pLckr);

@@ -11,7 +11,7 @@
 #include "ListMeas.h"
 
 class CWndMenuMeas : public CWnd {
-public:
+ public:
   // Menu items
   CItemMeas m_itmMeas[6];
 
@@ -20,7 +20,7 @@ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags);
   virtual void OnMessage(CWnd *pSender, CodeParam code, DataParam data);
 
-private:
+ private:
   void _UpdateAll();
 };
 

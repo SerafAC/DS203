@@ -29,7 +29,7 @@ class CWndUserMonitor : public CWnd {
   static const char *const m_ppszTextBaud[];
   static const int m_pnValueBaud[];
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags);
   virtual void OnPaint();
   virtual void OnTimer();

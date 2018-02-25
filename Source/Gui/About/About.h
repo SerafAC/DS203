@@ -5,7 +5,7 @@
 #include <Source/Framework/Wnd.h>
 
 class CWndAboutDevice : public CWnd {
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndAboutDevice", dwFlags | CWnd::WsNoActivate,
                  CRect(0, 16, 400, 240), pParent);
@@ -97,19 +97,19 @@ public:
 
     BIOS::LCD::Print(4, 240 - 3 * 16, clrA, 0, "Display driver:");
     switch (dwDriver) {
-    case ToDword('v', 'g', 'a', 0):
-      BIOS::LCD::Print(160, 240 - 3 * 16, clrB, 0, "VGA");
-      break;
+      case ToDword('v', 'g', 'a', 0):
+        BIOS::LCD::Print(160, 240 - 3 * 16, clrB, 0, "VGA");
+        break;
 
-    case 0x02049327:
-      BIOS::LCD::Print(160, 240 - 3 * 16, clrB, 0, "ILI9327");
-      break;
+      case 0x02049327:
+        BIOS::LCD::Print(160, 240 - 3 * 16, clrB, 0, "ILI9327");
+        break;
 
-    case 0x00000000:
-      BIOS::LCD::Print(160, 240 - 3 * 16, clrB, 0, "R61509V");
+      case 0x00000000:
+        BIOS::LCD::Print(160, 240 - 3 * 16, clrB, 0, "R61509V");
 
-    default:
-      BIOS::LCD::Printf(160, 240 - 3 * 16, clrB, 0, "%08x", dwDriver);
+      default:
+        BIOS::LCD::Printf(160, 240 - 3 * 16, clrB, 0, "%08x", dwDriver);
     }
 
     BIOS::LCD::Print(4, 240 - 2 * 16, clrA, 0, "Serial number:");
@@ -123,7 +123,7 @@ public:
 };
 
 class CWndAboutFirmware : public CWnd {
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndAboutFw", dwFlags | CWnd::WsNoActivate,
                  CRect(0, 16, 400, 240), pParent);
@@ -180,7 +180,7 @@ public:
 class CAverageFilter {
   int nAvg, nAvg2, nAvg3;
 
-public:
+ public:
   CAverageFilter() { Reset(); }
 
   void Reset() {
@@ -190,16 +190,13 @@ public:
   }
 
   int operator()(int nInput) {
-    if (nAvg3 == 0)
-      nAvg3 = nAvg2;
+    if (nAvg3 == 0) nAvg3 = nAvg2;
     nAvg3 = (nAvg3 * 220 + nAvg2 * (256 - 220)) / 256;
 
-    if (nAvg2 == 0)
-      nAvg2 = nAvg;
+    if (nAvg2 == 0) nAvg2 = nAvg;
     nAvg2 = (nAvg2 * 220 + nAvg * (256 - 220)) / 256;
 
-    if (nAvg == 0)
-      nAvg = nInput * 256;
+    if (nAvg == 0) nAvg = nInput * 256;
     nAvg = (nAvg * 220 + nInput * 256 * (256 - 220)) / 256;
 
     return nAvg3 / 256;
@@ -209,7 +206,7 @@ public:
 class CWndAboutStatus : public CWnd {
   enum { USB_POWER = 5, V_BATTERY = 6 };
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndAboutStatus", dwFlags | CWnd::WsNoActivate,
                  CRect(0, 16, 400, 240), pParent);
@@ -246,8 +243,8 @@ public:
     BIOS::LCD::Print(4, 240 - 1 * 16, clrA, 0, "CPU Voltage:");
 
     // logo 256x64
-    //		BIOS::VER::DrawLogo((m_rcClient.Width()-256)/2, m_rcClient.top + 8 +
-    //16 );
+    //		BIOS::VER::DrawLogo((m_rcClient.Width()-256)/2, m_rcClient.top + 8
+    //+  16 );
   }
 
   virtual void OnMessage(CWnd *pSender, CodeParam code, DataParam data) {
@@ -275,12 +272,14 @@ public:
       //  3.2 -> 2169
       float fTemp =
           3.2f - (nFilteredTemp - 2169) * (21.3f - 3.2f) / (2169 - 2068);
-      BIOS::LCD::Printf(240, 240 - 6 * 16, clrB, 0, "%2f \xf8"
-                                                    "C  ",
+      BIOS::LCD::Printf(240, 240 - 6 * 16, clrB, 0,
+                        "%2f \xf8"
+                        "C  ",
                         fTemp + 0.005f);
       fTemp = fTemp * 1.8f + 32.0f;
-      BIOS::LCD::Printf(240, 240 - 5 * 16, clrB, 0, "%2f \xf8"
-                                                    "F  ",
+      BIOS::LCD::Printf(240, 240 - 5 * 16, clrB, 0,
+                        "%2f \xf8"
+                        "F  ",
                         fTemp + 0.005f);
     }
 
@@ -307,7 +306,7 @@ public:
 };
 
 class CWndAboutModules : public CWnd {
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndAboutModules", dwFlags | CWnd::WsNoActivate,
                  CRect(0, 16, 400, 240), pParent);
@@ -353,14 +352,12 @@ public:
          "%x:%x, %x, %x, %x", dwAddr, pData[0], pData[1], pData[2], pData[3]);
       */
 
-      if (!strName)
-        strName = "Not installed";
+      if (!strName) strName = "Not installed";
 
       char strNameShort[52] = {0};
       memcpy(strNameShort, strName, 51);
       char *pDelim = strstr(strNameShort, ";");
-      if (pDelim)
-        *pDelim = 0;
+      if (pDelim) *pDelim = 0;
       BIOS::LCD::Print(4, y + 16, clrB, 0, strNameShort);
       y += 48;
     }

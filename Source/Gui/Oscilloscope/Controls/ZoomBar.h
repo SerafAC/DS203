@@ -1,12 +1,12 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_ZOOMBAR_H
 #define DSO_GUI_OSCILLOSCOPE_CONTROLS_ZOOMBAR_H
-#include <Source/Framework/Wnd.h>
 #include <Source/Core/Settings.h>
+#include <Source/Framework/Wnd.h>
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 
 class CWndZoomBar : public CWnd {
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 nFlags, CWnd *pGraph) {
     CRect rcClient(pGraph->m_rcClient);
     rcClient.top = rcClient.bottom + 4;
@@ -34,8 +34,7 @@ public:
     rc.left = m_rcClient.left + (si16)nXBegin;
     rc.right = m_rcClient.left + (si16)nXEnd;
 
-    if (rc.right > rcBorder.right)
-      rc.right = rcBorder.right;
+    if (rc.right > rcBorder.right) rc.right = rcBorder.right;
     BIOS::LCD::Bar(rc, RGB565(000000));
   }
 };

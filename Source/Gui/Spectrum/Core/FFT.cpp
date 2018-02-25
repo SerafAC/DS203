@@ -109,24 +109,37 @@ LINKERSECTION(".extra")
     -32213, -32285, -32351, -32412, -32469, -32521, -32567, -32609, -32646,
     -32678, -32705, -32728, -32745, -32757, -32765, -32767};
 
-template <> int CFft<512>::_logbits() { return 9; }
+template <>
+int CFft<512>::_logbits() {
+  return 9;
+}
 
-template <> int CFft<512>::_cos(int a) { return Sinewave512[a + 512 / 4]; }
+template <>
+int CFft<512>::_cos(int a) {
+  return Sinewave512[a + 512 / 4];
+}
 
-template <> int CFft<512>::_sin(int a) { return Sinewave512[a]; }
+template <>
+int CFft<512>::_sin(int a) {
+  return Sinewave512[a];
+}
 
-template <> int CFft<1024>::_logbits() { return 10; }
+template <>
+int CFft<1024>::_logbits() {
+  return 10;
+}
 
-template <> int CFft<1024>::_cos(int a) {
+template <>
+int CFft<1024>::_cos(int a) {
   if (a & 1)
     return (Sinewave512[a / 2 + 512 / 4] + Sinewave512[a / 2 + 512 / 4 + 1]) /
            2;
   return Sinewave512[a / 2 + 512 / 4];
 }
 
-template <> int CFft<1024>::_sin(int a) {
-  if (a & 1)
-    return (Sinewave512[a / 2] + Sinewave512[a / 2 + 1]) / 2;
+template <>
+int CFft<1024>::_sin(int a) {
+  if (a & 1) return (Sinewave512[a / 2] + Sinewave512[a / 2 + 1]) / 2;
   return Sinewave512[a / 2];
 }
 

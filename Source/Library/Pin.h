@@ -4,7 +4,7 @@
 #include <Source/HwLayer/Bios.h>
 
 class CPin {
-public:
+ public:
   enum {
     PortA = BIOS::GPIO::PortA << 8,
     PortB = BIOS::GPIO::PortB << 8,
@@ -12,11 +12,11 @@ public:
     PortD = BIOS::GPIO::PortD << 8
   };
 
-private:
+ private:
   int m_nPort;
   int m_nPin;
 
-public:
+ public:
   void Create(int nPort, int nPin) {
     m_nPort = nPort;
     m_nPin = nPin;
@@ -48,7 +48,7 @@ public:
 
   bool Get() { return BIOS::GPIO::GetPin(m_nPort, m_nPin); }
 
-public:
+ public:
   // new interface with getter/setter functions
   enum ELevel { eLow = 0, eHigh = 1, eFloat = 2 };
 
@@ -59,15 +59,15 @@ public:
   // experiment with getter / setter fuctions
   void operator=(/*CPin::ELevel*/ int level) {
     switch (level) {
-    case eLow:
-      Low();
-      return;
-    case eHigh:
-      High();
-      return;
-    case eFloat:
-      Float();
-      return;
+      case eLow:
+        Low();
+        return;
+      case eHigh:
+        High();
+        return;
+      case eFloat:
+        Float();
+        return;
     }
     _ASSERT(0);
   }
@@ -88,4 +88,4 @@ public:
                 p = 0;
         }
 } MyTestInstance;
-*/#endif
+*/ #endif

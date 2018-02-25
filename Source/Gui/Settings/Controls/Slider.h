@@ -4,7 +4,7 @@
 #include <Source/Core/Controls.h>
 
 class CMIProgress : public CWndMenuItem {
-public:
+ public:
   virtual void Create(const char *pszId, ui16 clr, ui8 rows, CWnd *pParent) {
     CWndMenuItem::Create(pszId, clr, rows, pParent);
   }

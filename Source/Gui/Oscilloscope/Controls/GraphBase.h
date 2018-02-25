@@ -5,7 +5,7 @@
 #include <Source/Core/Controls.h>
 
 class CWndGraph : public CWnd {
-public:
+ public:
   enum {
     BlkX = 30,
     BlkY = 25,
@@ -22,7 +22,7 @@ public:
   // public:
   //	static ui16	m_nMaxX;
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndGraph", dwFlags,
                  CRect(12, 22, 12 + DivsX * BlkX, 22 + DivsY * BlkY), pParent);

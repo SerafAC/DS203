@@ -2,18 +2,18 @@
 #ifndef DSO_CORE_CONTROLS_H
 #define DSO_CORE_CONTROLS_H
 
-#include "Design.h"
-#include "Shapes.h"
 #include <Source/Core/Bitmap.h>
 #include <Source/Core/Utils.h>
 #include <Source/Framework/Wnd.h>
 #include <Source/HwLayer/Types.h>
 #include <string.h>
+#include "Design.h"
+#include "Shapes.h"
 
 class CListBox : public CWnd {
   ui16 m_clrFrame;
 
-public:
+ public:
   void Create(const char *pszId, ui16 dwFlags, const CRect &rc, ui16 clr,
               CWnd *pParent) {
     m_clrFrame = clr;
@@ -22,8 +22,7 @@ public:
 
   virtual void OnPaint() {
     CDesign::Window(m_rcClient, m_clrFrame);
-    BIOS::LCD::Print(m_rcClient.CenterX() -
-                         ((ui8)CUtils::StrLen(m_pszId) << 2),
+    BIOS::LCD::Print(m_rcClient.CenterX() - ((ui8)CUtils::StrLen(m_pszId) << 2),
                      m_rcClient.top + 2, RGB565(000000), RGBTRANS, m_pszId);
   }
 
@@ -34,7 +33,7 @@ public:
 };
 
 class CListItem : public CWnd {
-public:
+ public:
   void Create(const char *pszId, ui16 dwFlags, CWnd *pParent) {
     ui8 nHeight = 16;
     CRect rcRect;
@@ -66,13 +65,13 @@ public:
 };
 
 class CWndMenuItem : public CWnd {
-public:
+ public:
   enum { Height = 34, Space = 2, MarginLeft = CDesignNice::MenuItemIndent };
   ui16 m_clr;
   ui16 *m_pClr;
   ui8 m_nRows;
 
-public:
+ public:
   virtual void Create(const char *pszId, ui16 clr, ui8 rows, CWnd *pParent) {
     m_pClr = NULL;
     m_clr = clr;
@@ -102,8 +101,7 @@ public:
   void SetColorPtr(ui16 *pclr) { m_pClr = pclr; }
 
   virtual void OnPaint() {
-    if (m_pClr)
-      m_clr = *m_pClr;
+    if (m_pClr) m_clr = *m_pClr;
 
     // BIOS::LCD::Bar(m_rcClient, RGB565(000000));
     // reduce annoying blinking
@@ -136,10 +134,10 @@ public:
 };
 
 class CWndMenuBlock : public CWnd {
-public:
+ public:
   ui16 m_clr;
 
-public:
+ public:
   virtual void Create(const char *pszId, ui16 clr, CRect &rcRect,
                       CWnd *pParent) {
     m_clr = clr;
@@ -164,11 +162,11 @@ public:
 };
 
 class CWndMenuBlockIcon : public CWnd {
-public:
+ public:
   ui16 m_clr;
   const void *m_pImage;
 
-public:
+ public:
   virtual void Create(const char *pszId, ui16 clr, CRect &rcRect, CWnd *pParent,
                       const void *pImage) {
     m_pImage = pImage;
@@ -184,8 +182,8 @@ public:
         clr = RGB565(ff00ff);
         continue;
       }
-      int nF = Get565G(clr); // foreground
-      int nS = Get565B(clr); // shadow
+      int nF = Get565G(clr);  // foreground
+      int nS = Get565B(clr);  // shadow
       clr = CUtils::InterpolateColor(clrBack, clrFront, nF);
       clr = CUtils::InterpolateColor(clr, 0, nS);
     }
@@ -223,7 +221,7 @@ public:
 };
 
 class CValueProvider {
-public:
+ public:
   static const ui32 Invalid;
   enum VPNavigate {
     No,
@@ -248,7 +246,7 @@ public:
 };
 
 class CLStaticItem : public CListItem {
-public:
+ public:
   virtual void OnPaint() {
     ui16 clr = HasFocus() ? RGB565(ffffff) : RGB565(000000);
 
@@ -260,7 +258,7 @@ public:
 };
 
 class CLSpacer : public CListItem {
-public:
+ public:
   void Create(CWnd *pParent) {
     ui8 nHeight = 4;
     CRect rcRect;
@@ -283,7 +281,7 @@ public:
 class CLPItem : public CListItem {
   CValueProvider *m_pProvider;
 
-public:
+ public:
   void Create(const char *pszId, ui16 dwFlags, CValueProvider *pProvider,
               CWnd *pParent) {
     m_pProvider = pProvider;
@@ -312,7 +310,7 @@ public:
     CRect rcItem;
     rcItem = m_rcClient;
     rcItem.left = x;
-    rcItem.right = rcItem.left; // force to recompute
+    rcItem.right = rcItem.left;  // force to recompute
 
     m_pProvider->OnPaint(rcItem, HasFocus());
     x += m_pProvider->GetWidth();
@@ -354,7 +352,7 @@ class CComboSelector : public CWnd {
   CValueProvider *m_pProvider;
   ui32 m_nOldValue;
 
-public:
+ public:
   void Create(const char *pszId, ui16 dwFlags, const CRect &rc, ui16 clr,
               CValueProvider *pProvider, CWnd *pParent) {
     m_clrFrame = clr;
@@ -367,8 +365,7 @@ public:
     CRect rcClient = m_rcClient;
     CDesign::WindowSelector(m_rcClient, m_clrFrame);
 
-    BIOS::LCD::Print(rcClient.CenterX() -
-                         ((ui8)CUtils::StrLen(m_pszId) << 2),
+    BIOS::LCD::Print(rcClient.CenterX() - ((ui8)CUtils::StrLen(m_pszId) << 2),
                      rcClient.top + 2, RGB565(000000), RGBTRANS, m_pszId);
     BIOS::LCD::Draw(m_rcClient.left + 6, m_rcClient.top + 20, RGB565(000000),
                     RGBTRANS, CShapes::more_left);
@@ -444,8 +441,7 @@ public:
 
       rcClient.left += 8;
 
-      if ((*m_pProvider) + 1 != CValueProvider::Yes)
-        break;
+      if ((*m_pProvider) + 1 != CValueProvider::Yes) break;
       (*m_pProvider)++;
     }
     m_pProvider->Set(old);
@@ -474,7 +470,7 @@ public:
 class CItemProvider : public CWndMenuItem {
   CValueProvider *m_pProvider;
 
-public:
+ public:
   virtual void Create(CValueProvider *pProvider, const char *pszId, ui16 clr,
                       CWnd *pParent) {
     _ASSERT(pProvider);
@@ -530,7 +526,7 @@ public:
 class CLPSubItem : public CListItem {
   CValueProvider *m_pProvider;
 
-public:
+ public:
   void Create(const char *pszId, ui16 dwFlags, const CRect &rcClient,
               CValueProvider *pProvider, CWnd *pParent) {
     m_pProvider = pProvider;
@@ -574,8 +570,7 @@ public:
     if (nKey & (BIOS::KEY::KeyUp | BIOS::KEY::KeyDown)) {
       CWnd *pSafeFocus = GetFocus();
       CListItem::OnKey(nKey);
-      if (GetFocus() != pSafeFocus)
-        GetParent()->Invalidate();
+      if (GetFocus() != pSafeFocus) GetParent()->Invalidate();
       return;
     }
 
@@ -588,10 +583,11 @@ public:
   }
 };
 
-template <int N> class CDigitsItem : public CListItem {
+template <int N>
+class CDigitsItem : public CListItem {
   CLPSubItem m_wndItem[N];
 
-public:
+ public:
   void Create(const char *pszId, ui16 dwFlags, CWnd *pParent,
               CValueProvider **arrProviders) {
     CListItem::Create(pszId, dwFlags, pParent);
@@ -616,7 +612,7 @@ class CProviderDigit : public CValueProvider {
   int *m_pNumber;
   int m_nStep;
 
-public:
+ public:
   void Create(int *val, int nStep) {
     m_pNumber = val;
     m_nStep = nStep;
@@ -638,7 +634,7 @@ public:
   }
 
   virtual ui16 GetWidth() {
-    return 8; // single digit
+    return 8;  // single digit
   }
 };
 

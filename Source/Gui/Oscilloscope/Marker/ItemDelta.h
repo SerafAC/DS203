@@ -10,7 +10,7 @@ class CItemMarkerDelta : public CWndMenuItem {
   CSettings::Marker *m_pMarker2;
   PSTR m_strId;
 
-public:
+ public:
   virtual void Create(PSTR strId, CSettings::Marker *pMarker1,
                       CSettings::Marker *pMarker2, CWnd *pParent) {
     _ASSERT(pMarker1);
@@ -37,8 +37,7 @@ public:
     int _x = x;
     x += 8;
     x += BIOS::LCD::Print(x, y, clr, RGBTRANS, m_strId);
-    if (bDisabled)
-      return;
+    if (bDisabled) return;
 
     x = _x;
     y += 16;
@@ -63,8 +62,8 @@ public:
             fValue = -1.0f / fValue;
           else
             fValue = 1.0f / fValue;
-          fValue /= 1000.0f; // kHz
-          fValue += 0.0001f; // sprintf rounding
+          fValue /= 1000.0f;  // kHz
+          fValue += 0.0001f;  // sprintf rounding
           x += BIOS::LCD::Printf(x, y, clr, RGBTRANS, "%f", fValue) * 8;
           x += 2;
           BIOS::LCD::Print(x, y, RGB565(404040), RGBTRANS, "kHz");

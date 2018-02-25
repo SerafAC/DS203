@@ -2,14 +2,14 @@
 #ifndef DSO_GUI_OSCILLOSCOPE_MASK_MENUMASK_H
 #define DSO_GUI_OSCILLOSCOPE_MASK_MENUMASK_H
 
-#include "../Disp/ItemDisp.h"
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>
 #include <Source/Gui/Oscilloscope/Controls/GraphOsc.h>
+#include "../Disp/ItemDisp.h"
 
 class CMIButton : public CWndMenuItem {
-public:
+ public:
   virtual void Create(const char *pszId, ui16 clr, int nRows, CWnd *pParent) {
     CWndMenuItem::Create(pszId, clr, nRows, pParent);
   }
@@ -24,7 +24,7 @@ public:
 };
 
 class CWndMenuMask : public CWnd {
-public:
+ public:
   enum EAction {
     ActionNone = 0,
     ActionBeep = 1,
@@ -37,7 +37,7 @@ public:
   static const char *const m_ppszTextAction[];
   static const char *const m_ppszDispAction[];
 
-public:
+ public:
   // Menu items
   CMIButton m_btnSource;
   CMIButton m_btnReset;

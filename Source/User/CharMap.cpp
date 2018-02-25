@@ -68,7 +68,7 @@ void CWndCharMap::OnPaint() {
 }
 
 void CWndCharMap::OnKey(ui16 nKey) {
-  if ( //( nKey == BIOS::KEY::KeyLeft && nCursor == 0 ) ||
+  if (  //( nKey == BIOS::KEY::KeyLeft && nCursor == 0 ) ||
       (nKey == BIOS::KEY::KeyUp && nCursor < 32)) {
     UpdateChar(nCursor, false);
     CWnd::OnKey(BIOS::KEY::KeyUp);

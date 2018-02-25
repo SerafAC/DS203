@@ -21,7 +21,7 @@ class CCoreGenerator {
   static ui8 m_pVolatile[256];
   static int m_nVolatileLen;
 
-public:
+ public:
   static ui16 *GetRamDac();
   static int GetRamLen();
   static void Update();
@@ -35,7 +35,7 @@ public:
   static const TWaveData *GetWave(int nWave);
   static void CopyToVolatile(int nWave);
 
-protected:
+ protected:
   static ui16 _GetCount(ui8 nWaveIndex);
   static ui16 *_GetWave(ui8 nWaveIndex);
 };

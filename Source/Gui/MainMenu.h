@@ -6,7 +6,7 @@
 #include <Source/Framework/Wnd.h>
 
 class CWndModuleSelector : public CWnd {
-public:
+ public:
   struct TMenuBlockStruct {
     CWndMenuBlockIcon *m_pWnd;
     PCSTR m_strLabel;
@@ -15,7 +15,7 @@ public:
     PVOID m_icon;
   };
 
-private:
+ private:
   static const unsigned char iconOscilloscope[];
   static const unsigned char iconSpectrum[];
   static const unsigned char iconGenerator[];
@@ -23,7 +23,7 @@ private:
   static const unsigned char iconUser[];
   static const unsigned char iconAbout[];
 
-public:
+ public:
   CWndMenuBlockIcon m_itmOscilloscope;
   CWndMenuBlockIcon m_itmSpectrum;
   CWndMenuBlockIcon m_itmGenerator;
@@ -39,7 +39,7 @@ public:
   virtual void OnPaint();
   virtual void OnKey(ui16 nKey);
 
-private:
+ private:
   const TMenuBlockStruct *GetLayout();
   int _GetItemId(CWnd *pWnd);
   CWnd *_GetWindowById(int nId);

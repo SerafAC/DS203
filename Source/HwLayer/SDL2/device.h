@@ -4,7 +4,7 @@
 #include <Source/Main/Application.h>
 
 class CDevice {
-public:
+ public:
   static const int Height = 240;
   static const int Width = 400;
 
@@ -14,7 +14,7 @@ public:
   int mousex, mousey, moused;
   void *current_buffer = NULL;
 
-public:
+ public:
   int GetKeys() { return keys; }
   void *GetBuffer() { return current_buffer; }
 };

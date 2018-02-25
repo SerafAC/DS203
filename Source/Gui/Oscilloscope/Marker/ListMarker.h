@@ -1,13 +1,13 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_MARKER_LISTMARKER_H
 #define DSO_GUI_OSCILLOSCOPE_MARKER_LISTMARKER_H
-#include <Source/HwLayer/Types.h>
-#include <Source/Core/Settings.h>
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
+#include <Source/HwLayer/Types.h>
 
 class CWndListMarker : public CListBox {
-public:
+ public:
   CSettings::Marker *m_pMarker;
 
   CProviderEnum m_proMode;
@@ -25,7 +25,7 @@ public:
   CProviderEnum m_proFind;
   CLPItem m_itmFind;
 
-public:
+ public:
   CWndListMarker() { m_modeFind = CSettings::Marker::_MaxFind; }
 
   void Create(CSettings::Marker *pMarker, CWnd *pParent) {

@@ -16,7 +16,7 @@ ADD_MODULE("Thermometer", CWndThermometer)
 class CWndThermometer : public CWnd {
   static const unsigned char bitmapThermometer[];
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags);
   virtual void OnPaint();
   virtual void OnTimer();

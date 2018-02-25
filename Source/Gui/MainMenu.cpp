@@ -24,7 +24,7 @@ const CWndModuleSelector::TMenuBlockStruct *CWndModuleSelector::GetLayout() {
       {&m_itmApp3, "Application\nslot 3", RGB565(808080), "APP3", NULL},
       {&m_itmApp4, "Application\nslot 4", RGB565(808080), "APP4", NULL},
       //		{ NULL,					NULL,
-      //RGB565(808080), NULL,			NULL },
+      // RGB565(808080), NULL,			NULL },
   };
 
   return arrLayout;
@@ -35,12 +35,12 @@ const CWndModuleSelector::TMenuBlockStruct *CWndModuleSelector::GetLayout() {
 
 #define _BORDER 20
 #define _SPACING 8
-#define _LEFT(x)                                                               \
-  m_rcClient.left + _BORDER +                                                  \
+#define _LEFT(x)              \
+  m_rcClient.left + _BORDER + \
       (m_rcClient.Width() - _BORDER * 2 - _SPACING) * (x) / 3
 #define _RIGHT(x) _LEFT(x + 1) - _SPACING
-#define _TOP(y)                                                                \
-  m_rcClient.top + _BORDER +                                                   \
+#define _TOP(y)              \
+  m_rcClient.top + _BORDER + \
       (m_rcClient.Height() - _BORDER * 2 - _SPACING) * (y) / 3
 #define _BOTTOM(y) _TOP(y + 1) - _SPACING
 #define _ITEM(x, y) CRect(_LEFT(x), _TOP(y), _RIGHT(x), _BOTTOM(y))
@@ -105,14 +105,10 @@ const CWndModuleSelector::TMenuBlockStruct *CWndModuleSelector::GetLayout() {
     _ASSERT(nCurrentId >= 0 && nCurrentId <= 9);
     int nNewId = nCurrentId;
 
-    if (nKey & BIOS::KEY::KeyLeft)
-      nNewId--;
-    if (nKey & BIOS::KEY::KeyRight)
-      nNewId++;
-    if (nKey & BIOS::KEY::KeyUp)
-      nNewId -= 3;
-    if (nKey & BIOS::KEY::KeyDown)
-      nNewId += 3;
+    if (nKey & BIOS::KEY::KeyLeft) nNewId--;
+    if (nKey & BIOS::KEY::KeyRight) nNewId++;
+    if (nKey & BIOS::KEY::KeyUp) nNewId -= 3;
+    if (nKey & BIOS::KEY::KeyDown) nNewId += 3;
     if ((nNewId < 0) || (nNewId >= 9)) {
       MainWnd.m_wndToolBar.SetFocus();
       pCurrent->Invalidate();
@@ -121,8 +117,7 @@ const CWndModuleSelector::TMenuBlockStruct *CWndModuleSelector::GetLayout() {
     }
 
     CWnd *pNew = NULL;
-    if (nNewId != nCurrentId)
-      pNew = _GetWindowById(nNewId);
+    if (nNewId != nCurrentId) pNew = _GetWindowById(nNewId);
     if (pNew) {
       pNew->SetFocus();
       pCurrent->Invalidate();
@@ -138,8 +133,7 @@ int CWndModuleSelector::_GetItemId(CWnd *pWnd) {
   const CWndModuleSelector::TMenuBlockStruct *arrLayout = GetLayout();
 
   for (int i = 0; i < 9; i++)
-    if (arrLayout[i].m_pWnd == pWnd)
-      return i;
+    if (arrLayout[i].m_pWnd == pWnd) return i;
   return -1;
 }
 
@@ -201,7 +195,7 @@ LINKERSECTION(".extra")
     0x99, 0x11, 0xf1, 0x24, 0x10, 0x35, 0x42, 0x3b, 0x2f, 0x22, 0x45, 0x40,
     0x25, 0x13, 0x2f, 0x23, 0x14, 0x25, 0x24, 0x12, 0xe2, 0xf1, 0x31, 0x14,
     0x11, 0x32, 0xf0, 0x31, 0x20, 0x38, 0x3f, 0x13, 0x22, 0x11, 0x23, 0x2f,
-}; // 557 bytes
+};  // 557 bytes
 
 LINKERSECTION(".extra")
 /*static*/ const unsigned char CWndModuleSelector::iconOscilloscope[] = {
@@ -275,7 +269,7 @@ LINKERSECTION(".extra")
     0x46, 0x78, 0x1f, 0x17, 0x61, 0x40, 0x32, 0x33, 0x45, 0x67, 0x7f, 0x37,
     0x65, 0x43, 0x33, 0x45, 0x67, 0xc3, 0xf1, 0x76, 0x15, 0x04, 0x14, 0x25,
     0x67, 0x91, 0xf1, 0x76, 0x15, 0x04, 0x14, 0x25, 0x67, 0x5f,
-}; // 511 bytes
+};  // 511 bytes
 
 LINKERSECTION(".extra")
 /*static*/ const unsigned char CWndModuleSelector::iconSpectrum[] = {
@@ -335,7 +329,7 @@ LINKERSECTION(".extra")
     0x30, 0x12, 0x30, 0x30, 0x22, 0x10, 0x21, 0x21, 0x11, 0x22, 0x11, 0x13,
     0x21, 0x11, 0x12, 0x11, 0x13, 0x21, 0x11, 0x22, 0x11, 0x12, 0x21, 0x11,
     0x22, 0x01,
-}; // 662 bytes
+};  // 662 bytes
 
 LINKERSECTION(".extra")
 /*static*/ const unsigned char CWndModuleSelector::iconGenerator[] = {
@@ -388,7 +382,7 @@ LINKERSECTION(".extra")
     0x05, 0x51, 0x02, 0x5f, 0x13, 0x25, 0x17, 0x23, 0xfd, 0xe6, 0x03, 0x93,
     0xf4, 0x30, 0x57, 0xab, 0x3f, 0x42, 0x05, 0x13, 0xa3, 0xf0, 0x21, 0x10,
     0x3c, 0x3f, 0x13, 0x3e, 0x1f,
-}; // 581 bytes
+};  // 581 bytes
 
 LINKERSECTION(".extra")
 /*static*/ const unsigned char CWndModuleSelector::iconAbout[] = {
@@ -421,7 +415,7 @@ LINKERSECTION(".extra")
     0xf5, 0x20, 0x46, 0x8c, 0x7e, 0x2c, 0x86, 0x24, 0x15, 0x1e, 0x1f, 0x22,
     0x05, 0xd1, 0x42, 0x51, 0x29, 0x2f, 0x32, 0x10, 0x57, 0x40, 0x51, 0x01,
     0x23, 0xc2, 0xf1, 0x22, 0x71, 0x12, 0x3b, 0x1f,
-}; // 464 bytes
+};  // 464 bytes
 
 LINKERSECTION(".extra")
 /*static*/ const unsigned char CWndModuleSelector::iconUser[] = {
@@ -462,4 +456,4 @@ LINKERSECTION(".extra")
     0x14, 0xc1, 0x21, 0x31, 0x50, 0x11, 0x13, 0x31, 0x11, 0x30, 0x11, 0x48,
     0x22, 0x04, 0x43, 0x04, 0x32, 0x14, 0x45, 0x30, 0x4a, 0x22, 0x04, 0xb1,
     0x20, 0x4b, 0x12,
-}; // 435 bytes
+};  // 435 bytes

@@ -1,9 +1,9 @@
 #include "SpectrumGraph.h"
-#include "../Core/FFT.h"
 #include <Source/Core/Utils.h>
+#include "../Core/FFT.h"
 
 #ifdef _TESTSIGNAL
-#include <math.h> // for testing
+#include <math.h>  // for testing
 #endif
 
 /*virtual*/ void CWndSpectrumGraphTempl::Create(CWnd *pParent, ui16 dwFlags) {
@@ -59,17 +59,15 @@ void CWndSpectrumGraphTempl::OnPaint() {
   CFft<512> fft;
 
   for (int nInput = 2; nInput >= 1; nInput--) {
-    if (nInput == 1 && !en1)
-      continue;
-    if (nInput == 2 && !en2)
-      continue;
+    if (nInput == 1 && !en1) continue;
+    if (nInput == 2 && !en2) continue;
 
     for (int i = 0; i < 512; i++) {
       BIOS::ADC::SSample Sample;
       Sample.nValue = BIOS::ADC::GetAt(nOffset + i);
       int nSample = nInput == 1 ? Sample.CH1 : Sample.CH2;
 #ifdef _TESTSIGNAL
-      float f = 10.0f; //(GetTickCount()/1000)&1 ? 30.0f : 60.0f;
+      float f = 10.0f;  //(GetTickCount()/1000)&1 ? 30.0f : 60.0f;
       nSample = (int)(sin(i / 512.0f * 2.0f * 3.141592 * f) * 128.0f + 64);
 #endif
       nSample -= nSum[nInput - 1];
@@ -96,7 +94,7 @@ void CWndSpectrumGraphTempl::OnPaint() {
       // div 32, bitshift 5
       // int nLength = nLength_ * DivsY * m_nBlkY / 32 / 256;
       int nLength = nLength_ * DivsY * m_nBlkY / 16 / 256;
-      if (i == 0) // why the hell is the DC value 2x bigger?
+      if (i == 0)  // why the hell is the DC value 2x bigger?
         nLength /= 2;
       UTILS.Clamp<int>(nLength, 0, DivsY * m_nBlkY);
 
@@ -106,10 +104,8 @@ void CWndSpectrumGraphTempl::OnPaint() {
         nMarkerY = nLength;
       }
 
-      if (nInput == 1)
-        pDataOut1[i] = nLength;
-      if (nInput == 2)
-        pDataOut2[i] = nLength;
+      if (nInput == 1) pDataOut1[i] = nLength;
+      if (nInput == 2) pDataOut2[i] = nLength;
     }
   }
 
@@ -126,19 +122,16 @@ void CWndSpectrumGraphTempl::OnPaint() {
         nMarkerMax / 32.0f / 32.0f * Settings.Runtime.m_fCH1Res;
   }
 
-  if (nMarkerY > DivsY * m_nBlkY - 4)
-    nMarkerY = DivsY * m_nBlkY - 4;
+  if (nMarkerY > DivsY * m_nBlkY - 4) nMarkerY = DivsY * m_nBlkY - 4;
 
   for (i = 0; i < DivsX * m_nBlkX; i++) {
     _PrepareColumn(column, i, 0x0101);
 
     if (i < 256) {
       if (en1)
-        for (int t = 0; t < pDataOut1[i]; t++)
-          column[t] = clr1;
+        for (int t = 0; t < pDataOut1[i]; t++) column[t] = clr1;
       if (en2)
-        for (int t = 0; t < pDataOut2[i]; t++)
-          column[t] = clr2;
+        for (int t = 0; t < pDataOut2[i]; t++) column[t] = clr2;
     }
 
     BIOS::LCD::Buffer(m_rcClient.left + i, m_rcClient.top, column,
@@ -159,13 +152,11 @@ void CWndSpectrumGraphTempl::OnPaint() {
 }
 
 void CWndTimeGraphTempl::OnPaint() {
-#define LineTo(buf, ynew, ylast, clr)                                          \
-  if (ynew > ylast)                                                            \
-    for (int _y = ylast; _y <= ynew; _y++)                                     \
-      buf[_y] = clr;                                                           \
-  else                                                                         \
-    for (int _y = ynew; _y <= ylast; _y++)                                     \
-      buf[_y] = clr;                                                           \
+#define LineTo(buf, ynew, ylast, clr)                     \
+  if (ynew > ylast)                                       \
+    for (int _y = ylast; _y <= ynew; _y++) buf[_y] = clr; \
+  else                                                    \
+    for (int _y = ynew; _y <= ylast; _y++) buf[_y] = clr; \
   ylast = ynew;
 
   // maximum size
@@ -206,8 +197,7 @@ void CWndTimeGraphTempl::OnPaint() {
   for (i = 0; i < nPixels; i++) {
     int nCurSampleIndex = i * nLength / nPixels;
     int nWindow = 0x10000;
-    if (bHann)
-      nWindow = fft.Hann(nCurSampleIndex);
+    if (bHann) nWindow = fft.Hann(nCurSampleIndex);
 
     bool bSatur = false;
 
@@ -217,13 +207,11 @@ void CWndTimeGraphTempl::OnPaint() {
       Sample.nValue = BIOS::ADC::GetAt(nOffset + nSampleIndex);
       if (en2) {
         int y2 = Sample.CH2;
-        if (y2 == 0 || y2 == 255)
-          bSatur = true;
+        if (y2 == 0 || y2 == 255) bSatur = true;
       }
       if (en1) {
         int y1 = Sample.CH1;
-        if (y1 == 0 || y1 == 255)
-          bSatur = true;
+        if (y1 == 0 || y1 == 255) bSatur = true;
       }
     }
 
@@ -240,8 +228,7 @@ void CWndTimeGraphTempl::OnPaint() {
           y2 += 128;
         }
         y2 = (y2 * (DivsY * m_nBlkY)) >> 8;
-        if (nLastY2 == -1)
-          nLastY2 = y2;
+        if (nLastY2 == -1) nLastY2 = y2;
         LineTo(column, y2, nLastY2, clr2);
       }
 
@@ -253,8 +240,7 @@ void CWndTimeGraphTempl::OnPaint() {
           y1 += 128;
         }
         y1 = (y1 * (DivsY * m_nBlkY)) >> 8;
-        if (nLastY1 == -1)
-          nLastY1 = y1;
+        if (nLastY1 == -1) nLastY1 = y1;
         LineTo(column, y1, nLastY1, clr1);
       }
     }
@@ -304,10 +290,8 @@ void CWndTimeGraphTempl::OnPaint() {
 
   memset(column, 0, sizeof(column));
   for (int nInput = 2; nInput >= 1; nInput--) {
-    if (nInput == 1 && !en1)
-      continue;
-    if (nInput == 2 && !en2)
-      continue;
+    if (nInput == 1 && !en1) continue;
+    if (nInput == 2 && !en2) continue;
 
     for (int i = 0; i < 512; i++) {
       BIOS::ADC::SSample Sample;
@@ -339,7 +323,7 @@ void CWndTimeGraphTempl::OnPaint() {
       // div 32, bitshift 5
 
       // int nLength = nLength_ / 16;
-      int nLength = nLength_ / 8; // amplify it 2x
+      int nLength = nLength_ / 8;  // amplify it 2x
       UTILS.Clamp<int>(nLength, 0, 255);
 
       // store vector lengths in column
@@ -382,6 +366,5 @@ void CWndTimeGraphTempl::OnPaint() {
                             m_rcClient.right, m_rcClient.top + m_nY + 1),
                       column);
 
-  if (++m_nY >= m_nHeight)
-    m_nY = 0;
+  if (++m_nY >= m_nHeight) m_nY = 0;
 }

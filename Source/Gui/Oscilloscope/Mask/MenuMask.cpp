@@ -6,16 +6,13 @@ PCSTR m_strStart = "Start\ncollect";
 PCSTR m_strStop = "Stop\ncollect";
 
 int BlurFilter(int a, int b, int c) {
-  if (a < b && c < b)
-    return (a + b + c) / 3;
-  if (a < b)
-    return (a + b) / 2;
-  if (c < b)
-    return (c + b) / 2;
+  if (a < b && c < b) return (a + b + c) / 3;
+  if (a < b) return (a + b) / 2;
+  if (c < b) return (c + b) / 2;
   return b;
 }
 
-#define BlurFilterInv(a, b, c)                                                 \
+#define BlurFilterInv(a, b, c) \
   (255 - BlurFilter(255 - (a), 255 - (b), 255 - (c)))
 
 /*static*/ const char *const CWndMenuMask::m_ppszTextAction[] = {
@@ -38,9 +35,10 @@ int BlurFilter(int a, int b, int c) {
   m_proAction.Create((const char **)m_ppszTextAction, (NATIVEENUM *)&m_Action,
                      ActionMax);
 
-  m_btnExpand.Create("\x11"
-                     "Expand\x10",
-                     RGB565(8080ff), 1, this);
+  m_btnExpand.Create(
+      "\x11"
+      "Expand\x10",
+      RGB565(8080ff), 1, this);
   m_btnBlur.Create("\x11 Blur \x10", RGB565(8080ff), 1, this);
 
   m_itmDisplay.Create("Display", RGB565(ffffff), &m_proDisplay, this);
@@ -103,27 +101,27 @@ int BlurFilter(int a, int b, int c) {
       else {
         (*nFail)++;
         switch (m_Action) {
-        case ActionNone:
-          break;
+          case ActionNone:
+            break;
 
-        case ActionBeep:
-          BIOS::SYS::Beep(100);
-          break;
+          case ActionBeep:
+            BIOS::SYS::Beep(100);
+            break;
 
-        case ActionBeepStop:
-          BIOS::SYS::Beep(100);
-          Settings.Trig.State = CSettings::Trigger::_Stop;
-          BIOS::ADC::Enable(false);
-          MainWnd.m_wndMessage.Show(&MainWnd, "Information",
-                                    "Trigger was paused", RGB565(ffff00));
-          break;
+          case ActionBeepStop:
+            BIOS::SYS::Beep(100);
+            Settings.Trig.State = CSettings::Trigger::_Stop;
+            BIOS::ADC::Enable(false);
+            MainWnd.m_wndMessage.Show(&MainWnd, "Information",
+                                      "Trigger was paused", RGB565(ffff00));
+            break;
 
-        case ActionStop:
-          Settings.Trig.State = CSettings::Trigger::_Stop;
-          BIOS::ADC::Enable(false);
-          MainWnd.m_wndMessage.Show(&MainWnd, "Information",
-                                    "Trigger was paused", RGB565(ffff00));
-          break;
+          case ActionStop:
+            Settings.Trig.State = CSettings::Trigger::_Stop;
+            BIOS::ADC::Enable(false);
+            MainWnd.m_wndMessage.Show(&MainWnd, "Information",
+                                      "Trigger was paused", RGB565(ffff00));
+            break;
         }
       }
     }
@@ -177,10 +175,8 @@ int BlurFilter(int a, int b, int c) {
       ui8 *bHigh = NULL;
       CCoreOscilloscope::GetMaskAt(i, &bLow, &bHigh);
 
-      if (*bLow > 0)
-        (*bLow)--;
-      if (*bHigh < 255)
-        (*bHigh)++;
+      if (*bLow > 0) (*bLow)--;
+      if (*bHigh < 255) (*bHigh)++;
     }
   }
 
@@ -191,10 +187,8 @@ int BlurFilter(int a, int b, int c) {
       ui8 *bHigh = NULL;
       CCoreOscilloscope::GetMaskAt(i, &bLow, &bHigh);
 
-      if (*bLow < 255 && *bLow < *bHigh)
-        (*bLow)++;
-      if (*bHigh > 0 && *bHigh > *bLow)
-        (*bHigh)--;
+      if (*bLow < 255 && *bLow < *bHigh) (*bLow)++;
+      if (*bHigh > 0 && *bHigh > *bLow) (*bHigh)--;
     }
   }
 

@@ -9,7 +9,7 @@
 #include <Source/Main/Application.h>
 
 class CWndListCalDac : public CListBox {
-public:
+ public:
   CLStaticItem m_itmStaticA;
   CLStaticItem m_itmStaticB;
   CLStaticItem m_itmStaticC;
@@ -33,7 +33,7 @@ public:
   int m_nValueA;
   int m_nValueB;
 
-public:
+ public:
   void Create(CWnd *pParent) {
     Load();
     CListBox::Create("ADC Calibration", WsVisible | WsModal,

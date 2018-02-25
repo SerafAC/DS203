@@ -1,8 +1,8 @@
 #pragma once
 #ifndef DSO_GUI_GENERATOR_MAIN_ITEMGENFREQUENCY_H
 #define DSO_GUI_GENERATOR_MAIN_ITEMGENFREQUENCY_H
-#include <Source/Core/Settings.h>
 #include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
 #include <Source/Gui/Generator/Core/CoreGenerator.h>
 
 #define Hz *1.0f
@@ -10,7 +10,7 @@
 #define MHz *1000000.0f
 
 class CItemFrequency : public CWndMenuItem {
-public:
+ public:
   virtual void Create(const char *pszId, ui16 clr, ui8 rows, CWnd *pParent) {
     CWndMenuItem::Create(pszId, clr, rows, pParent);
   }
@@ -48,30 +48,23 @@ public:
       fStep = 1 MHz;
 
     if (nKey & BIOS::KEY::KeyLeft) {
-      if (fFreq > fStep)
-        fFreq -= fStep;
-      if (fFreq <= 0.0f)
-        fFreq = 1.0f;
+      if (fFreq > fStep) fFreq -= fStep;
+      if (fFreq <= 0.0f) fFreq = 1.0f;
     }
     if (nKey & BIOS::KEY::KeyRight) {
-      if (fFreq < 20 MHz)
-        fFreq += fStep;
-      if (fFreq <= 0.0f)
-        fFreq = 1.0f;
+      if (fFreq < 20 MHz) fFreq += fStep;
+      if (fFreq <= 0.0f) fFreq = 1.0f;
     }
 
     fFreq = ((int)(fFreq / fStep)) * fStep;
-    if (fFreq < 1.0f)
-      fFreq = 1.0f;
+    if (fFreq < 1.0f) fFreq = 1.0f;
 
     if (fFreq != fOldFreq) {
       bool bSet = SetFrequency(fFreq);
       float fNewFreq = GetFrequency();
 
-      if (fFreq > fOldFreq && fNewFreq <= fOldFreq)
-        bSet = false;
-      if (fFreq < fOldFreq && fNewFreq >= fOldFreq)
-        bSet = false;
+      if (fFreq > fOldFreq && fNewFreq <= fOldFreq) bSet = false;
+      if (fFreq < fOldFreq && fNewFreq >= fOldFreq) bSet = false;
 
       if (!bSet) {
         if (nKey & BIOS::KEY::KeyLeft) {
@@ -109,8 +102,7 @@ public:
           CPUCLOCK / (Settings.Gen.nArr + 1) / (Settings.Gen.nPsc + 1);
       return fFreq;
     }
-    if (Settings.Gen.nSamples <= 0)
-      return 0;
+    if (Settings.Gen.nSamples <= 0) return 0;
     float fFreq =
         CPUCLOCK / 20 / (Settings.Gen.nArr + 1) / Settings.Gen.nSamples;
     return fFreq;
@@ -134,8 +126,7 @@ public:
 
     int nArr = (int)((CPUCLOCK) / (nPsc * fFreq * nSamples)) - 1;
 
-    if (nArr <= 1)
-      nArr = 1;
+    if (nArr <= 1) nArr = 1;
     if (Settings.Gen.Wave == CSettings::Generator::_Square && nArr < 8)
       nArr = 8;
 
@@ -143,7 +134,7 @@ public:
     Settings.Gen.nArr = nArr;
     CCoreGenerator::SetDuty(Settings.Gen.nDuty);
 
-// BIOS::GEN::ConfigureWaveRate( Settings.Gen.nArr );
+    // BIOS::GEN::ConfigureWaveRate( Settings.Gen.nArr );
 
 #undef CPUCLOCK
 #undef MHz

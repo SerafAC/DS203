@@ -1,15 +1,15 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_INPUT_ITEMDIGITAL_H
 #define DSO_GUI_OSCILLOSCOPE_INPUT_ITEMDIGITAL_H
-#include <Source/Framework/Wnd.h>
-#include <Source/Core/Shapes.h>
-#include <Source/Core/Settings.h>
 #include <Source/Core/Controls.h>
+#include <Source/Core/Settings.h>
+#include <Source/Core/Shapes.h>
+#include <Source/Framework/Wnd.h>
 
 class CItemDigital : public CWndMenuItem {
   CSettings::DigitalChannel *m_pInfo;
 
-public:
+ public:
   virtual void Create(CSettings::DigitalChannel *pInfo, CWnd *pParent) {
     _ASSERT(pInfo);
     m_pInfo = pInfo;

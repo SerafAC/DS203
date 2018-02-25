@@ -2,14 +2,14 @@
 #ifndef DSO_GUI_OSCILLOSCOPE_INPUT_ITEMTIME_H
 #define DSO_GUI_OSCILLOSCOPE_INPUT_ITEMTIME_H
 #include <Source/Core/Controls.h>
-#include <Source/Core/Settings.h>
 #include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
 
 class CItemTime : public CWndMenuItem {
   CSettings::TimeBase *m_pInfo;
   CProviderEnum m_proResolution;
 
-public:
+ public:
   virtual void Create(CSettings::TimeBase *pInfo, CWnd *pParent) {
     _ASSERT(pInfo);
     m_pInfo = pInfo;

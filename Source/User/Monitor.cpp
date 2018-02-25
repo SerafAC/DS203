@@ -29,10 +29,9 @@ void CWndUserMonitor::OnTick() {
   bool nLastCrLf = false;
 
   while ((ch = BIOS::SERIAL::Getch()) >= 0) {
-    if (ch == 0x0d || ch == 0x0a) // cr
+    if (ch == 0x0d || ch == 0x0a)  // cr
     {
-      if (nLastCrLf)
-        continue;
+      if (nLastCrLf) continue;
       nLastCrLf = true;
 
       m_x = 0;

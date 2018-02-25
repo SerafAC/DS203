@@ -33,7 +33,7 @@ class CExport {
   };
 #pragma pack(pop)
 
-public:
+ public:
   void FindUnusedFile(char *strName, int nNumbers) {
     FILEINFO f;
     do {
@@ -59,8 +59,7 @@ public:
   void SaveBinary(char *strName_ = NULL) {
     char strNameUnique[] = "WAVE000 DAT";
     char *strName = strName_ ? strName_ : strNameUnique;
-    if (!strName_)
-      FindUnusedFile(strNameUnique, 4);
+    if (!strName_) FindUnusedFile(strNameUnique, 4);
 
     FILEINFO f;
 
@@ -86,8 +85,7 @@ public:
       }
     }
 
-    if (nOffset > 0)
-      BIOS::DSK::Write(&f, pData);
+    if (nOffset > 0) BIOS::DSK::Write(&f, pData);
 
     BIOS::DSK::Close(&f, nSize + nOffset);
   }
@@ -95,8 +93,7 @@ public:
   void SaveCsv(char *strName_ = NULL) {
     char strNameUnique[] = "WAVE000 CSV";
     char *strName = strName_ ? strName_ : strNameUnique;
-    if (!strName_)
-      FindUnusedFile(strName, 4);
+    if (!strName_) FindUnusedFile(strName, 4);
 
     CBufferedWriter writer;
     writer.Open(strName);

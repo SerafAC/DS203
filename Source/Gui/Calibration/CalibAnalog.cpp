@@ -85,9 +85,9 @@ void CWndListCalSimple::_UpdateCalib(int nK, int nVert) {
 
   //_ASSERT( (float) m_nQ0 * nK < (float)MAXINT );
   m_calCurve.m_arrCurveQout[0] =
-      m_nQ0 * nK / 2048; // m_nQ0; //(int)((float)m_nQ0 * nK / 2048);
+      m_nQ0 * nK / 2048;  // m_nQ0; //(int)((float)m_nQ0 * nK / 2048);
   m_calCurve.m_arrCurveQout[1] =
-      m_nQ1 * nK / 2048; // m_nQ1; //(int)((float)m_nQ1 * nK / 2048);
+      m_nQ1 * nK / 2048;  // m_nQ1; //(int)((float)m_nQ1 * nK / 2048);
   CSettings::Calibrator::Prepare(m_calRange, nVert, m_calCurve, m_calFast);
 }
 
@@ -221,11 +221,10 @@ void CWndListCalSimple::OnWave() {
   if (pSender == &m_itmNumber && code == ToWord('u', 'p')) {
     int nNewVal = m_nValue;
     UTILS.Clamp<int>(m_nValue, 256, 4096);
-    if (nNewVal != m_nValue)
-      m_itmNumber.Invalidate();
+    if (nNewVal != m_nValue) m_itmNumber.Invalidate();
 
     _UpdateCalib(m_nValue, V_LEVEL);
-    UpdateZero(); // TODO: neni treba!
+    UpdateZero();  // TODO: neni treba!
   }
 
   if ((pSender == &m_itmSource || pSender == &m_itmResolution) &&

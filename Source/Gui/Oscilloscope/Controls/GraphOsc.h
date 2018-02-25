@@ -2,9 +2,9 @@
 #ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_GRAPHOSC_H
 #define DSO_GUI_OSCILLOSCOPE_CONTROLS_GRAPHOSC_H
 
-#include "GraphBase.h"
 #include <Source/Core/Settings.h>
 #include <Source/Gui/Oscilloscope/Math/ChannelMath.h>
+#include "GraphBase.h"
 
 class CWndOscGraph : public CWndGraph, public CMathChannel {
   ui16 m_arrAverageBuf[DivsX * BlkX];
@@ -14,7 +14,7 @@ class CWndOscGraph : public CWndGraph, public CMathChannel {
   void _PrepareColumn(ui16 *column, ui16 n, ui16 clr);
   ui16 _Interpolate(ui16 clrA, ui16 clrB);
 
-public:
+ public:
   CWndOscGraph();
   virtual void Create(CWnd *pParent, ui16 dwFlags);
   virtual void OnMessage(CWnd *pSender, CodeParam code, DataParam data);

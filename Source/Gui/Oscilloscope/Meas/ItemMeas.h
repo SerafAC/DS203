@@ -5,11 +5,11 @@
 #include <Source/Core/Settings.h>
 
 class CItemMeas : public CWndMenuItem {
-public:
+ public:
   CSettings::Measure *m_pMeas;
   ui16 m_color;
 
-public:
+ public:
   virtual void Create(CSettings::Measure *pMeas, CWnd *pParent) {
     _ASSERT(pMeas);
     m_pMeas = pMeas;
@@ -24,15 +24,15 @@ public:
     ui16 clr2 = RGB565(404040);
 
     switch (m_pMeas->Source) {
-    case CSettings::Measure::_CH1:
-      m_color = Settings.CH1.u16Color;
-      break;
-    case CSettings::Measure::_CH2:
-      m_color = Settings.CH2.u16Color;
-      break;
-    case CSettings::Measure::_Math:
-      m_color = Settings.Math.uiColor;
-      break;
+      case CSettings::Measure::_CH1:
+        m_color = Settings.CH1.u16Color;
+        break;
+      case CSettings::Measure::_CH2:
+        m_color = Settings.CH2.u16Color;
+        break;
+      case CSettings::Measure::_Math:
+        m_color = Settings.Math.uiColor;
+        break;
     }
 
     CWndMenuItem::OnPaint();
@@ -61,8 +61,7 @@ public:
 
       x += BIOS::LCD::Print(x, y, clr, RGBTRANS, str);
       x += 4;
-      if (suffix && *suffix)
-        BIOS::LCD::Print(x, y, clr2, RGBTRANS, suffix);
+      if (suffix && *suffix) BIOS::LCD::Print(x, y, clr2, RGBTRANS, suffix);
     }
   }
 

@@ -52,10 +52,8 @@ CWndMenuCursor::CWndMenuCursor() {}
 
   // new waveform acquired, update the Y values
   if (pSender == NULL && code == WmBroadcast && data == ToWord('d', 'g')) {
-    if (Settings.MarkY1.Mode == CSettings::Marker::_Auto)
-      m_itmY1.Invalidate();
-    if (Settings.MarkY2.Mode == CSettings::Marker::_Auto)
-      m_itmY2.Invalidate();
+    if (Settings.MarkY1.Mode == CSettings::Marker::_Auto) m_itmY1.Invalidate();
+    if (Settings.MarkY2.Mode == CSettings::Marker::_Auto) m_itmY2.Invalidate();
     if (Settings.MarkY1.Mode == CSettings::Marker::_Auto ||
         Settings.MarkY1.Mode == CSettings::Marker::_Auto) {
       m_itmDeltaY.Invalidate();
@@ -119,20 +117,16 @@ void CWndMenuCursor::Find(CSettings::Marker *pMarker,
 
   /// what if there are multiple extrema points?
   CSettings::Marker *pMarkerTime = NULL;
-  if (pMarker == &Settings.MarkY1)
-    pMarkerTime = &Settings.MarkT1;
-  if (pMarker == &Settings.MarkY2)
-    pMarkerTime = &Settings.MarkT2;
+  if (pMarker == &Settings.MarkY1) pMarkerTime = &Settings.MarkT1;
+  if (pMarker == &Settings.MarkY2) pMarkerTime = &Settings.MarkT2;
 
   if (mode == CSettings::Marker::_MaxFind) {
     pMarker->nValue = nMax;
-    if (pMarkerTime)
-      pMarkerTime->nValue = nMaxI;
+    if (pMarkerTime) pMarkerTime->nValue = nMaxI;
   }
   if (mode == CSettings::Marker::_MinFind) {
     pMarker->nValue = nMin;
-    if (pMarkerTime)
-      pMarkerTime->nValue = nMinI;
+    if (pMarkerTime) pMarkerTime->nValue = nMinI;
   }
   if (mode == CSettings::Marker::_AvgFind) {
     if (pMarker->Mode == CSettings::Marker::_Auto)

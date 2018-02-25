@@ -2,14 +2,14 @@
 #ifndef DSO_GUI_SETTINGS_ITEMBEEPONOFF_H
 #define DSO_GUI_SETTINGS_ITEMBEEPONOFF_H
 #include <Source/Core/Controls.h>
-#include <Source/Framework/Wnd.h>
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>
+#include <Source/Framework/Wnd.h>
 
 class CItemBeepOnOff : public CItemProvider {
   CProviderEnum m_proBeepOnOff;
 
-public:
+ public:
   void Create(CWnd *pParent) {
     m_proBeepOnOff.Create((const char **)CSettings::CRuntime::ppszTextBeepOnOff,
                           (NATIVEENUM *)&Settings.Runtime.m_Beep,

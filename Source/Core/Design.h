@@ -2,14 +2,14 @@
 #ifndef DSO_CORE_DESIGN_H
 #define DSO_CORE_DESIGN_H
 
-#include <Source/HwLayer/Bios.h>
 #include <Source/Framework/Classes.h>
+#include <Source/HwLayer/Bios.h>
 
 class CDesignNice {
-public:
+ public:
   enum { MenuItemIndent = 4 };
 
-public:
+ public:
   static void MenuItemDisabled(const CRect &rcRect, ui16 clr) {
     BIOS::LCD::RoundRect(rcRect.left, rcRect.top, rcRect.left + 12,
                          rcRect.bottom, clr);
@@ -116,8 +116,7 @@ public:
     ui8 c = 0xd0;
     for (int y = 0; y < rcRect.Height(); y++) {
       ui16 clr = RGB565RGB(c, c, c);
-      for (int x = rcRect.Width(); x--;)
-        BIOS::LCD::BufferPush(clr);
+      for (int x = rcRect.Width(); x--;) BIOS::LCD::BufferPush(clr);
       c -= 0x0d;
     }
     BIOS::LCD::BufferEnd();
@@ -130,7 +129,7 @@ public:
 };
 
 class CDesignFast {
-public:
+ public:
   static void MenuItemDisabled(const CRect &rcRect, ui16 clr) {
     BIOS::LCD::Bar(rcRect.left, rcRect.top, rcRect.left + 8, rcRect.bottom,
                    clr);

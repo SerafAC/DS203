@@ -10,7 +10,7 @@ class CItemMarker : public CWndMenuItem {
   CSettings::Marker *m_pMarker;
   PSTR m_strId;
 
-public:
+ public:
   virtual void Create(PSTR strId, CSettings::Marker *pMarker, CWnd *pParent) {
     _ASSERT(pMarker);
     m_pMarker = pMarker;
@@ -28,8 +28,7 @@ public:
     int x = m_rcClient.left + 12 + MarginLeft;
     int y = m_rcClient.top;
 
-    if (HasFocus())
-      x -= 2;
+    if (HasFocus()) x -= 2;
     x -= 9;
     if (m_strId[0] == 'X' && m_strId[1] == '1')
       x += BIOS::LCD::Draw(x, y + 1, clr, RGBTRANS, CShapes::curx1);

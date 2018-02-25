@@ -1,16 +1,16 @@
 #pragma once
 #ifndef DSO_GUI_SETTINGS_ITEMAUTOOFF_H
 #define DSO_GUI_SETTINGS_ITEMAUTOOFF_H
-#include <Source/HwLayer/Bios.h>
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
+#include <Source/HwLayer/Bios.h>
 
 class CProviderAutoOff : public CValueProvider {
   enum { Invalid = -999 };
   int m_nMin;
   int m_nMax;
 
-public:
+ public:
   int &GetValue() { return Settings.Runtime.m_nStandby; }
 
   void Create(int nMin, int nMax) {
@@ -28,8 +28,7 @@ public:
   virtual void operator--(int) { GetValue()--; }
 
   const char *GetLabel() {
-    if (GetValue() == 0)
-      return "Never";
+    if (GetValue() == 0) return "Never";
 
     char *pText = CUtils::itoa(GetValue());
     CUtils::StrCat(pText, " mins");
@@ -48,7 +47,7 @@ public:
 class CMIAutoOff : public CItemProvider {
   CProviderAutoOff m_proBeepOnOff;
 
-public:
+ public:
   void Create(PCSTR strName, ui16 clr, int nRows, CWnd *pParent) {
     m_proBeepOnOff.Create(0, 15);
     CItemProvider::Create(&m_proBeepOnOff, strName, clr, pParent);

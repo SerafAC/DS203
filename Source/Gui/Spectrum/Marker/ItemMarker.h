@@ -4,8 +4,7 @@
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
 class CItemSpecMarker : public CWndMenuItem {
-
-public:
+ public:
   virtual void Create(CWnd *pParent) {
     CWndMenuItem::Create(NULL, RGB565(404040), 2, pParent);
   }

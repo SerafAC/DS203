@@ -93,20 +93,21 @@ static const ui16 palette[16] = {
     RGB565(404040), RGB565(0000ff), RGB565(00ff00), RGB565(00ffff),
     RGB565(ff0000), RGB565(ff00ff), RGB565(ffff00), RGB565(ffffff)};
 
-static const ui8 levels[] = {"#########################"
-                             "#                       #"
-                             "#                       #"
-                             "#                       #"
-                             "#     #############     #"
-                             "#     #           #     #"
-                             "#     #           #     #"
-                             "#     #           #     #"
-                             "#     #           #     #"
-                             "#     #           #     #"
-                             "#                       #"
-                             "#                       #"
-                             "#                       #"
-                             "#########################"};
+static const ui8 levels[] = {
+    "#########################"
+    "#                       #"
+    "#                       #"
+    "#                       #"
+    "#     #############     #"
+    "#     #           #     #"
+    "#     #           #     #"
+    "#     #           #     #"
+    "#     #           #     #"
+    "#     #           #     #"
+    "#                       #"
+    "#                       #"
+    "#                       #"
+    "#########################"};
 
 /*
         // blank
@@ -130,7 +131,7 @@ static const ui8 levels[] = {"#########################"
 #include <Source/Framework/Wnd.h>
 
 class CWndSnake : public CWnd {
-public:
+ public:
   enum {
     eWall = 0,
     eGround = 1,
@@ -146,7 +147,7 @@ public:
   };
 
   class CMapPos {
-  public:
+   public:
     CMapPos(){};
     CMapPos(ui8 _nX, ui8 _nY, ui8 _nD) : nX(_nX), nY(_nY), nDir(_nD) {}
 
@@ -155,7 +156,7 @@ public:
     ui8 nDir;
   };
 
-public:
+ public:
   bool m_bReset;
   int m_nX, m_nY;
   int m_nDir;
@@ -173,14 +174,14 @@ public:
     for (int y = 0; y < 14; y++)
       for (int x = 0; x < 25; x++) {
         switch (*pLevelSrc++) {
-        case ' ':
-          SetBlock(x, y, eGround);
-          break;
-        case '#':
-          SetBlock(x, y, eWall);
-          break;
-        default:
-          _ASSERT(0);
+          case ' ':
+            SetBlock(x, y, eGround);
+            break;
+          case '#':
+            SetBlock(x, y, eWall);
+            break;
+          default:
+            _ASSERT(0);
         }
       }
   }
@@ -207,8 +208,7 @@ public:
 
   void DrawMap() {
     for (int y = 0; y < 14; y++)
-      for (int x = 0; x < 25; x++)
-        DrawBlock(x, y);
+      for (int x = 0; x < 25; x++) DrawBlock(x, y);
   }
 
   void DrawBlock(int x, int y) {
@@ -244,30 +244,29 @@ public:
       for (int _y = 0; _y < 16; _y++) {
         int x = 0, y = 0;
         switch (nTransform) {
-        case eDirRight:
-          x = 15 - _y;
-          y = _x;
-          break;
-        case eDirDown:
-          x = 15 - _x;
-          y = _y;
-          break;
-        case eDirLeft:
-          x = _y;
-          y = 15 - _x;
-          break;
-        case eDirUp:
-          x = _x;
-          y = _y;
-          break;
+          case eDirRight:
+            x = 15 - _y;
+            y = _x;
+            break;
+          case eDirDown:
+            x = 15 - _x;
+            y = _y;
+            break;
+          case eDirLeft:
+            x = _y;
+            y = 15 - _x;
+            break;
+          case eDirUp:
+            x = _x;
+            y = _y;
+            break;
         }
 
         ui16 &pixel = pSprite[x | (y << 4)];
         int color = sprites[(nType << 5) | (_y << 1) | (_x >> 3)];
         color >>= (7 - (_x & 7)) << 2;
         color &= 0x0f;
-        if (color == 0)
-          color = 2; // transparent
+        if (color == 0) color = 2;  // transparent
 
         pixel = palette[color];
       }
@@ -275,8 +274,7 @@ public:
 
   /*virtual*/ void OnKey(ui16 nKey) {
     if (nKey & BIOS::KEY::KeyRight) {
-      if (++m_nDir > eDirUp)
-        m_nDir = eDirRight;
+      if (++m_nDir > eDirUp) m_nDir = eDirRight;
     } else if (nKey & BIOS::KEY::KeyLeft) {
       if (m_nDir > 0)
         m_nDir--;
@@ -319,8 +317,7 @@ public:
   void UpdateTimer() {
     KillTimer();
     int nInterval = 300 - m_nScore * 10;
-    if (nInterval < 100)
-      nInterval = 100;
+    if (nInterval < 100) nInterval = 100;
     SetTimer(nInterval);
   }
 
@@ -328,8 +325,7 @@ public:
     static si8 dx[4] = {1, 0, -1, 0};
     static si8 dy[4] = {0, 1, 0, -1};
 
-    if (GetFocus() != this)
-      return;
+    if (GetFocus() != this) return;
 
     SetBlock(m_nX, m_nY, eBody);
     DrawBlock(m_nX, m_nY);
@@ -344,8 +340,7 @@ public:
     m_arrBodyPos.Add(CMapPos(m_nX, m_nY, m_nDir));
 
     if (blk == eDiamond) {
-      if (m_nLength < (int)COUNT(m_arrBodyPos_) - 1)
-        m_nLength++;
+      if (m_nLength < (int)COUNT(m_arrBodyPos_) - 1) m_nLength++;
 
       CMapPos posDiamond = SetDiamond();
       DrawBlock(posDiamond.nX, posDiamond.nY);

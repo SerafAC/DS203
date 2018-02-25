@@ -5,10 +5,11 @@
 #include <Source/Gui/MainWnd.h>
 #include <Source/Gui/Oscilloscope/Core/CoreOscilloscope.h>
 
-template <class T> class CEvalMappedInteger : public CEval::CEvalVariable {
+template <class T>
+class CEvalMappedInteger : public CEval::CEvalVariable {
   T *m_Variable;
 
-public:
+ public:
   CEvalMappedInteger(T *Variable) : m_Variable(Variable) {}
   CEvalMappedInteger() : m_Variable(NULL) {}
 
@@ -23,7 +24,7 @@ public:
 };
 
 class CSdkEval : public CEval {
-public:
+ public:
 #include "SdkV0.inc"
 #include "SdkV1.inc"
 
@@ -113,17 +114,17 @@ public:
         // functions
         {"About", CEvalToken::PrecedenceFunc, _About},
         {"Help", CEvalToken::PrecedenceFunc, _Help},
-        {"TTY", CEvalToken::PrecedenceConst, _Tty}, // for quick switching the
-                                                    // output suitable for
-                                                    // putty/other terminal
+        {"TTY", CEvalToken::PrecedenceConst, _Tty},  // for quick switching the
+                                                     // output suitable for
+                                                     // putty/other terminal
 
         {"WND.Message", CEvalToken::PrecedenceFunc, _WndMessage},
         {"WND.Dump", CEvalToken::PrecedenceFunc,
-         _WndDump}, // output only through uart
+         _WndDump},  // output only through uart
         {"WND.GetFocus", CEvalToken::PrecedenceFunc, _WndGetFocus},
         {"WND.GetInfo", CEvalToken::PrecedenceFunc, _WndGetInfo},
         {"ADC.Transfer", CEvalToken::PrecedenceFunc,
-         _AdcTransfer}, // output only through uart
+         _AdcTransfer},  // output only through uart
 
         // constants
         {"WND::WmPaint", CEvalToken::PrecedenceConst, _WndWmPaint},
@@ -192,14 +193,13 @@ public:
 
   const CEvalToken *isOperator(char *pszExpression) {
     const CEvalToken *pToken = CEval::isOperator(pszExpression);
-    if (pToken)
-      return pToken;
+    if (pToken) return pToken;
 
     const CEvalToken *pFind = getOperators();
     for (; pFind->m_pszToken; pFind++)
       if (strncmp(pszExpression, pFind->m_pszToken,
                   CUtils::StrLen(pFind->m_pszToken)) == 0)
-        return (CEvalToken *)pFind; // todo: ugly!
+        return (CEvalToken *)pFind;  // todo: ugly!
 
     return NULL;
   }

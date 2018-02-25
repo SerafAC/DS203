@@ -1,8 +1,8 @@
 #pragma once
 #ifndef DSO_USER_DCF77_H
 #define DSO_USER_DCF77_H
-#include <Source/Core/Utils.h>
 #include <Source/Core/Settings.h>
+#include <Source/Core/Utils.h>
 
 #define ENABLE_MODULE_DCF77
 ADD_MODULE("Dcf77", CWndDcf77)
@@ -32,7 +32,7 @@ class CWndDcf77 : public CWnd {
   ui32 m_DcfValid[2];
   int m_lDcfAcquired;
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndDcf77", dwFlags | CWnd::WsNoActivate | CWnd::WsListener,
                  CRect(0, 16, 400, 240), pParent);
@@ -45,37 +45,31 @@ public:
   }
 
   int GetBit(int nBitIndex, ui32 *pData = NULL) {
-    if (pData == NULL)
-      pData = m_DcfBits;
+    if (pData == NULL) pData = m_DcfBits;
 
     int nIndex = nBitIndex / 32;
     int nMask = (1 << (nBitIndex & 31));
 
-    if (pData[nIndex] & nMask)
-      return 1;
+    if (pData[nIndex] & nMask) return 1;
     return 0;
   }
 
   int GetBits(int nIndex, int nLen, ui32 *pData = NULL) {
-    if (pData == NULL)
-      pData = m_DcfBits;
+    if (pData == NULL) pData = m_DcfBits;
 
     int nMul = 1;
     int nResult = 0;
     for (int i = nIndex; i < nIndex + nLen; i++, nMul <<= 1)
-      if (GetBit(i, pData))
-        nResult |= nMul;
+      if (GetBit(i, pData)) nResult |= nMul;
     return nResult;
   }
 
   int GetParity(int nIndex, int nLen, ui32 *pData = NULL) {
-    if (pData == NULL)
-      pData = m_DcfBits;
+    if (pData == NULL) pData = m_DcfBits;
 
     int nResult = 0;
     for (int i = nIndex; i < nIndex + nLen; i++)
-      if (GetBit(i, pData))
-        nResult ^= 1;
+      if (GetBit(i, pData)) nResult ^= 1;
     return nResult;
   }
 
@@ -84,35 +78,28 @@ public:
   const char *GetWeekday(int nDay) {
     const char *arrDays[] = {"?",        "Monday", "Tuesday",  "Wednesday",
                              "Thursday", "Friday", "Saturday", "Sunday"};
-    if (nDay >= 0 && nDay < (int)COUNT(arrDays))
-      return arrDays[nDay];
+    if (nDay >= 0 && nDay < (int)COUNT(arrDays)) return arrDays[nDay];
     return "?";
   }
 
   const char *GetMonth(int nMonth) {
     const char *arrMonths[] = {"?",   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-    if (nMonth >= 0 && nMonth < (int)COUNT(arrMonths))
-      return arrMonths[nMonth];
+    if (nMonth >= 0 && nMonth < (int)COUNT(arrMonths)) return arrMonths[nMonth];
     return "?";
   }
 
   bool IsDcfValid() {
-    if (GetBit(15) != 0 || GetBit(20) != 1)
-      return false;
-    if (GetBit(28) != GetParity(21, 7))
-      return false;
-    if (GetBit(35) != GetParity(29, 6))
-      return false;
-    if (GetBit(58) != GetParity(36, 57 - 36 + 1))
-      return false;
+    if (GetBit(15) != 0 || GetBit(20) != 1) return false;
+    if (GetBit(28) != GetParity(21, 7)) return false;
+    if (GetBit(35) != GetParity(29, 6)) return false;
+    if (GetBit(58) != GetParity(36, 57 - 36 + 1)) return false;
     return true;
   }
 
   virtual void OnTimer() {
     static int nLastRedraw = 0;
-    if (HasOverlay())
-      return;
+    if (HasOverlay()) return;
 
     int nTick = BIOS::SYS::GetTick();
 
@@ -139,8 +126,8 @@ public:
                      {"reserved", 1, 14, NULL, TDcfItem::EBits},
                      {"antenna", 15, 1, NULL, TDcfItem::EAlwaysZero},
                      {"summer ann.", 16, 1, NULL,
-                      TDcfItem::EBoolean}, // summer time announcement, set 1
-                                           // hour before change
+                      TDcfItem::EBoolean},  // summer time announcement, set 1
+                                            // hour before change
                      {"summer time", 17, 1, NULL, TDcfItem::EBoolean},
                      {"winter time", 18, 1, NULL, TDcfItem::EBoolean},
                      {"leap sec ann.", 19, 1, NULL, TDcfItem::EBoolean},
@@ -174,53 +161,54 @@ public:
         x += 100;
         int nCurBit = GetBit(DcfItem.nStart);
         switch (DcfItem.eType) {
-        case TDcfItem::EAlwaysZero:
-          BIOS::LCD::Print(x + 8, y, !nCurBit ? RGB565(ffffff) : RGB565(ff0000),
-                           clrBack, CUtils::itoa(nCurBit));
-          break;
-        case TDcfItem::EAlwaysOne:
-          BIOS::LCD::Print(x + 8, y, nCurBit ? RGB565(ffffff) : RGB565(ff0000),
-                           clrBack, CUtils::itoa(nCurBit));
-          break;
-        case TDcfItem::EBoolean:
-          BIOS::LCD::Print(x + 8, y, RGB565(ffffff), clrBack,
-                           CUtils::itoa(nCurBit));
-          break;
-        case TDcfItem::EParity: {
-          int nCheck = GetParity(DcfData[i - 1].nStart, DcfData[i - 1].nLength);
-          BIOS::LCD::Print(x + 8, y,
-                           nCheck == nCurBit ? RGB565(ffffff) : RGB565(ff0000),
-                           clrBack, CUtils::itoa(nCurBit));
-        } break;
-        case TDcfItem::EParity2: {
-          int nCheck = GetParity(36, 57 - 36 + 1);
-          BIOS::LCD::Print(x + 8, y,
-                           nCheck == nCurBit ? RGB565(ffffff) : RGB565(ff0000),
-                           clrBack, CUtils::itoa(nCurBit));
-        } break;
-        case TDcfItem::EBits:
-          for (int j = 0; j < DcfItem.nLength; j++) {
-            nCurBit = GetBit(DcfItem.nStart + j);
-            ui16 clrB2 = (DcfItem.nStart + j == m_nBitIndex - 1)
-                             ? RGB565(b00000)
-                             : clrBack;
-            BIOS::LCD::Print(x + j * 8 + 8, y, RGB565(ffffff), clrB2,
+          case TDcfItem::EAlwaysZero:
+            BIOS::LCD::Print(x + 8, y,
+                             !nCurBit ? RGB565(ffffff) : RGB565(ff0000),
+                             clrBack, CUtils::itoa(nCurBit));
+            break;
+          case TDcfItem::EAlwaysOne:
+            BIOS::LCD::Print(x + 8, y,
+                             nCurBit ? RGB565(ffffff) : RGB565(ff0000), clrBack,
                              CUtils::itoa(nCurBit));
-          }
-          break;
-        case TDcfItem::ENumber: {
-          int nValue = GetBits(DcfItem.nStart, DcfItem.nLength);
-          BIOS::LCD::Printf(x, y, RGB565(ffffff), clrBack, "%2x ", nValue);
-          if (DcfItem.pTarget)
-            *DcfItem.pTarget = BcdToInt(nValue);
-        } break;
-        case TDcfItem::EYear: {
-          int nValue = GetBits(DcfItem.nStart, DcfItem.nLength);
-          BIOS::LCD::Printf(x + 8, y, RGB565(ffffff), clrBack, "%x ",
-                            nValue | 0x2000);
-          if (DcfItem.pTarget)
-            *DcfItem.pTarget = 2000 + BcdToInt(nValue);
-        } break;
+            break;
+          case TDcfItem::EBoolean:
+            BIOS::LCD::Print(x + 8, y, RGB565(ffffff), clrBack,
+                             CUtils::itoa(nCurBit));
+            break;
+          case TDcfItem::EParity: {
+            int nCheck =
+                GetParity(DcfData[i - 1].nStart, DcfData[i - 1].nLength);
+            BIOS::LCD::Print(
+                x + 8, y, nCheck == nCurBit ? RGB565(ffffff) : RGB565(ff0000),
+                clrBack, CUtils::itoa(nCurBit));
+          } break;
+          case TDcfItem::EParity2: {
+            int nCheck = GetParity(36, 57 - 36 + 1);
+            BIOS::LCD::Print(
+                x + 8, y, nCheck == nCurBit ? RGB565(ffffff) : RGB565(ff0000),
+                clrBack, CUtils::itoa(nCurBit));
+          } break;
+          case TDcfItem::EBits:
+            for (int j = 0; j < DcfItem.nLength; j++) {
+              nCurBit = GetBit(DcfItem.nStart + j);
+              ui16 clrB2 = (DcfItem.nStart + j == m_nBitIndex - 1)
+                               ? RGB565(b00000)
+                               : clrBack;
+              BIOS::LCD::Print(x + j * 8 + 8, y, RGB565(ffffff), clrB2,
+                               CUtils::itoa(nCurBit));
+            }
+            break;
+          case TDcfItem::ENumber: {
+            int nValue = GetBits(DcfItem.nStart, DcfItem.nLength);
+            BIOS::LCD::Printf(x, y, RGB565(ffffff), clrBack, "%2x ", nValue);
+            if (DcfItem.pTarget) *DcfItem.pTarget = BcdToInt(nValue);
+          } break;
+          case TDcfItem::EYear: {
+            int nValue = GetBits(DcfItem.nStart, DcfItem.nLength);
+            BIOS::LCD::Printf(x + 8, y, RGB565(ffffff), clrBack, "%x ",
+                              nValue | 0x2000);
+            if (DcfItem.pTarget) *DcfItem.pTarget = 2000 + BcdToInt(nValue);
+          } break;
         };
       }
 
@@ -292,13 +280,11 @@ public:
     str[0] = ch;
     str[1] = ' ';
     str[2] = 0;
-    if (i >= 400 - 8)
-      str[1] = 0;
+    if (i >= 400 - 8) str[1] = 0;
     BIOS::LCD::Print(i, 240 - 16, clr, RGB565(000000), str);
     BIOS::SERIAL::Send(str);
     i += 8;
-    if (i >= 400 - 8)
-      i = 8;
+    if (i >= 400 - 8) i = 8;
   }
 
   void PushBit(char c) {
@@ -326,15 +312,14 @@ public:
       return;
     }
     m_cBit = c;
-    m_bRedraw = true; // after the bit was received, we have 700ms to draw
+    m_bRedraw = true;  // after the bit was received, we have 700ms to draw
     if (m_nBitIndex >= 0 && m_nBitIndex < 60) {
       int nIndex = m_nBitIndex / 32;
       int nMask = (1 << (m_nBitIndex & 31));
       m_nBitIndex++;
 
       m_DcfBits[nIndex] &= ~nMask;
-      if (c == '1')
-        m_DcfBits[nIndex] |= nMask;
+      if (c == '1') m_DcfBits[nIndex] |= nMask;
     }
   }
 
@@ -350,7 +335,7 @@ public:
       m_nLastChange = nTime;
       m_bPrevSignal = bSignal;
 
-      if (bSignal) // low to high
+      if (bSignal)  // low to high
       {
         // duration of pause
         // mark is > 1700
@@ -358,7 +343,7 @@ public:
           PushBit('M');
         else if (nImpulseLen < 600 || nImpulseLen >= 2000)
           PushBit('E');
-      } else // high to low
+      } else  // high to low
       {
         // duration of impulse
         if (nImpulseLen >= 50 && nImpulseLen < 190)
@@ -386,7 +371,7 @@ public:
       Clear();
       m_bRedraw = true;
       m_nBitIndex = -1;
-      m_bWasError = true; // buffer not valid
+      m_bWasError = true;  // buffer not valid
       m_bError = false;
       m_bSync = false;
       m_cBit = 0;

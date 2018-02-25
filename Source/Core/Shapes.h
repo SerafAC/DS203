@@ -3,7 +3,7 @@
 #define DSO_CORE_SHAPES_H
 
 class CShapes {
-public:
+ public:
   static const char corner_right[];
   static const char corner_left[];
   static const char more_left[];

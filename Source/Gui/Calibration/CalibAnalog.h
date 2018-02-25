@@ -2,15 +2,15 @@
 #ifndef DSO_GUI_CALIBRATION_CALIBANALOG_H
 #define DSO_GUI_CALIBRATION_CALIBANALOG_H
 
-#include "CalibCore.h"
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>
 #include <Source/Framework/Wnd.h>
 #include <Source/Main/Application.h>
+#include "CalibCore.h"
 
 class CWndListCalSimple : public CListBox {
-public:
+ public:
   NATIVEENUM m_calChannel;
   NATIVEENUM m_calRange;
   CSettings::LinCalibCurve m_calCurve;
@@ -54,7 +54,7 @@ public:
   int m_nQ0;
   int m_nQ1;
 
-public:
+ public:
   void Create(CWnd *pParent) {
     m_nValue = 1234;
     m_nResetPhase = -1;
@@ -102,7 +102,7 @@ public:
 
     m_itmStaticH.Create(" Vin       = 1.4242V",
                         CWnd::WsVisible | CWnd::WsNoActivate,
-                        this); // nebude static
+                        this);  // nebude static
 
     m_proSave.Create("Save");
     m_itmSave.Create(NULL, CWnd::WsVisible, &m_proSave, this);

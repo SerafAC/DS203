@@ -6,7 +6,7 @@
 #include <Source/Framework/Wnd.h>
 
 class CWndButton : public CWnd {
-public:
+ public:
   virtual void OnPaint() {
     ui16 clr = HasFocus() ? RGB565(ffffff) : RGB565(000000);
 

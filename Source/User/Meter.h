@@ -13,7 +13,7 @@ ADD_MODULE("Meter", CWndUserMeter)
 #include <Source/Framework/Wnd.h>
 
 class CWndUserMeter : public CWnd {
-public:
+ public:
   float m_fAverage, m_fVariance;
   bool bRefresh;
   bool bTimer;

@@ -1,27 +1,27 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_MEAS_DECODERS_SERIAL_H
 #define DSO_GUI_OSCILLOSCOPE_MEAS_DECODERS_SERIAL_H
-#include <Source/Gui/Oscilloscope/Meas/Statistics.h>
-#include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 #include <Source/Core/Utils.h>
+#include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
+#include <Source/Gui/Oscilloscope/Meas/Statistics.h>
 
 class CBitDecoder {
-public:
+ public:
   virtual bool operator<<(int nBit) = 0;
 };
 
 class CSerialDecoder : public CBitDecoder {
-public:
+ public:
   typedef bool (CSerialDecoder::*TProcessFunc)(int, int);
 
-private:
+ private:
   int nBegin, nEnd;
   int nLast, nThresh, nTrigMin, nTrigMax;
   int nBit;
 
   int nDecodeIndex;
 
-public:
+ public:
   int nMinPeriod;
   CMeasStatistics *m_pThis;
   int nTotalBits, nTotalTime;
@@ -30,14 +30,12 @@ public:
   int nIdle;
   CBitDecoder *m_pCurrentDecoder;
 
-public:
+ public:
   CMeasStatistics *This() { return m_pThis; }
 
   bool Prepare() {
-    if (!This()->_GetRange(nBegin, nEnd, This()->m_curRange))
-      return false;
-    if (This()->m_nRawMax - This()->m_nRawMin < 16)
-      return false;
+    if (!This()->_GetRange(nBegin, nEnd, This()->m_curRange)) return false;
+    if (This()->m_nRawMax - This()->m_nRawMin < 16) return false;
 
     m_pCurrentDecoder = NULL;
 
@@ -62,10 +60,8 @@ public:
       int nSample = BIOS::ADC::GetAt(i);
       nSample = This()->_GetSample(nSample);
 
-      if (nSample > nTrigMax)
-        nHigh++;
-      if (nSample < nTrigMin)
-        nLow++;
+      if (nSample > nTrigMax) nHigh++;
+      if (nSample < nTrigMin) nLow++;
     }
     nIdle = nHigh > nLow ? 1 : 0;
   }
@@ -76,15 +72,12 @@ public:
       int nSample = BIOS::ADC::GetAt(i);
       nSample = This()->_GetSample(nSample);
 
-      if (nSample > nTrigMax)
-        nNewState = 1;
-      if (nSample < nTrigMin)
-        nNewState = 0;
+      if (nSample > nTrigMax) nNewState = 1;
+      if (nSample < nTrigMin) nNewState = 0;
 
       if (nTrigState != -1 && nNewState != nTrigState) {
         if (nLast != -1)
-          if (!(this->*ProcessEdge)(i - nLast, nNewState))
-            return false;
+          if (!(this->*ProcessEdge)(i - nLast, nNewState)) return false;
         nLast = i;
       }
       nTrigState = nNewState;
@@ -95,18 +88,14 @@ public:
   }
 
   bool FindSmallest(int nCount, int nRising) {
-    if (nCount <= 2)
-      return true; // noise!?
-    if (nMinPeriod == -1)
-      nMinPeriod = nCount;
-    if (nCount < nMinPeriod)
-      nMinPeriod = nCount;
+    if (nCount <= 2) return true;  // noise!?
+    if (nMinPeriod == -1) nMinPeriod = nCount;
+    if (nCount < nMinPeriod) nMinPeriod = nCount;
     return true;
   }
 
   bool Sum(int nCount, int nRising) {
-    if (nCount <= 2)
-      return true;
+    if (nCount <= 2) return true;
 
     int nBits = 0;
     if (nCount >= nMinPeriod * 9)
@@ -138,8 +127,7 @@ public:
   }
 
   bool Decode(int nCount, int nRising) {
-    if (nCount <= 2)
-      return true;
+    if (nCount <= 2) return true;
 
     _ASSERT(m_pCurrentDecoder);
 
@@ -168,8 +156,7 @@ public:
     }
 
     nByte >>= 1;
-    if (nBit)
-      nByte |= 128;
+    if (nBit) nByte |= 128;
 
     if (++nDecodeIndex >= 8) {
       //					BIOS::DBG::Print(">");
@@ -197,8 +184,7 @@ public:
     bool bMidi = _IsMidi();
     bool bHex = bMidi;
     // display decoded characters
-    if (nDecoded <= 0)
-      return;
+    if (nDecoded <= 0) return;
 
     int x = 20;
     int y = 30 + ((int)This()->m_curSrc) * 16;
@@ -228,7 +214,7 @@ public:
   void _ShowAscii(int x, int y) {
     for (int i = 0; i < nDecoded; i++) {
       unsigned char ch = strDecode[i];
-      if (ch >= ' ' && ch <= 127) // readable char
+      if (ch >= ' ' && ch <= 127)  // readable char
         x += 8 * BIOS::LCD::Printf(x, y, RGB565(ff0000), 0x0101, "%c", ch);
       else
         x += 8 * BIOS::LCD::Printf(x, y, RGB565(ff0000), 0x0101, "[%02x]", ch);
@@ -280,10 +266,8 @@ public:
       }
       if ((ch & 0xf0) == 0xC0) {
         int nInstr = 0;
-        if (atr1 >= 0)
-          nInstr += atr1;
-        if (atr2 >= 0)
-          nInstr += atr1 * 128;
+        if (atr1 >= 0) nInstr += atr1;
+        if (atr2 >= 0) nInstr += atr1 * 128;
 
         x += 8 * BIOS::LCD::Printf(x, y, RGB565(ff0000), 0x0101, "Patch(%d)",
                                    nInstr);

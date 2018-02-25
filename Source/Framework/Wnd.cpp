@@ -27,22 +27,18 @@ CWnd *CWnd::GetFocus() { return m_pFocus; }
 
 CWnd *CWnd::GetLast() {
   CWnd *pWnd = m_pFirst;
-  while (pWnd && pWnd->m_pNext)
-    pWnd = pWnd->m_pNext;
+  while (pWnd && pWnd->m_pNext) pWnd = pWnd->m_pNext;
   return pWnd;
 }
 
 CWnd *CWnd::GetPrev() {
-  if (!m_pParent)
-    return NULL; // top window
+  if (!m_pParent) return NULL;  // top window
   _ASSERT(m_pParent && m_pParent->m_pFirst);
   CWnd *pWnd = m_pParent->m_pFirst;
-  if (pWnd == this)
-    return NULL;
+  if (pWnd == this) return NULL;
   _ASSERT(pWnd);
   while (pWnd->m_pNext) {
-    if (pWnd->m_pNext == this)
-      return pWnd;
+    if (pWnd->m_pNext == this) return pWnd;
     pWnd = pWnd->m_pNext;
   }
   _ASSERT(0);
@@ -70,7 +66,7 @@ void CWnd::Destroy() {
 
 void CWnd::Create(const char *pszId, ui16 dwFlags, const CRect &rc,
                   CWnd *pParent) {
-  _ASSERT(m_pParent == NULL); // Already created
+  _ASSERT(m_pParent == NULL);  // Already created
   m_pszId = pszId;
   m_rcClient = rc;
   m_pParent = pParent;
@@ -78,8 +74,7 @@ void CWnd::Create(const char *pszId, ui16 dwFlags, const CRect &rc,
   m_pNext = NULL;
   m_dwFlags = dwFlags;
 
-  if (!m_pParent)
-    return;
+  if (!m_pParent) return;
 
   _ASSERT(m_pParent);
   if (!m_pParent->GetLast()) {
@@ -95,17 +90,15 @@ void CWnd::Create(const char *pszId, ui16 dwFlags, const CRect &rc,
 
 /*virtual*/ void CWnd::OnKey(ui16 nKey) {
   if (nKey & BIOS::KEY::KeyDown) {
-    _ASSERT(m_pFocus == this); // ja mam focus!
+    _ASSERT(m_pFocus == this);  // ja mam focus!
     CWnd *pFocus = _GetNextActiveWindow();
 
     // cycle items, when there are no more window, jump to first possible
-    if (!pFocus)
-      pFocus = _GetFirstActiveWindow();
+    if (!pFocus) pFocus = _GetFirstActiveWindow();
 
     if (pFocus) {
       // find first visible window wich can be focused
-      if (pFocus->m_pFirst)
-        pFocus = pFocus->m_pFirst;
+      if (pFocus->m_pFirst) pFocus = pFocus->m_pFirst;
 
       pFocus->SetFocus();
       this->Invalidate();
@@ -118,8 +111,7 @@ void CWnd::Create(const char *pszId, ui16 dwFlags, const CRect &rc,
     CWnd *pFocus = _GetPrevActiveWindow();
 
     // cycle items
-    if (!pFocus)
-      pFocus = _GetLastActiveWindow();
+    if (!pFocus) pFocus = _GetLastActiveWindow();
 
     if (pFocus) {
       // find last child in pFocus
@@ -127,8 +119,7 @@ void CWnd::Create(const char *pszId, ui16 dwFlags, const CRect &rc,
       while (pLast && (!(pLast->m_dwFlags & CWnd::WsVisible) ||
                        (pLast->m_dwFlags & CWnd::WsNoActivate)))
         pLast = pLast->GetPrev();
-      if (pLast)
-        pFocus = pLast;
+      if (pLast) pFocus = pLast;
 
       pFocus->SetFocus();
       this->Invalidate();
@@ -140,8 +131,7 @@ void CWnd::Create(const char *pszId, ui16 dwFlags, const CRect &rc,
     if (m_pParent && m_pParent->m_pParent) {
       CWnd *pFocus = m_pParent->m_pParent->m_pFirst;
       if (pFocus) {
-        if (pFocus->GetLast())
-          pFocus = pFocus->GetLast();
+        if (pFocus->GetLast()) pFocus = pFocus->GetLast();
 
         pFocus->SetFocus();
         this->Invalidate();
@@ -156,45 +146,39 @@ void CWnd::Create(const char *pszId, ui16 dwFlags, const CRect &rc,
 
 /*virtual*/ void CWnd::WindowMessage(int nMsg, int nParam /*=0*/) {
   switch (nMsg) {
-  case WmPaint: {
-    OnPaint();
+    case WmPaint: {
+      OnPaint();
 
-    CWnd *pChild = m_pFirst;
-    while (pChild) {
-      if (pChild->m_dwFlags & WsVisible)
-        pChild->WindowMessage(WmPaint);
-      pChild = pChild->m_pNext;
-    }
-  } break;
-  case WmKey: {
-    if (GetActiveWindow())
-      GetActiveWindow()->OnKey(nParam);
-  } break;
-  case WmTick: {
-    if (m_pParent == NULL)
-      _UpdateTimers();
+      CWnd *pChild = m_pFirst;
+      while (pChild) {
+        if (pChild->m_dwFlags & WsVisible) pChild->WindowMessage(WmPaint);
+        pChild = pChild->m_pNext;
+      }
+    } break;
+    case WmKey: {
+      if (GetActiveWindow()) GetActiveWindow()->OnKey(nParam);
+    } break;
+    case WmTick: {
+      if (m_pParent == NULL) _UpdateTimers();
 
-    if (m_dwFlags & WsTick)
-      SendMessage(this, ToWord('t', 'i'), 0);
+      if (m_dwFlags & WsTick) SendMessage(this, ToWord('t', 'i'), 0);
 
-    CWnd *pChild = m_pFirst;
-    while (pChild) {
-      if (pChild->m_dwFlags & WsVisible)
-        pChild->WindowMessage(WmTick);
-      pChild = pChild->m_pNext;
-    }
-  } break;
-  case WmBroadcast: {
-    if (m_dwFlags & WsListener)
-      OnMessage(NULL, WmBroadcast, nParam);
+      CWnd *pChild = m_pFirst;
+      while (pChild) {
+        if (pChild->m_dwFlags & WsVisible) pChild->WindowMessage(WmTick);
+        pChild = pChild->m_pNext;
+      }
+    } break;
+    case WmBroadcast: {
+      if (m_dwFlags & WsListener) OnMessage(NULL, WmBroadcast, nParam);
 
-    CWnd *pChild = m_pFirst;
-    while (pChild) {
-      if (pChild->m_dwFlags & WsVisible)
-        pChild->WindowMessage(WmBroadcast, nParam);
-      pChild = pChild->m_pNext;
-    }
-  } break;
+      CWnd *pChild = m_pFirst;
+      while (pChild) {
+        if (pChild->m_dwFlags & WsVisible)
+          pChild->WindowMessage(WmBroadcast, nParam);
+        pChild = pChild->m_pNext;
+      }
+    } break;
   }
 }
 
@@ -207,8 +191,8 @@ void CWnd::Invalidate() {
   // TODO: we should only mark this windows and redraw it a while later, but for
   // keeping
   // things simple, invalidate causes window to redraw
-  if (m_dwFlags & CWnd::WsVisible) // the window must be visible, should we
-                                   // check this by using IsVisible()?
+  if (m_dwFlags & CWnd::WsVisible)  // the window must be visible, should we
+                                    // check this by using IsVisible()?
     WindowMessage(WmPaint);
 }
 
@@ -218,12 +202,10 @@ void CWnd::prvSendMessage(CWnd *pTarget, CodeParam code, DataParam data) {
 
 void CWnd::ShowWindow(ui8 sh) {
   if (sh == SwShow) {
-    if (!(m_dwFlags & WsVisible))
-      OnMessage(this, ToWord('S', 'H'), 1);
+    if (!(m_dwFlags & WsVisible)) OnMessage(this, ToWord('S', 'H'), 1);
     m_dwFlags |= WsVisible;
   } else {
-    if (m_dwFlags & WsVisible)
-      OnMessage(this, ToWord('S', 'H'), 0);
+    if (m_dwFlags & WsVisible) OnMessage(this, ToWord('S', 'H'), 0);
     m_dwFlags &= ~WsVisible;
   }
 }
@@ -265,8 +247,7 @@ CWnd *CWnd::_GetLastActiveWindow() {
   }
   // when there is only child, make it accessible only by pressing down button
   // (for file manager and single window modules)
-  if (i == 2 && pWndLast->m_pFirst == NULL)
-    return NULL;
+  if (i == 2 && pWndLast->m_pFirst == NULL) return NULL;
   return pWndLast;
 }
 
@@ -312,8 +293,7 @@ bool CWnd::IsVisible() {
   CWnd *pWnd = this;
   while (pWnd->m_dwFlags & WsVisible) {
     pWnd = pWnd->GetParent();
-    if (!pWnd)
-      return true;
+    if (!pWnd) return true;
   }
   return false;
 }

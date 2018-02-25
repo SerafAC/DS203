@@ -17,9 +17,9 @@
 #include "ff.h"
 */
 
-#include <Source/HwLayer/Types.h>
-#include <Source/HwLayer/Bios.h>
 #include <Source/Core/BufferedIo.h>
+#include <Source/HwLayer/Bios.h>
+#include <Source/HwLayer/Types.h>
 
 #ifdef _WIN32
 ui32 __strtol(char *str, char **p, int nBase);
@@ -37,12 +37,9 @@ ui32 _strtol(char *str, char **p, int nBase)
   char ch;
   while ((ch = *str++) != 0) {
     nVal <<= 4;
-    if (ch >= '0' && ch <= '9')
-      nVal |= ch - '0';
-    if (ch >= 'a' && ch <= 'f')
-      nVal |= ch - 'a' + 10;
-    if (ch >= 'A' && ch <= 'F')
-      nVal |= ch - 'A' + 10;
+    if (ch >= '0' && ch <= '9') nVal |= ch - '0';
+    if (ch >= 'a' && ch <= 'f') nVal |= ch - 'a' + 10;
+    if (ch >= 'A' && ch <= 'F') nVal |= ch - 'A' + 10;
   }
   return nVal;
 }
@@ -127,7 +124,7 @@ uint8_t Checksum_IHexRecord(const IHexRecord *ihexRecord);
  * length of the 8-bit data array is out of range (less than zero or greater
  * than the maximum data length allowed by record specifications, see
  * IHexRecord.data).
-*/
+ */
 int New_IHexRecord(int type, uint16_t address, const uint8_t *data, int dataLen,
                    IHexRecord *ihexRecord) {
   /* Data length size check, assertion of ihexRecord pointer */
@@ -156,7 +153,7 @@ int New_IHexRecord(int type, uint16_t address, const uint8_t *data, int dataLen,
  * \retval IHEX_ERROR_FILE if a FIL reading error has occured.
  * \retval IHEX_INVALID_RECORD if the record read is invalid (record did not
  * match specifications or record checksum was invalid).
-*/
+ */
 int Read_IHexRecord(IHexRecord *ihexRecord, CBufferedReader2 &in) {
   char recordBuff[IHEX_RECORD_BUFF_SIZE];
   /* A temporary buffer to hold ASCII hex encoded data, set to the maximum
@@ -165,8 +162,7 @@ int Read_IHexRecord(IHexRecord *ihexRecord, CBufferedReader2 &in) {
   int dataCount, i;
 
   /* Check our record pointer and FIL pointer */
-  if (ihexRecord == NULL)
-    return IHEX_ERROR_INVALID_ARGUMENTS;
+  if (ihexRecord == NULL) return IHEX_ERROR_INVALID_ARGUMENTS;
 
   in >> recordBuff;
 #if 0
@@ -187,8 +183,7 @@ int Read_IHexRecord(IHexRecord *ihexRecord, CBufferedReader2 &in) {
 #endif
 
   /* Check if we hit a newline */
-  if (CUtils::StrLen(recordBuff) == 0)
-    return IHEX_ERROR_NEWLINE;
+  if (CUtils::StrLen(recordBuff) == 0) return IHEX_ERROR_NEWLINE;
 
   /* Size check for start code, count, addess, and type fields */
   if (CUtils::StrLen(recordBuff) <
@@ -257,7 +252,7 @@ int Read_IHexRecord(IHexRecord *ihexRecord, CBufferedReader2 &in) {
  * calculation.
  * \param ihexRecord A pointer to the Intel HEX8 record structure.
  * \return The 8-bit checksum.
-*/
+ */
 uint8_t Checksum_IHexRecord(const IHexRecord *ihexRecord) {
   uint8_t checksum;
   int i;
@@ -267,8 +262,7 @@ uint8_t Checksum_IHexRecord(const IHexRecord *ihexRecord) {
   checksum += ihexRecord->type;
   checksum += (uint8_t)ihexRecord->address;
   checksum += (uint8_t)((ihexRecord->address & 0xFF00) >> 8);
-  for (i = 0; i < ihexRecord->dataLen; i++)
-    checksum += ihexRecord->data[i];
+  for (i = 0; i < ihexRecord->dataLen; i++) checksum += ihexRecord->data[i];
 
   /* Two's complement on checksum */
   checksum = ~checksum + 1;

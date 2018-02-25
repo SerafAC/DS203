@@ -7,7 +7,7 @@
 class CItemAnalog : public CWndMenuItem {
   CSettings::AnalogChannel *m_pInfo;
 
-public:
+ public:
   virtual void Create(CSettings::AnalogChannel *pInfo, CWnd *pParent) {
     _ASSERT(pInfo);
     m_pInfo = pInfo;

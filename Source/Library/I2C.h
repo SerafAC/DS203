@@ -7,7 +7,7 @@
 // http://blinkm-projects.googlecode.com/svn/trunk/blinkm_examples/arduino/BlinkMSoftI2CDemo/SoftI2CMaster.cpp
 
 class CI2CPin : public CPin {
-public:
+ public:
   void High() { Float(); }
 };
 
@@ -19,7 +19,7 @@ class CI2C : public CDelay {
 
   int m_nRead;
 
-public:
+ public:
   void Create(int nSdaPortPin, int nSclPortPin) {
     m_Sda.Create(nSdaPortPin);
     m_Scl.Create(nSclPortPin);
@@ -33,14 +33,14 @@ public:
 
   ui8 beginTransmission(ui8 address) {
     start();
-    ui8 rc = write((address << 1) | 0); // clr read bit
+    ui8 rc = write((address << 1) | 0);  // clr read bit
     return rc;
   }
 
   ui8 requestFrom(ui8 address, int nReadCount) {
     m_nRead = nReadCount;
     start();
-    ui8 rc = write((address << 1) | 1); // set read bit
+    ui8 rc = write((address << 1) | 1);  // set read bit
     return rc;
   }
 
@@ -65,7 +65,7 @@ public:
     Delay();
   }
 
-private:
+ private:
   void Delay() { DelayUs(10); }
 
   void writebit(ui8 c) {
@@ -80,8 +80,7 @@ private:
     m_Scl.Low();
     Delay();
 
-    if (c)
-      m_Sda.Low();
+    if (c) m_Sda.Low();
     Delay();
   }
 

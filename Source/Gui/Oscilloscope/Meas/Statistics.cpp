@@ -19,7 +19,7 @@ float CMeasStatistics::_GetSamplef(BIOS::ADC::TSample &nSample) {
     nSample = (s < 0) ? 0 : s;
     fSample = (s - Settings.Math.Position) / 32.0f *
               (Settings.CH1Calib.GetMultiplier(Settings.Math.Resolution) /
-               1); // matches the vertical grid
+               1);  // matches the vertical grid
   } else
     _ASSERT(0);
   return fSample;
@@ -69,11 +69,9 @@ int CMeasStatistics::_FindEdge(CSettings::Measure::ESource src,
                                CSettings::Measure::ERange range, si8 nRising,
                                int nOffset, int &nTrigState) {
   int nBegin = 0, nEnd = 0;
-  if (!_GetRange(nBegin, nEnd, range))
-    return 0;
+  if (!_GetRange(nBegin, nEnd, range)) return 0;
 
-  if (nOffset > nBegin)
-    nBegin = nOffset;
+  if (nOffset > nBegin) nBegin = nOffset;
 
   int nThresh = 2;
   int nTrigMin = Settings.Trig.nLevel - nThresh;
@@ -86,10 +84,8 @@ int CMeasStatistics::_FindEdge(CSettings::Measure::ESource src,
     int nSample_ = BIOS::ADC::GetAt(i);
     int nSample = _GetSample(nSample_);
 
-    if (nSample > nTrigMax)
-      nNewState = 1;
-    if (nSample < nTrigMin)
-      nNewState = 0;
+    if (nSample > nTrigMax) nNewState = 1;
+    if (nSample < nTrigMin) nNewState = 0;
 
     if (nTrigState != -1 && nNewState != nTrigState) {
       // trigger changing it's output
@@ -112,8 +108,7 @@ int CMeasStatistics::_FindEdge(CSettings::Measure::ESource src,
 bool CMeasStatistics::Process(CSettings::Measure::ESource src,
                               CSettings::Measure::ERange range) {
   int nBegin = 0, nEnd = 0;
-  if (!_GetRange(nBegin, nEnd, range))
-    return false;
+  if (!_GetRange(nBegin, nEnd, range)) return false;
 
   if (src == CSettings::Measure::_CH1)
     Settings.CH1Calib.Prepare(&Settings.CH1, fastCalc1);
@@ -147,14 +142,10 @@ bool CMeasStatistics::Process(CSettings::Measure::ESource src,
       m_nRawMin = m_nRawMax = nSample;
     }
 
-    if (fSample > m_fMax)
-      m_fMax = fSample;
-    if (fSample < m_fMin)
-      m_fMin = fSample;
-    if ((int)nSample > m_nRawMax)
-      m_nRawMax = nSample;
-    if ((int)nSample < m_nRawMin)
-      m_nRawMin = nSample;
+    if (fSample > m_fMax) m_fMax = fSample;
+    if (fSample < m_fMin) m_fMin = fSample;
+    if ((int)nSample > m_nRawMax) m_nRawMax = nSample;
+    if ((int)nSample < m_nRawMin) m_nRawMin = nSample;
 
     m_fSum += fSample;
     m_fSum2 += fSample2;
@@ -168,10 +159,8 @@ bool CMeasStatistics::Process(CSettings::Measure::ESource src,
 
 float CMeasStatistics::GetPeriod() {
   int nBegin = 0, nEnd = 0;
-  if (!_GetRange(nBegin, nEnd, m_curRange))
-    return 0;
-  if (m_nRawMax - m_nRawMin < 16)
-    return 0;
+  if (!_GetRange(nBegin, nEnd, m_curRange)) return 0;
+  if (m_nRawMax - m_nRawMin < 16) return 0;
 
   int nThresh = (m_nRawMax - m_nRawMin) / 4;
   int nTrigMin = m_nRawMin + nThresh;
@@ -185,23 +174,21 @@ float CMeasStatistics::GetPeriod() {
     int nSample_ = BIOS::ADC::GetAt(i);
     int nSample = _GetSample(nSample_);
 
-    if (nSample > nTrigMax)
-      nNewState = 1;
-    if (nSample < nTrigMin)
-      nNewState = 0;
+    if (nSample > nTrigMax) nNewState = 1;
+    if (nSample < nTrigMin) nNewState = 0;
 
     if (nTrigState != -1 && nNewState != nTrigState) {
       // trigger changing it's output
-      if (nNewState == 1) // rising edge
+      if (nNewState == 1)  // rising edge
       {
         if (nLastRise != -1) {
-          nSumRise += i - nLastRise; // period length
+          nSumRise += i - nLastRise;  // period length
           nTotalRise++;
         }
         nLastRise = i;
-      } else { // falling edge
+      } else {  // falling edge
         if (nLastFall != -1) {
-          nSumFall += i - nLastFall; // period length
+          nSumFall += i - nLastFall;  // period length
           nTotalFall++;
         }
         nLastFall = i;
@@ -210,24 +197,20 @@ float CMeasStatistics::GetPeriod() {
     nTrigState = nNewState;
   }
 
-  if (nTotalRise + nTotalFall == 0)
-    return 0;
+  if (nTotalRise + nTotalFall == 0) return 0;
 
   float fAvgPeriod = (nSumRise + nSumFall) / (float)(nTotalRise + nTotalFall);
   // period in samples -> time in seconds
   float fTimeRes = Settings.Runtime.m_fTimeRes / CWndGraph::BlkX;
   float fValue = fTimeRes * fAvgPeriod;
-  if (fValue == 0)
-    return 0;
+  if (fValue == 0) return 0;
   return fValue;
 }
 
 float CMeasStatistics::GetChannelsDelta(bool rising) {
   int nBegin = 0, nEnd = 0;
-  if (!_GetRange(nBegin, nEnd, m_curRange))
-    return 0;
-  if (m_nRawMax - m_nRawMin < 16)
-    return 0;
+  if (!_GetRange(nBegin, nEnd, m_curRange)) return 0;
+  if (m_nRawMax - m_nRawMin < 16) return 0;
 
   Settings.CH1Calib.Prepare(&Settings.CH1, fastCalc1);
   Settings.CH2Calib.Prepare(&Settings.CH2, fastCalc2);
@@ -259,17 +242,14 @@ float CMeasStatistics::GetChannelsDelta(bool rising) {
   // period in samples -> time in seconds
   float fTimeRes = Settings.Runtime.m_fTimeRes / CWndGraph::BlkX;
   float fValue = fTimeRes * fAvgDelta;
-  if (fValue == 0)
-    return 0;
+  if (fValue == 0) return 0;
   return fValue;
 }
 
 float CMeasStatistics::GetPwm() {
   int nBegin = 0, nEnd = 0;
-  if (!_GetRange(nBegin, nEnd, m_curRange))
-    return 0;
-  if (m_nRawMax - m_nRawMin < 6)
-    return 0;
+  if (!_GetRange(nBegin, nEnd, m_curRange)) return 0;
+  if (m_nRawMax - m_nRawMin < 6) return 0;
 
   int nThresh = (m_nRawMax + m_nRawMin) / 2;
   int nLow = 0, nHigh = 0;
@@ -284,27 +264,23 @@ float CMeasStatistics::GetPwm() {
       nLow++;
   }
 
-  if (nLow + nHigh == 0)
-    return 0;
+  if (nLow + nHigh == 0) return 0;
 
   return (float)nHigh / (nLow + nHigh);
 }
 
 float CMeasStatistics::GetFreq() {
   float f = GetPeriod();
-  if (f <= 0)
-    return 0;
+  if (f <= 0) return 0;
   return 1.0f / f;
 }
 
-float CMeasStatistics::GetSigma() // variance
+float CMeasStatistics::GetSigma()  // variance
 {
   // subject to rounding error, but faster than two-pass formula
-  if (m_nCount == 0)
-    return 0;
+  if (m_nCount == 0) return 0;
   float fAux = (m_fSum2 - m_fSum * m_fSum / 2) / m_nCount;
-  if (abs(fAux) > 200)
-    return 0;
+  if (abs(fAux) > 200) return 0;
   return fAux;
 }
 
@@ -312,8 +288,7 @@ float CMeasStatistics::GetBaud() {
   CSerialDecoder Iterate;
   // BIOS::DBG::Print( "Begin------\n");
   Iterate.m_pThis = this;
-  if (!Iterate.Prepare())
-    return 0.0f;
+  if (!Iterate.Prepare()) return 0.0f;
   Iterate.Average();
   Iterate.Do(&CSerialDecoder::FindSmallest);
   Iterate.Do(&CSerialDecoder::Sum);
@@ -334,15 +309,15 @@ float CMeasStatistics::GetBaud() {
     CCanbusDecoder Decoder;
     Iterate.SetDecoder(&Decoder);
 
-    Decoder << 1; // idle before start bit
+    Decoder << 1;  // idle before start bit
     Iterate.Do(&CSerialDecoder::Decode);
     Decoder.Visualize();
   } else {
     Iterate.SetDecoder(&Iterate);
-    Iterate << 1; // idle before start bit
+    Iterate << 1;  // idle before start bit
     Iterate.Do(&CSerialDecoder::Decode);
     for (int i = 0; i < 8; i++)
-      Iterate << 0; // finish byte when only single byte was sent
+      Iterate << 0;  // finish byte when only single byte was sent
     Iterate.Visualize();
   }
 
@@ -360,10 +335,8 @@ float CMeasStatistics::GetVpp() { return m_fMax - m_fMin; }
 
 float CMeasStatistics::GetTime(bool bHighLevel) {
   int nBegin = 0, nEnd = 0;
-  if (!_GetRange(nBegin, nEnd, m_curRange))
-    return 0;
-  if (m_nRawMax - m_nRawMin < 16)
-    return 0;
+  if (!_GetRange(nBegin, nEnd, m_curRange)) return 0;
+  if (m_nRawMax - m_nRawMin < 16) return 0;
 
   int nTrigStateChannel = -1, nTrigStateMath = -1;
   int nTotal = 0;
@@ -393,17 +366,14 @@ float CMeasStatistics::GetTime(bool bHighLevel) {
   // period in samples -> time in seconds
   float fTimeRes = Settings.Runtime.m_fTimeRes / CWndGraph::BlkX;
   float fValue = fTimeRes * fAvgDelta;
-  if (fValue == 0)
-    return 0;
+  if (fValue == 0) return 0;
   return fValue;
 }
 
 float CMeasStatistics::GetEdgeTime(bool bRising) {
   int nBegin = 0, nEnd = 0;
-  if (!_GetRange(nBegin, nEnd, m_curRange))
-    return 0;
-  if (m_nRawMax - m_nRawMin < 16)
-    return 0;
+  if (!_GetRange(nBegin, nEnd, m_curRange)) return 0;
+  if (m_nRawMax - m_nRawMin < 16) return 0;
 
   int nTrig10 = (int)(0.1 * (m_nRawMax - m_nRawMin)) + m_nRawMin;
   int nTrig90 = (int)(0.9 * (m_nRawMax - m_nRawMin)) + m_nRawMin;
@@ -438,8 +408,7 @@ float CMeasStatistics::GetEdgeTime(bool bRising) {
   // period in samples -> time in seconds
   float fTimeRes = Settings.Runtime.m_fTimeRes / CWndGraph::BlkX;
   float fValue = fTimeRes * fAvgDelta;
-  if (fValue == 0)
-    return 0;
+  if (fValue == 0) return 0;
   return fValue;
 }
 
@@ -488,22 +457,22 @@ float CMeasStatistics::GetApparentPower() {
 bool CMeasStatistics::_GetRange(int &nBegin, int &nEnd,
                                 CSettings::Measure::ERange range) {
   switch (range) {
-  case CSettings::Measure::_View:
-    MainWnd.m_wndGraph.GetCurrentRange(nBegin, nEnd);
-    break;
-  case CSettings::Measure::_Selection:
-    if (Settings.MarkT1.Mode != CSettings::Marker::_On ||
-        Settings.MarkT2.Mode != CSettings::Marker::_On ||
-        Settings.MarkT2.nValue <= Settings.MarkT1.nValue) {
-      return false;
-    }
-    nBegin = Settings.MarkT1.nValue;
-    nEnd = Settings.MarkT2.nValue;
-    break;
-  case CSettings::Measure::_All:
-    nBegin = 0;
-    nEnd = BIOS::ADC::GetCount();
-    break;
+    case CSettings::Measure::_View:
+      MainWnd.m_wndGraph.GetCurrentRange(nBegin, nEnd);
+      break;
+    case CSettings::Measure::_Selection:
+      if (Settings.MarkT1.Mode != CSettings::Marker::_On ||
+          Settings.MarkT2.Mode != CSettings::Marker::_On ||
+          Settings.MarkT2.nValue <= Settings.MarkT1.nValue) {
+        return false;
+      }
+      nBegin = Settings.MarkT1.nValue;
+      nEnd = Settings.MarkT2.nValue;
+      break;
+    case CSettings::Measure::_All:
+      nBegin = 0;
+      nEnd = BIOS::ADC::GetCount();
+      break;
   }
   return true;
 }

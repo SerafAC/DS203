@@ -52,9 +52,9 @@
   }
 
   float fNote =
-      log(fBestFreq / 440.0f) / log(2.0f) * 12.0f + 9 + 12 * 4; // 440Hz -> A4
+      log(fBestFreq / 440.0f) / log(2.0f) * 12.0f + 9 + 12 * 4;  // 440Hz -> A4
 
-  int nBaseNote = (int)floor(fNote + 0.5f); // +50 cents
+  int nBaseNote = (int)floor(fNote + 0.5f);  // +50 cents
   int nOctave = nBaseNote / 12;
   int nNote = nBaseNote % 12;
   int nCents = (int)((fNote - nBaseNote) * 100.0f);
@@ -83,13 +83,11 @@
                     fBestFreq, notes[nNote], nOctave, nCents >= 0 ? '+' : '-',
                     ABS(nCents));
 
-  if (nLastNote > -1)
-    DrawKey(nLastNote, false);
+  if (nLastNote > -1) DrawKey(nLastNote, false);
   nLastNote = nNote;
   DrawKey(nNote, true);
 
-  if (nLastCents != -999)
-    DrawCents(nLastCents, false);
+  if (nLastCents != -999) DrawCents(nLastCents, false);
   nLastCents = nCents;
   DrawCents(nLastCents, true);
 }
@@ -113,29 +111,26 @@ void CWndTuner::DrawScale() {
     BIOS::LCD::Bar(rcSegment, clr);
 
     switch (i) {
-    case 2:
-      BIOS::LCD::Print(rcSegment.left - 3 * 4 - 2, rcSegment.top - 20,
-                       RGB565(000000), RGBTRANS, "-25");
-      break;
-    case 4:
-      BIOS::LCD::Print(rcSegment.left - 1 * 4 - 2, rcSegment.top - 20,
-                       RGB565(000000), RGBTRANS, "0");
-      break;
-    case 6:
-      BIOS::LCD::Print(rcSegment.left - 3 * 4 - 2, rcSegment.top - 20,
-                       RGB565(000000), RGBTRANS, "+25");
-      break;
+      case 2:
+        BIOS::LCD::Print(rcSegment.left - 3 * 4 - 2, rcSegment.top - 20,
+                         RGB565(000000), RGBTRANS, "-25");
+        break;
+      case 4:
+        BIOS::LCD::Print(rcSegment.left - 1 * 4 - 2, rcSegment.top - 20,
+                         RGB565(000000), RGBTRANS, "0");
+        break;
+      case 6:
+        BIOS::LCD::Print(rcSegment.left - 3 * 4 - 2, rcSegment.top - 20,
+                         RGB565(000000), RGBTRANS, "+25");
+        break;
     }
 
     rcSegment.top = rcSegment.bottom - 2;
 
     clr = RGB565(ff0000);
-    if (i >= 1 && i <= 6)
-      clr = RGB565(ff8000);
-    if (i >= 2 && i <= 5)
-      clr = RGB565(ffff00);
-    if (i == 3 || i == 4)
-      clr = RGB565(00ff00);
+    if (i >= 1 && i <= 6) clr = RGB565(ff8000);
+    if (i >= 2 && i <= 5) clr = RGB565(ffff00);
+    if (i == 3 || i == 4) clr = RGB565(00ff00);
     BIOS::LCD::Bar(rcSegment, clr);
   }
 }
@@ -167,10 +162,8 @@ void CWndTuner::DrawKey(int nKey, bool bEnabled) {
     }
 
     int nCutLeft = 7, nCutRight = 4;
-    if (nKey == 0 || arrFull[nKey - 1] >= 0)
-      nCutLeft = 0;
-    if (nKey == 11 || arrFull[nKey + 1] >= 0)
-      nCutRight = 0;
+    if (nKey == 0 || arrFull[nKey - 1] >= 0) nCutLeft = 0;
+    if (nKey == 11 || arrFull[nKey + 1] >= 0) nCutRight = 0;
     rc = CRect(nFull * 20 + nCutLeft, 0, nFull * 20 + 18 - nCutRight, 45);
     rc.Offset(40, 100);
     BIOS::LCD::Bar(rc, bEnabled ? RGB565(ff0000) : RGB565(b0b0b0));
@@ -201,8 +194,7 @@ void CWndTuner::DrawPiano() {
   }
 
   for (int i = 0; i < 6; i++) {
-    if (i == 2)
-      continue;
+    if (i == 2) continue;
     CRect rc(i * 20 + 9 + 4, 0, i * 20 + 18 + 9 - 4, 40);
 
     rc.Offset(40, 100);
@@ -362,8 +354,7 @@ float CWndTuner::GetFundamental() {
   // only octave will be incorrect
 
   nAverage /= nIndexEnd - nIndexBegin + 2;
-  if (nBestAmplSq < nAverage * 9 || nBestAmplSq < 200 * 200)
-    return 0;
+  if (nBestAmplSq < nAverage * 9 || nBestAmplSq < 200 * 200) return 0;
 
   return fBestIndex / nLength * (fSampling);
 }
@@ -670,6 +661,6 @@ LINKERSECTION(".extra")
     0x10, 0xe3, 0xe1, 0x11, 0xa3, 0x00, 0x11, 0x10, 0xe4, 0xe1, 0x11, 0x89,
     0x10, 0x01, 0x21, 0x0e, 0x21, 0x00, 0xc3, 0x00, 0x16, 0x10, 0x0c, 0x82,
     0x00, 0x12, 0x10, 0xe3, 0xe0, 0x11, 0x10, 0x08, 0xc7, 0x00,
-}; // 3616 bytes
+};  // 3616 bytes
 
 #endif

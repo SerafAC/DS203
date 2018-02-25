@@ -6,7 +6,7 @@
 #include <Source/Main/Application.h>
 
 class CThread {
-public:
+ public:
   virtual void Start() { _ASSERT(0); }
   virtual void Stop() { _ASSERT(0); }
   virtual void Run() { _ASSERT(0); }

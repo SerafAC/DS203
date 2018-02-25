@@ -8,45 +8,40 @@ CWndOscGraph::CWndOscGraph() {
 }
 
 void CWndOscGraph::_PrepareColumn(ui16 *column, ui16 n, ui16 clr) {
-  for (ui16 y = 0; y < DivsY * BlkY; y++)
-    column[y] = clr;
+  for (ui16 y = 0; y < DivsY * BlkY; y++) column[y] = clr;
   //		memset( column, clr, DivsY*BlkY*2 );
-  if (n == 0)
-    return;
+  if (n == 0) return;
   // Grid display logic
   if (Settings.Disp.Grid != CSettings::Display::_GridNone) {
-    if ((n % BlkX) == 0) { // Display vertical line or dots
+    if ((n % BlkX) == 0) {  // Display vertical line or dots
       ui8 inc = (Settings.Disp.Grid == CSettings::Display::_GridLines) ? 1 : 5;
-      for (ui16 y = 0; y < DivsY * BlkY; y += inc)
-        column[y] = RGB565(808080);
+      for (ui16 y = 0; y < DivsY * BlkY; y += inc) column[y] = RGB565(808080);
     } else if ((Settings.Disp.Grid == CSettings::Display::_GridLines) ||
-               ((n % 6) == 0)) { // Display horizontal line or dots
+               ((n % 6) == 0)) {  // Display horizontal line or dots
       for (ui16 y = BlkY; y < DivsY * BlkY - 1; y += BlkY)
         column[y] = RGB565(808080);
     }
   }
   // Axis display logic
   if (Settings.Disp.Axis != CSettings::Display::_AxisNone) {
-    if (n == CenterX) { // Display center X axis
-      for (ui16 y = 0; y < DivsY * BlkY; y += 1)
-        column[y] = RGB565(808080);
+    if (n == CenterX) {  // Display center X axis
+      for (ui16 y = 0; y < DivsY * BlkY; y += 1) column[y] = RGB565(808080);
     } else if ((n == 1) || (n == (MaxX - 1)) || (n == CenterX - 1) ||
-               (n == CenterX + 1)) { // Display X axis sub divisions
-      for (ui16 y = 5; y < DivsY * BlkY; y += 5)
-        column[y] = RGB565(808080);
+               (n == CenterX + 1)) {  // Display X axis sub divisions
+      for (ui16 y = 5; y < DivsY * BlkY; y += 5) column[y] = RGB565(808080);
     } else if ((n == 2) || (n == (MaxX - 2)) || (n == CenterX - 2) ||
-               (n == CenterX + 2)) { // Display X axis main divisions
+               (n == CenterX + 2)) {  // Display X axis main divisions
       for (ui16 y = BlkY; y < DivsY * BlkY; y += BlkY)
         column[y] = RGB565(808080);
     }
     // Display horizontal main axis
     column[CenterY] = RGB565(808080);
     if (Settings.Disp.Axis ==
-        CSettings::Display::_AxisDouble) { // Display horizontal double axis
+        CSettings::Display::_AxisDouble) {  // Display horizontal double axis
       column[CenterTop] = RGB565(808080);
       column[CenterBottom] = RGB565(808080);
     }
-    if ((n % 6) == 0) { // Displau horizontal sub divisions
+    if ((n % 6) == 0) {  // Displau horizontal sub divisions
       column[0] = RGB565(808080);
       column[CenterY - 1] = RGB565(808080);
       column[CenterY + 1] = RGB565(808080);
@@ -58,7 +53,7 @@ void CWndOscGraph::_PrepareColumn(ui16 *column, ui16 n, ui16 clr) {
         column[CenterBottom - 1] = RGB565(808080);
       }
     }
-    if ((n % BlkX) == 0) { // Display horizontal main divisions
+    if ((n % BlkX) == 0) {  // Display horizontal main divisions
       column[1] = RGB565(808080);
       column[CenterY + 2] = RGB565(808080);
       column[CenterY - 2] = RGB565(808080);
@@ -157,19 +152,15 @@ void CWndOscGraph::OnPaintXY() {
     if (bEnabled1) {
       si16 ch1 = (ui8)((ui32Sample)&0xff);
       ch1 = Settings.CH1Calib.Correct(calCh1, ch1);
-      if (ch1 < 0)
-        ch1 = 0;
-      if (ch1 > 255)
-        ch1 = 255;
+      if (ch1 < 0) ch1 = 0;
+      if (ch1 > 255) ch1 = 255;
       nSampleY1 = (ch1 * (DivsY * BlkY)) >> 8;
     }
     if (bEnabled2) {
       si16 ch2 = (ui8)((ui32Sample >> 8) & 0xff);
       ch2 = Settings.CH2Calib.Correct(calCh2, ch2);
-      if (ch2 < 0)
-        ch2 = 0;
-      if (ch2 > 255)
-        ch2 = 255;
+      if (ch2 < 0) ch2 = 0;
+      if (ch2 > 255) ch2 = 255;
       nSampleY2 = (ch2 * (DivsY * BlkY)) >> 8;
     }
     if (Settings.Disp.Axes == CSettings::Display::_XY)
@@ -203,8 +194,7 @@ void CWndOscGraph::OnPaintTY() {
 
   ui8 bTrigger = (BIOS::SYS::GetTick() - Settings.Trig.nLastChange) < 5000;
   ui16 nTriggerTime = (Settings.Trig.nTime - Settings.Time.Shift);
-  if (!bTrigger)
-    nTriggerTime = -1;
+  if (!bTrigger) nTriggerTime = -1;
 
   int nCut = CWnd::GetOverlay().IsValid()
                  ? CWnd::GetOverlay().left - m_rcClient.left
@@ -212,8 +202,7 @@ void CWndOscGraph::OnPaintTY() {
   int nCutTop = CWnd::GetOverlay().IsValid()
                     ? CWnd::GetOverlay().bottom - m_rcClient.top
                     : 0;
-  if (nCutTop >= m_rcClient.Height())
-    nCut = m_rcClient.Width();
+  if (nCutTop >= m_rcClient.Height()) nCut = m_rcClient.Width();
   int nFirstTop = CWnd::GetOverlay().IsValid()
                       ? CWnd::GetOverlay().top - m_rcClient.top
                       : 0;
@@ -295,10 +284,8 @@ void CWndOscGraph::OnPaintTY() {
 
     if (bAreaT && nIndex > nMarkerT1 && nIndex < nMarkerT2)
       clrCol = RGB565(101060);
-    if (nMarkerT1 == nIndex)
-      clrCol = Settings.MarkT1.u16Color;
-    if (nMarkerT2 == nIndex)
-      clrCol = Settings.MarkT2.u16Color;
+    if (nMarkerT1 == nIndex) clrCol = Settings.MarkT1.u16Color;
+    if (nMarkerT2 == nIndex) clrCol = Settings.MarkT2.u16Color;
 
     _PrepareColumn(column, x, clrCol);
 
@@ -359,7 +346,7 @@ void CWndOscGraph::OnPaintTY() {
 
       if (bAverage1) {
         ui16 &nMemory = m_arrAverageBuf[x];
-        int nNew = (nMemory * 7 + (ch1 << 8) * 1) / 8; // 7:1
+        int nNew = (nMemory * 7 + (ch1 << 8) * 1) / 8;  // 7:1
         nMemory = (ui16)nNew;
         ch1 = nMemory >> 8;
       }
@@ -391,23 +378,17 @@ void CWndOscGraph::OnPaintTY() {
       if (en1 && en2) {
         if (nSampleY1 > nSampleY2) {
           int _y;
-          for (_y = 0; _y < nSampleY2; _y++)
-            column[_y] = clrShade12;
-          for (; _y < nSampleY1; _y++)
-            column[_y] = clrShade1;
+          for (_y = 0; _y < nSampleY2; _y++) column[_y] = clrShade12;
+          for (; _y < nSampleY1; _y++) column[_y] = clrShade1;
         } else {
           int _y;
-          for (_y = 0; _y < nSampleY1; _y++)
-            column[_y] = clrShade12;
-          for (; _y < nSampleY2; _y++)
-            column[_y] = clrShade2;
+          for (_y = 0; _y < nSampleY1; _y++) column[_y] = clrShade12;
+          for (; _y < nSampleY2; _y++) column[_y] = clrShade2;
         }
       } else if (en1) {
-        for (int _y = 0; _y < nSampleY1; _y++)
-          column[_y] = clrShade1;
+        for (int _y = 0; _y < nSampleY1; _y++) column[_y] = clrShade1;
       } else if (en2) {
-        for (int _y = 0; _y < nSampleY2; _y++)
-          column[_y] = clrShade2;
+        for (int _y = 0; _y < nSampleY2; _y++) column[_y] = clrShade2;
       }
     }
 
@@ -415,12 +396,10 @@ void CWndOscGraph::OnPaintTY() {
       if (!bLines)
         column[nSampleY3] = clr3;
       else {
-        if (nPrev3 == -1)
-          nPrev3 = nSampleY3;
+        if (nPrev3 == -1) nPrev3 = nSampleY3;
         int nBottom = min(nSampleY3, nPrev3);
         int nTop = max(nSampleY3, nPrev3);
-        for (int _y = nBottom; _y <= nTop; _y++)
-          column[_y] = clr3;
+        for (int _y = nBottom; _y <= nTop; _y++) column[_y] = clr3;
         nPrev3 = nSampleY3;
       }
     }
@@ -428,12 +407,10 @@ void CWndOscGraph::OnPaintTY() {
       if (!bLines)
         column[nSampleY4] = clr4;
       else {
-        if (nPrev4 == -1)
-          nPrev4 = nSampleY4;
+        if (nPrev4 == -1) nPrev4 = nSampleY4;
         int nBottom = min(nSampleY4, nPrev4);
         int nTop = max(nSampleY4, nPrev4);
-        for (int _y = nBottom; _y <= nTop; _y++)
-          column[_y] = clr4;
+        for (int _y = nBottom; _y <= nTop; _y++) column[_y] = clr4;
         nPrev4 = nSampleY4;
       }
     }
@@ -441,12 +418,10 @@ void CWndOscGraph::OnPaintTY() {
       if (!bLines)
         column[nSampleY2] = clr2;
       else {
-        if (nPrev2 == -1)
-          nPrev2 = nSampleY2;
+        if (nPrev2 == -1) nPrev2 = nSampleY2;
         int nBottom = min(nSampleY2, nPrev2);
         int nTop = max(nSampleY2, nPrev2);
-        for (int _y = nBottom; _y <= nTop; _y++)
-          column[_y] = clr2;
+        for (int _y = nBottom; _y <= nTop; _y++) column[_y] = clr2;
         nPrev2 = nSampleY2;
       }
     }
@@ -455,12 +430,10 @@ void CWndOscGraph::OnPaintTY() {
       if (!bLines)
         column[nSampleY1] = clr1;
       else {
-        if (nPrev1 == -1)
-          nPrev1 = nSampleY1;
+        if (nPrev1 == -1) nPrev1 = nSampleY1;
         int nBottom = min(nSampleY1, nPrev1);
         int nTop = max(nSampleY1, nPrev1);
-        for (int _y = nBottom; _y <= nTop; _y++)
-          column[_y] = clr1;
+        for (int _y = nBottom; _y <= nTop; _y++) column[_y] = clr1;
         nPrev1 = nSampleY1;
       }
     }
@@ -473,8 +446,7 @@ void CWndOscGraph::OnPaintTY() {
       if (!bLines)
         column[y] = clrm;
       else {
-        if (nPrevm == -1)
-          nPrevm = y;
+        if (nPrevm == -1) nPrevm = y;
         for (int _y = min(y, nPrevm); _y <= max(y, nPrevm); _y++)
           column[_y] = clrm;
         nPrevm = y;
@@ -485,10 +457,8 @@ void CWndOscGraph::OnPaintTY() {
       ui16 y = (Settings.Trig.nLevel * (DivsY * BlkY)) >> 8;
       column[y] = RGB565(404040);
     }
-    if (nMarkerY1 > 0)
-      column[nMarkerY1] = Settings.MarkY1.u16Color;
-    if (nMarkerY2 > 0)
-      column[nMarkerY2] = Settings.MarkY2.u16Color;
+    if (nMarkerY1 > 0) column[nMarkerY1] = Settings.MarkY1.u16Color;
+    if (nMarkerY2 > 0) column[nMarkerY2] = Settings.MarkY2.u16Color;
 
     if (x <= nCut)
       BIOS::LCD::Buffer(m_rcClient.left + x, m_rcClient.top, column,
@@ -509,10 +479,8 @@ void CWndOscGraph::SetupSelection(bool &bSelection, int &nMarkerT1,
   bSelection = (Settings.MarkT1.Mode == CSettings::Marker::_On &&
                 Settings.MarkT2.Mode == CSettings::Marker::_On);
 
-  if (!bSelection)
-    return;
-  if (Settings.MarkT1.nValue >= Settings.MarkT2.nValue)
-    return;
+  if (!bSelection) return;
+  if (Settings.MarkT1.nValue >= Settings.MarkT2.nValue) return;
 
   nMarkerT1 = Settings.MarkT1.nValue;
   nMarkerT2 = Settings.MarkT2.nValue;
@@ -572,10 +540,8 @@ void CWndOscGraph::SetupMarkers(CSettings::Calibrator::FastCalc &Ch1fast,
     }
     nMarkerY2 = (nMarkerY2 * (DivsY * BlkY)) >> 8;
   }
-  if (nMarkerY1 >= DivsY * BlkY)
-    nMarkerY1 = -1;
-  if (nMarkerY2 >= DivsY * BlkY)
-    nMarkerY2 = -1;
+  if (nMarkerY1 >= DivsY * BlkY) nMarkerY1 = -1;
+  if (nMarkerY2 >= DivsY * BlkY) nMarkerY2 = -1;
 }
 
 void CWndOscGraph::GetCurrentRange(int &nBegin, int &nEnd) {

@@ -38,15 +38,15 @@
   bool bSenderOperand =
       (pSender == &m_itmOperand[A] || pSender == &m_itmOperand[B] ||
        pSender == &m_itmOperand[C]);
-  bool bSenderOperator = (pSender == &m_itmOperator); // value changes
+  bool bSenderOperator = (pSender == &m_itmOperator);  // value changes
 
   // calling from listbox
-  bSenderOperand |= (pSender == &m_wndListOperand); // exiting dialog
+  bSenderOperand |= (pSender == &m_wndListOperand);  // exiting dialog
   bSenderOperand |= (pSender->GetParent() ==
-                     &m_wndListOperand); // changing attribute in listbox
-  bSenderOperator |= (pSender == &m_wndListOperator); // exiting dialog
+                     &m_wndListOperand);  // changing attribute in listbox
+  bSenderOperator |= (pSender == &m_wndListOperator);  // exiting dialog
   bSenderOperator |=
-      (pSender->GetParent() == &m_wndListOperator); // changing color
+      (pSender->GetParent() == &m_wndListOperator);  // changing color
 
   if (code == ToWord('m', 'c') && bSenderOperand) {
     m_wndListOperand.Create((CSettings::MathOperand *)data, this);

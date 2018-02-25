@@ -2,13 +2,13 @@
 #ifndef DSO_GUI_SPECTRUM_MARKER_MENUSPECTMARKER_H
 #define DSO_GUI_SPECTRUM_MARKER_MENUSPECTMARKER_H
 
-#include "ItemMarker.h"
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>
+#include "ItemMarker.h"
 
 class CWndMenuSpectMarker : public CWnd {
-public:
+ public:
   // Menu items
   CWndMenuItem m_itmSource;
   CWndMenuItem m_itmTrack;

@@ -2,17 +2,17 @@
 #ifndef DSO_GUI_CALIBRATION_CALIBMENU_H
 #define DSO_GUI_CALIBRATION_CALIBMENU_H
 
-#include "CalibAnalog.h"
-#include "CalibDac.h"
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>
 #include <Source/Framework/Wnd.h>
+#include "CalibAnalog.h"
+#include "CalibDac.h"
 
 class CMIAdc : public CWndMenuItem {
   int m_nVolt;
 
-public:
+ public:
   virtual void Create(const char *pszId, ui16 clr, ui8 rows, CWnd *pParent) {
     m_nVolt = 5;
     CWndMenuItem::Create(pszId, clr, rows, pParent);
@@ -39,12 +39,12 @@ public:
     CWndMenuItem::OnPaint();
     BIOS::LCD::Printf(m_rcClient.left + 12 + 16, m_rcClient.top + 16,
                       RGB565(000000), RGBTRANS, "%1f V",
-                      m_nVolt / 10.0f + 0.01f); // rounding error!?
+                      m_nVolt / 10.0f + 0.01f);  // rounding error!?
   }
 };
 
 class CWndMenuCalibration : public CWnd {
-public:
+ public:
   CMIAdc m_itmAdc;
   CWndMenuItem m_itmSimple;
   CWndMenuItem m_itmComplex;

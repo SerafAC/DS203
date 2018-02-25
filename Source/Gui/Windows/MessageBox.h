@@ -1,21 +1,21 @@
 #pragma once
 #ifndef DSO_GUI_WINDOWS_MESSAGEBOX_H
 #define DSO_GUI_WINDOWS_MESSAGEBOX_H
-#include <Source/Framework/Wnd.h>
 #include <Source/Core/Design.h>
 #include <Source/Core/Utils.h>
+#include <Source/Framework/Wnd.h>
 class CWndMessageBox : public CWnd {
   ui16 m_clrFrame;
   PCSTR m_strMessage;
 
-public:
+ public:
   void Show(CWnd *pParent, PCSTR strCaption, PCSTR strMessage, ui16 nColor) {
     m_clrFrame = nColor;
     m_strMessage = strMessage;
 
     if (IsWindow()) {
       KillTimer();
-      StopModal(); // will destroy this window
+      StopModal();  // will destroy this window
     }
 
     CWnd::Create(strCaption, CWnd::WsVisible, CRect(40, 100, 360, 160),
@@ -29,8 +29,7 @@ public:
     CRect rcClient = m_rcClient;
     CDesign::Window(m_rcClient, m_clrFrame);
 
-    BIOS::LCD::Print(rcClient.CenterX() -
-                         ((ui8)CUtils::StrLen(m_pszId) << 2),
+    BIOS::LCD::Print(rcClient.CenterX() - ((ui8)CUtils::StrLen(m_pszId) << 2),
                      rcClient.top + 2, RGB565(000000), RGBTRANS, m_pszId);
 
     rcClient.Deflate(2 + 12 + 4, 2 + 14 + 2, 2 + 12 + 4, 2 + 2 + 0);

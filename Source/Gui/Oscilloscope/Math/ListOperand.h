@@ -1,12 +1,12 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_MATH_LISTOPERAND_H
 #define DSO_GUI_OSCILLOSCOPE_MATH_LISTOPERAND_H
-#include <Source/Core/Settings.h>
 #include <Source/Core/Controls.h>
 #include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
 
 class CWndListOperand : public CListBox {
-public:
+ public:
   CSettings::MathOperand *m_pOper;
 
   CProviderEnum m_proType;
@@ -18,7 +18,7 @@ public:
   CProviderNumAny<int> m_proOffset;
   CLPItem m_itmOffset;
 
-public:
+ public:
   void Create(CSettings::MathOperand *pOper, CWnd *pParent) {
     m_pOper = pOper;
     CListBox::Create(pOper->strName, WsVisible | WsModal,
@@ -59,8 +59,7 @@ public:
         m_itmScale.ShowWindow(bShowSca ? CWnd::SwShow : CWnd::SwHide);
         bChanged = true;
       }
-      if (bChanged)
-        Invalidate();
+      if (bChanged) Invalidate();
     }
     CListBox::OnMessage(pSender, code, data);
   }

@@ -14,7 +14,7 @@ ADD_MODULE("CharMap", CWndCharMap)
 #include <Source/Framework/Wnd.h>
 
 class CWndCharMap : public CWnd {
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags);
   virtual void OnPaint();
   virtual void OnMessage(CWnd *pSender, ui16 code, ui32 data);

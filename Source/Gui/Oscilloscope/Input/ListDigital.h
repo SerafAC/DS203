@@ -2,11 +2,11 @@
 #ifndef DSO_GUI_OSCILLOSCOPE_INPUT_LISTDIGITAL_H
 #define DSO_GUI_OSCILLOSCOPE_INPUT_LISTDIGITAL_H
 #include <Source/Core/Controls.h>
-#include <Source/Core/Settings.h>
 #include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
 
 class CWndListDInput : public CListBox {
-public:
+ public:
   CSettings::DigitalChannel *m_pInfo;
 
   CProviderEnum m_proEnabled;
@@ -21,7 +21,7 @@ public:
   CLPItem m_itmColour;
   CLPItem m_itmRed, m_itmGrn, m_itmBlu;
 
-public:
+ public:
   void Create(CSettings::DigitalChannel *pInfo, CWnd *pParent) {
     m_pInfo = pInfo;
     CListBox::Create(pInfo->pszFullName, WsVisible | WsModal,

@@ -15,9 +15,9 @@ public:
 */
 
 class CFirFilter {
-public:
+ public:
   int m_nRingPos;
-  int m_nCounter; // redundant
+  int m_nCounter;  // redundant
   ui8 m_nLength;
 
   CFirFilter();
@@ -28,7 +28,7 @@ public:
   ui8 &GetRingBuffer(int nAt);
   void PushRingBuffer(int n);
 
-public:
+ public:
   bool LoadFilter(const char *strName);
   void CreateSampleFilter();
 

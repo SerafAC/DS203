@@ -1,12 +1,12 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_LEVELREF_H
 #define DSO_GUI_OSCILLOSCOPE_CONTROLS_LEVELREF_H
+#include <Source/Core/Settings.h>
 #include <Source/Framework/Wnd.h>
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
-#include <Source/Core/Settings.h>
 
 class CWndLevelReferences : public CWnd {
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndLevelReferences", dwFlags | CWnd::WsNoActivate,
                  CRect(0, 22, 11, 22 + CWndGraph::DivsY * CWndGraph::BlkY),
@@ -51,7 +51,7 @@ public:
 };
 
 class CWndLevelReferencesMath : public CWnd {
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndLevelReferencesMath", dwFlags | CWnd::WsNoActivate,
                  CRect(0, 22, 11, 22 + CWndGraph::DivsY * CWndGraph::BlkY),

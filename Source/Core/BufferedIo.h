@@ -10,7 +10,7 @@ class CBufferedWriter : public CSerialize {
   int m_nSize;
   FILEINFO m_FileInfo;
 
-public:
+ public:
   void Open(PSTR strName) {
     m_pData = (ui8 *)BIOS::DSK::GetSharedBuffer();
     m_nOffset = 0;
@@ -70,8 +70,7 @@ public:
   }
 
   void Close() {
-    if (m_nOffset > 0)
-      BIOS::DSK::Write(&m_FileInfo, m_pData);
+    if (m_nOffset > 0) BIOS::DSK::Write(&m_FileInfo, m_pData);
     BIOS::DSK::Close(&m_FileInfo, m_nSize);
   }
 };
@@ -81,7 +80,7 @@ class CBufferedReader : public CSerialize {
   int m_nOffset;
   FILEINFO m_FileInfo;
 
-public:
+ public:
   bool Open(PSTR strName) {
     m_pData = (ui8 *)BIOS::DSK::GetSharedBuffer();
     m_nOffset = 0;
@@ -104,11 +103,9 @@ public:
         m_nOffset = 0;
         BIOS::DSK::Read(&m_FileInfo, m_pData);
       }
-      if (str[i] == '\n')
-        break;
+      if (str[i] == '\n') break;
     }
-    if (str[i] == '\r')
-      i--;
+    if (str[i] == '\r') i--;
     str[i] = 0;
     return *this;
   }
@@ -150,7 +147,7 @@ class CBufferedReader2 : public CSerialize {
   ui8 *m_pData;
   int m_nOffset;
 
-public:
+ public:
   bool Open(PSTR strName) {
     m_pData = (ui8 *)BIOS::DSK::GetSharedBuffer();
     m_nOffset = 0;
@@ -171,11 +168,9 @@ public:
         BIOS::FAT::EResult eResult = BIOS::FAT::Read(m_pData);
         _ASSERT(eResult == BIOS::FAT::EOk);
       }
-      if (str[i] == '\n')
-        break;
+      if (str[i] == '\n') break;
     }
-    if (str[i] == '\r')
-      i--;
+    if (str[i] == '\r') i--;
     str[i] = 0;
     return *this;
   }
@@ -231,7 +226,7 @@ class CBufferedWriter2 : public CSerialize {
   int m_nOffset;
   int m_nSize;
 
-public:
+ public:
   bool Open(PSTR strName) {
     m_pData = (ui8 *)BIOS::DSK::GetSharedBuffer();
     m_nOffset = 0;
@@ -299,8 +294,7 @@ public:
   }
 
   void Close() {
-    if (m_nOffset > 0)
-      BIOS::FAT::Write(m_pData);
+    if (m_nOffset > 0) BIOS::FAT::Write(m_pData);
     BIOS::FAT::Close(m_nSize);
   }
 };

@@ -17,7 +17,7 @@
   1024, 1024, 1024, 512, 512, 512 };
   */
   //	_ASSERT( COUNT(arrPsc) == COUNT(arrArr) && COUNT(arrPsc) ==
-  //CSettings::TimeBase::_ResolutionMax+1 );
+  // CSettings::TimeBase::_ResolutionMax+1 );
 
   ui8 nACouple = Settings.CH1.Coupling == CSettings::AnalogChannel::_DC ? 0 : 1;
   ui8 nARange = (ui8)(NATIVEENUM)Settings.CH1.Resolution;

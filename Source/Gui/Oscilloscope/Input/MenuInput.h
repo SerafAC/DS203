@@ -17,7 +17,7 @@
 #include "ListTrigger.h"
 
 class CWndMenuInput : public CWnd {
-public:
+ public:
   // Menu items
   CItemAnalog m_itmCH1;
   CItemAnalog m_itmCH2;

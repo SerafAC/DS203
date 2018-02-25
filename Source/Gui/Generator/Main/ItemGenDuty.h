@@ -2,11 +2,11 @@
 #ifndef DSO_GUI_GENERATOR_MAIN_ITEMGENDUTY_H
 #define DSO_GUI_GENERATOR_MAIN_ITEMGENDUTY_H
 #include <Source/Core/Controls.h>
-#include <Source/Gui/Generator/Core/CoreGenerator.h>
 #include <Source/Core/Settings.h>
+#include <Source/Gui/Generator/Core/CoreGenerator.h>
 
 class CItemDuty : public CWndMenuItem {
-public:
+ public:
   virtual void Create(const char *pszId, ui16 clr, ui8 rows, CWnd *pParent) {
     CWndMenuItem::Create(pszId, clr, rows, pParent);
   }
@@ -20,8 +20,7 @@ public:
       UTILS.Clamp<int>(nDuty, 0, 100);
       Settings.Gen.nDuty = nDuty;
       CCoreGenerator::SetDuty(nDuty);
-      if (CCoreGenerator::GetDuty() != nDuty)
-        Settings.Gen.nCcr--;
+      if (CCoreGenerator::GetDuty() != nDuty) Settings.Gen.nCcr--;
 
       UTILS.Clamp<int>(Settings.Gen.nCcr, 0, Settings.Gen.nArr);
       Invalidate();
@@ -32,8 +31,7 @@ public:
       UTILS.Clamp<int>(nDuty, 0, 100);
       Settings.Gen.nDuty = nDuty;
       CCoreGenerator::SetDuty(nDuty);
-      if (CCoreGenerator::GetDuty() != nDuty)
-        Settings.Gen.nCcr++;
+      if (CCoreGenerator::GetDuty() != nDuty) Settings.Gen.nCcr++;
 
       UTILS.Clamp<int>(Settings.Gen.nCcr, 0, Settings.Gen.nArr);
       Invalidate();

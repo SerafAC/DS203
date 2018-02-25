@@ -6,18 +6,17 @@
 
 CDevice *CDevice::m_pInstance = NULL;
 
-template <class T, void DTOR(T *)> class SdlItem {
+template <class T, void DTOR(T *)>
+class SdlItem {
   T *m_item;
 
-public:
+ public:
   SdlItem(T *n = NULL) : m_item(n) {}
   ~SdlItem() {
-    if (m_item)
-      DTOR(m_item);
+    if (m_item) DTOR(m_item);
   }
   SdlItem &operator=(T *m) {
-    if (m_item && (m_item != m))
-      DTOR(m_item);
+    if (m_item && (m_item != m)) DTOR(m_item);
     m_item = m;
     return *this;
   }
@@ -35,7 +34,7 @@ class SdlDevice : public CDevice {
   SdlSurface m_surface = SDL_LoadBMP("hello.bmp");
   SDL_Surface *m_screen;
 
-public:
+ public:
   SdlDevice() {
     m_win = SDL_CreateWindow("Hello World", 0, 0, CDevice::Width,
                              CDevice::Height, 0);
@@ -67,36 +66,36 @@ public:
   }
   void procKey(int k, bool s) {
     switch (k) {
-    case SDLK_LEFT:
-      proc1(BIOS::KEY::KeyLeft, s);
-      break;
-    case SDLK_RIGHT:
-      proc1(BIOS::KEY::KeyRight, s);
-      break;
-    case SDLK_UP:
-      proc1(BIOS::KEY::KeyUp, s);
-      break;
-    case SDLK_DOWN:
-      proc1(BIOS::KEY::KeyDown, s);
-      break;
-    case SDLK_RETURN:
-      proc1(BIOS::KEY::KeyEnter, s);
-      break;
-    case SDLK_BACKSPACE:
-      proc1(BIOS::KEY::KeyEscape, s);
-      break;
-    case SDLK_SPACE:
-      proc1(BIOS::KEY::KeyFunction, s);
-      break;
-    case SDLK_DELETE:
-      proc1(BIOS::KEY::KeyFunction2, s);
-      break;
-    case SDLK_F1:
-      proc1(BIOS::KEY::KeyS1, s);
-      break;
-    case SDLK_F2:
-      proc1(BIOS::KEY::KeyS2, s);
-      break;
+      case SDLK_LEFT:
+        proc1(BIOS::KEY::KeyLeft, s);
+        break;
+      case SDLK_RIGHT:
+        proc1(BIOS::KEY::KeyRight, s);
+        break;
+      case SDLK_UP:
+        proc1(BIOS::KEY::KeyUp, s);
+        break;
+      case SDLK_DOWN:
+        proc1(BIOS::KEY::KeyDown, s);
+        break;
+      case SDLK_RETURN:
+        proc1(BIOS::KEY::KeyEnter, s);
+        break;
+      case SDLK_BACKSPACE:
+        proc1(BIOS::KEY::KeyEscape, s);
+        break;
+      case SDLK_SPACE:
+        proc1(BIOS::KEY::KeyFunction, s);
+        break;
+      case SDLK_DELETE:
+        proc1(BIOS::KEY::KeyFunction2, s);
+        break;
+      case SDLK_F1:
+        proc1(BIOS::KEY::KeyS1, s);
+        break;
+      case SDLK_F2:
+        proc1(BIOS::KEY::KeyS2, s);
+        break;
     }
   }
 
@@ -118,24 +117,24 @@ public:
       SDL_Event e;
       if (SDL_PollEvent(&e)) {
         switch (e.type) {
-        case SDL_KEYDOWN:
-          OnKeyDown(e.key.keysym.sym);
-          break;
-        case SDL_KEYUP:
-          OnKeyUp(e.key.keysym.sym);
-          break;
-        case SDL_MOUSEMOTION:
-          OnMouseMove(e.motion.x, e.motion.y);
-          break;
-        case SDL_MOUSEBUTTONDOWN:
-          OnMouseDown();
-          break;
-        case SDL_MOUSEBUTTONUP:
-          OnMouseUp();
-          break;
-        case SDL_QUIT:
-          quit = true;
-          break;
+          case SDL_KEYDOWN:
+            OnKeyDown(e.key.keysym.sym);
+            break;
+          case SDL_KEYUP:
+            OnKeyUp(e.key.keysym.sym);
+            break;
+          case SDL_MOUSEMOTION:
+            OnMouseMove(e.motion.x, e.motion.y);
+            break;
+          case SDL_MOUSEBUTTONDOWN:
+            OnMouseDown();
+            break;
+          case SDL_MOUSEBUTTONUP:
+            OnMouseUp();
+            break;
+          case SDL_QUIT:
+            quit = true;
+            break;
         }
       }
       app();

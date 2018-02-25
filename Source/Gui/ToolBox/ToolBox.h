@@ -2,12 +2,12 @@
 #ifndef DSO_GUI_TOOLBOX_TOOLBOX_H
 #define DSO_GUI_TOOLBOX_TOOLBOX_H
 
-#include "Export.h"
 #include <Source/Framework/Thread.h>
 #include <Source/Framework/Wnd.h>
+#include "Export.h"
 
 class CWndToolbox : public CWnd, public CThread, public CExport {
-public:
+ public:
   enum { Width = 200, Height = 88 };
 
   enum {
@@ -18,7 +18,7 @@ public:
     MenuMax = MenuSave
   };
 
-public:
+ public:
   bool m_bRunning;
   bool m_bFirst;
   bool m_bAdcEnabled;

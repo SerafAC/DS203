@@ -1,8 +1,8 @@
 #pragma once
 #ifndef DSO_GUI_MOUSE_H
 #define DSO_GUI_MOUSE_H
-#include <Source/HwLayer/Types.h>
 #include <Source/HwLayer/Bios.h>
+#include <Source/HwLayer/Types.h>
 
 class CMouse {
   ui16 m_pixels[4];
@@ -16,7 +16,7 @@ class CMouse {
   bool m_bClick;
   bool m_bOverride;
 
-public:
+ public:
   CMouse() {
     m_nX = BIOS::LCD::LcdWidth / 2;
     m_nY = BIOS::LCD::LcdHeight / 2;
@@ -32,20 +32,17 @@ public:
     m_nX = x;
     m_nY = y;
 
-    if (m_bDown == false && b)
-      m_bClick = true;
+    if (m_bDown == false && b) m_bClick = true;
     m_bDown = b ? true : false;
   }
 
   void Update() {
-    if (m_bOverride)
-      return;
+    if (m_bOverride) return;
 
     m_nX = BIOS::MOUSE::GetX();
     m_nY = BIOS::MOUSE::GetY();
 
-    if (m_bDown == false && BIOS::MOUSE::GetDown())
-      m_bClick = true;
+    if (m_bDown == false && BIOS::MOUSE::GetDown()) m_bClick = true;
     m_bDown = BIOS::MOUSE::GetDown() ? true : false;
   }
 
@@ -54,19 +51,15 @@ public:
   int GetY() { return m_nY; }
 
   void Show() {
-    if (!m_bOverride && !BIOS::MOUSE::IsSupported())
-      return;
+    if (!m_bOverride && !BIOS::MOUSE::IsSupported()) return;
 
-    if (m_nLastX != -1)
-      Hide();
+    if (m_nLastX != -1) Hide();
     Update();
 
     _ASSERT(m_nLastX == -1);
     m_nLastX = -1;
-    if (m_nX < 0 || m_nX >= BIOS::LCD::LcdWidth - 1)
-      return;
-    if (m_nY < 0 || m_nY >= BIOS::LCD::LcdHeight - 1)
-      return;
+    if (m_nX < 0 || m_nX >= BIOS::LCD::LcdWidth - 1) return;
+    if (m_nY < 0 || m_nY >= BIOS::LCD::LcdHeight - 1) return;
 
     m_nLastX = m_nX;
     m_nLastY = m_nY;
@@ -83,8 +76,7 @@ public:
   }
 
   void Hide() {
-    if (m_nLastX == -1)
-      return;
+    if (m_nLastX == -1) return;
 
     ui16 *pPix = m_pixels;
     for (int y = m_nLastY; y < m_nLastY + 2; y++)
@@ -95,8 +87,7 @@ public:
   }
 
   bool Clicked() {
-    if (!m_bClick)
-      return false;
+    if (!m_bClick) return false;
     m_bClick = false;
     return true;
   }

@@ -5,7 +5,7 @@
 #include <Source/HwLayer/Types.h>
 
 class CApplicationProto {
-public:
+ public:
   // CApplicationProto();
   // virtual ~CApplicationProto();
   virtual void Create() = 0;

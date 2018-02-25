@@ -1,10 +1,10 @@
 #pragma once
 #ifndef DSO_LIBRARY_COOKIES_H
 #define DSO_LIBRARY_COOKIES_H
-#include <Source/HwLayer/Bios.h>
 #include <Source/Core/Utils.h>
+#include <Source/HwLayer/Bios.h>
 class CCookies {
-public:
+ public:
   static char *GetCookie(char *strName) {
     char *strBuffer = BIOS::SYS::GetSharedBuffer();
 

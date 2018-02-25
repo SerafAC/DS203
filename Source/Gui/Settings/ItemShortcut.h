@@ -2,15 +2,15 @@
 #ifndef DSO_GUI_SETTINGS_ITEMSHORTCUT_H
 #define DSO_GUI_SETTINGS_ITEMSHORTCUT_H
 
-#include <Source/Gui/Toolbar.h>
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
+#include <Source/Gui/Toolbar.h>
 
 class CProviderShortcut : public CValueProvider {
   enum { Invalid = -999 };
   int *m_pVal;
 
-public:
+ public:
   void Create(int *pVal) { m_pVal = pVal; }
 
   virtual VPNavigate operator+(si8 d) {
@@ -24,8 +24,7 @@ public:
   const char *GetLabelA() {
     const CWndToolBar::CBarItem *pItems = CWndToolBar::GetMenuItems();
     int nVal = *m_pVal;
-    if (nVal < 0)
-      return CSettings::CRuntime::ppszTextShortcut[-nVal - 1];
+    if (nVal < 0) return CSettings::CRuntime::ppszTextShortcut[-nVal - 1];
 
     for (int i = nVal; i >= 0; i--)
       if (pItems[i].m_eType == CWndToolBar::CBarItem::IMain)
@@ -36,8 +35,7 @@ public:
 
   const char *GetLabelB() {
     int nVal = *m_pVal;
-    if (nVal >= 0)
-      return CWndToolBar::GetMenuItems()[nVal].m_pName;
+    if (nVal >= 0) return CWndToolBar::GetMenuItems()[nVal].m_pName;
     return NULL;
   }
 
@@ -47,8 +45,7 @@ public:
 
     const char *strA = GetLabelA();
     const char *strB = GetLabelB();
-    if (strA)
-      x += BIOS::LCD::Print(x, rcRect.top, clr, RGBTRANS, strA);
+    if (strA) x += BIOS::LCD::Print(x, rcRect.top, clr, RGBTRANS, strA);
     if (strB) {
       x += 4;
       x += BIOS::LCD::Print(x, rcRect.top, clr, RGBTRANS, "\x1a");
@@ -62,8 +59,7 @@ public:
     const char *strB = GetLabelB();
     size_t nWidth = strA ? CUtils::StrLen(strA) : 0;
     nWidth += strB ? CUtils::StrLen(strB) : 0;
-    if (strB)
-      nWidth += 2;
+    if (strB) nWidth += 2;
     return narrow_cast<ui16>(nWidth * 8);
   }
 
@@ -72,10 +68,8 @@ public:
     if (/*nSearch < 0 || */ nSearch + nDir < 0) {
       if (nSearch + nDir == 0) {
         // skip first sub menu
-        if (nDir > 0)
-          return 1;
-        if (nDir < 0)
-          return -1;
+        if (nDir > 0) return 1;
+        if (nDir < 0) return -1;
       }
       if (nSearch + nDir >= CSettings::CRuntime::_ShortcutMax) {
         return nSearch + nDir;
@@ -100,14 +94,14 @@ public:
 };
 
 class CItemShortcut : public CItemProvider {
-public:
+ public:
   void Create(CWnd *pParent, CValueProvider *pProvider, const char *pszId) {
     CItemProvider::Create(pProvider, pszId, RGB565(808080), pParent);
   }
 
   virtual void OnKey(ui16 nKey) {
     if ((nKey & BIOS::KEY::KeyLeft) || (nKey & BIOS::KEY::KeyRight)) {
-      CItemProvider::OnKey(nKey); // this will update the variable
+      CItemProvider::OnKey(nKey);  // this will update the variable
       Settings.Kick();
       return;
     }

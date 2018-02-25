@@ -9,7 +9,7 @@
 #define UTILS CUtils()
 
 class CUtils {
-public:
+ public:
   static int atoi(char *str);
   static ui32 htoi(char *str);
   static char *itoa(si16 i);
@@ -22,7 +22,8 @@ public:
   static char *FormatFrequency(float fF, int nChars = 8);
   static char *FormatTime(float fT, int nChars = 8);
   static char *FormatFloat5(float f);
-  template <class T> inline void Clamp(T &nVariable, T nMin, T nMax) {
+  template <class T>
+  inline void Clamp(T &nVariable, T nMin, T nMax) {
     if (nVariable < nMin) {
       nVariable = nMin;
       return;

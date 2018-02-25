@@ -5,18 +5,19 @@
 #include <Source/HwLayer/Types.h>
 
 class CFftTables {
-protected:
+ protected:
   static const ui16 arrHannWindow[512];
   static const short Sinewave512[512 - 512 / 4 + 1];
 };
 
-template <int N> class CFft : CFftTables {
-public:
+template <int N>
+class CFft : CFftTables {
+ public:
   void Forward(short *pafReal, short *pafImag);
   int Hann(int i);
   int Sqrt(int x);
 
-private:
+ private:
   int _logbits();
   int _cos(int i);
   int _sin(int i);
@@ -24,29 +25,29 @@ private:
 
 // Template implementation
 
-template <int N> int CFft<N>::Hann(int i) {
+template <int N>
+int CFft<N>::Hann(int i) {
   i = i * 1024 / N;
-  if (i < 512)
-    return arrHannWindow[i];
+  if (i < 512) return arrHannWindow[i];
   return arrHannWindow[1024 - i - 1];
 }
 
-template <int N> int CFft<N>::Sqrt(int n) {
+template <int N>
+int CFft<N>::Sqrt(int n) {
   unsigned int c = 0x8000;
   unsigned int g = 0x8000;
 
   for (;;) {
-    if (g * g > (ui32)n)
-      g ^= c;
+    if (g * g > (ui32)n) g ^= c;
     c >>= 1;
-    if (c == 0)
-      return g;
+    if (c == 0) return g;
     g |= c;
   }
   return 0;
 }
 
-template <int N> void CFft<N>::Forward(short *fr, short *fi) {
+template <int N>
+void CFft<N>::Forward(short *fr, short *fi) {
   long int mr = 0, nn, i, j, l, k, istep, n;
   short qr, qi, tr, ti, wr, wi, m;
 
@@ -61,8 +62,7 @@ template <int N> void CFft<N>::Forward(short *fr, short *fi) {
     } while (mr + l > nn);
 
     mr = (mr & (l - 1)) + l;
-    if (mr <= m)
-      continue;
+    if (mr <= m) continue;
 
     tr = fr[m];
     fr[m] = fr[mr];
@@ -95,8 +95,8 @@ template <int N> void CFft<N>::Forward(short *fr, short *fi) {
     for (m = 0; m < l; ++m) {
       j = m << k;
       /* 0 <= j < N_WAVE/2 */
-      wr = _cos(j); // Sinewave512[j+N/4];
-      wi = _sin(j); //-Sinewave512[j];
+      wr = _cos(j);  // Sinewave512[j+N/4];
+      wi = _sin(j);  //-Sinewave512[j];
 
       wr >>= 1;
       wi >>= 1;

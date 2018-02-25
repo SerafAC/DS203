@@ -1,4 +1,3 @@
-#include "device.h"
 #include <SDL.h>
 #include <SDL_keycode.h>
 #include <Source/Core/Utils.h>
@@ -7,14 +6,14 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "device.h"
 
 #ifndef _WIN32
 #include <errno.h>
 typedef int errno_t;
 static errno_t fopen_s(FILE **f, const char *name, const char *mode) {
   *f = fopen(name, mode);
-  if (!*f)
-    return errno;
+  if (!*f) return errno;
   return 0;
 }
 
@@ -23,9 +22,9 @@ static ui32 GetTickCount() { return SDL_GetTicks(); }
 #endif
 
 #define DEVICE CDevice::m_pInstance
+#include <math.h>
 #include "font.h"
 #include "sprintf/spf.h"
-#include <math.h>
 
 CRect m_rcBuffer;
 CPoint m_cpBuffer;
@@ -66,8 +65,7 @@ int BIOS::LCD::Printf(int x, int y, unsigned short clrf, unsigned short clrb,
 
 int BIOS::LCD::Print(int x, int y, unsigned short clrf, unsigned short clrb,
                      char *str) {
-  if (!str || !*str)
-    return 0;
+  if (!str || !*str) return 0;
   int nAux = 0;
   int _x = x;
   for (; *str; str++) {
@@ -91,8 +89,7 @@ int BIOS::LCD::Print(int x, int y, unsigned short clrf, unsigned short clrb,
   const char *xx = str;
   xx=xx;
 #endif*/
-  if (!str || !*str)
-    return 0;
+  if (!str || !*str) return 0;
   int nAux = 0;
   int _x = x;
   for (; *str; str++) {
@@ -113,8 +110,7 @@ int BIOS::LCD::Print(const CPoint &cp, unsigned short clrf, char *str) {
 }
 
 void BIOS::LCD::PutPixel(int x, int y, unsigned short clr) {
-  if (clr == RGBTRANS)
-    return;
+  if (clr == RGBTRANS) return;
   ui32 *pBuf = (ui32 *)DEVICE->GetBuffer();
   pBuf[y * CDevice::Width + x] = FROM_565_TO_RGB(clr);
 }
@@ -131,8 +127,7 @@ void BIOS::LCD::PutPixel(const CPoint &cp, unsigned short clr) {
 void BIOS::LCD::Clear(unsigned short clr) {
   ui32 *pBuf = (ui32 *)DEVICE->GetBuffer();
   ui32 c = FROM_565_TO_RGB(clr);
-  for (int i = 0; i < CDevice::Width * CDevice::Height; i++, pBuf++)
-    *pBuf = c;
+  for (int i = 0; i < CDevice::Width * CDevice::Height; i++, pBuf++) *pBuf = c;
 }
 
 void BIOS::LCD::RoundRect(int x1, int y1, int x2, int y2, unsigned short clr) {
@@ -148,8 +143,7 @@ void BIOS::LCD::RoundRect(const CRect &rc, unsigned short clr) {
 
 void BIOS::LCD::Bar(int x1, int y1, int x2, int y2, unsigned short clr) {
   for (int x = x1; x < x2; x++)
-    for (int y = y1; y < y2; y++)
-      PutPixel(x, y, clr);
+    for (int y = y1; y < y2; y++) PutPixel(x, y, clr);
 }
 
 void BIOS::LCD::Bar(const CRect &rc, unsigned short clr) {
@@ -172,8 +166,7 @@ void BIOS::LCD::Pattern(int x1, int y1, int x2, int y2, const ui16 *pat,
     // for (int y=y1; y<y2; y++)
     for (int y = y2 - 1; y >= y1; y--) {
       PutPixel(x, y, *pat);
-      if (++pat == pate)
-        pat = patb;
+      if (++pat == pate) pat = patb;
     }
 }
 
@@ -199,8 +192,7 @@ int BIOS::LCD::Draw(int x, int y, unsigned short clrf, unsigned short clrb,
   int h = *p++;
   for (int _x = 0; _x < 80; _x++)
     for (int _y = 0; _y < h; _y++) {
-      if (!p[_x * h + _y])
-        return _x;
+      if (!p[_x * h + _y]) return _x;
       PutPixel(x + _x, y + _y, (p[_x * h + _y] & 4) ? clrf : clrb);
     }
   return 8;
@@ -252,8 +244,7 @@ ui8 _Round(int x, int y) {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   };
-  if (x < 8 && y < 8)
-    return r[y * 8 + x];
+  if (x < 8 && y < 8) return r[y * 8 + x];
   return 0;
 }
 
@@ -264,16 +255,14 @@ int _DrawChar(int x, int y, unsigned short clrf, unsigned short clrb, char ch) {
       ui8 col = ~*pFont++;
 
       for (ui8 _x = 0; _x < 8; _x++, col <<= 1)
-        if (col & 128)
-          BIOS::LCD::PutPixel(x + _x, y + _y, clrf);
+        if (col & 128) BIOS::LCD::PutPixel(x + _x, y + _y, clrf);
     }
   } else if (clrf == RGBTRANS) {
     for (ui8 _y = 0; _y < 14; _y++) {
       ui8 col = ~*pFont++;
 
       for (ui8 _x = 0; _x < 8; _x++, col <<= 1)
-        if ((col & 128) == 0)
-          BIOS::LCD::PutPixel(x + _x, y + _y, clrb);
+        if ((col & 128) == 0) BIOS::LCD::PutPixel(x + _x, y + _y, clrb);
     }
   } else {
     for (ui8 _y = 0; _y < 14; _y++) {
@@ -313,8 +302,7 @@ ui16 FROM_RGB_TO_565(unsigned int clrrgb) {
 
 void BIOS::LCD::Buffer(int x, int y, unsigned short *pBuffer, int n) {
   y += n;
-  while (n--)
-    PutPixel(x, --y, *pBuffer++);
+  while (n--) PutPixel(x, --y, *pBuffer++);
 }
 
 ui32 BIOS::SYS::GetTick() { return GetTickCount(); }
@@ -387,63 +375,59 @@ void BIOS::ADC::Configure(ui8 nACouple, ui8 nARange, ui16 nAOffset,
 bool bADCReady = false;
 unsigned char BIOS::ADC::Ready() {
   static long lLast = 0;
-  if (!bADCEnabled)
-    return false;
-  if (bADCReady)
-    return bADCReady;
+  if (!bADCEnabled) return false;
+  if (bADCReady) return bADCReady;
   long lTick = GetTickCount();
-  if (lLast == 0)
-    lLast = GetTickCount();
+  if (lLast == 0) lLast = GetTickCount();
   bADCReady = (GetTickCount() - lLast) > 20;
-  if (bADCReady)
-    lLast = lTick;
+  if (bADCReady) lLast = lTick;
   return bADCReady;
 }
 
 unsigned long BIOS::ADC::Get() {
   static long lCounter = 0;
-  if (lCounter == 4096)
-    lCounter = 0;
+  if (lCounter == 4096) lCounter = 0;
 
   FLOAT a, b;
 
   switch (4) {
-  case 1: {
-    FLOAT fm = narrow_cast<float>((sin(GetTickCount() * 0.001f) + 1.0f) * 0.5f);
-    if (fm < 0.5)
-      fm = 0.8f - 0.7f * fm;
-    else
-      fm = 0;
-    FLOAT fa = 0.035f + (GetTickCount() % 20000) / 20000.0f * 0.14f;
-    a = narrow_cast<float>(cos(lCounter * (fa)*10) * (fm) + 0.2f);
-    b = narrow_cast<float>(sin(lCounter * 0.011f + 1) * 0.5f);
+    case 1: {
+      FLOAT fm =
+          narrow_cast<float>((sin(GetTickCount() * 0.001f) + 1.0f) * 0.5f);
+      if (fm < 0.5)
+        fm = 0.8f - 0.7f * fm;
+      else
+        fm = 0;
+      FLOAT fa = 0.035f + (GetTickCount() % 20000) / 20000.0f * 0.14f;
+      a = narrow_cast<float>(cos(lCounter * (fa)*10) * (fm) + 0.2f);
+      b = narrow_cast<float>(sin(lCounter * 0.011f + 1) * 0.5f);
 
-    break;
-  }
+      break;
+    }
 
-  case 2: {
-    FLOAT fm = 1;
-    FLOAT fa = 0.035f; // + (GetTickCount()%20000)/20000.0f*0.14f;
-    a = narrow_cast<float>(cos(lCounter * (fa)*10) * (fm) + 0.2f);
-    b = narrow_cast<float>(sin(lCounter * 0.011f + 1) * 0.5f);
-    break;
-  }
+    case 2: {
+      FLOAT fm = 1;
+      FLOAT fa = 0.035f;  // + (GetTickCount()%20000)/20000.0f*0.14f;
+      a = narrow_cast<float>(cos(lCounter * (fa)*10) * (fm) + 0.2f);
+      b = narrow_cast<float>(sin(lCounter * 0.011f + 1) * 0.5f);
+      break;
+    }
 
-  case 3: {
-    a = 0;
-    b = 0;
-    float t = narrow_cast<float>(-pow(abs(cos(GetTickCount() * 0.001f)), 50));
-    a = t / 3;
-    break;
-  }
+    case 3: {
+      a = 0;
+      b = 0;
+      float t = narrow_cast<float>(-pow(abs(cos(GetTickCount() * 0.001f)), 50));
+      a = t / 3;
+      break;
+    }
 
-  case 4: {
-    FLOAT fm = 1;
-    FLOAT fa = 0.05f;
-    a = narrow_cast<float>(sin(lCounter * fa + 3.14 / 2) * 0.8);
-    b = narrow_cast<float>(sin(lCounter * fa) * 0.25f);
-    break;
-  }
+    case 4: {
+      FLOAT fm = 1;
+      FLOAT fa = 0.05f;
+      a = narrow_cast<float>(sin(lCounter * fa + 3.14 / 2) * 0.8);
+      b = narrow_cast<float>(sin(lCounter * fa) * 0.25f);
+      break;
+    }
   }
   // fa = lCounter*0.0001f;
   unsigned long da = (ui32)((a + 1.0f) * 127);
@@ -521,8 +505,7 @@ bool BIOS::DSK::Read(FILEINFO *pFileInfo, ui8 *pSectorData) {
 }
 
 bool BIOS::DSK::Write(FILEINFO *pFileInfo, ui8 *pSectorData) {
-  if (fwrite(pSectorData, 512, 1, pFileInfo->f) != 1)
-    return false;
+  if (fwrite(pSectorData, 512, 1, pFileInfo->f) != 1) return false;
   pFileInfo->nSectors++;
   return true;
 }
@@ -557,8 +540,7 @@ void BIOS::DBG::Print(const char *format, ...) {
     if (*bbuf == '\n' || px >= 400 - 8) {
       px = 0;
       py += 14;
-      if (py > 240 - 16)
-        py = 0;
+      if (py > 240 - 16) py = 0;
       continue;
     }
     px += _DrawChar(px, py, RGB565(ffffff), RGB565(0000B0), *bbuf);
@@ -614,17 +596,17 @@ int BIOS::SERIAL::Getch() {
   if (pserial == NULL || *pserial == 0) {
     int nRandom = 0;
     switch (nRandom) {
-    case 0:
-      break;
-    case 1:
-      pserial = "WND.Dump();\n";
-      break;
-    case 2:
-      pserial = "WND.Message(WND::WmKey, KEY::Left);\n";
-      break;
-    case 3:
-      pserial = "MENU.Item=5;\n";
-      break;
+      case 0:
+        break;
+      case 1:
+        pserial = "WND.Dump();\n";
+        break;
+      case 2:
+        pserial = "WND.Message(WND::WmKey, KEY::Left);\n";
+        break;
+      case 3:
+        pserial = "MENU.Item=5;\n";
+        break;
     }
     return -1;
   }
@@ -652,10 +634,10 @@ ui32 BIOS::VER::GetDisplayType() { return ToDword('v', 'g', 'a', 0); }
 
 void BIOS::VER::DrawLogo(int x, int y) {}
 
-void BIOS::SYS::SetBacklight(int nLevel) // 0..100
+void BIOS::SYS::SetBacklight(int nLevel)  // 0..100
 {}
 
-void BIOS::SYS::SetVolume(int nLevel) // 0..100
+void BIOS::SYS::SetVolume(int nLevel)  // 0..100
 {}
 /*
 void BIOS::ADC::ConfigureBuffer(int nLength)
@@ -671,12 +653,9 @@ void BIOS::ADC::GetBufferRange(int& nBegin, int& nEnd)
 
 BIOS::ADC::EState BIOS::ADC::GetState() {
   int nAux = 0;
-  if (0)
-    nAux |= BIOS::ADC::Start;
-  if (0)
-    nAux |= BIOS::ADC::Empty;
-  if (0)
-    nAux |= BIOS::ADC::Full;
+  if (0) nAux |= BIOS::ADC::Start;
+  if (0) nAux |= BIOS::ADC::Empty;
+  if (0) nAux |= BIOS::ADC::Full;
 
   return (BIOS::ADC::EState)(nAux);
 }
@@ -686,7 +665,7 @@ int BIOS::SYS::Get(int, int) { return 0; }
 void BIOS::SYS::Set(int, int) {}
 
 int BIOS::ADC::GetPointer() {
-  return 2048; // 4096;
+  return 2048;  // 4096;
 }
 
 int BIOS::SYS::GetTemperature() { return 2068; }
@@ -789,10 +768,8 @@ char strFind[128];
 BIOS::FAT::EResult BIOS::FAT::OpenDir(char *strPath) {
   CUtils::StrCpy(strFind, strPath);
   char *strFound = NULL;
-  while ((strFound = strstr(strFind, "/")) != NULL)
-    *strFound = '\\';
-  if (strFind[0] != 0)
-    CUtils::StrCat(strFind, "\\");
+  while ((strFound = strstr(strFind, "/")) != NULL) *strFound = '\\';
+  if (strFind[0] != 0) CUtils::StrCat(strFind, "\\");
   CUtils::StrCat(strFind, "*.*");
   bResetFind = true;
   return BIOS::FAT::EOk;
@@ -812,9 +789,9 @@ BIOS::FAT::EResult BIOS::FAT::FindNext(TFindFile *pFile) {
   }
 
   if (FindFileData.dwFileAttributes != FILE_ATTRIBUTE_DIRECTORY)
-    pFile->nAtrib = BIOS::FAT::EArchive; // AM_ARC
+    pFile->nAtrib = BIOS::FAT::EArchive;  // AM_ARC
   else
-    pFile->nAtrib = BIOS::FAT::EDirectory; // AM_ARC
+    pFile->nAtrib = BIOS::FAT::EDirectory;  // AM_ARC
 
   pFile->nFileLength = FindFileData.nFileSizeLow;
   char strName[128] = {0};
@@ -839,10 +816,8 @@ BIOS::FAT::EResult BIOS::FAT::FindNext(TFindFile *pFile) {
 
 FILEINFO fatFile;
 BIOS::FAT::EResult BIOS::FAT::Open(const char *strName, ui8 nIoMode) {
-  if (nIoMode == BIOS::DSK::IoRead)
-    fatFile.f = fopen(strName, "rb");
-  if (nIoMode == BIOS::DSK::IoWrite)
-    fatFile.f = fopen(strName, "wb");
+  if (nIoMode == BIOS::DSK::IoRead) fatFile.f = fopen(strName, "rb");
+  if (nIoMode == BIOS::DSK::IoWrite) fatFile.f = fopen(strName, "wb");
   fatFile.nSectors = 0;
   int e = GetLastError();
   return (fatFile.f != NULL && fatFile.f != INVALID_HANDLE_VALUE)
@@ -891,12 +866,10 @@ int BIOS::SYS::GetSharedLength() { return 4096; }
 void NullFunction() {}
 
 void *BIOS::SYS::GetProcAddress(const char *strFuncName) {
-#define EXPORT(f, decl)                                                        \
-  if (strcmp(strFuncName, #f) == 0)                                            \
-    return (void *)(decl)&f;
-#define EXPORT_ALIAS(al, f, decl)                                              \
-  if (strcmp(strFuncName, #al) == 0)                                           \
-    return (void *)(decl)&f;
+#define EXPORT(f, decl) \
+  if (strcmp(strFuncName, #f) == 0) return (void *)(decl)&f;
+#define EXPORT_ALIAS(al, f, decl) \
+  if (strcmp(strFuncName, #al) == 0) return (void *)(decl)&f;
   EXPORT(BIOS::LCD::PutPixel, void (*)(int, int, ui16));
   EXPORT(BIOS::LCD::Print, int (*)(int, int, ui16, ui16, const char *));
   EXPORT(BIOS::KEY::GetKeys, ui16(*)());

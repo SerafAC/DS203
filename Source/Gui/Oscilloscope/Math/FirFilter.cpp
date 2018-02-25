@@ -23,8 +23,7 @@ void CFirFilter::PushRingBuffer(int n) {
   UTILS.Clamp<int>(n, 0, 255);
   ui8 n8 = (ui8)n;
   GetRingBuffer(m_nRingPos) = n8;
-  if (++m_nRingPos == GetFirLength())
-    m_nRingPos = 0;
+  if (++m_nRingPos == GetFirLength()) m_nRingPos = 0;
 }
 
 LINKERSECTION(".extra")
@@ -32,16 +31,17 @@ void CFirFilter::CreateSampleFilter() {
   GetFirLength() = 2;
   GetFirCoefficient(0) = +1;
   GetFirCoefficient(1) = -1;
-  const char *strContent = "# DS203 FIR filter file\n"
-                           "# Name: Simple derivation\n"
-                           "#\n"
-                           "# Filter length\n"
-                           "# 1..255\n"
-                           "2\n"
-                           "# Filter coefficients\n"
-                           "# in range <-128, 127>\n"
-                           "1\n"
-                           "-1\n";
+  const char *strContent =
+      "# DS203 FIR filter file\n"
+      "# Name: Simple derivation\n"
+      "#\n"
+      "# Filter length\n"
+      "# 1..255\n"
+      "2\n"
+      "# Filter coefficients\n"
+      "# in range <-128, 127>\n"
+      "1\n"
+      "-1\n";
 
   CBufferedWriter f;
   f.Open((PSTR) "FILTER  TXT");
@@ -54,8 +54,7 @@ void CFirFilter::CreateSampleFilter() {
 
 bool CFirFilter::LoadFilter(const char *strName) {
   CBufferedReader f;
-  if (!f.Open((PSTR)strName))
-    return false;
+  if (!f.Open((PSTR)strName)) return false;
   char line[32];
 
   do
@@ -82,11 +81,9 @@ void CFirFilter::Reset() {
   m_nRingPos = 0;
   m_nCounter = 0;
   if (GetFirLength() == 0) {
-    if (!LoadFilter("FILTER  TXT"))
-      CreateSampleFilter();
+    if (!LoadFilter("FILTER  TXT")) CreateSampleFilter();
   }
-  for (int i = 0; i < GetFirLength(); i++)
-    PushRingBuffer(0);
+  for (int i = 0; i < GetFirLength(); i++) PushRingBuffer(0);
 }
 
 void CFirFilter::operator<<(int o) {
@@ -96,14 +93,12 @@ void CFirFilter::operator<<(int o) {
 
 void CFirFilter::operator>>(int &o) {
   o = 0;
-  if (m_nCounter < m_nLength)
-    return;
+  if (m_nCounter < m_nLength) return;
 
   int nFirBase = m_nRingPos + m_nLength - 1;
   int nFirOfs = (nFirBase - 1) % m_nLength;
   for (int i = 0; i < m_nLength; i++) {
     o += ((int)GetRingBuffer(nFirOfs)) * GetFirCoefficient(i);
-    if (++nFirOfs == m_nLength)
-      nFirOfs = 0;
+    if (++nFirOfs == m_nLength) nFirOfs = 0;
   }
 }

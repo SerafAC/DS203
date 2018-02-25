@@ -6,7 +6,7 @@
 #include "Source/Gui/Toolbar.h"
 
 class CWndMenuKeySettings : public CWnd {
-public:
+ public:
   CItemBeepOnOff m_itmBeepOnOff;
   CProviderShortcut m_proShortcutCircle;
   CItemShortcut m_itmShortcutCircle;

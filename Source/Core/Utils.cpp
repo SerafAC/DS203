@@ -15,12 +15,9 @@ char tmp[16];
 }
 
 int hexval(char ch) {
-  if (ch >= '0' && ch <= '9')
-    return ch - '0';
-  if (ch >= 'A' && ch <= 'F')
-    return ch - 'A' + 10;
-  if (ch >= 'a' && ch <= 'f')
-    return ch - 'a' + 10;
+  if (ch >= '0' && ch <= '9') return ch - '0';
+  if (ch >= 'A' && ch <= 'F') return ch - 'A' + 10;
+  if (ch >= 'a' && ch <= 'f') return ch - 'a' + 10;
   return -1;
 }
 /*
@@ -68,8 +65,7 @@ bool ishex(char c)
     tmp[i++] = '0' + (n % 10);
     n /= 10;
   }
-  if (bSignum)
-    tmp[i++] = '-';
+  if (bSignum) tmp[i++] = '-';
   tmp[i] = 0;
   for (int j = 0; j < i / 2; j++) {
     char t = tmp[j];
@@ -93,8 +89,7 @@ bool ishex(char c)
   BIOS::DBG::sprintf(tmp, "%f", fV);
   int nLen = CUtils::StrLen(tmp);
   _ASSERT(nLen < 15);
-  while (nLen > nChars - 1)
-    tmp[--nLen] = 0;
+  while (nLen > nChars - 1) tmp[--nLen] = 0;
   tmp[nLen++] = ' ';
   tmp[nLen++] = 'V';
   tmp[nLen] = 0;
@@ -114,10 +109,8 @@ bool ishex(char c)
   BIOS::DBG::sprintf(tmp, "%f", fF);
   int nLen = CUtils::StrLen(tmp);
   int nLenUnits = CUtils::StrLen(strUnits);
-  while (nLen + nLenUnits > nChars)
-    tmp[--nLen] = 0;
-  if (tmp[nLen - 1] == '.')
-    tmp[--nLen] = 0;
+  while (nLen + nLenUnits > nChars) tmp[--nLen] = 0;
+  if (tmp[nLen - 1] == '.') tmp[--nLen] = 0;
   CUtils::StrCat(tmp, strUnits);
   return tmp;
 }
@@ -136,10 +129,8 @@ bool ishex(char c)
   BIOS::DBG::sprintf(tmp, "%f", fT);
   int nLen = CUtils::StrLen(tmp);
   int nLenUnits = CUtils::StrLen(strUnits);
-  while (nLen + nLenUnits > nChars)
-    tmp[--nLen] = 0;
-  if (tmp[nLen - 1] == '.')
-    tmp[--nLen] = 0;
+  while (nLen + nLenUnits > nChars) tmp[--nLen] = 0;
+  if (tmp[nLen - 1] == '.') tmp[--nLen] = 0;
   CUtils::StrCat(tmp, strUnits);
   return tmp;
 }
@@ -151,8 +142,7 @@ bool ishex(char c)
 
 /*static*/ char *CUtils::FormatFloat5(float f) {
   tmp[0] = (f < 0.0f) ? '-' : ' ';
-  if (f < 0)
-    f = -f;
+  if (f < 0) f = -f;
 
   //	_ASSERT( f < 10.0f );
   f += 0.0005f;
@@ -165,18 +155,19 @@ bool ishex(char c)
 }
 
 /*static*/ char *CUtils::MidiNote(int n) {
-  const static char notes[] = "C-"
-                              "C#"
-                              "D-"
-                              "D#"
-                              "E-"
-                              "F-"
-                              "F#"
-                              "G-"
-                              "G#"
-                              "A-"
-                              "A#"
-                              "B-";
+  const static char notes[] =
+      "C-"
+      "C#"
+      "D-"
+      "D#"
+      "E-"
+      "F-"
+      "F#"
+      "G-"
+      "G#"
+      "A-"
+      "A#"
+      "B-";
   if (n < 12 || n >= 78) {
     tmp[0] = '?';
     tmp[1] = 0;
@@ -231,7 +222,7 @@ int CUtils::StrLen(const char *s) {
   while (*t) {
     t++;
   }
-  return (int)(t - s); // assuming in int range
+  return (int)(t - s);  // assuming in int range
 }
 
 char *CUtils::StrCpy(char *dst, const char *src) {

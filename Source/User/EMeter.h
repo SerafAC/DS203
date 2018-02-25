@@ -26,7 +26,7 @@ class CWndEMeter : public CWnd {
   int nOldSync;
   int nOldStandby;
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndEnergyMeter",
                  dwFlags | CWnd::WsListener | CWnd::WsNoActivate,
@@ -51,11 +51,11 @@ public:
       nOldResolution = Settings.Time.Resolution;
       nOldSync = Settings.Trig.Sync;
       //			Settings.CH1.Resolution =
-      //CSettings::AnalogChannel::_200mV;
+      // CSettings::AnalogChannel::_200mV;
       Settings.Time.Resolution = CSettings::TimeBase::_200us;
       Settings.Trig.Sync = CSettings::Trigger::_Scan;
       nOldStandby = Settings.Runtime.m_nStandby;
-      Settings.Runtime.m_nStandby = 0; // disable standby
+      Settings.Runtime.m_nStandby = 0;  // disable standby
       CCoreOscilloscope::ConfigureAdc();
       return;
     }

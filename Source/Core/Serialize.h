@@ -10,7 +10,7 @@ class CStream;
 #define _E(x) reinterpret_cast<NATIVEENUM *>(&x)
 
 class CSerialize {
-public:
+ public:
   virtual CSerialize &operator<<(CStream &stream);
   virtual CSerialize &operator>>(CStream &stream);
 };
@@ -20,7 +20,7 @@ class CStream {
   int m_nOffset;
   int m_nLength;
 
-public:
+ public:
   CStream(PVOID pBuffer, int nLength) {
     m_pBuffer = pBuffer;
     m_nLength = nLength;
@@ -39,10 +39,11 @@ public:
   template <class T>
   CStream(T &n) : m_pBuffer(&n), m_nOffset(0), m_nLength(sizeof(T)) {}
 
-private:
-  template <class T> CStream(T *n);
+ private:
+  template <class T>
+  CStream(T *n);
 
-public:
+ public:
   CStream &operator<<(const CStream &data) {
     _ASSERT(data.m_nLength < m_nLength - m_nOffset);
     memcpy(((ui8 *)m_pBuffer) + m_nOffset, data.m_pBuffer, data.m_nLength);

@@ -8,7 +8,7 @@
 #include <Source/Gui/Generator/Core/CoreGenerator.h>
 
 class CWndMenuGeneratorEdit : public CWnd {
-public:
+ public:
   CWndMenuItem m_itmCopy;
   CWndMenuItem m_itmNormalize;
   CWndMenuItem m_itmInvert;

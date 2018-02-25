@@ -1,15 +1,15 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_MATH_ITEMOPERAND_H
 #define DSO_GUI_OSCILLOSCOPE_MATH_ITEMOPERAND_H
-#include <Source/HwLayer/Bios.h>
 #include <Source/Core/Controls.h>
 #include <Source/Core/Settings.h>
+#include <Source/HwLayer/Bios.h>
 
 class CItemOperand : public CWndMenuItem {
-public:
+ public:
   CSettings::MathOperand *m_pOper;
 
-public:
+ public:
   virtual void Create(CSettings::MathOperand *pOper, CWnd *pParent) {
     _ASSERT(pOper);
     m_pOper = pOper;

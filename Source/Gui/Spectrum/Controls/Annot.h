@@ -5,7 +5,7 @@
 #include <Source/Framework/Wnd.h>
 
 class CWndSpecAnnotations : public CWnd {
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 wFlags) {
     CWnd::Create("CWndSpecAnnotations", wFlags | CWnd::WsNoActivate,
                  CRect(0, 0, 1, 1), pParent);

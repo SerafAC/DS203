@@ -27,10 +27,10 @@ bool HasOverlay();
 #undef ADD_MODULE
 
 class CMainWnd : public CWnd {
-public:
+ public:
   static CMainWnd *m_pInstance;
 
-public:
+ public:
   CMouse m_Mouse;
   CWndToolBar m_wndToolBar;
   CWndOscGraph m_wndGraph;
@@ -87,13 +87,13 @@ public:
   void OnMouseClick();
   void Resample();
 
-private:
+ private:
   // auto trigger
   long m_lLastAcquired;
   int m_nLastKey;
   bool m_bSleeping;
 
-private:
+ private:
   void SdkDiskProc();
   void SdkUartProc();
   void CallShortcut(int nShortcut);

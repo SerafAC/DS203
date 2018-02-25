@@ -15,13 +15,13 @@ class CMeasStatistics {
   CSettings::Calibrator::FastCalc fastCalc1;
   CSettings::Calibrator::FastCalc fastCalc2;
 
-public:
+ public:
   bool Process(CSettings::Measure::ESource src,
                CSettings::Measure::ERange range);
   float GetPeriod();
   float GetFreq();
   float GetChannelsDelta(bool rising);
-  float GetSigma(); // variance
+  float GetSigma();  // variance
   float GetBaud();
   float GetMin();
   float GetMax();
@@ -38,7 +38,7 @@ public:
   float GetReactivePower();
   float GetApparentPower();
 
-private:
+ private:
   bool _GetRange(int &nBegin, int &nEnd, CSettings::Measure::ERange range);
   float _GetSamplef(BIOS::ADC::TSample &nSample);
   int _GetSample(BIOS::ADC::TSample nSample);

@@ -43,7 +43,7 @@ CSettings *CSettings::m_pInstance = NULL;
     "1s"};
 
 /*static*/ const int
-    CSettings::TimeBase::pfValueResolutionCorrection[] = // florian
+    CSettings::TimeBase::pfValueResolutionCorrection[] =  // florian
     {/*246,*/ 492, 614,  819,  983,  1024, 1024, 1024,
      1024,         1024, 1024, 1024, 1024, 1024, 1024,
      1024,         1024, 1024, 1024, 1024, 1024, 1024};
@@ -315,9 +315,9 @@ void CSettings::Reset() {
   // (CMainWnd::m_pInstance = NULL)
   Runtime.m_nShortcutCircle = CRuntime::Toolbox;
   Runtime.m_nShortcutTriangle =
-      CRuntime::None; // CToolbar::Find( );CRuntime::_StartStop;
-  Runtime.m_nShortcutS1 = CRuntime::None; // CWndToolBar::Find( "Generator" );
-  Runtime.m_nShortcutS2 = CRuntime::None; // CWndToolBar::Find( "Meter" );
+      CRuntime::None;  // CToolbar::Find( );CRuntime::_StartStop;
+  Runtime.m_nShortcutS1 = CRuntime::None;  // CWndToolBar::Find( "Generator" );
+  Runtime.m_nShortcutS2 = CRuntime::None;  // CWndToolBar::Find( "Meter" );
   Runtime.m_nStandby = 5;
 
   Runtime.m_bUartTest = true;
@@ -400,8 +400,8 @@ void CSettings::ResetCalibration() {
 
 #define CONCAT2(x, y) x##y
 #define CONCAT(x, y) CONCAT2(x, y)
-#define _COPY(type, target, ...)                                               \
-  const static type CONCAT(tmp, __LINE__)[] = __VA_ARGS__;                     \
+#define _COPY(type, target, ...)                           \
+  const static type CONCAT(tmp, __LINE__)[] = __VA_ARGS__; \
   memcpy(target, CONCAT(tmp, __LINE__), sizeof(CONCAT(tmp, __LINE__)));
 
   //	_COPY( si16, CH1Calib.CalData[AnalogChannel::_200mV].m_arrCurveQin,
@@ -507,12 +507,9 @@ ui32 CSettings::GetStaticChecksum() {
   bufStream << *this;
   Settings.Runtime.m_nUptime = nUptime;
 
-  for (int i = 0; i < 6; i++)
-    Meas[i].fValue = arrMeasValues[i];
-  if (MarkY1.Mode == Marker::_Auto)
-    MarkY1.nValue = arrMarkY[0];
-  if (MarkY2.Mode == Marker::_Auto)
-    MarkY2.nValue = arrMarkY[1];
+  for (int i = 0; i < 6; i++) Meas[i].fValue = arrMeasValues[i];
+  if (MarkY1.Mode == Marker::_Auto) MarkY1.nValue = arrMarkY[0];
+  if (MarkY2.Mode == Marker::_Auto) MarkY2.nValue = arrMarkY[1];
 
   return bufStream.GetChecksum();
 }

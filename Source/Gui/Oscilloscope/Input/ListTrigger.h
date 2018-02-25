@@ -6,7 +6,7 @@
 #include <Source/Core/Settings.h>
 
 class CWndListTrigger : public CListBox {
-public:
+ public:
   CProviderEnum m_proSync;
   CProviderEnum m_proType;
   CProviderEnum m_proSource;
@@ -24,7 +24,7 @@ public:
   CLPItem m_itmTrigPosition;
   // DSO does not allow to change the time offset
 
-public:
+ public:
   void Create(CWnd *pParent) {
     CListBox::Create("Trigger", WsVisible | WsModal, CRect(120, 55, 319, 201),
                      RGB565(404040), pParent);

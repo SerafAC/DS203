@@ -9,7 +9,7 @@
 class CItemGenWaveform : public CItemProvider {
   CProviderEnum m_proWave;
 
-public:
+ public:
   void Create(CWnd *pParent) {
     m_proWave.Create((const char **)CSettings::Generator::ppszTextWave,
                      (NATIVEENUM *)&Settings.Gen.Wave,

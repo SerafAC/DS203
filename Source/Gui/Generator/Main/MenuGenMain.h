@@ -15,7 +15,7 @@
 #include "ItemGenWaveform.h"
 
 class CWndMenuGenerator : public CCoreGenerator, public CWnd {
-public:
+ public:
   CItemGenWaveform m_itmWave;
   CItemFrequency m_itmFreq;
   CItemAmplitude m_itmAmpl;

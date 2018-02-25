@@ -17,7 +17,7 @@ ADD_MODULE("Manager", CWndUserManager)
 
 class CWndUserManager : public CWnd {
   struct TLoadedModule {
-    char strFileName[16]; // 13 is enough but the packing will resize it to 16
+    char strFileName[16];  // 13 is enough but the packing will resize it to 16
     ui32 dwFileLength;
     ui32 dwEntry;
     ui32 dwBegin;
@@ -27,7 +27,7 @@ class CWndUserManager : public CWnd {
   CArray<BIOS::FAT::TFindFile> m_arrFiles;
   CArray<TLoadedModule> m_arrLoaded;
 
-public:
+ public:
   CWndUserManager();
   virtual void Create(CWnd *pParent, ui16 dwFlags);
   virtual void OnPaint();
@@ -35,7 +35,7 @@ public:
   virtual void OnMessage(CWnd *pSender, ui16 code, ui32 data);
   virtual void OnKey(ui16 nKey);
 
-private:
+ private:
   void InitFileList();
   bool LoadFileList(char *strPath);
   void SortFileList();

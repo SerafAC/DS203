@@ -2,25 +2,25 @@
 #ifndef DSO_GUI_TOOLBOX_MANAGER_H
 #define DSO_GUI_TOOLBOX_MANAGER_H
 
+#include <Source/Core/Controls.h>
+#include <Source/Core/ListItems.h>
+#include <Source/Framework/Thread.h>
 #include "Export.h"
 #include "Import.h"
 #include "LineTabs.h"
-#include <Source/Core/Controls.h>
-#include <Source/Framework/Thread.h>
-#include <Source/Core/ListItems.h>
 
 class CWndManager : public CListBox,
                     public CThread,
                     public CExport,
                     public CImport {
-public:
+ public:
   static const char *const tabs[];
   static const char *const strTemplateDisplay[];
   static const char *const strTemplateFile[];
 
   enum { Width = 250, Height = 120 };
 
-public:
+ public:
   bool m_bRunning;
   int m_nValue;
   char m_strCurrent[20];
@@ -45,7 +45,7 @@ public:
   void DoModal();
   void Cancel();
 
-private:
+ private:
   bool Exists(char *strName);
 };
 

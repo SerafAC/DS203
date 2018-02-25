@@ -52,8 +52,7 @@ void CWndUserTimer::OnTimer() {
     return;
   }
 
-  if (m_nValue > 0)
-    m_nValue--;
+  if (m_nValue > 0) m_nValue--;
 
   if (m_nValue == 0) {
     BIOS::GEN::ConfigureDc(BIOS::GEN::DcMin);
@@ -178,8 +177,7 @@ void CWndUserTimer::OnKey(ui16 nKey) {
     KillTimer();
     m_bRunning = !m_bRunning;
     m_nBeep = 3;
-    if (m_bRunning && m_nValue == 0)
-      m_nValue = m_nDefault;
+    if (m_bRunning && m_nValue == 0) m_nValue = m_nDefault;
     DrawNumbers();
     if (m_bRunning) {
       SetTimer(1000);
@@ -194,21 +192,16 @@ void CWndUserTimer::OnKey(ui16 nKey) {
 
   if ((nKey == BIOS::KEY::KeyLeft) || (nKey == BIOS::KEY::KeyRight)) {
     int nMul = 0;
-    if (GetFocus() == &m_btnDigit[3])
-      nMul = 1;
-    if (GetFocus() == &m_btnDigit[2])
-      nMul = 10;
-    if (GetFocus() == &m_btnDigit[1])
-      nMul = 60;
-    if (GetFocus() == &m_btnDigit[0])
-      nMul = 600;
+    if (GetFocus() == &m_btnDigit[3]) nMul = 1;
+    if (GetFocus() == &m_btnDigit[2]) nMul = 10;
+    if (GetFocus() == &m_btnDigit[1]) nMul = 60;
+    if (GetFocus() == &m_btnDigit[0]) nMul = 600;
 
     if (nMul != 0) {
       m_nDefault += (nKey == BIOS::KEY::KeyLeft) ? -nMul : nMul;
       UTILS.Clamp<int>(m_nDefault, 0, 60 * 99);
       m_nValue = m_nDefault;
-      if (m_nValue)
-        m_bRunning = false;
+      if (m_nValue) m_bRunning = false;
       KillTimer();
       DrawNumbers();
     }
@@ -325,6 +318,6 @@ LINKERSECTION(".extra")
     0x47, 0x30, 0x0c, 0x10, 0x03, 0x63, 0x14, 0x47, 0x30, 0x0d, 0x10, 0x03,
     0x43, 0x24, 0x40, 0x14, 0x03, 0x23, 0x00, 0x92, 0x00, 0x42, 0x40, 0x08,
     0x40,
-}; // 157 bytes
+};  // 157 bytes
 
 #endif

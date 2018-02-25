@@ -8,7 +8,7 @@
 #include "ItemVolume.h"
 
 class CWndMenuSettings : public CWnd {
-public:
+ public:
   CMIBacklight m_itmBacklight;
   CMIVolume m_itmVolume;
   CMIAutoOff m_itmAutoOff;

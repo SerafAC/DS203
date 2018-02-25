@@ -1,14 +1,14 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_GRAPHSIG_H
 #define DSO_GUI_OSCILLOSCOPE_CONTROLS_GRAPHSIG_H
-#include <Source/HwLayer/Bios.h>
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
+#include <Source/HwLayer/Bios.h>
 
 class CWndSigGraph : public CWndGraph {
   const ui16 *m_pSignal;
   ui16 m_nCount;
 
-public:
+ public:
   CWndSigGraph() : CWndGraph() { m_pSignal = NULL; }
 
   void Setup(const ui16 *pSignal, ui16 nCount) {
@@ -21,8 +21,7 @@ public:
     BIOS::LCD::Bar(m_rcClient, RGB565(000000));
 
     CWndGraph::OnPaint();
-    if (!m_pSignal)
-      return;
+    if (!m_pSignal) return;
 
     int nWidth = m_rcClient.Width();
     int nHeight = m_rcClient.Height();
@@ -34,8 +33,7 @@ public:
       ui16 y = m_pSignal[i * m_nCount / nWidth];
       _ASSERT(y < 0x1000);
       y = y * nHeight / 0x1000;
-      if (i == 0)
-        oy = y;
+      if (i == 0) oy = y;
 
       BIOS::LCD::Line(m_rcClient.left + i - 1, nBaseY - oy, m_rcClient.left + i,
                       nBaseY - y, RGB565(ffffff));

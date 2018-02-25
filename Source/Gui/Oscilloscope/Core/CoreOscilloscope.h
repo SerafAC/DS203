@@ -6,7 +6,7 @@
 #include <Source/HwLayer/Types.h>
 
 class CCoreOscilloscope {
-public:
+ public:
   static void ConfigureAdc();
   static void ConfigureTrigger();
   static void UpdateConstants();

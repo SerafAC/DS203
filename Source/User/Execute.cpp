@@ -1,11 +1,10 @@
-#include "Manager.h"
 #include <Source/Core/BufferedIo.h>
 #include <Source/Library/elf.h>
+#include "Manager.h"
 
 bool CWndUserManager::ElfGetInterpreter(char *strName, char *strInterpreter) {
   CBufferedReader2 fw;
-  if (!fw.Open(strName))
-    return false;
+  if (!fw.Open(strName)) return false;
 
   Elf32_Ehdr elfHeader;
   Elf32_Phdr elfProgram;
@@ -37,8 +36,7 @@ bool Verify(CBufferedReader2 &f, Elf32_Shdr &elfSection) {
   for (int i = 0; i < (int)elfSection.size; i++, pMem++) {
     ui8 bData;
     f >> bData;
-    if (bData != *pMem)
-      return false;
+    if (bData != *pMem) return false;
   }
   return true;
 }
@@ -46,8 +44,7 @@ bool Verify(CBufferedReader2 &f, Elf32_Shdr &elfSection) {
 bool VerifyZero(CBufferedReader2 &f, Elf32_Shdr &elfSection) {
   ui8 *pMem = (ui8 *)elfSection.addr;
   for (int i = 0; i < (int)elfSection.size; i++, pMem++) {
-    if (0 != *pMem)
-      return false;
+    if (0 != *pMem) return false;
   }
   return true;
 }
@@ -65,8 +62,7 @@ void FlashRam(CBufferedReader2 &f, Elf32_Shdr &elfSection) {
 void ZeroRam(CBufferedReader2 &f, Elf32_Shdr &elfSection) {
   // section length should be aligned to 32bits!?
   ui8 *pWriteTo = (ui8 *)elfSection.addr;
-  for (int i = 0; i < (int)elfSection.size; i++)
-    *pWriteTo++ = 0;
+  for (int i = 0; i < (int)elfSection.size; i++) *pWriteTo++ = 0;
 }
 
 void FlashRom(CBufferedReader2 &f, Elf32_Shdr &elfSection) {
@@ -78,8 +74,7 @@ void FlashRom(CBufferedReader2 &f, Elf32_Shdr &elfSection) {
   for (int i = 0; i < nLength;) {
     ui8 buffer[64];
     int nToLoad = nLength - i;
-    if (nToLoad > 64)
-      nToLoad = 64;
+    if (nToLoad > 64) nToLoad = 64;
     f >> CStream(buffer, nToLoad);
     if (!BIOS::MEMORY::LinearProgram(dwAddr, buffer, nToLoad)) {
       _ASSERT(!!!"LinearProgram failed");
@@ -99,8 +94,7 @@ void ZeroRom(CBufferedReader2 &f, Elf32_Shdr &elfSection) {
   BIOS::MEMORY::LinearStart();
   for (int i = 0; i < nLength;) {
     int nToLoad = nLength - i;
-    if (nToLoad > 64)
-      nToLoad = 64;
+    if (nToLoad > 64) nToLoad = 64;
     if (!BIOS::MEMORY::LinearProgram(dwAddr, buffer, nToLoad)) {
       _ASSERT(!!!"LinearProgram failed");
     }
@@ -163,8 +157,7 @@ void CWndUserManager::ElfExecute(char *strName) {
   BIOS::LCD::Clear(0);
   BIOS::DBG::Print("Executing ELF image\n");
   CBufferedReader2 fw;
-  if (!fw.Open(strName))
-    return;
+  if (!fw.Open(strName)) return;
 
   Elf32_Ehdr elfHeader;
   Elf32_Shdr elfSection;
@@ -196,9 +189,9 @@ void CWndUserManager::ElfExecute(char *strName) {
     SecPlt = 4,
     SecGot = 5,
     SecDynamic = 6,
-    SecDynStr = 7, // we need to load symbol list before DynSym
+    SecDynStr = 7,  // we need to load symbol list before DynSym
     SecDynSym = 8,
-    SecRelPlt = 9, // process as last
+    SecRelPlt = 9,  // process as last
     SecInterp = 10,
     SecStringTab = 11,
     SecInit = 12,
@@ -224,8 +217,7 @@ void CWndUserManager::ElfExecute(char *strName) {
     // get section name
     char strSectionName[15];
     int nSectionNameMaxLen = nStringTableLen - elfSection.name;
-    if (nSectionNameMaxLen > 14)
-      nSectionNameMaxLen = 14;
+    if (nSectionNameMaxLen > 14) nSectionNameMaxLen = 14;
     strSectionName[14] = 0;
 
     fw.Seek(nStringTableOfs + elfSection.name);
@@ -280,109 +272,108 @@ void CWndUserManager::ElfExecute(char *strName) {
   }
 
   for (int i = 0; i < (int)COUNT(arrSectionIndex); i++) {
-    if (arrSectionIndex[i] == -1)
-      continue;
+    if (arrSectionIndex[i] == -1) continue;
 
     fw.Seek(elfHeader.shoff + arrSectionIndex[i] * sizeof(Elf32_Shdr));
     fw >> CStream(&elfSection, sizeof(Elf32_Shdr));
 
     BIOS::DBG::Print("%s>", arrSecNames[i]);
     switch (i) {
-    case SecText:
-    case SecData: {
-      _ASSERT(0);
-      FlashData(fw, elfSection);
-      break;
-    }
-    case SecPlt:
-    case SecGot:
-    case SecDynamic: {
-      FlashData(fw, elfSection);
-      break;
-    }
-    case SecBss: {
-      _ASSERT(0);
-      FlashBss(fw, elfSection);
-      break;
-    }
-    case SecDynStr: {
-      _ASSERT(elfSection.size < sizeof(strSymbolNames));
-      fw.Seek(elfSection.offset);
-      fw >> CStream(strSymbolNames, elfSection.size);
-      break;
-    }
-    case SecRelPlt: {
-      BIOS::DBG::Print("Matching imports...\n");
-      _ASSERT(arrSectionOffset[SecDynSym] != -1);
-      _ASSERT(arrSectionOffset[SecDynStr] != -1);
+      case SecText:
+      case SecData: {
+        _ASSERT(0);
+        FlashData(fw, elfSection);
+        break;
+      }
+      case SecPlt:
+      case SecGot:
+      case SecDynamic: {
+        FlashData(fw, elfSection);
+        break;
+      }
+      case SecBss: {
+        _ASSERT(0);
+        FlashBss(fw, elfSection);
+        break;
+      }
+      case SecDynStr: {
+        _ASSERT(elfSection.size < sizeof(strSymbolNames));
+        fw.Seek(elfSection.offset);
+        fw >> CStream(strSymbolNames, elfSection.size);
+        break;
+      }
+      case SecRelPlt: {
+        BIOS::DBG::Print("Matching imports...\n");
+        _ASSERT(arrSectionOffset[SecDynSym] != -1);
+        _ASSERT(arrSectionOffset[SecDynStr] != -1);
 
-      int nSymbolCount = elfSection.size / sizeof(Elf32_Rel);
-      for (int i = 0; i < nSymbolCount; i++) {
-        Elf32_Rel elfRelocation;
-        Elf32_Sym elfSymbol;
+        int nSymbolCount = elfSection.size / sizeof(Elf32_Rel);
+        for (int i = 0; i < nSymbolCount; i++) {
+          Elf32_Rel elfRelocation;
+          Elf32_Sym elfSymbol;
 
-        fw.Seek(elfSection.offset + i * sizeof(Elf32_Rel));
-        fw >> CStream(&elfRelocation, sizeof(Elf32_Rel));
+          fw.Seek(elfSection.offset + i * sizeof(Elf32_Rel));
+          fw >> CStream(&elfRelocation, sizeof(Elf32_Rel));
 
-        _ASSERT((elfRelocation.r_info & 0xff) == 0x16);
-        int nIndex = elfRelocation.r_info >> 8;
+          _ASSERT((elfRelocation.r_info & 0xff) == 0x16);
+          int nIndex = elfRelocation.r_info >> 8;
 
-        fw.Seek(arrSectionOffset[SecDynSym] + nIndex * sizeof(Elf32_Sym));
-        fw >> CStream(&elfSymbol, sizeof(Elf32_Sym));
-        char *strSymbolName = strSymbolNames + elfSymbol.st_name;
-        ui32 dwProcAddr = BIOS::SYS::GetProcAddress(strSymbolName);
-        BIOS::DBG::Print("Relocation %08x <- %08x '%s'.",
-                         elfRelocation.r_offset, dwProcAddr, strSymbolName);
-        if (i < nSymbolCount - 1) {
-          BIOS::DBG::Print("\n");
+          fw.Seek(arrSectionOffset[SecDynSym] + nIndex * sizeof(Elf32_Sym));
+          fw >> CStream(&elfSymbol, sizeof(Elf32_Sym));
+          char *strSymbolName = strSymbolNames + elfSymbol.st_name;
+          ui32 dwProcAddr = BIOS::SYS::GetProcAddress(strSymbolName);
+          BIOS::DBG::Print("Relocation %08x <- %08x '%s'.",
+                           elfRelocation.r_offset, dwProcAddr, strSymbolName);
+          if (i < nSymbolCount - 1) {
+            BIOS::DBG::Print("\n");
+          }
+          _ASSERT(dwProcAddr);
+#ifndef _WIN32
+          /*
+          0x20000E84 (GOT[2]) -> 0x20000DAC (PLT[0])
+          0x20000E84 (GOT[2]) <- new address
+          */
+          ui32 *pRelocation = (ui32 *)elfRelocation.r_offset;
+          *pRelocation = dwProcAddr;
+#endif
         }
-        _ASSERT(dwProcAddr);
+        break;
+      }
+      case SecInit: {
+        // last processed section before jumping to entry
+        int nCount = elfSection.size / sizeof(ui32);
+        fw.Seek(elfSection.offset);
+        for (int i = 0; i < nCount; i++) {
+          ui32 dwInitPtr;
+          fw >> dwInitPtr;
+          BIOS::DBG::Print("0x%08x", dwInitPtr);
 #ifndef _WIN32
-        /*
-        0x20000E84 (GOT[2]) -> 0x20000DAC (PLT[0])
-        0x20000E84 (GOT[2]) <- new address
-        */
-        ui32 *pRelocation = (ui32 *)elfRelocation.r_offset;
-        *pRelocation = dwProcAddr;
+          typedef void (*TInitFunc)();
+          TInitFunc InitFunc = (TInitFunc)dwInitPtr;
+          InitFunc();
 #endif
+          BIOS::DBG::Print(", ");
+        }
+        BIOS::DBG::Print("Done.");
+        break;
       }
-      break;
-    }
-    case SecInit: {
-      // last processed section before jumping to entry
-      int nCount = elfSection.size / sizeof(ui32);
-      fw.Seek(elfSection.offset);
-      for (int i = 0; i < nCount; i++) {
-        ui32 dwInitPtr;
-        fw >> dwInitPtr;
-        BIOS::DBG::Print("0x%08x", dwInitPtr);
-#ifndef _WIN32
-        typedef void (*TInitFunc)();
-        TInitFunc InitFunc = (TInitFunc)dwInitPtr;
-        InitFunc();
-#endif
-        BIOS::DBG::Print(", ");
+      case SecStrTab: {
+        _ASSERT(elfSection.size < sizeof(strSymbolNames));
+        fw.Seek(elfSection.offset);
+        fw >> CStream(strSymbolNames, elfSection.size);
+        break;
       }
-      BIOS::DBG::Print("Done.");
-      break;
-    }
-    case SecStrTab: {
-      _ASSERT(elfSection.size < sizeof(strSymbolNames));
-      fw.Seek(elfSection.offset);
-      fw >> CStream(strSymbolNames, elfSection.size);
-      break;
-    }
-    case SecSymTab: {
-      _ASSERT(arrSectionOffset[SecStrTab] != -1);
-      int nSymbolCount = elfSection.size / sizeof(Elf32_Sym);
-      for (int i = 0; i < nSymbolCount; i++) {
-        Elf32_Sym elfSymbol;
-        fw.Seek(elfSection.offset + i * sizeof(Elf32_Sym));
-        fw >> CStream(&elfSymbol, sizeof(Elf32_Sym));
-        char *strExportName = strSymbolNames + elfSymbol.st_name;
-        BIOS::DBG::Print("%s = %08x ", strExportName, elfSymbol.st_value);
+      case SecSymTab: {
+        _ASSERT(arrSectionOffset[SecStrTab] != -1);
+        int nSymbolCount = elfSection.size / sizeof(Elf32_Sym);
+        for (int i = 0; i < nSymbolCount; i++) {
+          Elf32_Sym elfSymbol;
+          fw.Seek(elfSection.offset + i * sizeof(Elf32_Sym));
+          fw >> CStream(&elfSymbol, sizeof(Elf32_Sym));
+          char *strExportName = strSymbolNames + elfSymbol.st_name;
+          BIOS::DBG::Print("%s = %08x ", strExportName, elfSymbol.st_value);
+        }
       }
-    }
     }
     BIOS::DBG::Print("\n");
   }

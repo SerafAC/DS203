@@ -10,7 +10,7 @@ class CProviderEnum : public CValueProvider {
   NATIVEENUM *m_pVal;
   NATIVEENUM m_Max;
 
-public:
+ public:
   void Create(const char **ppszText, NATIVEENUM *val, NATIVEENUM max) {
     m_ppszText = ppszText;
     m_pVal = val;
@@ -46,7 +46,7 @@ class CProviderNum : public CValueProvider {
   si16 m_nMin;
   si16 m_nMax;
 
-public:
+ public:
   void Create(si16 *val, si16 _min, si16 _max) {
     m_pVal = val;
     m_nMin = _min;
@@ -80,12 +80,13 @@ public:
   void SetMax(si16 nMax) { m_nMax = nMax; }
 };
 
-template <class T> class CProviderNumAny : public CValueProvider {
+template <class T>
+class CProviderNumAny : public CValueProvider {
   T *m_pVal;
   T m_nMin;
   T m_nMax;
 
-public:
+ public:
   void Create(T *val, T _min, T _max) {
     m_pVal = val;
     m_nMin = _min;
@@ -119,7 +120,7 @@ public:
 class CProviderColor : public CValueProvider {
   ui16 *m_pVal;
 
-public:
+ public:
   void Create(ui16 *pColor) { m_pVal = pColor; }
 
   virtual VPNavigate operator+(si8 d) { return Disabled; }
@@ -137,10 +138,10 @@ public:
 };
 
 class CProviderBtn : public CValueProvider {
-public:
+ public:
   const char *m_pName;
 
-public:
+ public:
   void Create(const char *pName) { m_pName = pName; }
 
   virtual VPNavigate operator+(si8 d) { return Disabled; }
@@ -161,11 +162,11 @@ public:
 };
 
 class CProviderRgb : public CValueProvider {
-public:
+ public:
   enum EComponent { Red, Green, Blue } m_Component;
   ui16 *m_pColor;
 
-public:
+ public:
   void Create(ui16 *pColor, EComponent Component) {
     m_pColor = pColor;
     m_Component = Component;
@@ -173,12 +174,12 @@ public:
 
   ui8 GetValue() {
     switch (m_Component) {
-    case Red:
-      return (*m_pColor & 0x1f) >> 1;
-    case Green:
-      return ((*m_pColor >> 5) & 0x3f) >> 2;
-    case Blue:
-      return ((*m_pColor >> 11) & 0x1f) >> 1;
+      case Red:
+        return (*m_pColor & 0x1f) >> 1;
+      case Green:
+        return ((*m_pColor >> 5) & 0x3f) >> 2;
+      case Blue:
+        return ((*m_pColor >> 11) & 0x1f) >> 1;
     }
     _ASSERT(0);
     return 0;
@@ -186,43 +187,39 @@ public:
 
   void SetValue(ui8 n) {
     switch (m_Component) {
-    case Red:
-      *m_pColor &= ~0x1f;
-      n = (n == 15) ? 31 : (n << 1);
-      *m_pColor |= n;
-      return;
-    case Green:
-      *m_pColor &= ~(0x3f << 5);
-      n = (n == 15) ? 63 : (n << 2);
-      *m_pColor |= n << 5;
-      return;
-    case Blue:
-      *m_pColor &= ~(0x1f << 11);
-      n = (n == 15) ? 31 : (n << 1);
-      *m_pColor |= n << 11;
-      return;
+      case Red:
+        *m_pColor &= ~0x1f;
+        n = (n == 15) ? 31 : (n << 1);
+        *m_pColor |= n;
+        return;
+      case Green:
+        *m_pColor &= ~(0x3f << 5);
+        n = (n == 15) ? 63 : (n << 2);
+        *m_pColor |= n << 5;
+        return;
+      case Blue:
+        *m_pColor &= ~(0x1f << 11);
+        n = (n == 15) ? 31 : (n << 1);
+        *m_pColor |= n << 11;
+        return;
     }
     _ASSERT(0);
   }
 
   virtual VPNavigate operator+(si8 d) {
-    if (d > 0 && GetValue() < 15)
-      return Yes;
-    if (d < 0 && GetValue() > 0)
-      return Yes;
+    if (d > 0 && GetValue() < 15) return Yes;
+    if (d < 0 && GetValue() > 0) return Yes;
     return No;
   }
 
   virtual void operator++(int) {
     ui8 val = GetValue();
-    if (val < 15)
-      SetValue(val + 1);
+    if (val < 15) SetValue(val + 1);
   }
 
   virtual void operator--(int) {
     ui8 val = GetValue();
-    if (val > 0)
-      SetValue(val - 1);
+    if (val > 0) SetValue(val - 1);
   }
 
   virtual void OnPaint(const CRect &rcRect, ui8 bFocus) {

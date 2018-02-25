@@ -1,14 +1,14 @@
 #pragma once
 #ifndef DSO_GUI_GENERATOR_CONTROLS_GRAPHSIG_H
 #define DSO_GUI_GENERATOR_CONTROLS_GRAPHSIG_H
-#include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
-#include <Source/Gui/Generator/Core/CoreGenerator.h>
 #include <Source/Core/Settings.h>
+#include <Source/Gui/Generator/Core/CoreGenerator.h>
+#include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 
 //#define _GENERATOR_MULTIVIEW
 
 class CWndSigGraph : public CWnd {
-public:
+ public:
   const ui16 *m_pSignal;
   ui16 m_nCount;
   CRect m_rcRange;
@@ -18,7 +18,7 @@ public:
 
   enum { BlkX = 25, BlkY = 25, DivsX = 10, DivsY = 8 };
 
-public:
+ public:
   void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndGraph", dwFlags,
                  CRect(12, 22, 12 + DivsX * BlkX, 22 + DivsY * BlkY), pParent);
@@ -56,8 +56,7 @@ public:
                            grid, COUNT(grid));
     }
 
-    if (!m_pSignal)
-      return;
+    if (!m_pSignal) return;
 
     int nWidth = m_rcClient.Width();
     int nHeight = m_rcClient.Height();
@@ -87,14 +86,12 @@ public:
 
       _ASSERT(y < 0x1000);
       y = y * nHeight / 0x1000;
-      if (i == m_rcRange.left)
-        oy = y;
+      if (i == m_rcRange.left) oy = y;
       ui16 clr = RGB565(ffffff);
       BIOS::LCD::Line(m_rcClient.left + i - 1, nBaseY - oy, m_rcClient.left + i,
                       nBaseY - y, clr);
 
-      if (i == nSelected)
-        nSelectedY = y;
+      if (i == nSelected) nSelectedY = y;
 
       if (i == nSelected + 3)
         BIOS::LCD::Draw(m_rcClient.left + i - 6, nBaseY - nSelectedY - 4,

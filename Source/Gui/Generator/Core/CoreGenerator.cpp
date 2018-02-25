@@ -8,27 +8,27 @@
 
 LINKERSECTION(".extra")
 const ui16 pSineWave[] = {
-    0x000, 0x027, 0x08E, 0x130, 0x209, 0x311, 0x441, 0x58F, 0x6F0,  // 90
-    0x85A, 0x9C0, 0xB19, 0xC59, 0xD76, 0xE68, 0xF26, 0xFAB, 0xFF3,  // 180
-    0xFFF, 0xFD7, 0xF70, 0xECE, 0xDF5, 0xCED, 0xBBD, 0xA6F, 0x90E,  // 270
-    0x7A4, 0x63E, 0x4E5, 0x3A5, 0x288, 0x196, 0x0D8, 0x053, 0x00B}; // 360
+    0x000, 0x027, 0x08E, 0x130, 0x209, 0x311, 0x441, 0x58F, 0x6F0,   // 90
+    0x85A, 0x9C0, 0xB19, 0xC59, 0xD76, 0xE68, 0xF26, 0xFAB, 0xFF3,   // 180
+    0xFFF, 0xFD7, 0xF70, 0xECE, 0xDF5, 0xCED, 0xBBD, 0xA6F, 0x90E,   // 270
+    0x7A4, 0x63E, 0x4E5, 0x3A5, 0x288, 0x196, 0x0D8, 0x053, 0x00B};  // 360
 
 LINKERSECTION(".extra")
 const ui16 pTriangleWave[] = {
-    0x000, 0x0E3, 0x1C6, 0x2AA, 0x38D, 0x471, 0x554, 0x638, 0x71B,  // 90
-    0x7FF, 0x8E2, 0x9C6, 0xAA9, 0xB8D, 0xC70, 0xD54, 0xE37, 0xF1B,  // 180
-    0xFFE, 0xF1B, 0xE37, 0xD54, 0xC70, 0xB8D, 0xAA9, 0x9C6, 0x8E2,  // 270
-    0x7FF, 0x71B, 0x638, 0x554, 0x471, 0x38D, 0x2AA, 0x1C6, 0x0E3}; // 360
+    0x000, 0x0E3, 0x1C6, 0x2AA, 0x38D, 0x471, 0x554, 0x638, 0x71B,   // 90
+    0x7FF, 0x8E2, 0x9C6, 0xAA9, 0xB8D, 0xC70, 0xD54, 0xE37, 0xF1B,   // 180
+    0xFFE, 0xF1B, 0xE37, 0xD54, 0xC70, 0xB8D, 0xAA9, 0x9C6, 0x8E2,   // 270
+    0x7FF, 0x71B, 0x638, 0x554, 0x471, 0x38D, 0x2AA, 0x1C6, 0x0E3};  // 360
 
 LINKERSECTION(".extra")
 const ui16 pSawWave[] = {
-    0x000, 0x075, 0x0EA, 0x15F, 0x1D4, 0x249, 0x2BE, 0x333, 0x3A8,  // 90
-    0x41D, 0x492, 0x507, 0x57C, 0x5F1, 0x666, 0x6DB, 0x750, 0x7C5,  // 180
-    0x83A, 0x8AF, 0x924, 0x999, 0xA0E, 0xA83, 0xAF8, 0xB6D, 0xBE2,  // 270
-    0xC57, 0xCCC, 0xD41, 0xDB6, 0xE2B, 0xEA0, 0xF15, 0xF8A, 0xFFF}; // 360
+    0x000, 0x075, 0x0EA, 0x15F, 0x1D4, 0x249, 0x2BE, 0x333, 0x3A8,   // 90
+    0x41D, 0x492, 0x507, 0x57C, 0x5F1, 0x666, 0x6DB, 0x750, 0x7C5,   // 180
+    0x83A, 0x8AF, 0x924, 0x999, 0xA0E, 0xA83, 0xAF8, 0xB6D, 0xBE2,   // 270
+    0xC57, 0xCCC, 0xD41, 0xDB6, 0xE2B, 0xEA0, 0xF15, 0xF8A, 0xFFF};  // 360
 
 LINKERSECTION(".extra")
-const ui16 pSquareWave[] = {0x000, 0xfff}; // 90
+const ui16 pSquareWave[] = {0x000, 0xfff};  // 90
 
 LINKERSECTION(".extra")
 const ui16 pCardiac128Wave[] = {
@@ -71,7 +71,7 @@ const ui16 pCardiac128Wave[] = {
 ui16 CCoreGenerator::_GetCount(ui8 nWaveIndex) {
   if (nWaveIndex == CSettings::Generator::_Volatile) {
     _ASSERT(m_nVolatileLen > 0);
-    return m_nVolatileLen; // oversampling?
+    return m_nVolatileLen;  // oversampling?
   }
   // handle DC ?
   ui16 nCount = Waves[nWaveIndex].nCount;
@@ -97,10 +97,8 @@ ui16 *CCoreGenerator::_GetWave(ui8 nWaveIndex) {
       nSample -= 128;
       nSample = (nSample * nScale) >> (16 - 4);
       nSample += nOffset;
-      if (nSample < 0)
-        nSample = 0;
-      if (nSample > 0xfff)
-        nSample = 0xfff;
+      if (nSample < 0) nSample = 0;
+      if (nSample > 0xfff) nSample = 0xfff;
       m_pRamWave[i] = nSample;
     }
     m_nRamLen = nLen;
@@ -109,8 +107,7 @@ ui16 *CCoreGenerator::_GetWave(ui8 nWaveIndex) {
   }
 
   if (nSmooth <= 0) {
-    for (int i = 0; i < nCount; i++)
-      m_pRamWave[i] = pWave[i];
+    for (int i = 0; i < nCount; i++) m_pRamWave[i] = pWave[i];
   } else {
     ui16 *pSample = m_pRamWave;
     ui8 nSmoothVals = 1 << nSmooth;
@@ -133,10 +130,8 @@ ui16 *CCoreGenerator::_GetWave(ui8 nWaveIndex) {
       nSample -= 0x800;
       nSample = (nSample * nScale) >> 16;
       nSample += nOffset;
-      if (nSample < 0)
-        nSample = 0;
-      if (nSample > 0xfff)
-        nSample = 0xfff;
+      if (nSample < 0) nSample = 0;
+      if (nSample > 0xfff) nSample = 0xfff;
       m_pRamWave[i] = nSample;
     }
   }
@@ -156,26 +151,25 @@ void CCoreGenerator::Update() {
   int nWaveIndex = Settings.Gen.Wave;
 
   switch (Settings.Gen.Wave) {
-  case CSettings::Generator::_Dc:
-    BIOS::GEN::ConfigureDc(Settings.Gen.nOffset >> 4);
-    break;
+    case CSettings::Generator::_Dc:
+      BIOS::GEN::ConfigureDc(Settings.Gen.nOffset >> 4);
+      break;
 
-  case CSettings::Generator::_Square:
-    BIOS::GEN::ConfigureSq(Settings.Gen.nPsc, Settings.Gen.nArr,
-                           Settings.Gen.nCcr);
-    break;
+    case CSettings::Generator::_Square:
+      BIOS::GEN::ConfigureSq(Settings.Gen.nPsc, Settings.Gen.nArr,
+                             Settings.Gen.nCcr);
+      break;
 
-  case CSettings::Generator::_Volatile:
-    if (m_nVolatileLen == 0)
-      CopyToVolatile(CSettings::Generator::_SinLq);
+    case CSettings::Generator::_Volatile:
+      if (m_nVolatileLen == 0) CopyToVolatile(CSettings::Generator::_SinLq);
 
-    BIOS::GEN::ConfigureWave(_GetWave(nWaveIndex), _GetCount(nWaveIndex));
-    BIOS::GEN::ConfigureWaveRate(Settings.Gen.nArr);
-    break;
+      BIOS::GEN::ConfigureWave(_GetWave(nWaveIndex), _GetCount(nWaveIndex));
+      BIOS::GEN::ConfigureWaveRate(Settings.Gen.nArr);
+      break;
 
-  default:
-    BIOS::GEN::ConfigureWave(_GetWave(nWaveIndex), _GetCount(nWaveIndex));
-    BIOS::GEN::ConfigureWaveRate(Settings.Gen.nArr);
+    default:
+      BIOS::GEN::ConfigureWave(_GetWave(nWaveIndex), _GetCount(nWaveIndex));
+      BIOS::GEN::ConfigureWaveRate(Settings.Gen.nArr);
   }
 }
 

@@ -7,7 +7,7 @@
 #include <Source/Framework/Wnd.h>
 
 class CWndToolBar : public CWnd {
-public:
+ public:
   ui8 m_nFocus;
   enum {
     clrSelected = RGB565(ffffff),
@@ -27,7 +27,7 @@ public:
 
   static const CBarItem m_arrMenuItems[];
 
-public:
+ public:
   virtual void Create(CWnd *pParent) {
     m_nFocus = 0;
     CWnd::Create("CToolbarWnd", WsVisible, CRect(0, 0, BIOS::LCD::LcdWidth, 16),
@@ -40,7 +40,7 @@ public:
   CWnd *GetCurrentLayout();
   void ChangeFocus(ui8 oldFocus);
 
-public:
+ public:
   static const CBarItem *GetMenuItems();
   static int Find(const char *strId);
   int _FindItemByPoint(int mx);

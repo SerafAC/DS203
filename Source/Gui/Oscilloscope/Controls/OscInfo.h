@@ -1,12 +1,11 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_OSCINFO_H
 #define DSO_GUI_OSCILLOSCOPE_CONTROLS_OSCINFO_H
-#include <Source/Framework/Wnd.h>
 #include <Source/Core/Settings.h>
-
+#include <Source/Framework/Wnd.h>
 
 class CWndOscInfo : public CWnd {
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 nFlags, CWnd *pGraph) {
     CRect rcClient(pGraph->m_rcClient);
     rcClient.top = rcClient.bottom + 2;

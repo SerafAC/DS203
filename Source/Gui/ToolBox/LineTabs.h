@@ -8,7 +8,7 @@ class CLTabs : public CListItem {
   const char **m_arrItems;
   int m_nFocus;
 
-public:
+ public:
   void Create(const char **arrItems, ui16 clrBack, CWnd *pParent) {
     m_nFocus = 0;
     m_clrBack = clrBack;

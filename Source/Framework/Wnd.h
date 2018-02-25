@@ -6,22 +6,22 @@
 #include <Source/HwLayer/Bios.h>
 
 class DLLAPI CWnd {
-public:
+ public:
   class DLLAPI CTimer {
-  public:
+   public:
     CTimer(CWnd *pWnd, ui32 nInterval) : m_pWnd(pWnd), m_nInterval(nInterval) {
       m_nNext = BIOS::SYS::GetTick() + nInterval;
     }
     CTimer() {}
 
-  public:
+   public:
     CWnd *m_pWnd;
     ui32 m_nInterval;
     ui32 m_nNext;
   };
 
   class DLLAPI CModal {
-  public:
+   public:
     CModal() {
       m_pPrevFocus = CWnd::m_pFocus;
       m_rcPrevOverlay = CWnd::m_rcOverlay;
@@ -31,7 +31,7 @@ public:
     CRect m_rcPrevOverlay;
   };
 
-public:
+ public:
   enum {
     // Window message
     WmPaint = 1,
@@ -53,7 +53,7 @@ public:
     SwHide = 0
   };
 
-public:
+ public:
   static CWnd *m_pTop;
   static CWnd *m_pFocus;
   static ui16 m_nInstances;
@@ -65,12 +65,12 @@ public:
   static CRect m_rcOverlay;
   static CRect m_rcOverlayStack;
 
-  CRect m_rcClient;    // 8
-  CWnd *m_pParent;     // 4
-  CWnd *m_pFirst;      // 4
-  CWnd *m_pNext;       // 4
-  ui16 m_dwFlags;      // 4
-  const char *m_pszId; // 4
+  CRect m_rcClient;     // 8
+  CWnd *m_pParent;      // 4
+  CWnd *m_pFirst;       // 4
+  CWnd *m_pNext;        // 4
+  ui16 m_dwFlags;       // 4
+  const char *m_pszId;  // 4
   // Total 28 bytes per window (+5 virtuals)
 
   CWnd();
@@ -104,11 +104,12 @@ public:
   void PushOverlay();
   void PopOverlay();
 
-  template <class T> void SendMessage(CWnd *pTarget, CodeParam code, T data) {
+  template <class T>
+  void SendMessage(CWnd *pTarget, CodeParam code, T data) {
     prvSendMessage(pTarget, code, (DataParam)data);
   }
 
-private:
+ private:
   CWnd *_GetNextActiveWindow();
   CWnd *_GetPrevActiveWindow();
   CWnd *_GetLastActiveWindow();

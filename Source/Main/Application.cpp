@@ -14,14 +14,13 @@ class CKeyProcessor {
   ui32 last;
   ui16 delay;
 
-public:
+ public:
   CKeyProcessor() {
     last = BIOS::SYS::GetTick();
     delay = 301;
   }
   void operator<<(const ui16 &in) {
-    if (keys == 0)
-      delay = 301;
+    if (keys == 0) delay = 301;
     keys = in;
   }
   void operator>>(ui16 &out) {
@@ -46,7 +45,7 @@ public:
 #define GLOBAL (*CInit::getInstance())
 
 class CInit {
-public:
+ public:
   CMainWnd m_wndMain;
   CSettings m_Settings;
   CKeyProcessor m_kp;
@@ -88,8 +87,7 @@ bool CApplication::operator()() {
   static ui32 lLastTick = (ui32)-1;
   static ui16 lLastKeys = (ui16)-1;
   ui32 lCurTick = BIOS::SYS::GetTick();
-  if (lLastTick == (ui32)-1)
-    lLastTick = lCurTick;
+  if (lLastTick == (ui32)-1) lLastTick = lCurTick;
   if (lCurTick - lLastTick > 1000) {
     int nSeconds = (lCurTick - lLastTick) / 1000;
     lLastTick += nSeconds * 1000;

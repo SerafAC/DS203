@@ -7,7 +7,7 @@
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 
 class CWndSpectrumGraphTempl : public CWnd {
-public:
+ public:
   enum {
     // BlkX = BLKX, //32,
     // BlkY = BLKY, //25,
@@ -17,7 +17,7 @@ public:
   int m_nBlkX;
   int m_nBlkY;
 
-public:
+ public:
   CWndSpectrumGraphTempl(int nBlkX, int nBlkY) {
     m_nBlkX = nBlkX;
     m_nBlkY = nBlkY;
@@ -34,12 +34,10 @@ public:
 
   void _PrepareColumn(ui16 *column, ui16 n, ui16 clr) {
     memset(column, clr, DivsY * m_nBlkY * 2);
-    if (n == 0)
-      return;
-    if (n % 51 == 0) //(n % m_nBlkX) == 0)
+    if (n == 0) return;
+    if (n % 51 == 0)  //(n % m_nBlkX) == 0)
     {
-      for (ui16 y = 5; y < DivsY * m_nBlkY; y += 5)
-        column[y] = RGB565(808080);
+      for (ui16 y = 5; y < DivsY * m_nBlkY; y += 5) column[y] = RGB565(808080);
     } else if ((n % 4) == 0) {
       for (ui16 y = m_nBlkY; y < DivsY * m_nBlkY - 1; y += m_nBlkY)
         column[y] = RGB565(808080);
@@ -50,7 +48,7 @@ public:
 };
 
 class CWndTimeGraphTempl : public CWnd {
-public:
+ public:
   enum {
     // BlkX = BLKX, //32,
     // BlkY = BLKY, //25,
@@ -60,7 +58,7 @@ public:
   int m_nBlkX;
   int m_nBlkY;
 
-public:
+ public:
   CWndTimeGraphTempl(int nBlkX, int nBlkY) {
     m_nBlkX = nBlkX;
     m_nBlkY = nBlkY;
@@ -76,14 +74,11 @@ public:
   }
 
   void _PrepareColumn(ui16 *column, ui16 n, ui16 clr) {
-    for (int i = 0; i < DivsY * m_nBlkY; i++)
-      column[i] = clr;
+    for (int i = 0; i < DivsY * m_nBlkY; i++) column[i] = clr;
 
-    if (n == 0)
-      return;
+    if (n == 0) return;
     if ((n % m_nBlkX) == 0) {
-      for (ui16 y = 1; y < DivsY * m_nBlkY; y += 3)
-        column[y] = RGB565(808080);
+      for (ui16 y = 1; y < DivsY * m_nBlkY; y += 3) column[y] = RGB565(808080);
     } else if ((n % 4) == 0) {
       for (ui16 y = m_nBlkY; y < DivsY * m_nBlkY - 1; y += m_nBlkY)
         column[y] = RGB565(808080);
@@ -94,12 +89,12 @@ public:
 };
 
 class CWndSpectrographTempl : public CWnd {
-public:
+ public:
   int m_nWidth;
   int m_nHeight;
   int m_nY;
 
-public:
+ public:
   CWndSpectrographTempl(int nBlkX, int nBlkY) {
     m_nWidth = 8 * nBlkX;
     m_nHeight = 8 * nBlkY;
@@ -117,22 +112,22 @@ public:
 };
 
 class CWndSpectrumGraph : public CWndSpectrumGraphTempl {
-public:
+ public:
   CWndSpectrumGraph() : CWndSpectrumGraphTempl(32, 25 * 2) {}
 };
 
 class CWndSpectrumGraphMini : public CWndSpectrumGraphTempl {
-public:
+ public:
   CWndSpectrumGraphMini() : CWndSpectrumGraphTempl(32, 16 * 2) {}
 };
 
 class CWndSpectrumGraphTime : public CWndTimeGraphTempl {
-public:
+ public:
   CWndSpectrumGraphTime() : CWndTimeGraphTempl(32, 7) {}
 };
 
 class CWndSpectrumGraphSpec : public CWndSpectrographTempl {
-public:
+ public:
   CWndSpectrumGraphSpec() : CWndSpectrographTempl(32, 16) {}
 };
 

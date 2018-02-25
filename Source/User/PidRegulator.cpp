@@ -77,8 +77,7 @@ void CWndPidRegulator::Process() {
 }
 
 void CWndPidRegulator::OnTimer() {
-  if (MainWnd.HasOverlay() || !BIOS::ADC::Enabled())
-    return;
+  if (MainWnd.HasOverlay() || !BIOS::ADC::Enabled()) return;
 
   long lTick = BIOS::SYS::GetTick();
 
@@ -89,11 +88,10 @@ void CWndPidRegulator::OnTimer() {
   else
     Simulation();
 
-  if (m_nFocus == 2) // graph
+  if (m_nFocus == 2)  // graph
     OnTimerGraph();
-  if (m_nFocus == 1)
-    ShowValues(true);
-  if (m_nFocus == 0) // diagram
+  if (m_nFocus == 1) ShowValues(true);
+  if (m_nFocus == 0)  // diagram
     ShowDiagramValues(CPoint(5, 55));
 
   long lPassed = BIOS::SYS::GetTick() - lTick;
@@ -148,8 +146,7 @@ void CWndPidRegulator::ShowLocalMenu(bool bFocus) {
     if (bFocus) {
       ui16 clrTab = (i == m_nFocus) ? RGB565(ffffff) : RGB565(b0b0b0);
       ui16 clrText = RGB565(000000);
-      if (i == m_nFocus && m_nSubFocus == -1)
-        clrTab = RGB565(8080b0);
+      if (i == m_nFocus && m_nSubFocus == -1) clrTab = RGB565(8080b0);
       x += BIOS::LCD::Draw(x, 20, clrTab, RGB565(000000), CShapes::corner_left);
       BIOS::LCD::Bar(x, 20, x + CUtils::StrLen(ppszLocalMenu[i]) * 8, 36,
                      clrTab);
@@ -171,20 +168,20 @@ void CWndPidRegulator::ShowDiagram(CPoint &cpBase) {
   CBitmap bmpDiagram;
   bmpDiagram.Load(bitmapRegulator);
   bmpDiagram.m_arrPalette[0] =
-      RGB565(ff00ff); // make white transparent, drawing will be faster
+      RGB565(ff00ff);  // make white transparent, drawing will be faster
   cpBase = CPoint((400 - bmpDiagram.m_width) / 2,
                   (240 - bmpDiagram.m_height) / 2 + 20);
   bmpDiagram.Blit(cpBase.x, cpBase.y);
 
   // highlight blocks
   _Highlight(CRect(131, 1, 228, 38) + cpBase, 0, -60,
-             -60); // Proportional - red
+             -60);  // Proportional - red
   _Highlight(CRect(131, 63, 228, 100) + cpBase, -60, 0,
-             -60); // Integral - green
+             -60);  // Integral - green
   _Highlight(CRect(131, 125, 228, 162) + cpBase, -60, -60,
-             -0); // Derivative - blue
+             -0);  // Derivative - blue
 
-  _Highlight(CRect(283, 70, 335, 93) + cpBase, 0, 0, -80); // Process - yellow
+  _Highlight(CRect(283, 70, 335, 93) + cpBase, 0, 0, -80);  // Process - yellow
   _Highlight(cpBase + CPoint(67, 81), 12, -30, -30, -10);
   _Highlight(cpBase + CPoint(254, 81), 12, -30, -30, -10);
 }
@@ -235,8 +232,7 @@ void CWndPidRegulator::ShowValues(bool bValues) {
   int y = 42;
   for (int i = 0; i < (int)COUNT(arrAttrs); i++, y += 16) {
     if (arrAttrs[i].strDesc == NULL) {
-      if (!bValues)
-        BIOS::LCD::Bar(8, y + 2, 300, y + 3, arrAttrs[i].clr);
+      if (!bValues) BIOS::LCD::Bar(8, y + 2, 300, y + 3, arrAttrs[i].clr);
       y -= 10;
       continue;
     }
@@ -280,8 +276,7 @@ void CWndPidRegulator::ShowGraph() {
     int y = rcGraph.bottom - rcGraph.Height() * i / 4;
     BIOS::LCD::Print(rcGraph.left - 44, y - 6, RGB565(000000), RGB565(ffffff),
                      CUtils::FormatVoltage(fVoltPerDiv * i * 2.0f, 4));
-    if (i == 4)
-      continue;
+    if (i == 4) continue;
     BIOS::LCD::Pattern(rcGraph.left + 1, y, rcGraph.right - 1, y + 1, pattern,
                        COUNT(pattern));
   }
@@ -291,15 +286,13 @@ void CWndPidRegulator::ShowGraph() {
 
   ui8 c = 0;
   for (int i = 0; i < rcGraph.Width(); i += 50, c++) {
-    if (i == 0)
-      continue;
+    if (i == 0) continue;
 
     int x = rcGraph.left + i;
     BIOS::LCD::Pattern(x, rcGraph.top + 1, x + 1, rcGraph.bottom - 1, pattern,
                        COUNT(pattern));
 
-    if (c & 1)
-      continue;
+    if (c & 1) continue;
 
     BIOS::LCD::Print(x - 12, rcGraph.bottom + 4, RGB565(000000), RGB565(ffffff),
                      CUtils::FormatTime(fUpdate * i, 5));
@@ -327,8 +320,7 @@ void CWndPidRegulator::OnTimerGraph() {
   UTILS.Clamp<int>(m_nTarget, 0, rcGraph.Height());
   UTILS.Clamp<int>(m_nOutput, 0, rcGraph.Height());
 
-  if (nPrevInput == -1)
-    return;
+  if (nPrevInput == -1) return;
 
   if (ABS(m_nOutput - nPrevOutput) > 40)
     BIOS::LCD::PutPixel(rcGraph.left + m_nGraphX, rcGraph.bottom - m_nOutput,
@@ -360,7 +352,7 @@ void CWndPidRegulator::ShowMode() {
   int y = 42;
   for (int i = 0; i < (int)COUNT(arrAttrs); i++, y += 16) {
     const char *strValue = "?";
-    if (arrAttrs[i].nType == 1) // inverted bool
+    if (arrAttrs[i].nType == 1)  // inverted bool
       strValue = !*((bool *)arrAttrs[i].pValue) ? "true " : "false";
     ui16 clrBack = m_nSubFocus == i ? RGB565(8080b0) : RGB565(ffffff);
     BIOS::LCD::Print(8, y, RGB565(808080), RGB565(ffffff), arrAttrs[i].strDesc);
@@ -381,30 +373,27 @@ void CWndPidRegulator::OnPaint() {
   }
 
   switch (m_nFocus) {
-  case 0: {
-    CPoint cpBase;
-    ShowDiagram(cpBase);
-    ShowDiagramValues(cpBase);
-  }; break;
-  case 1:
-    ShowValues(false);
-    break;
-  case 2:
-    ShowGraph();
-    break;
-  case 3:
-    ShowMode();
-    break;
+    case 0: {
+      CPoint cpBase;
+      ShowDiagram(cpBase);
+      ShowDiagramValues(cpBase);
+    }; break;
+    case 1:
+      ShowValues(false);
+      break;
+    case 2:
+      ShowGraph();
+      break;
+    case 3:
+      ShowMode();
+      break;
   }
 }
 
 float _Step(float f) {
-  if (f <= 1.0f)
-    return 0.01f;
-  if (f <= 10.0f)
-    return 0.1f;
-  if (f <= 100.0f)
-    return 1.0f;
+  if (f <= 1.0f) return 0.01f;
+  if (f <= 10.0f) return 0.1f;
+  if (f <= 100.0f) return 1.0f;
   return 0.01f;
 }
 
@@ -413,55 +402,55 @@ void CWndPidRegulator::OnKey(ui16 nKey) {
       m_nSubFocus != -1) {
     int nDelta = nKey == BIOS::KEY::KeyLeft ? -1 : 1;
     switch (m_nFocus) {
-    case 0:
-      switch (m_nSubFocus) {
       case 0:
-        m_Pid.m_Target += nDelta * 0.010f;
+        switch (m_nSubFocus) {
+          case 0:
+            m_Pid.m_Target += nDelta * 0.010f;
+            break;
+          case 1:
+            m_Pid.m_Kp += nDelta * _Step(m_Pid.m_Kp);
+            break;
+          case 2:
+            m_Pid.m_Ki += nDelta * _Step(m_Pid.m_Ki);
+            break;
+          case 3:
+            m_Pid.m_Kd += nDelta * _Step(m_Pid.m_Kd);
+            break;
+        }
+        ShowDiagramValues(CPoint(5, 55));
         break;
       case 1:
-        m_Pid.m_Kp += nDelta * _Step(m_Pid.m_Kp);
+        switch (m_nSubFocus) {
+          case 0:
+            m_Pid.m_Target += nDelta * 0.010f;
+            break;
+          case 1:
+            fUpdate += nDelta * 0.010f;
+            m_Pid.m_dt = fUpdate;
+            UTILS.Clamp<float>(fUpdate, 0.010f, 5.00f);
+            KillTimer();
+            SetTimer((int)(fUpdate * 1000.0f));
+            break;
+          case 2:
+            m_Pid.m_Kp += nDelta * _Step(m_Pid.m_Kp);
+            break;
+          case 3:
+            m_Pid.m_Ki += nDelta * _Step(m_Pid.m_Ki);
+            break;
+          case 4:
+            m_Pid.m_Kd += nDelta * _Step(m_Pid.m_Kd);
+            break;
+        }
+        ShowValues(true);
         break;
       case 2:
-        m_Pid.m_Ki += nDelta * _Step(m_Pid.m_Ki);
-        break;
-      case 3:
-        m_Pid.m_Kd += nDelta * _Step(m_Pid.m_Kd);
-        break;
-      }
-      ShowDiagramValues(CPoint(5, 55));
-      break;
-    case 1:
-      switch (m_nSubFocus) {
-      case 0:
         m_Pid.m_Target += nDelta * 0.010f;
         break;
-      case 1:
-        fUpdate += nDelta * 0.010f;
-        m_Pid.m_dt = fUpdate;
-        UTILS.Clamp<float>(fUpdate, 0.010f, 5.00f);
-        KillTimer();
-        SetTimer((int)(fUpdate * 1000.0f));
-        break;
-      case 2:
-        m_Pid.m_Kp += nDelta * _Step(m_Pid.m_Kp);
         break;
       case 3:
-        m_Pid.m_Ki += nDelta * _Step(m_Pid.m_Ki);
+        m_bRealModel = nDelta < 0 ? true : false;
+        ShowMode();
         break;
-      case 4:
-        m_Pid.m_Kd += nDelta * _Step(m_Pid.m_Kd);
-        break;
-      }
-      ShowValues(true);
-      break;
-    case 2:
-      m_Pid.m_Target += nDelta * 0.010f;
-      break;
-      break;
-    case 3:
-      m_bRealModel = nDelta < 0 ? true : false;
-      ShowMode();
-      break;
     }
     return;
   }
@@ -484,47 +473,23 @@ void CWndPidRegulator::OnKey(ui16 nKey) {
   if (HasFocus() && nKey == BIOS::KEY::KeyDown) {
     int nMaxItems = 0;
     switch (m_nFocus) {
-    case 0:
-      nMaxItems = 4;
-      break;
-    case 1:
-      nMaxItems = 5;
-      break;
-    case 2:
-      nMaxItems = 1;
-      break;
-    case 3:
-      nMaxItems = 1;
-      break;
+      case 0:
+        nMaxItems = 4;
+        break;
+      case 1:
+        nMaxItems = 5;
+        break;
+      case 2:
+        nMaxItems = 1;
+        break;
+      case 3:
+        nMaxItems = 1;
+        break;
     }
-    if (m_nSubFocus < nMaxItems - 1)
-      m_nSubFocus++;
-    if (m_nSubFocus == 0)
-      ShowLocalMenu(true);
+    if (m_nSubFocus < nMaxItems - 1) m_nSubFocus++;
+    if (m_nSubFocus == 0) ShowLocalMenu(true);
 
     switch (m_nFocus) {
-    case 0:
-      ShowDiagramValues(CPoint(5, 55));
-      break;
-    case 1:
-      ShowValues(true);
-      break;
-    case 2:
-      break;
-    case 3:
-      ShowMode();
-      break;
-    }
-
-    return;
-  }
-  if (HasFocus() && nKey == BIOS::KEY::KeyUp) {
-    if (m_nSubFocus > -1) {
-      m_nSubFocus--;
-      if (m_nSubFocus == -1)
-        ShowLocalMenu(true);
-
-      switch (m_nFocus) {
       case 0:
         ShowDiagramValues(CPoint(5, 55));
         break;
@@ -536,6 +501,27 @@ void CWndPidRegulator::OnKey(ui16 nKey) {
       case 3:
         ShowMode();
         break;
+    }
+
+    return;
+  }
+  if (HasFocus() && nKey == BIOS::KEY::KeyUp) {
+    if (m_nSubFocus > -1) {
+      m_nSubFocus--;
+      if (m_nSubFocus == -1) ShowLocalMenu(true);
+
+      switch (m_nFocus) {
+        case 0:
+          ShowDiagramValues(CPoint(5, 55));
+          break;
+        case 1:
+          ShowValues(true);
+          break;
+        case 2:
+          break;
+        case 3:
+          ShowMode();
+          break;
       }
 
       return;
@@ -552,17 +538,17 @@ void CWndPidRegulator::OnKey(ui16 nKey) {
       m_nSubFocus = -1;
       ShowLocalMenu(true);
       switch (m_nFocus) {
-      case 0:
-        ShowDiagramValues(CPoint(5, 55));
-        break;
-      case 1:
-        ShowValues(true);
-        break;
-      case 2:
-        break;
-      case 3:
-        ShowMode();
-        break;
+        case 0:
+          ShowDiagramValues(CPoint(5, 55));
+          break;
+        case 1:
+          ShowValues(true);
+          break;
+        case 2:
+          break;
+        case 3:
+          ShowMode();
+          break;
       }
       return;
     }
@@ -949,6 +935,6 @@ LINKERSECTION(".extra")
     0xd3, 0x8c, 0x40, 0x1c, 0x89, 0x70, 0x18, 0xc8, 0xc4, 0x02, 0x3d, 0x3b,
     0x82, 0x02, 0x2e, 0xb8, 0xc4, 0xa1, 0xe7, 0x97, 0x00, 0x3a, 0xc4, 0x90,
     0x7a, 0x81, 0x00,
-}; // 4359 bytes, 389x170
+};  // 4359 bytes, 389x170
 
 #endif

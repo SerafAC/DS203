@@ -24,14 +24,14 @@
 class CDS1820 : public CPin, CDelay {
   ui8 m_arrScratchpad[9];
 
-public:
+ public:
   enum {
     DS18S20_FAMILY_CODE = 0x10,
     DS18B20_FAMILY_CODE = 0x28,
     DS1822_FAMILY_CODE = 0x22
   };
 
-public:
+ public:
   bool Init() {
     High();
     DelayUs(50);
@@ -39,55 +39,47 @@ public:
     DelayUs(500);
     High();
     DelayUs(100);
-    if (Get())
-      return false;
+    if (Get()) return false;
     DelayUs(400);
     return true;
   }
 
   bool ReadRom() {
-    if (!Init())
-      return false;
+    if (!Init()) return false;
 
     Out(0x33);
-    for (int n = 0; n < 8; n++)
-      m_arrScratchpad[n] = In();
+    for (int n = 0; n < 8; n++) m_arrScratchpad[n] = In();
     return true;
   }
 
   bool SetConfig(ui8 nTh, ui8 nTl, ui8 nConf) {
-    if (!Init())
-      return false;
+    if (!Init()) return false;
 
     Out(0xcc);
-    Out(0x4e);  // write scratchpad
-    Out(nTh);   // Th/user
-    Out(nTl);   // Tl/user
-    Out(nConf); // config -> 12 bit resolution 750ms / conv
+    Out(0x4e);   // write scratchpad
+    Out(nTh);    // Th/user
+    Out(nTl);    // Tl/user
+    Out(nConf);  // config -> 12 bit resolution 750ms / conv
     return true;
   }
 
   bool Convert(int nFamilyCode) {
-    if (!Init())
-      return false;
+    if (!Init()) return false;
 
-    Out(0xcc); // skip ROM
-    Out(0x44); // perform temperature conversion
+    Out(0xcc);  // skip ROM
+    Out(0x44);  // perform temperature conversion
 
-    if (nFamilyCode == DS18B20_FAMILY_CODE)
-      Power();
+    if (nFamilyCode == DS18B20_FAMILY_CODE) Power();
 
     // conversion takes max. 750ms
     DelayMs(750 + 20);
 
-    if (!Init())
-      return false;
+    if (!Init()) return false;
 
     Out(0xcc);
-    Out(0xbe); // read result
+    Out(0xbe);  // read result
 
-    for (int n = 0; n < 9; n++)
-      m_arrScratchpad[n] = In();
+    for (int n = 0; n < 9; n++) m_arrScratchpad[n] = In();
 
     return true;
   }
@@ -96,10 +88,9 @@ public:
     if (nFamilyCode == DS18S20_FAMILY_CODE) {
       si16 stemp = (m_arrScratchpad[1] << 8) | m_arrScratchpad[0];
       int temp = stemp;
-      temp >>= 1; // cut LSB
+      temp >>= 1;  // cut LSB
       temp <<= 4;
-      if (m_arrScratchpad[/*DS_REG_CntPerDeg*/ 7] != 0x10)
-        return false;
+      if (m_arrScratchpad[/*DS_REG_CntPerDeg*/ 7] != 0x10) return false;
       temp -= 4;
       temp += m_arrScratchpad[/*DS_REG_CntPerDeg*/ 7];
       temp -= m_arrScratchpad[/*DS_REG_CntRemain*/ 6];
@@ -136,7 +127,7 @@ public:
 
   ui8 *GetScratchpad() { return m_arrScratchpad; }
 
-private:
+ private:
   // override High method to HighZ + pullup
   void High() { CPin::Float(); }
   void Power() { CPin::High(); }
@@ -149,8 +140,7 @@ private:
       DelayUs(1);
 
       i_byte >>= 1;
-      if (Get())
-        i_byte |= 0x80; // least sig bit first
+      if (Get()) i_byte |= 0x80;  // least sig bit first
 
       DelayUs(60);
     }

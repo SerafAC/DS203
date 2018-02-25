@@ -6,8 +6,7 @@ LINKERSECTION(".extra")
 void CExport::SaveSvg(char *strName_ /*= NULL*/) {
   char strNameUnique[] = "WAVE000 SVG";
   char *strName = strName_ ? strName_ : strNameUnique;
-  if (!strName_)
-    FindUnusedFile(strName, 4);
+  if (!strName_) FindUnusedFile(strName, 4);
 
   CBufferedWriter writer;
   writer.Open(strName);
@@ -153,8 +152,7 @@ void CExport::SaveSvg(char *strName_ /*= NULL*/) {
 void CExport::SaveWav(char *strName_ /*= NULL*/) {
   char strNameUnique[] = "WAVE000 WAV";
   char *strName = strName_ ? strName_ : strNameUnique;
-  if (!strName_)
-    FindUnusedFile(strName, 4);
+  if (!strName_) FindUnusedFile(strName, 4);
 
   CBufferedWriter writer;
   writer.Open(strName);
@@ -174,7 +172,7 @@ void CExport::SaveWav(char *strName_ /*= NULL*/) {
   int nSamplingSpeed =
       (int)(CWndGraph::BlkX / Settings.Runtime.m_fTimeRes + 0.5f);
 
-  WaveFormat.wFormatTag = 1; // WAVE_FORMAT_PCM
+  WaveFormat.wFormatTag = 1;  // WAVE_FORMAT_PCM
   WaveFormat.nChannels = 2;
   WaveFormat.nSamplesPerSec = nSamplingSpeed;
   WaveFormat.wBitsPerSample = 8;
@@ -224,8 +222,7 @@ void CExport::SaveWav(char *strName_ /*= NULL*/) {
 void CExport::SaveScreenshot32(char *strName_ /*= NULL*/) {
   char strNameUnique[] = "IMG000  BMP";
   char *strName = strName_ ? strName_ : strNameUnique;
-  if (!strName_)
-    FindUnusedFile(strNameUnique, 3);
+  if (!strName_) FindUnusedFile(strNameUnique, 3);
 
   FILEINFO f;
   // strName contains unique non existent file name
@@ -238,9 +235,9 @@ void CExport::SaveScreenshot32(char *strName_ /*= NULL*/) {
 
   BmpHdr *pHdr = (BmpHdr *)pData;
   pHdr->wBfType = 'B' | ('M' << 8);
-  pHdr->dwBfSize = sizeof(BmpHdr) +
-                   BIOS::LCD::LcdWidth * BIOS::LCD::LcdHeight *
-                       3; // no need to align row to multiply of 4
+  pHdr->dwBfSize =
+      sizeof(BmpHdr) + BIOS::LCD::LcdWidth * BIOS::LCD::LcdHeight *
+                           3;  // no need to align row to multiply of 4
   pHdr->wBfReserved1 = 0;
   pHdr->wBfReserved2 = 0;
   pHdr->dwBfOffset = 0x36;
@@ -278,8 +275,7 @@ void CExport::SaveScreenshot32(char *strName_ /*= NULL*/) {
       }
     }
 
-  if (nOffset > 0)
-    BIOS::DSK::Write(&f, pData);
+  if (nOffset > 0) BIOS::DSK::Write(&f, pData);
 
   BIOS::DSK::Close(&f, nSize + nOffset);
   // Display message
@@ -299,8 +295,7 @@ void CExport::SaveScreenshot32(char *strName_ /*= NULL*/) {
 void CExport::SaveScreenshot16(char *strName_ /*= NULL*/) {
   char strNameUnique[] = "IMG000  BMP";
   char *strName = strName_ ? strName_ : strNameUnique;
-  if (!strName_)
-    FindUnusedFile(strName, 3);
+  if (!strName_) FindUnusedFile(strName, 3);
 
   CBufferedWriter writer;
   writer.Open(strName);
@@ -308,9 +303,9 @@ void CExport::SaveScreenshot16(char *strName_ /*= NULL*/) {
   BmpHdr hdr;
   BmpHdr *pHdr = &hdr;
   pHdr->wBfType = 'B' | ('M' << 8);
-  pHdr->dwBfSize = sizeof(BmpHdr) +
-                   BIOS::LCD::LcdWidth * BIOS::LCD::LcdHeight *
-                       3; // no need to align row to multiply of 4
+  pHdr->dwBfSize =
+      sizeof(BmpHdr) + BIOS::LCD::LcdWidth * BIOS::LCD::LcdHeight *
+                           3;  // no need to align row to multiply of 4
   pHdr->wBfReserved1 = 0;
   pHdr->wBfReserved2 = 0;
   pHdr->dwBfOffset = 0x36;
@@ -333,8 +328,7 @@ void CExport::SaveScreenshot16(char *strName_ /*= NULL*/) {
     for (int x = 0; x < BIOS::LCD::LcdWidth; x++) {
       ui16 wPixel = BIOS::LCD::GetPixel(x, y);
 
-      if (((x >> 2) + (y >> 2)) & 1)
-        BIOS::LCD::PutPixel(x, y, wPixel ^ 0x18e3);
+      if (((x >> 2) + (y >> 2)) & 1) BIOS::LCD::PutPixel(x, y, wPixel ^ 0x18e3);
 
       int r = Get565R(wPixel) >> 3;
       int g = Get565G(wPixel) >> 3;

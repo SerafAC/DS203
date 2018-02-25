@@ -6,7 +6,7 @@
 class CItemAmplitude : public CWndMenuItem {
   int m_nVolt;
 
-public:
+ public:
   virtual void Create(const char *pszId, ui16 clr, ui8 rows, CWnd *pParent) {
     m_nVolt = 10;
     CWndMenuItem::Create(pszId, clr, rows, pParent);
@@ -21,7 +21,7 @@ public:
       UpdateAdc();
       SendMessage(m_pParent, ToWord('i', 'u'), 0);
     }
-    if (nKey & BIOS::KEY::KeyRight && m_nVolt < 30) // 1.5x
+    if (nKey & BIOS::KEY::KeyRight && m_nVolt < 30)  // 1.5x
     {
       m_nVolt++;
       Invalidate();

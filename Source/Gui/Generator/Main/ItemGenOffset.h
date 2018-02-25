@@ -6,7 +6,7 @@
 class CItemOffset : public CWndMenuItem {
   int m_nVolt;
 
-public:
+ public:
   virtual void Create(const char *pszId, ui16 clr, ui8 rows, CWnd *pParent) {
     m_nVolt = 10;
     CWndMenuItem::Create(pszId, clr, rows, pParent);

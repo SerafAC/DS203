@@ -20,14 +20,13 @@ void CWndToolbox::Create(CWnd *pParent) {
 /*virtual*/ void CWndToolbox::OnPaint() {
   CRect rcClient(m_rcClient);
   if (m_bFirst) {
-    CDesign::Shadow(rcClient, 0xc0ffffff); // aa rr gg bb
+    CDesign::Shadow(rcClient, 0xc0ffffff);  // aa rr gg bb
     // rcClient.Deflate( 2, 2, 2, 2 );
     // CDesign::Shadow(rcClient, 0x80ffffff); // aa rr gg bb
     m_bFirst = false;
   }
 
-  if (m_nFocus == -1)
-    m_nFocus = 0;
+  if (m_nFocus == -1) m_nFocus = 0;
 
 #define FOC(n) (m_nFocus == n) ? RGB565(ffffff) : RGB565(808080)
   PrintBold(m_rcClient.left + 8, m_rcClient.top + 2 + 0 * 16, FOC(0),
@@ -89,8 +88,7 @@ void CWndToolbox::PrintBold(int x, int y, ui16 clrFront, ui16 clrBorder,
     m_bRunning = false;
     return;
   }
-  if (nKey == BIOS::KEY::KeyLeft || nKey == BIOS::KEY::KeyRight)
-    return;
+  if (nKey == BIOS::KEY::KeyLeft || nKey == BIOS::KEY::KeyRight) return;
 
   m_nFocus = -1;
   m_bRunning = false;
@@ -131,22 +129,22 @@ void CWndToolbox::DoModal() {
 #endif*/
 
   switch (GetResult()) {
-  case MenuPauseResume:
-    // Resume / Pause
-    m_bAdcEnabled = !m_bAdcEnabled;
-    break;
-  case MenuManager:
-    m_bAdcEnabled = false;
-    // Load wave BIN
-    break;
-  case MenuReset:
-    Settings.Reset();
-    break;
-  case MenuSave:
-    Settings.Save();
-    break;
-  case -1:
-    break;
+    case MenuPauseResume:
+      // Resume / Pause
+      m_bAdcEnabled = !m_bAdcEnabled;
+      break;
+    case MenuManager:
+      m_bAdcEnabled = false;
+      // Load wave BIN
+      break;
+    case MenuReset:
+      Settings.Reset();
+      break;
+    case MenuSave:
+      Settings.Save();
+      break;
+    case -1:
+      break;
   }
 
   UpdateAdc();
@@ -154,7 +152,7 @@ void CWndToolbox::DoModal() {
   pSafeFocus->SetFocus();
 
   CWnd::PushOverlay();
-  MainWnd.Invalidate(); // to redraw the graph
+  MainWnd.Invalidate();  // to redraw the graph
   CWnd::PopOverlay();
 }
 

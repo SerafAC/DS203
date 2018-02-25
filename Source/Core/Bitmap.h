@@ -1,8 +1,8 @@
 #pragma once
 #ifndef DSO_CORE_BITMAP_H
 #define DSO_CORE_BITMAP_H
-#include <Source/HwLayer/Types.h>
 #include <Source/HwLayer/Bios.h>
+#include <Source/HwLayer/Types.h>
 
 class CBitmap {
   int naccum;
@@ -12,24 +12,21 @@ class CBitmap {
   int x;
   int y;
 
-public:
+ public:
   int m_width;
   int m_height;
   ui16 m_arrPalette[16];
 
-public:
+ public:
   void Load(const ui8 *pData) {
     naccum = -1;
-    if (pData[0] != 'G' /*|| pData[1] != 'B'*/)
-      return;
+    if (pData[0] != 'G' /*|| pData[1] != 'B'*/) return;
 
     m_p = pData + 2;
     m_width = getvlc8();
     m_height = getvlc8();
-    if (pData[1] == 'b')
-      return;
-    if (pData[1] != 'B')
-      return;
+    if (pData[1] == 'b') return;
+    if (pData[1] != 'B') return;
     for (int i = 0; i < 16; i++) {
       int nHigh = *m_p++;
       int nLow = *m_p++;
@@ -53,10 +50,9 @@ public:
       if (bSame) {
         nCount = getvlc4() + 1;
         int nColor = getfix4();
-        for (int i = 0; i < nCount; i++)
-          Pixel(m_arrPalette[nColor]);
+        for (int i = 0; i < nCount; i++) Pixel(m_arrPalette[nColor]);
         bSame = false;
-      } else { // unique
+      } else {  // unique
         nCount = getfix4() + 1;
         for (int i = 0; i < nCount; i++) {
           int nColor = getfix4();
@@ -70,10 +66,9 @@ public:
     m_p = pPixels;
   }
 
-private:
+ private:
   void Pixel(ui16 clr) {
-    if (clr != RGB565(ff00ff))
-      BIOS::LCD::PutPixel(base_x + x, base_y + y, clr);
+    if (clr != RGB565(ff00ff)) BIOS::LCD::PutPixel(base_x + x, base_y + y, clr);
     if (y & 1) {
       if (--x < 0) {
         x++;

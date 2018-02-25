@@ -11,18 +11,17 @@ ADD_MODULE("FView", CWndFullView)
 #include <Source/Gui/Windows/WndButton.h>
 
 class CWndFullView : public CWnd {
-
   enum {
-    FIFO_CLR = 6, // FIFO指针复位     Value = 1/0: W_PTR/R_PTR
-    R_PTR = 0,    // FIFO读地址指针复位
-    W_PTR = 1,    // FIFO写地址指针复位
+    FIFO_CLR = 6,  // FIFO指针复位     Value = 1/0: W_PTR/R_PTR
+    R_PTR = 0,     // FIFO读地址指针复位
+    W_PTR = 1,     // FIFO写地址指针复位
     FIFO_DIGIT = 0
   };
 
   CWndButton m_btn1;
   // CWndButton m_btn2;
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndFullView",
                  dwFlags | CWnd::WsListener /*| CWnd::WsNoActivate*/,
@@ -34,8 +33,7 @@ public:
   }
 
   virtual void OnTimer() {
-    if (HasOverlay())
-      return;
+    if (HasOverlay()) return;
     DrawWave();
   }
 
@@ -52,8 +50,7 @@ public:
     BIOS::ADC::Copy(BIOS::ADC::GetCount());
     int nPtr = BIOS::ADC::GetPointer();
 
-    for (int y = 0; y < (int)COUNT(col); y++)
-      col[y] = RGB565(101010);
+    for (int y = 0; y < (int)COUNT(col); y++) col[y] = RGB565(101010);
 
     BIOS::LCD::Printf(m_rcClient.right - 8 * 5, m_rcClient.bottom - 16 - 22,
                       RGB565(808080), RGB565(000000), "Draw");
@@ -74,8 +71,7 @@ public:
       if (nLast != nX) {
         BIOS::LCD::Buffer(nLast, m_rcClient.top, col, COUNT(col));
         nLast = nX;
-        for (int y = 0; y < (int)COUNT(col); y++)
-          col[y] = RGB565(101010);
+        for (int y = 0; y < (int)COUNT(col); y++) col[y] = RGB565(101010);
       }
     }
 

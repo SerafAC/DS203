@@ -50,19 +50,17 @@ static void printchar(char **str, int c) {
 #define PAD_ZERO 2
 
 static int prints(char **out, const char *string, int width, int pad) {
-   int pc = 0, padchar = ' ';
+  int pc = 0, padchar = ' ';
 
   if (width > 0) {
-     int len = 0;
-     const char *ptr;
-    for (ptr = string; *ptr; ++ptr)
-      ++len;
+    int len = 0;
+    const char *ptr;
+    for (ptr = string; *ptr; ++ptr) ++len;
     if (len >= width)
       width = 0;
     else
       width -= len;
-    if (pad & PAD_ZERO)
-      padchar = '0';
+    if (pad & PAD_ZERO) padchar = '0';
   }
   if (!(pad & PAD_RIGHT)) {
     for (; width > 0; --width) {
@@ -88,15 +86,12 @@ static int prints(char **out, const char *string, int width, int pad) {
 static int printf(char **out, float f, int width) {
   char print_buf[PRINT_BUF_LEN];
   char *pb = print_buf;
-  if (f < 0)
-    *pb++ = '-';
+  if (f < 0) *pb++ = '-';
 
-  if (f < 0)
-    f = -f;
+  if (f < 0) f = -f;
 
   int nBase = 1;
-  while (f >= nBase * 10)
-    nBase *= 10;
+  while (f >= nBase * 10) nBase *= 10;
 
   int nNumber = (int)f;
 
@@ -107,8 +102,7 @@ static int printf(char **out, float f, int width) {
     nBase /= 10;
   }
   *pb++ = '.';
-  if (width == 0)
-    width = 3;
+  if (width == 0) width = 3;
 
   for (int i = 0; i < width; i++) {
     f -= (int)f;
@@ -122,9 +116,9 @@ static int printf(char **out, float f, int width) {
 static int printi(char **out, int i, int b, int sg, int width, int pad,
                   int letbase) {
   char print_buf[PRINT_BUF_LEN];
-   char *s;
-   int t, neg = 0, pc = 0;
-   unsigned int u = i;
+  char *s;
+  int t, neg = 0, pc = 0;
+  unsigned int u = i;
 
   if (i == 0) {
     print_buf[0] = '0';
@@ -142,8 +136,7 @@ static int printi(char **out, int i, int b, int sg, int width, int pad,
 
   while (u) {
     t = u % b;
-    if (t >= 10)
-      t += letbase - '0' - 10;
+    if (t >= 10) t += letbase - '0' - 10;
     *--s = t + '0';
     u /= b;
   }
@@ -162,16 +155,15 @@ static int printi(char **out, int i, int b, int sg, int width, int pad,
 }
 
 static int print(char **out, const char *format, va_list args) {
-   int width, pad;
-   int pc = 0;
+  int width, pad;
+  int pc = 0;
   char scr[2];
 
   for (; *format != 0; ++format) {
     if (*format == '%') {
       ++format;
       width = pad = 0;
-      if (*format == '\0')
-        break;
+      if (*format == '\0') break;
       if (*format == '%') {
         goto out;
       }
@@ -188,7 +180,7 @@ static int print(char **out, const char *format, va_list args) {
         width += *format - '0';
       }
       if (*format == 's') {
-         char *s = (char *)va_arg(args, char *);
+        char *s = (char *)va_arg(args, char *);
         pc += prints(out, s ? s : "(null)", width, pad);
         continue;
       }
@@ -228,8 +220,7 @@ static int print(char **out, const char *format, va_list args) {
       ++pc;
     }
   }
-  if (out)
-    **out = '\0';
+  if (out) **out = '\0';
   va_end(args);
   return pc;
 }
@@ -293,35 +284,35 @@ int main(void) {
   return 0;
 }
 
-/*
- * if you compile this file with
- *   gcc -Wall $(YOUR_C_OPTIONS) -DTEST_PRINTF -c printf.c
- * you will get a normal warning:
- *   printf.c:214: warning: spurious trailing `%' in format
- * this line is testing an invalid % at the end of the format string.
- *
- * this should display (on 32bit int machine) :
- *
- * Hello world!
- * printf test
- * (null) is null pointer
- * 5 = 5
- * -2147483647 = - max int
- * char a = 'a'
- * hex ff = ff
- * hex 00 = 00
- * signed -3 = unsigned 4294967293 = hex fffffffd
- * 0 message(s)
- * 0 message(s) with %
- * justif: "left      "
- * justif: "     right"
- *  3: 0003 zero padded
- *  3: 3    left justif.
- *  3:    3 right justif.
- * -3: -003 zero padded
- * -3: -3   left justif.
- * -3:   -3 right justif.
- */
+  /*
+   * if you compile this file with
+   *   gcc -Wall $(YOUR_C_OPTIONS) -DTEST_PRINTF -c printf.c
+   * you will get a normal warning:
+   *   printf.c:214: warning: spurious trailing `%' in format
+   * this line is testing an invalid % at the end of the format string.
+   *
+   * this should display (on 32bit int machine) :
+   *
+   * Hello world!
+   * printf test
+   * (null) is null pointer
+   * 5 = 5
+   * -2147483647 = - max int
+   * char a = 'a'
+   * hex ff = ff
+   * hex 00 = 00
+   * signed -3 = unsigned 4294967293 = hex fffffffd
+   * 0 message(s)
+   * 0 message(s) with %
+   * justif: "left      "
+   * justif: "     right"
+   *  3: 0003 zero padded
+   *  3: 3    left justif.
+   *  3:    3 right justif.
+   * -3: -003 zero padded
+   * -3: -3   left justif.
+   * -3:   -3 right justif.
+   */
 
 #endif
 #endif

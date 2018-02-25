@@ -35,7 +35,7 @@
 
       {CBarItem::IMain, (PSTR) "User app", &MainWnd.m_wndModuleSel},
 
-#define ADD_MODULE(strName, type)                                              \
+#define ADD_MODULE(strName, type) \
   {CBarItem::ISub, (PSTR)strName, &MainWnd.m_wndUser##type},
 #include <Source/User/_Modules.h>
 #undef ADD_MODULE
@@ -51,8 +51,7 @@
 
   // find nearest sub menu
   int nMenu = nFocus;
-  while (pItems[nMenu].m_eType == CBarItem::ISub && nMenu > 0)
-    nMenu--;
+  while (pItems[nMenu].m_eType == CBarItem::ISub && nMenu > 0) nMenu--;
 
   _ASSERT(pItems[nMenu].m_eType == CBarItem::IMain);
 
@@ -87,16 +86,15 @@
     x += BIOS::LCD::Draw(x, 0, RGB565(0020ff), RGBTRANS, CShapes::corner_right);
   x += 10;
 
-  int nIgnoreFirst = 1; // 1 -> first sub menu
+  int nIgnoreFirst = 1;  // 1 -> first sub menu
 
   // calculate how many items we need to hide from left to reach the selected
   // one
   int nRequired = 0;
-  int nAvailable = BIOS::LCD::LcdWidth - 16 - x; // 16px reserved for arrows
+  int nAvailable = BIOS::LCD::LcdWidth - 16 - x;  // 16px reserved for arrows
   for (int i = nFocus; i > 0 && pItems[i].m_eType != CBarItem::IMain; i--) {
     nRequired += CUtils::StrLen(pItems[i].m_pName) * 8 + 16;
-    if (nRequired > nAvailable)
-      nIgnoreFirst++;
+    if (nRequired > nAvailable) nIgnoreFirst++;
   }
 
   if (nIgnoreFirst > 1)
@@ -112,8 +110,7 @@
       bgr = bgrSelectedFocus;
     }
 
-    if (x + 16 + CUtils::StrLen(pItems[i].m_pName) * 8 >=
-        BIOS::LCD::LcdWidth) {
+    if (x + 16 + CUtils::StrLen(pItems[i].m_pName) * 8 >= BIOS::LCD::LcdWidth) {
       x +=
           BIOS::LCD::Print(x, m_rcClient.top, RGB565(b0b0b0), RGBTRANS, "\x10");
       break;
@@ -148,7 +145,7 @@
       m_nFocus++;
       while (
           (pItems[m_nFocus].m_eType != CBarItem::IMain) &&
-          (pItems[m_nFocus].m_eType != CBarItem::IEnd)) { // Find the last item
+          (pItems[m_nFocus].m_eType != CBarItem::IEnd)) {  // Find the last item
         m_nFocus++;
       }
       m_nFocus--;
@@ -163,7 +160,7 @@
         ((pItems[m_nFocus + 1].m_eType == CBarItem::IEnd))) {
       m_nFocus--;
       while (pItems[m_nFocus].m_eType !=
-             CBarItem::IMain) { // Find the first item
+             CBarItem::IMain) {  // Find the first item
         m_nFocus--;
       }
     } else {
@@ -176,11 +173,11 @@
     CWnd::OnKey(BIOS::KEY::KeyDown);
   }
 
-  if (nKey & BIOS::KEY::KeyEscape) { // Focus on first item
+  if (nKey & BIOS::KEY::KeyEscape) {  // Focus on first item
     if (pItems[m_nFocus].m_eType != CBarItem::IMain) {
       m_nFocus--;
       while (pItems[m_nFocus].m_eType !=
-             CBarItem::IMain) { // Find the first item
+             CBarItem::IMain) {  // Find the first item
         m_nFocus--;
       }
       CWndToolBar::ChangeFocus(oldFocus);
@@ -237,8 +234,7 @@
     const CBarItem *pItems = GetMenuItems();
 
     int nItem = narrow_cast<int>(data);
-    if (nItem == -1)
-      return;
+    if (nItem == -1) return;
 
     SendMessage(GetParent(), ToWord('L', 'D'), pItems[m_nFocus].m_pWndMenu);
 
@@ -258,44 +254,38 @@ int CWndToolBar::_FindItemByPoint(int mx) {
   const CWndToolBar::CBarItem *pItems = GetMenuItems();
   int nFocus = m_nFocus;
   int nMenu = nFocus;
-  while (pItems[nMenu].m_eType == CBarItem::ISub && nMenu > 0)
-    nMenu--;
+  while (pItems[nMenu].m_eType == CBarItem::ISub && nMenu > 0) nMenu--;
   _ASSERT(pItems[nMenu].m_eType == CBarItem::IMain);
   int x = m_rcClient.left;
 
   x += 9;
   x += CUtils::StrLen(pItems[nMenu].m_pName) * 8;
   x += 9;
-  if (x >= mx)
-    return nMenu;
+  if (x >= mx) return nMenu;
   x += 10;
 
-  int nIgnoreFirst = 1; // 1 -> first sub menu
+  int nIgnoreFirst = 1;  // 1 -> first sub menu
   // calculate how many items we need to hide from left to reach the selected
   // one
   int nRequired = 0;
-  int nAvailable = BIOS::LCD::LcdWidth - 16 - x; // 16px reserved for arrows
+  int nAvailable = BIOS::LCD::LcdWidth - 16 - x;  // 16px reserved for arrows
   for (int i = nFocus; i > 0 && pItems[i].m_eType != CBarItem::IMain; i--) {
     nRequired += CUtils::StrLen(pItems[i].m_pName) * 8 + 16;
-    if (nRequired > nAvailable)
-      nIgnoreFirst++;
+    if (nRequired > nAvailable) nIgnoreFirst++;
   }
 
-  if (nIgnoreFirst > 1)
-    x += 8;
+  if (nIgnoreFirst > 1) x += 8;
 
   for (int i = nMenu + nIgnoreFirst; pItems[i].m_eType == CBarItem::ISub; i++) {
     ui8 bSelected = (i == nFocus);
-    if (x + 16 + CUtils::StrLen(pItems[i].m_pName) * 8 >=
-        BIOS::LCD::LcdWidth) {
+    if (x + 16 + CUtils::StrLen(pItems[i].m_pName) * 8 >= BIOS::LCD::LcdWidth) {
       x += 8;
       break;
     }
     x += bSelected ? 9 : 8;
     x += CUtils::StrLen(pItems[i].m_pName) * 8;
     x += bSelected ? 9 : 8;
-    if (x >= mx)
-      return i;
+    if (x >= mx) return i;
   }
   return -1;
 }

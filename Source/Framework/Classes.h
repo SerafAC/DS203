@@ -5,7 +5,7 @@
 #include <Source/HwLayer/Types.h>
 
 class DLLAPI CPoint {
-public:
+ public:
   // RAM optimization int->short
   short x, y;
   CPoint() {}
@@ -14,7 +14,7 @@ public:
 };
 
 class DLLAPI CRect {
-public:
+ public:
   CRect() {}
 
   CRect(int _left, int _top, int _right, int _bottom)
@@ -74,8 +74,7 @@ public:
   }
 
   bool IsInside(int x, int y) {
-    if (x < left || x >= right || y < top || y >= bottom)
-      return false;
+    if (x < left || x >= right || y < top || y >= bottom) return false;
     return true;
   }
 
@@ -83,14 +82,15 @@ public:
   short left, top, right, bottom;
 };
 
-template <class TYPE> class DLLAPI CArray {
+template <class TYPE>
+class DLLAPI CArray {
   TYPE *m_arrElements;
   ui16 m_nCount;
   ui16 m_nMaxCount;
 
   typedef int (*TCompareFunction)(TYPE &, TYPE &);
 
-public:
+ public:
   CArray() {}
 
   CArray(TYPE *pSource, int nLength) {
@@ -138,16 +138,14 @@ public:
   void SetSize(int nSize) { m_nCount = nSize; }
 
   TYPE &operator[](int i) {
-    if (i < 0)
-      i += m_nCount;
+    if (i < 0) i += m_nCount;
     _ASSERT(i >= 0 && i < GetSize());
     return m_arrElements[i];
   }
 
   void RemoveAt(int i) {
     _ASSERT(i < GetSize());
-    for (; i < GetSize() - 1; i++)
-      m_arrElements[i] = m_arrElements[i + 1];
+    for (; i < GetSize() - 1; i++) m_arrElements[i] = m_arrElements[i + 1];
     Resize(-1);
   }
 

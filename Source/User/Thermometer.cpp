@@ -30,8 +30,7 @@ void DrawTemp(int nTemp) {
 void CWndThermometer::OnTimer() {
   static int nTemp = 0;
   nTemp += 1;
-  if (nTemp > 50)
-    nTemp = 0;
+  if (nTemp > 50) nTemp = 0;
   DrawTemp(nTemp);
   //	Invalidate();
 }
@@ -56,8 +55,7 @@ void CWndThermometer::OnPaint() {
 
   for (int x = -24; x <= 24; x++)
     for (int y = -24; y <= 24; y++) {
-      if (x * x + y * y > 24 * 24)
-        continue;
+      if (x * x + y * y > 24 * 24) continue;
       if (x * x + y * y < 22 * 22) {
         BIOS::LCD::PutPixel(50 + x, 206 + y, RGB565(ff0000));
         continue;
@@ -82,8 +80,9 @@ void CWndThermometer::OnPaint() {
 
   for (int i = 0; i <= 50; i += 10)
     BIOS::LCD::Printf(70, 154 - (154 - 34) * i / 50, RGB565(b0b0b0),
-                      RGB565(ffffff), "%2d\xf8"
-                                      "C",
+                      RGB565(ffffff),
+                      "%2d\xf8"
+                      "C",
                       i);
 
   DrawTemp(0);
@@ -310,6 +309,6 @@ LINKERSECTION(".extra")
     0xf3, 0x80, 0xf2, 0xf3, 0xee, 0xdc, 0x1b, 0x0a, 0xc4, 0x90, 0xa1, 0xb0,
     0xc1, 0xc0, 0xd6, 0xd1, 0xcc, 0x1b, 0x1a, 0xaf, 0x49, 0x1a, 0xa7, 0xb1,
     0xaa, 0xf2, 0x90,
-}; // 2439 bytes
+};  // 2439 bytes
 
 #endif

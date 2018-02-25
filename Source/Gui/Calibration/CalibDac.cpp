@@ -34,7 +34,7 @@ static bool compare(DataParam p, const char *b) {
 
   // Selector
   if (pSender == &m_itmExecute &&
-      code == ToWord('l', 'e')) // provider selector combo box
+      code == ToWord('l', 'e'))  // provider selector combo box
   {
     //		Save();
     //		StopModal();
@@ -56,7 +56,7 @@ static bool compare(DataParam p, const char *b) {
   if (pSender == &MainWnd.m_wndConfirm && code == ToWord('e', 'd') &&
       compare(data, "No")) {
     MainWnd.m_wndConfirm.Hide();
-    StopModal(); // hide this list
+    StopModal();  // hide this list
     return;
   }
   CListBox::OnMessage(pSender, code, data);

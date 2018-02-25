@@ -2,11 +2,11 @@
 #ifndef DSO_GUI_OSCILLOSCOPE_MEAS_LISTMEAS_H
 #define DSO_GUI_OSCILLOSCOPE_MEAS_LISTMEAS_H
 #include <Source/Core/Controls.h>
-#include <Source/Core/Settings.h>
 #include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
 
 class CWndListMeas : public CListBox {
-public:
+ public:
   CSettings::Measure *m_pMeas;
 
   CProviderEnum m_proEnabled;
@@ -19,7 +19,7 @@ public:
   CLPItem m_itmType;
   CLPItem m_itmRange;
 
-public:
+ public:
   void Create(CSettings::Measure *pMeas, CWnd *pParent) {
     m_pMeas = pMeas;
     CListBox::Create("Measure", WsVisible | WsModal, CRect(100, 30, 316, 160),

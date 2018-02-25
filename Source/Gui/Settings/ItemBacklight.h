@@ -5,7 +5,7 @@
 #include <Source/Gui/Settings/Core/SettingsCore.h>
 
 class CMIBacklight : public CMIProgress {
-public:
+ public:
   virtual int GetValue() { return Settings.Runtime.m_nBacklight / 4; }
   virtual void SetValue(int nValue) {
     Settings.Runtime.m_nBacklight = nValue * 4;

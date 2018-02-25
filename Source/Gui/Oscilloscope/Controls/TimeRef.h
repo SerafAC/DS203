@@ -1,12 +1,12 @@
 #pragma once
 #ifndef DSO_GUI_OSCILLOSCOPE_CONTROLS_TIMEREF_H
 #define DSO_GUI_OSCILLOSCOPE_CONTROLS_TIMEREF_H
-#include <Source/Framework/Wnd.h>
 #include <Source/Core/Settings.h>
+#include <Source/Framework/Wnd.h>
 #include <Source/Gui/Oscilloscope/Controls/GraphBase.h>
 
 class CWndTimeReferences : public CWnd {
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndTimeReferences", dwFlags | CWnd::WsNoActivate,
                  CRect(12, 16, 12 + CWndGraph::DivsX * CWndGraph::BlkX, 21),

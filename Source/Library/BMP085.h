@@ -9,14 +9,14 @@
 #define ARDUINO 0xA60
 
 class CArduino {
-public:
+ public:
   CI2C Wire;
 
   void _delay_ms(int n) { CDelay::DelayMs(n); }
 };
 
 class CBMP085 : public CArduino {
-public:
+ public:
   enum {
     I2CADDR = 0x77,
     ULTRALOWPOWER = 0,
@@ -41,17 +41,15 @@ public:
     READPRESSURECMD = 0x34
   };
 
-public:
-  bool begin(ui8 mode = ULTRAHIGHRES) // by default go highres
+ public:
+  bool begin(ui8 mode = ULTRAHIGHRES)  // by default go highres
   {
-    if (mode > ULTRAHIGHRES)
-      mode = ULTRAHIGHRES;
+    if (mode > ULTRAHIGHRES) mode = ULTRAHIGHRES;
     oversampling = mode;
 
     Wire.begin();
 
-    if (read8(0xD0) != 0x55)
-      return false;
+    if (read8(0xD0) != 0x55) return false;
 
     /* read calibration data */
     ac1 = read16(CAL_AC1);
@@ -97,7 +95,7 @@ public:
   }
 
   float readTemperature(void) {
-    si32 UT, X1, X2, B5; // following ds convention
+    si32 UT, X1, X2, B5;  // following ds convention
     float temp;
 
     UT = readRawTemperature();
@@ -121,7 +119,7 @@ public:
     return temp;
   }
 
-  float readAltitude(float sealevelPressure = 101325) // std atmosphere
+  float readAltitude(float sealevelPressure = 101325)  // std atmosphere
   {
     float altitude;
     float pressure = (float)readPressure();
@@ -258,13 +256,13 @@ public:
     raw |= read8(PRESSUREDATA + 2);
     raw >>= (8 - oversampling);
 
-/* this pull broke stuff, look at it later?
- if (oversampling==0) {
-   raw <<= 8;
-   raw |= read8(PRESSUREDATA+2);
-   raw >>= (8 - oversampling);
- }
-*/
+    /* this pull broke stuff, look at it later?
+     if (oversampling==0) {
+       raw <<= 8;
+       raw |= read8(PRESSUREDATA+2);
+       raw >>= (8 - oversampling);
+     }
+    */
 
 #if DEBUG == 1
     Serial.print("Raw pressure: ");
@@ -273,26 +271,26 @@ public:
     return raw;
   }
 
-private:
+ private:
   ui8 read8(ui8 addr) {
     ui8 ret;
 
-    Wire.beginTransmission(I2CADDR); // start transmission to device
+    Wire.beginTransmission(I2CADDR);  // start transmission to device
 #if (ARDUINO >= 100)
-    Wire.write(addr); // sends register address to read from
+    Wire.write(addr);  // sends register address to read from
 #else
-    Wire.send(addr);      // sends register address to read from
+    Wire.send(addr);       // sends register address to read from
 #endif
-    Wire.endTransmission(); // end transmission
+    Wire.endTransmission();  // end transmission
 
-    Wire.beginTransmission(I2CADDR); // start transmission to device
-    Wire.requestFrom(I2CADDR, 1);    // send data n-bytes read
+    Wire.beginTransmission(I2CADDR);  // start transmission to device
+    Wire.requestFrom(I2CADDR, 1);     // send data n-bytes read
 #if (ARDUINO >= 100)
-    ret = Wire.read(); // receive DATA
+    ret = Wire.read();  // receive DATA
 #else
-    ret = Wire.receive(); // receive DATA
+    ret = Wire.receive();  // receive DATA
 #endif
-    Wire.endTransmission(); // end transmission
+    Wire.endTransmission();  // end transmission
 
     return ret;
   }
@@ -300,40 +298,40 @@ private:
   ui16 read16(ui8 addr) {
     ui16 ret;
 
-    Wire.beginTransmission(I2CADDR); // start transmission to device
+    Wire.beginTransmission(I2CADDR);  // start transmission to device
 #if (ARDUINO >= 100)
-    Wire.write(addr); // sends register address to read from
+    Wire.write(addr);  // sends register address to read from
 #else
-    Wire.send(addr);      // sends register address to read from
+    Wire.send(addr);       // sends register address to read from
 #endif
-    Wire.endTransmission(); // end transmission
+    Wire.endTransmission();  // end transmission
 
-    Wire.beginTransmission(I2CADDR); // start transmission to device
-    Wire.requestFrom(I2CADDR, 2);    // send data n-bytes read
+    Wire.beginTransmission(I2CADDR);  // start transmission to device
+    Wire.requestFrom(I2CADDR, 2);     // send data n-bytes read
 #if (ARDUINO >= 100)
-    ret = Wire.read(); // receive DATA
+    ret = Wire.read();  // receive DATA
     ret <<= 8;
-    ret |= Wire.read(); // receive DATA
+    ret |= Wire.read();  // receive DATA
 #else
-    ret = Wire.receive(); // receive DATA
+    ret = Wire.receive();  // receive DATA
     ret <<= 8;
-    ret |= Wire.receive(); // receive DATA
+    ret |= Wire.receive();  // receive DATA
 #endif
-    Wire.endTransmission(); // end transmission
+    Wire.endTransmission();  // end transmission
 
     return ret;
   }
 
   void write8(ui8 addr, ui8 data) {
-    Wire.beginTransmission(I2CADDR); // start transmission to device
+    Wire.beginTransmission(I2CADDR);  // start transmission to device
 #if (ARDUINO >= 100)
-    Wire.write(addr); // sends register address to read from
-    Wire.write(data); // write data
+    Wire.write(addr);  // sends register address to read from
+    Wire.write(data);  // write data
 #else
-    Wire.send(addr);       // sends register address to read from
-    Wire.send(data);       // write data
+    Wire.send(addr);        // sends register address to read from
+    Wire.send(data);        // write data
 #endif
-    Wire.endTransmission(); // end transmission
+    Wire.endTransmission();  // end transmission
   }
 
   ui8 oversampling;

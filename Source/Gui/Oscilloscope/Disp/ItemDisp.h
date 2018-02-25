@@ -5,10 +5,10 @@
 #include "Source/Core/Controls.h"
 
 class CMPItem : public CWndMenuItem {
-protected:
+ protected:
   CValueProvider *m_pProvider;
 
-public:
+ public:
   void Create(const char *pszId, ui16 clr, CValueProvider *pProvider,
               CWnd *pParent) {
     m_pProvider = pProvider;

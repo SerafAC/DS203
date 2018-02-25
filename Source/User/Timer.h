@@ -27,7 +27,7 @@ class CWndUserTimer : public CWnd {
   CWndButton m_btnReset;
   CWndButton m_btnDigit[4];
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags);
   virtual void OnTimer();
   void SetDigit(CBitmap &bmp, int nValue, ui16 clrBack, ui16 clrFront1,

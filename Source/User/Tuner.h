@@ -25,12 +25,12 @@ class CWndTuner : public CWnd {
   static const unsigned char bitmapTuner[];
   bool m_bWave;
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags);
   virtual void OnPaint();
   virtual void OnMessage(CWnd *pSender, ui16 code, ui32 data);
 
-protected:
+ protected:
   float GetFundamental();
   void DrawPiano();
   void DrawKey(int, bool);

@@ -7,12 +7,13 @@ void CMainWnd::Create() {
   m_pInstance = this;
 
   // image correctly uploaded in ROM ?
-  _ASSERT(CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s]
-                                                 [0] == '1' &&
-          CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s]
-                                                 [1] == 's' &&
-          CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s]
-                                                 [2] == 0);
+  _ASSERT(
+      CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s][0] ==
+          '1' &&
+      CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s][1] ==
+          's' &&
+      CSettings::TimeBase::ppszTextResolution[CSettings::TimeBase::_1s][2] ==
+          0);
 
   Settings.Load();
   Settings.LoadCalibration();
@@ -66,8 +67,7 @@ void CMainWnd::Create() {
 
   m_wndToolbox.Create(this);
 
-  if (Settings.Runtime.m_nMenuItem == -1)
-    Settings.Runtime.m_nMenuItem = 1;
+  if (Settings.Runtime.m_nMenuItem == -1) Settings.Runtime.m_nMenuItem = 1;
 
   SendMessage(&m_wndToolBar, ToWord('g', 'i'), Settings.Runtime.m_nMenuItem);
 
@@ -162,19 +162,19 @@ void CMainWnd::Create() {
 /*virtual*/ void CMainWnd::OnMessage(CWnd *pSender, CodeParam code,
                                      DataParam data) {
   if (pSender == &m_wndToolBar) {
-    if (code == ToWord('L', 'D') && data) // Layout disable
+    if (code == ToWord('L', 'D') && data)  // Layout disable
     {
       CWnd *pLayout = (CWnd *)data;
       SendMessage(pLayout, code, 0);
       pLayout->ShowWindow(SwHide);
     }
-    if (code == ToWord('L', 'E') && data) // Layout enable
+    if (code == ToWord('L', 'E') && data)  // Layout enable
     {
       CWnd *pLayout = (CWnd *)data;
       SendMessage(pLayout, code, 0);
       pLayout->ShowWindow(SwShow);
     }
-    if (code == ToWord('L', 'R')) // Layout reset
+    if (code == ToWord('L', 'R'))  // Layout reset
     {
       Invalidate();
     }
@@ -183,16 +183,14 @@ void CMainWnd::Create() {
 }
 
 CWnd *GetWindowByPoint(CWnd *pParent, int x, int y) {
-  if (!pParent->m_rcClient.IsInside(x, y))
-    return NULL;
+  if (!pParent->m_rcClient.IsInside(x, y)) return NULL;
 
   CWnd *pChild = pParent->m_pFirst;
   while (pChild) {
     if (pChild->m_dwFlags & CWnd::WsVisible &&
         !(pChild->m_dwFlags & CWnd::WsNoActivate)) {
       CWnd *pFound = GetWindowByPoint(pChild, x, y);
-      if (pFound)
-        return pFound;
+      if (pFound) return pFound;
     }
     pChild = pChild->m_pNext;
   }
@@ -202,8 +200,7 @@ CWnd *GetWindowByPoint(CWnd *pParent, int x, int y) {
 void CMainWnd::OnMouseClick() {
   CWnd *pTopDialog = GetFocus();
   while (pTopDialog->m_pParent) {
-    if (pTopDialog->m_dwFlags & CWnd::WsModal)
-      break;
+    if (pTopDialog->m_dwFlags & CWnd::WsModal) break;
     pTopDialog = pTopDialog->m_pParent;
   }
 
@@ -214,8 +211,7 @@ void CMainWnd::OnMouseClick() {
       if (!(pWnd->m_dwFlags & CWnd::WsNoActivate)) {
         bool bProcess = true;
         pTopDialog->SendMessage(pWnd, ToWord('M', 'D'), &bProcess);
-        if (bProcess)
-          pWnd->WindowMessage(CWnd::WmKey, BIOS::KEY::KeyEnter);
+        if (bProcess) pWnd->WindowMessage(CWnd::WmKey, BIOS::KEY::KeyEnter);
       }
     } else if (!(pWnd->m_dwFlags & CWnd::WsNoActivate)) {
       CWnd *pPrevFocus = GetFocus();
@@ -255,13 +251,12 @@ void CMainWnd::Resample() {
   int nTimebaseCorrection =
       Settings.Time
           .pfValueResolutionCorrection[(NATIVEENUM)Settings.Time.Resolution];
-  if (nTimebaseCorrection == 1024)
-    return;
+  if (nTimebaseCorrection == 1024) return;
 
   if (nTimebaseCorrection < 1024) {
     // shrink
     for (int i = 4096 - 1; i >= 1;
-         i--) // no need to copy [0] <- [0*nCorrect/1k]
+         i--)  // no need to copy [0] <- [0*nCorrect/1k]
     {
       BIOS::ADC::SSample &nSample = (BIOS::ADC::SSample &)BIOS::ADC::GetAt(i);
       BIOS::ADC::SSample nInterpolated;
@@ -269,7 +264,7 @@ void CMainWnd::Resample() {
 
       nSample.CH[0] = nInterpolated.CH[0];
       nSample.CH[1] = nInterpolated.CH[1];
-      nSample.CH[2] = nInterpolated.CH[2]; // contains CH3 & CH4
+      nSample.CH[2] = nInterpolated.CH[2];  // contains CH3 & CH4
     }
   } else {
     // expand
@@ -279,14 +274,12 @@ void CMainWnd::Resample() {
 
 /*virtual*/ void CMainWnd::WindowMessage(int nMsg, int nParam /*=0*/) {
   //	BIOS::LCD::Printf( 0, 0, RGB565(ff0000), RGB565(ffffff), "%d",
-  //BIOS::ADC::GetState() );
+  // BIOS::ADC::GetState() );
   if (nMsg == WmTick) {
-    if (m_bSleeping)
-      return;
+    if (m_bSleeping) return;
 
     m_Mouse.Hide();
-    if (m_Mouse.Clicked())
-      OnMouseClick();
+    if (m_Mouse.Clicked()) OnMouseClick();
 
     // timers update
     CWnd::WindowMessage(nMsg, nParam);
@@ -305,8 +298,7 @@ void CMainWnd::Resample() {
       bEnableSdk = false;
 #endif
 
-    if (bEnableSdk)
-      SdkUartProc();
+    if (bEnableSdk) SdkUartProc();
 
     if ((Settings.Trig.Sync != CSettings::Trigger::_None) &&
         BIOS::ADC::Enabled() && BIOS::ADC::Ready()) {
@@ -350,7 +342,7 @@ void CMainWnd::Resample() {
       }
 
       m_nLastKey = BIOS::SYS::GetTick();
-      CCoreSettings::Update(); // display backlight
+      CCoreSettings::Update();  // display backlight
       return;
     }
 
@@ -394,33 +386,33 @@ void CMainWnd::CallShortcut(int nShortcut) {
     return;
   }
   switch (nShortcut) {
-  case CSettings::CRuntime::None:
-    break;
-  case CSettings::CRuntime::StartStop:
-    m_wndToolbox.ToggleAdc();
-    break;
-  case CSettings::CRuntime::Toolbox:
-    if (!m_wndToolbox.IsVisible() && !m_wndManager.IsVisible()) {
-      m_wndToolbox.DoModal();
-      if (m_wndToolbox.GetResult() == CWndToolbox::MenuManager) {
+    case CSettings::CRuntime::None:
+      break;
+    case CSettings::CRuntime::StartStop:
+      m_wndToolbox.ToggleAdc();
+      break;
+    case CSettings::CRuntime::Toolbox:
+      if (!m_wndToolbox.IsVisible() && !m_wndManager.IsVisible()) {
+        m_wndToolbox.DoModal();
+        if (m_wndToolbox.GetResult() == CWndToolbox::MenuManager) {
+          m_wndManager.Create(this);
+          m_wndManager.DoModal();
+        }
+      }
+      break;
+    case CSettings::CRuntime::WaveManager:
+      if (m_wndManager.IsVisible())
+        m_wndManager.Cancel();
+      else {
         m_wndManager.Create(this);
         m_wndManager.DoModal();
       }
-    }
-    break;
-  case CSettings::CRuntime::WaveManager:
-    if (m_wndManager.IsVisible())
-      m_wndManager.Cancel();
-    else {
-      m_wndManager.Create(this);
-      m_wndManager.DoModal();
-    }
-    break;
-  case CSettings::CRuntime::Screenshot:
-    m_wndToolbox.SaveScreenshot16();
-    break;
-  default:
-    _ASSERT(!!!"Unknown shortcut");
+      break;
+    case CSettings::CRuntime::Screenshot:
+      m_wndToolbox.SaveScreenshot16();
+      break;
+    default:
+      _ASSERT(!!!"Unknown shortcut");
   }
 }
 

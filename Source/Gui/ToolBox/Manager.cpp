@@ -1,5 +1,5 @@
-#include "ToolBox.h"
 #include <Source/Gui/MainWnd.h>
+#include "ToolBox.h"
 
 const char *const CWndManager::tabs[] = {"Wave", "Bmp", "Csv",
                                          "Svg",  "Dat", NULL};
@@ -100,25 +100,25 @@ bool CWndManager::Exists(char *strName) {
                        m_nValue);
 
     switch (m_itmTabs.GetFocus()) {
-    case 0: // Wave
-      if (!CImport::LoadWave(strName))
-        MainWnd.m_wndMessage.Show(&MainWnd, "Sorry...", "Import failed!",
+      case 0:  // Wave
+        if (!CImport::LoadWave(strName))
+          MainWnd.m_wndMessage.Show(&MainWnd, "Sorry...", "Import failed!",
+                                    RGB565(ffff00));
+        else {
+          CWnd::PushOverlay();
+          MainWnd.Invalidate();  // to redraw the graph
+          CWnd::PopOverlay();
+        }
+        // Invalidate(); // Why it forgets to redraw current window!?
+        break;
+      case 1:  // Bmp
+      case 2:  // Csv
+      case 3:  // Svg
+      case 4:  // Dat
+        MainWnd.m_wndMessage.Show(&MainWnd, "Sorry...",
+                                  "This feature is not\nimplemented yet",
                                   RGB565(ffff00));
-      else {
-        CWnd::PushOverlay();
-        MainWnd.Invalidate(); // to redraw the graph
-        CWnd::PopOverlay();
-      }
-      // Invalidate(); // Why it forgets to redraw current window!?
-      break;
-    case 1: // Bmp
-    case 2: // Csv
-    case 3: // Svg
-    case 4: // Dat
-      MainWnd.m_wndMessage.Show(&MainWnd, "Sorry...",
-                                "This feature is not\nimplemented yet",
-                                RGB565(ffff00));
-      break;
+        break;
     }
     // load
   }
@@ -129,40 +129,40 @@ bool CWndManager::Exists(char *strName) {
     CRect rcSafe;
 
     switch (m_itmTabs.GetFocus()) {
-    case 0: // Wave
-      CExport::SaveWav(strName);
-      MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
-                                RGB565(ffff00));
-      break;
-    case 1: // Bmp
-      ShowWindow(CWnd::SwHide);
-      CWnd::PushOverlay();
-      MainWnd.Invalidate();
-      CWnd::PopOverlay();
+      case 0:  // Wave
+        CExport::SaveWav(strName);
+        MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
+                                  RGB565(ffff00));
+        break;
+      case 1:  // Bmp
+        ShowWindow(CWnd::SwHide);
+        CWnd::PushOverlay();
+        MainWnd.Invalidate();
+        CWnd::PopOverlay();
 
-      CExport::SaveScreenshot16(strName);
-      ShowWindow(CWnd::SwShow);
-      MainWnd.Invalidate();
-      MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
-                                RGB565(ffff00));
-      break;
-    case 2: // Csv
-      CExport::SaveCsv(strName);
-      MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
-                                RGB565(ffff00));
-      break;
-    case 3: // Svg
-      CExport::SaveSvg(strName);
-      MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
-                                RGB565(ffff00));
-      //				MainWnd.m_wndMessage.Show(&MainWnd,
-      //"Sorry...", "This feature is not implemented yet", RGB565(ffff00));
-      break;
-    case 4: // Dat
-      CExport::SaveBinary(strName);
-      MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
-                                RGB565(ffff00));
-      break;
+        CExport::SaveScreenshot16(strName);
+        ShowWindow(CWnd::SwShow);
+        MainWnd.Invalidate();
+        MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
+                                  RGB565(ffff00));
+        break;
+      case 2:  // Csv
+        CExport::SaveCsv(strName);
+        MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
+                                  RGB565(ffff00));
+        break;
+      case 3:  // Svg
+        CExport::SaveSvg(strName);
+        MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
+                                  RGB565(ffff00));
+        //				MainWnd.m_wndMessage.Show(&MainWnd,
+        //"Sorry...", "This feature is not implemented yet", RGB565(ffff00));
+        break;
+      case 4:  // Dat
+        CExport::SaveBinary(strName);
+        MainWnd.m_wndMessage.Show(&MainWnd, "Information", "Successfully saved",
+                                  RGB565(ffff00));
+        break;
     }
   }
   if (code == ToWord('o', 'k')) {

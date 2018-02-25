@@ -3,11 +3,11 @@
 #define DSO_GUI_OSCILLOSCOPE_MATH_LISTOPERATOR_H
 
 #include <Source/Core/Controls.h>
-#include <Source/Core/Settings.h>
 #include <Source/Core/ListItems.h>
+#include <Source/Core/Settings.h>
 
 class CWndListOperator : public CListBox {
-public:
+ public:
   CSettings::MathOperator *m_pOper;
 
   CProviderColor m_proColour;
@@ -23,7 +23,7 @@ public:
   CProviderNum m_proPosition;
   CLPItem m_itmPosition;
 
-public:
+ public:
   void Create(CSettings::MathOperator *pOper, CWnd *pParent) {
     m_pOper = pOper;
     CListBox::Create("Operator", WsVisible | WsModal, CRect(100, 30, 300, 170),

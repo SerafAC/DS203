@@ -9,11 +9,10 @@
 
 #include "ItemDelta.h"
 #include "ItemMarker.h"
-#include "ItemMarker.h"
 #include "ListMarker.h"
 
 class CWndMenuCursor : public CWnd {
-public:
+ public:
   // Menu items
   CItemMarker m_itmX1;
   CItemMarker m_itmX2;
@@ -29,7 +28,7 @@ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags);
   virtual void OnMessage(CWnd *pSender, CodeParam code, DataParam data);
 
-private:
+ private:
   void Find(CSettings::Marker *pMarker, CSettings::Marker::EFind mode);
 };
 

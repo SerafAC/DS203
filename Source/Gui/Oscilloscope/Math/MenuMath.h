@@ -15,7 +15,7 @@
 class CWndMenuMath : public CWnd {
   enum { A = 0, B = 1, C = 2 };
 
-public:
+ public:
   // Menu items
   CItemOperand m_itmOperand[3];
   CItemOperator m_itmOperator;

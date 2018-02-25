@@ -12,18 +12,18 @@ ADD_MODULE("Balls", CWndBalls)
 #include <Source/Framework/Wnd.h>
 
 class CBallGenerator {
-public:
+ public:
   int w, h, cx, cy, gx, gy, sx, sy, lc, lg, ls;
 
   CBallGenerator(int _w, int _h) {
     w = _w;
     h = _h;
     // 0 = left, 256 = right, 128 = center
-    cx = (w * 128) >> 8; // center
+    cx = (w * 128) >> 8;  // center
     cy = (w * 128) >> 8;
-    gx = (w * 153) >> 8; // glow
+    gx = (w * 153) >> 8;  // glow
     gy = (h * 179) >> 8;
-    sx = (w * 179) >> 8; // shadow
+    sx = (w * 179) >> 8;  // shadow
     sy = (h * 205) >> 8;
     lc = (60 * w) >> 7;
     lg = (70 * w) >> 7;
@@ -43,7 +43,7 @@ public:
     render(pPixels, pMaterial);
   }
 
-private:
+ private:
   void render(ui16 *pPixels, si16 *mat) {
     int x, y;
 
@@ -58,15 +58,13 @@ private:
         else {
           a = 255 - a;
           a *= 5;
-          if (a > 255)
-            a = 255;
+          if (a > 255) a = 255;
         }
 
         int c = (x - gx) * (x - gx) + (y - gy) * (y - gy);
         c = _sqrt(c * 256 * 256 / lg / lg);
         c = c * c / 256;
-        if (c > 255)
-          c = 255;
+        if (c > 255) c = 255;
 
         int s = (x - sx) * (x - sx) + (y - sy) * (y - sy);
         s = _sqrt(s * 256 * 256 / ls / ls);
@@ -82,8 +80,7 @@ private:
         int b = mat[2 * 3 + 0] + ((mat[2 * 3 + 1] * c) >> 8) +
                 ((mat[2 * 3 + 2] * s) >> 8);
 
-        if (mat[10] != 255)
-          a = (a * mat[9]) >> 8;
+        if (mat[10] != 255) a = (a * mat[9]) >> 8;
 
         r = range(r);
         g = range(g);
@@ -115,10 +112,8 @@ private:
   }
 
   int range(int v) {
-    if (v < 0)
-      return 0;
-    if (v > 255)
-      return 255;
+    if (v < 0) return 0;
+    if (v > 255) return 255;
     return v;
   }
 
@@ -142,7 +137,7 @@ private:
 class CWndBalls : public CWnd {
   enum { BallSize = 32 };
 
-public:
+ public:
   CBallGenerator m_Gen;
   ui16 pBuffer[BallSize * BallSize];
   bool bRedraw;
@@ -211,7 +206,7 @@ public:
     }
   }
 
-private:
+ private:
   unsigned int Random() {
     // our initial starting seed is 5323
     static unsigned int nSeed = 5323;

@@ -18,7 +18,7 @@ bool _IsVisible(CWnd &wnd) {
   m_itmDuty.Create("Duty", RGB565(b00040), 2, this);
 
   if (dwFlags & CWnd::WsVisible)
-    OnMessage(&m_itmWave, ToWord('i', 'u'), 0); // force update
+    OnMessage(&m_itmWave, ToWord('i', 'u'), 0);  // force update
 }
 
 /*virtual*/ void CWndMenuGenerator::OnMessage(CWnd *pSender, CodeParam code,
@@ -113,8 +113,7 @@ bool _IsVisible(CWnd &wnd) {
 
   if (code == ToWord('i', 'u') && pSender == &m_itmFreq) {
     CCoreGenerator::Update();
-    if (_IsVisible(m_itmDuty))
-      m_itmDuty.Invalidate();
+    if (_IsVisible(m_itmDuty)) m_itmDuty.Invalidate();
   }
 
   if (code == ToWord('i', 'u') && pSender == &m_itmDuty) {
@@ -124,7 +123,7 @@ bool _IsVisible(CWnd &wnd) {
   if (code == ToWord('i', 'u') && pSender == &m_itmAmpl) {
     Settings.Gen.nScale =
         (int)(m_itmAmpl.GetAmplitude() / 2.0f *
-              0x10000); // Settings.DacCalib.Get( m_itmAmpl.GetAmplitude() );
+              0x10000);  // Settings.DacCalib.Get( m_itmAmpl.GetAmplitude() );
     CCoreGenerator::Update();
     if (Settings.Gen.Wave == CSettings::Generator::_Dc)
       MainWnd.m_wndSignalGraph.Setup(NULL, 0);
@@ -136,7 +135,7 @@ bool _IsVisible(CWnd &wnd) {
   if (code == ToWord('i', 'u') && pSender == &m_itmOffset) {
     Settings.Gen.nOffset =
         (int)(m_itmOffset.GetOffset() / 2.0f *
-              0x10000); // Settings.DacCalib.Get( m_itmAmpl.GetAmplitude() );
+              0x10000);  // Settings.DacCalib.Get( m_itmAmpl.GetAmplitude() );
     CCoreGenerator::Update();
     if (Settings.Gen.Wave == CSettings::Generator::_Dc)
       MainWnd.m_wndSignalGraph.Setup(NULL, 0);

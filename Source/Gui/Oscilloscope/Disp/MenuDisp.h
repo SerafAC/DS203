@@ -10,7 +10,7 @@
 #include "ItemDisp.h"
 
 class CWndMenuDisplay : public CWnd {
-public:
+ public:
   // Menu items
   CProviderEnum m_proAxes;
   CProviderEnum m_proDraw;

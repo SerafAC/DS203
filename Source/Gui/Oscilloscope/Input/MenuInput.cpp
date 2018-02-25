@@ -57,8 +57,7 @@ LINKERSECTION(".extra")
     // samples. When no trigger is set, these samples are invalid.
     int nInvalid = Settings.Trig.Sync == CSettings::Trigger::_None ? 150 : 30;
     Settings.Time.InvalidFirst = nInvalid;
-    if (Settings.Time.Shift < nInvalid)
-      Settings.Time.Shift = nInvalid;
+    if (Settings.Time.Shift < nInvalid) Settings.Time.Shift = nInvalid;
     MainWnd.m_wndZoomBar.Invalidate();
 
     if (pSender == &m_wndListTrigger.m_itmSync) {
@@ -88,7 +87,7 @@ LINKERSECTION(".extra")
   }
 
   // Timebase
-  if (code == ToWord('m', 't')) // more timebase
+  if (code == ToWord('m', 't'))  // more timebase
   {
     m_wndComboSelector.Create(GetFocus()->m_pszId, WsVisible | WsModal,
                               CRect(30, 100, 370, 140), RGB565(ffffff),
@@ -98,7 +97,7 @@ LINKERSECTION(".extra")
   }
 
   // Digital
-  if (code == ToWord('m', 'd')) // more input digital
+  if (code == ToWord('m', 'd'))  // more input digital
   {
     m_wndListDInput.Create((CSettings::DigitalChannel *)data, this);
     m_wndListDInput.StartModal(&m_wndListDInput.m_itmPosition);
@@ -113,7 +112,7 @@ LINKERSECTION(".extra")
   }
 
   // Analog
-  if (code == ToWord('m', 'a')) // more input analog
+  if (code == ToWord('m', 'a'))  // more input analog
   {
     m_wndListAInput.Create((CSettings::AnalogChannel *)data, this);
     m_wndListAInput.StartModal(&m_wndListAInput.m_itmResolution);
@@ -151,7 +150,7 @@ LINKERSECTION(".extra")
     CWnd::GetTopModal().m_pPrevFocus->Invalidate();
   }
   // Selector
-  if (code == ToWord('l', 'e')) // provider selector combo box
+  if (code == ToWord('l', 'e'))  // provider selector combo box
   {
     CValueProvider *pProvider = (CValueProvider *)data;
     /*

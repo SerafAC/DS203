@@ -1,9 +1,9 @@
 #pragma once
 #ifndef DSO_USER_ZOOMVIEW_H
 #define DSO_USER_ZOOMVIEW_H
-#include <math.h>
-#include <Source/Gui/Windows/WndButton.h>
 #include <Source/Core/Utils.h>
+#include <Source/Gui/Windows/WndButton.h>
+#include <math.h>
 #define ENABLE_MODULE_ZOOMVIEW
 ADD_MODULE("Zoom", CWndZoomView)
 
@@ -19,7 +19,7 @@ class CWndZoomView : public CWnd {
   int nViewBegin;
   int nViewEnd;
 
-public:
+ public:
   virtual void Create(CWnd *pParent, ui16 dwFlags) {
     CWnd::Create("CWndZoomView",
                  dwFlags | CWnd::WsListener /*| CWnd::WsNoActivate*/,
@@ -36,16 +36,14 @@ public:
   }
 
   virtual void OnTimer() {
-    if (HasOverlay())
-      return;
+    if (HasOverlay()) return;
     NormalDraw();
   }
 
-  void SegmentedDraw() // faster
+  void SegmentedDraw()  // faster
   {
     static int nSegment = 0;
-    if (++nSegment >= 20)
-      nSegment = 0;
+    if (++nSegment >= 20) nSegment = 0;
     DrawWave(nSegment * 20, nSegment * 20 + 20);
     DrawProgress();
   }
@@ -133,8 +131,7 @@ public:
     BIOS::ADC::Copy(BIOS::ADC::GetCount());
     int nPtr = BIOS::ADC::GetPointer();
 
-    for (int y = 0; y < (int)COUNT(col); y++)
-      col[y] = RGB565(101010);
+    for (int y = 0; y < (int)COUNT(col); y++) col[y] = RGB565(101010);
 
     BIOS::LCD::Printf(m_rcClient.right - 8 * 5, m_rcClient.bottom - 16 - 22,
                       RGB565(808080), RGB565(000000), "Draw");
@@ -148,8 +145,7 @@ public:
         int nEnd = nViewBegin + (nViewEnd - nViewBegin + 1) * (x + 1) / 400;
         int nMin = -1, nMax = -1;
 
-        for (int y = 0; y < (int)COUNT(col); y++)
-          col[y] = RGB565(101010);
+        for (int y = 0; y < (int)COUNT(col); y++) col[y] = RGB565(101010);
 
         if (x == __x) {
           for (int i = 0; i < (int)COUNT(col) - 2; i += 2)
@@ -171,19 +167,15 @@ public:
         }
 
         if (x > nPixelLeft) {
-          if (nLastVal > nMax)
-            nMax = nLastVal;
-          if (nLastVal < nMin)
-            nMin = nLastVal;
+          if (nLastVal > nMax) nMax = nLastVal;
+          if (nLastVal < nMin) nMin = nLastVal;
         }
         nLastVal = (nMin + nMax) / 2;
 
-        if (x < nPixelLeft)
-          continue;
+        if (x < nPixelLeft) continue;
 
         for (int i = nMin; i < nMax; i++)
-          if (col[i] == RGB565(101010))
-            col[i] = RGB565(808000);
+          if (col[i] == RGB565(101010)) col[i] = RGB565(808000);
 
         BIOS::LCD::Buffer(x, m_rcClient.top, col, COUNT(col));
       }
@@ -209,8 +201,7 @@ public:
 
         int ch1 = Sample.CH1 * COUNT(col) / 256;
 
-        for (int y = 0; y < (int)COUNT(col); y++)
-          col[y] = RGB565(101010);
+        for (int y = 0; y < (int)COUNT(col); y++) col[y] = RGB565(101010);
 
         if (x == __x) {
           for (int i = 0; i < (int)COUNT(col) - 2; i += 2)
@@ -220,30 +211,24 @@ public:
         if (x == nPixelStart)
           nLastVal = ch1;
         else if (nLastVal < ch1)
-          for (; nLastVal < ch1; nLastVal++)
-            col[nLastVal] = RGB565(808000);
+          for (; nLastVal < ch1; nLastVal++) col[nLastVal] = RGB565(808000);
         else
-          for (; nLastVal > ch1; nLastVal--)
-            col[nLastVal] = RGB565(808000);
+          for (; nLastVal > ch1; nLastVal--) col[nLastVal] = RGB565(808000);
         if (bMatch) {
           col[ch1] = RGB565(ffff00);
-          if (ch1 > 0)
-            col[ch1 - 1] = RGB565(ffff00);
+          if (ch1 > 0) col[ch1 - 1] = RGB565(ffff00);
         } else
           col[ch1] = RGB565(808000);
 
         if (nMark >= 0) {
           col[nMark] = RGB565(ffff00);
-          if (nMark > 0)
-            col[nMark - 1] = RGB565(ffff00);
+          if (nMark > 0) col[nMark - 1] = RGB565(ffff00);
 
           nMark = ch1;
           nMark = -1;
         }
-        if (bMatch)
-          nMark = ch1;
-        if (x < nPixelLeft)
-          continue;
+        if (bMatch) nMark = ch1;
+        if (x < nPixelLeft) continue;
         BIOS::LCD::Buffer(x, m_rcClient.top, col, COUNT(col));
       }
     }
@@ -277,8 +262,7 @@ public:
     rcBar.right = (ui16)((nViewEnd + 1) * 400 / BIOS::ADC::GetCount());
     if (rcBar.right - rcBar.left < 2) {
       rcBar.right = rcBar.left + 2;
-      if (rcBar.right > 400)
-        rcBar.right = 400;
+      if (rcBar.right > 400) rcBar.right = 400;
     }
     BIOS::LCD::Bar(rcBar, RGB565(ffffff));
     if (rcBar.left > 0) {

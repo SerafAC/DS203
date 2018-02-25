@@ -1,21 +1,21 @@
 #pragma once
 #ifndef DSO_GUI_SPECTRUM_MAIN_ITEMWINDOW_H
 #define DSO_GUI_SPECTRUM_MAIN_ITEMWINDOW_H
-#include <Source/Gui/Oscilloscope/Disp/ItemDisp.h>
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>
+#include <Source/Gui/Oscilloscope/Disp/ItemDisp.h>
 
 class CItemSpecWindow : public CMPItem {
   CProviderEnum m_proWindow;
 
-public:
+ public:
   virtual void Create(CWnd *pParent) {
     CWndMenuItem::Create(NULL, RGB565(8080b0), 3, pParent);
 
     m_proWindow.Create((const char **)CSettings::Spectrum::ppszTextWindow,
                        (NATIVEENUM *)&Settings.Spec.Window,
                        CSettings::Spectrum::_WindowMax);
-    m_pProvider = &m_proWindow; // for CMPItem
+    m_pProvider = &m_proWindow;  // for CMPItem
   }
 
   virtual void OnPaint() {

@@ -1,14 +1,14 @@
 #pragma once
 #ifndef DSO_GUI_SPECTRUM_MAIN_ITEMDISPLAY_H
 #define DSO_GUI_SPECTRUM_MAIN_ITEMDISPLAY_H
-#include <Source/Gui/Oscilloscope/Disp/ItemDisp.h>
 #include <Source/Core/ListItems.h>
 #include <Source/Core/Settings.h>
+#include <Source/Gui/Oscilloscope/Disp/ItemDisp.h>
 
 class CItemSpecDisplay : public CMPItem {
   CProviderEnum m_proDisplay;
 
-public:
+ public:
   virtual void Create(CWnd *pParent) {
     CWndMenuItem::Create(NULL, RGB565(8080b0), 2, pParent);
 

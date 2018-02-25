@@ -1,18 +1,18 @@
 #pragma once
 #ifndef DSO_FRAMEWORK_EVAL_H
 #define DSO_FRAMEWORK_EVAL_H
-#include <Source/HwLayer/Types.h>
-#include <Source/HwLayer/Bios.h>
 #include <Source/Core/Utils.h>
+#include <Source/HwLayer/Bios.h>
+#include <Source/HwLayer/Types.h>
 
-#define _SAFE(a)                                                               \
-  if (!(a)) {                                                                  \
-    _ASSERT(0);                                                                \
-    return CEvalOperand(CEvalOperand::eoError);                                \
+#define _SAFE(a)                                \
+  if (!(a)) {                                   \
+    _ASSERT(0);                                 \
+    return CEvalOperand(CEvalOperand::eoError); \
   }
 
 class CEvalClasses {
-public:
+ public:
   enum {
     RpnLength = 32,
     StackLength = 16
@@ -20,19 +20,20 @@ public:
     // MaxTokenLength = 20
   };
 
-public:
+ public:
   class CStream {
-  public:
+   public:
     virtual INT GetSize() = 0;
     virtual CHAR Get() = 0;
   };
 
-  template <class TYPE> class CArray {
+  template <class TYPE>
+  class CArray {
     TYPE *m_arrElements;
     ui16 m_nCount;
     ui16 m_nMaxCount;
 
-  public:
+   public:
     CArray() {}
 
     CArray(TYPE *pSource, INT nLength) {
@@ -76,8 +77,7 @@ public:
     INT GetSize() { return m_nCount; }
 
     TYPE &operator[](INT i) {
-      if (i < 0)
-        i += m_nCount;
+      if (i < 0) i += m_nCount;
       _ASSERT(i >= 0 && i < GetSize());
       return m_arrElements[i];
     }
@@ -87,13 +87,13 @@ public:
   typedef CEvalOperand (*PEvalFunc)(CArray<CEvalOperand> &arrOperands);
 
   class CEvalVariable {
-  public:
+   public:
     virtual void Set(CEvalOperand &pOperand) = 0;
     virtual CEvalOperand Get() = 0;
   };
 
   class CEvalToken {
-  public:
+   public:
     enum ePrecedence {
       PrecedenceToken = -1,
       PrecedenceNone = 0,
@@ -157,7 +157,7 @@ public:
   */
 
   class CEvalOperand {
-  public:
+   public:
     enum EOperandType {
       eoInteger,
       eoFloat,
@@ -172,7 +172,7 @@ public:
       eoVoidPointer
     };
 
-  public:
+   public:
     EOperandType m_eType;
 
     union {
@@ -188,7 +188,7 @@ public:
       CEvalVariable *m_pVariable;
     } m_Data;
 
-  public:
+   public:
     explicit CEvalOperand(EOperandType eType) : m_eType(eType) {}
 
     CEvalOperand() {}
@@ -226,10 +226,8 @@ public:
     CEvalOperand(void *p) : m_eType(eoVoidPointer) { m_Data.m_pVoid = p; }
 
     FLOAT GetFloat() {
-      if (m_eType == eoInteger)
-        return (FLOAT)m_Data.m_iData;
-      if (m_eType == eoFloat)
-        return (FLOAT)m_Data.m_fData;
+      if (m_eType == eoInteger) return (FLOAT)m_Data.m_iData;
+      if (m_eType == eoFloat) return (FLOAT)m_Data.m_fData;
       if (m_eType == eoVariable)
         return this->m_Data.m_pVariable->Get().GetFloat();
       _ASSERT(0);
@@ -237,36 +235,31 @@ public:
     }
 
     INT GetInteger() {
-      if (m_eType == eoInteger)
-        return m_Data.m_iData;
-      if (m_eType == eoFloat)
-        return (INT)m_Data.m_fData;
+      if (m_eType == eoInteger) return m_Data.m_iData;
+      if (m_eType == eoFloat) return (INT)m_Data.m_fData;
       if (m_eType == eoVariable)
         return this->m_Data.m_pVariable->Get().GetInteger();
       _ASSERT(0);
       return 0L;
     }
     void *GetVoidPointer() {
-      if (m_eType == eoVoidPointer)
-        return m_Data.m_pVoid;
+      if (m_eType == eoVoidPointer) return m_Data.m_pVoid;
       _ASSERT(0);
       return 0;
     }
     bool Is(EOperandType eType) { return m_eType == eType; }
 
     bool Is(const CEvalToken *pToken) {
-      if (m_eType != eoOperator)
-        return false;
+      if (m_eType != eoOperator) return false;
       return m_Data.m_pOperator == pToken;
     }
   };
 };
 
 class CEvalTools {
-public:
+ public:
   INT HexToInt(CHAR c) {
-    if (c < '0' || c > 'f')
-      return -1;
+    if (c < '0' || c > 'f') return -1;
 
     if ((c >> 4) == 3)
       return c - '0';
@@ -275,10 +268,8 @@ public:
   }
 
   FLOAT StrIsFloat(CHAR *s) {
-    while (*s >= '0' && *s <= '9')
-      s++;
-    if (*s == '.')
-      return true;
+    while (*s >= '0' && *s <= '9') s++;
+    if (*s == '.') return true;
     return false;
   }
 
@@ -314,8 +305,7 @@ public:
     }
 
     //--- error if we're not at the end of the number
-    if (*digit != 0)
-      *endp = digit;
+    if (*digit != 0) *endp = digit;
 
     //--- set to sign given at the front
     result = result * sign;
@@ -334,23 +324,22 @@ public:
       digit++;
     }
 
-    if (*digit != 0)
-      *endp = digit;
+    if (*digit != 0) *endp = digit;
 
     return result;
   }
 };
 
 class CEvalCore : public CEvalTools, public CEvalClasses {
-public:
+ public:
   CEvalOperand m_arrRpn_[RpnLength];
   CArray<CEvalOperand> m_arrRpn;
   PSTR m_pEndPtr;
 
-private:
+ private:
   virtual const CEvalToken *isOperator(CHAR *pszExpression) = 0;
 
-public:
+ public:
   CEvalOperand Eval(PSTR pszExpression) {
     m_arrRpn.Init(m_arrRpn_, RpnLength);
 
@@ -377,8 +366,7 @@ public:
     m_pEndPtr = NULL;
 
     for (; pszExpression < pszEnd; pszExpression++) {
-      if (*pszExpression == ' ')
-        continue;
+      if (*pszExpression == ' ') continue;
 
       pPrevToken = pToken;
       pToken = isOperator(pszExpression);
@@ -395,8 +383,7 @@ public:
 
       if (pToken == pTokRPar || pToken == pTokDelim) {
         while (true) {
-          if (arrStack.IsEmpty())
-            return false;
+          if (arrStack.IsEmpty()) return false;
 
           if (arrStack.GetLast().Is(pTokLPar) ||
               arrStack.GetLast().Is(pTokEq) ||
@@ -436,8 +423,7 @@ public:
         if (*pszExpression == '\'') {
           // string
           PSTR pszStart = ++pszExpression;
-          while (*pszExpression && *pszExpression != '\'')
-            pszExpression++;
+          while (*pszExpression && *pszExpression != '\'') pszExpression++;
 
           m_arrRpn.Add(CEvalOperand(pszStart, (INT)(pszExpression - pszStart)));
           pszExpression++;
@@ -474,7 +460,7 @@ public:
             pszExpression = pszNew;
             m_arrRpn.Add(CEvalOperand(lValue));
           }
-          if (!pszExpression) // end of string
+          if (!pszExpression)  // end of string
             break;
         } else {
           // string
@@ -493,7 +479,7 @@ public:
           m_arrRpn.Add(CEvalOperand(pszStart, (INT)(pszExpression - pszStart),
                                     CEvalOperand::eoAttribute));
         }
-        pszExpression--; // trochu hlupe, ale for nam to zinkrementuje
+        pszExpression--;  // trochu hlupe, ale for nam to zinkrementuje
         continue;
       }
 
@@ -536,8 +522,7 @@ public:
     }
 
     while (!arrStack.IsEmpty()) {
-      if (arrStack.GetLast().Is(pTokLPar))
-        return false; // eval_unbalanced;
+      if (arrStack.GetLast().Is(pTokLPar)) return false;  // eval_unbalanced;
 
       m_arrRpn.Add(arrStack.RemoveLast());
     }
@@ -558,8 +543,7 @@ public:
           pCurrent->m_Data.m_pOperator != pTokDelim) {
         CEvalOperand opResult =
             pCurrent->m_Data.m_pOperator->m_pEval(arrOperands);
-        if (opResult.Is(CEvalOperand::eoError))
-          return opResult;
+        if (opResult.Is(CEvalOperand::eoError)) return opResult;
         arrOperands.Add(opResult);
       } else
         arrOperands.Add(*pCurrent);
@@ -574,7 +558,7 @@ public:
 };
 
 class CEval : public CEvalCore {
-public:
+ public:
   static CEvalOperand _Mul(CArray<CEvalOperand> &arrOperands) {
     _SAFE(arrOperands.GetSize() >= 2);
     FLOAT fResult = arrOperands[-2].GetFloat() * arrOperands[-1].GetFloat();
@@ -635,9 +619,8 @@ public:
                   CUtils::StrLen(pFind->m_pszToken)) == 0) {
         if (pFind->m_ePrecedence == CEvalToken::PrecedenceFunc ||
             pFind->m_ePrecedence == CEvalToken::PrecedenceVar) {
-          if (!pBest ||
-              CUtils::StrLen(pFind->m_pszToken) >
-                  CUtils::StrLen(pBest->m_pszToken))
+          if (!pBest || CUtils::StrLen(pFind->m_pszToken) >
+                            CUtils::StrLen(pBest->m_pszToken))
             pBest = pFind;
         } else
           return pFind;

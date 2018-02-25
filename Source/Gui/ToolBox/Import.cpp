@@ -2,8 +2,7 @@
 
 bool CImport::LoadWave(char *strName /*= NULL*/) {
   CBufferedReader reader;
-  if (!reader.Open(strName))
-    return false;
+  if (!reader.Open(strName)) return false;
 
   typedef ui16 WORD;
   typedef ui32 DWORD;
@@ -65,32 +64,33 @@ bool CImport::LoadWave(char *strName /*= NULL*/) {
   while (dwKey != ToDword('E', 'N', 'D', 27)) {
     reader >> dwKey;
     switch (dwKey) {
-    case ToDword('C', 'H', '1', ' '): {
-      ui32 dwResolution, dwCoupling, dwPosition;
-      reader >> dwResolution >> dwCoupling >> dwPosition;
-      Settings.CH1.Resolution =
-          (CSettings::AnalogChannel::eResolution)dwResolution;
-      Settings.CH1.Coupling = (CSettings::AnalogChannel::eCoupling)dwCoupling;
-      Settings.CH1.u16Position = (ui16)dwPosition;
-    } break;
-    case ToDword('C', 'H', '2', ' '): {
-      ui32 dwResolution, dwCoupling, dwPosition;
-      reader >> dwResolution >> dwCoupling >> dwPosition;
-      Settings.CH2.Resolution =
-          (CSettings::AnalogChannel::eResolution)dwResolution;
-      Settings.CH2.Coupling = (CSettings::AnalogChannel::eCoupling)dwCoupling;
-      Settings.CH2.u16Position = (ui16)dwPosition;
-    } break;
-    case ToDword('T', 'I', 'M', 'E'): {
-      ui32 dwResolution;
-      reader >> dwResolution;
-      Settings.Time.Resolution = (CSettings::TimeBase::EResolution)dwResolution;
-    } break;
-    case ToDword('E', 'N', 'D', 27):
-      break;
-    default:
-      _ASSERT(0);
-      break;
+      case ToDword('C', 'H', '1', ' '): {
+        ui32 dwResolution, dwCoupling, dwPosition;
+        reader >> dwResolution >> dwCoupling >> dwPosition;
+        Settings.CH1.Resolution =
+            (CSettings::AnalogChannel::eResolution)dwResolution;
+        Settings.CH1.Coupling = (CSettings::AnalogChannel::eCoupling)dwCoupling;
+        Settings.CH1.u16Position = (ui16)dwPosition;
+      } break;
+      case ToDword('C', 'H', '2', ' '): {
+        ui32 dwResolution, dwCoupling, dwPosition;
+        reader >> dwResolution >> dwCoupling >> dwPosition;
+        Settings.CH2.Resolution =
+            (CSettings::AnalogChannel::eResolution)dwResolution;
+        Settings.CH2.Coupling = (CSettings::AnalogChannel::eCoupling)dwCoupling;
+        Settings.CH2.u16Position = (ui16)dwPosition;
+      } break;
+      case ToDword('T', 'I', 'M', 'E'): {
+        ui32 dwResolution;
+        reader >> dwResolution;
+        Settings.Time.Resolution =
+            (CSettings::TimeBase::EResolution)dwResolution;
+      } break;
+      case ToDword('E', 'N', 'D', 27):
+        break;
+      default:
+        _ASSERT(0);
+        break;
     }
   }
 
