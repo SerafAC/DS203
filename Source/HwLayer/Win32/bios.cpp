@@ -4,6 +4,7 @@
 #include <crtdbg.h>
 
 #include "device.h"
+#include <Source/Core/Utils.h>
 #include <Source/HwLayer/Types.h>
 #include <Source/HwLayer/Bios.h>
 #define DEVICE CDevice::m_pInstance

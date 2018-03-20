@@ -81,7 +81,7 @@ namespace types{
 #define MININT      INT_MIN
 
 #ifdef _WINDOWS
-#	include "Win32/Types.inc"
+#	include "Win32/Types.h"
 #endif
 
 #ifdef _SDL2

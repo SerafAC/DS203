@@ -4,7 +4,7 @@ SRCDIR=$(TOP)/Source
 PLATFORM=dso
 
 ifeq ($(PLATFORM),Win32)
-	TC        = i686-w64-mingw32-
+	TC        = x86_64-w64-mingw32-
 	TARGET    = dso203.exe
 	HARDWARE  = Win32
 	CXXFLAGS  = --std=gnu++11 -Og -g -D_WINDOWS -Iinc -I$(TOP)
